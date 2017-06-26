@@ -10,3 +10,9 @@ class Block (override val position: Point[Double, Double] , val xDimension: Int 
   val dimension: Dimension = Dimension (xDimension, yDimension)
 
 }
+
+object Block{
+
+  def apply( position: Point[Double, Double] , xDimension: Int, yDimension: Int ): Block = new Block( position, xDimension, yDimension )
+  def apply( position: Point[Double, Double]) = new Block (position, 1, 1)
+}
