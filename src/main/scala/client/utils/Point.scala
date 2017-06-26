@@ -9,5 +9,5 @@ class Point [T,W] ( var x: T, var y: W){
 }
 
 object Point {
-  def apply[A, B](x: A, y: B) = new Point (x, y)
+  def apply[T, W](x: T, y: W) = new Point (x, y)
 }
