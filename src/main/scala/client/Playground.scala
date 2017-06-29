@@ -23,15 +23,26 @@ class Playground (val dimension: Dimension) {
   def getAllEatable: List[Eatable] = eatableList.toList
 
   def getElementAtPosition(point: Point[Double, Double]): Option[GameItem[Double, Double]] = {
-    for (b <- blockList){
-      if (b.position == point) return Option(b)
+
+    if (checkPosition(point)) {
+
+      for (b <- blockList) {
+        if (b.position == point) return Option(b)
+      }
+
+      for (e <- eatableList) {
+        if (e.position == point) return Option(e)
+      }
+
+      Option.empty[GameItem[Double, Double]]
+
     }
 
-    for (e <- eatableList){
-      if (e.position == point) return Option(e)
+    else {
+      Option.empty[GameItem[Double, Double]]
     }
-
-    Option.empty[GameItem[Double, Double]]
   }
+
+  private def checkPosition(point: Point[Double, Double]): Boolean = point.x <= dimension.xDimension && point.y <= dimension.yDimension
 
 }
