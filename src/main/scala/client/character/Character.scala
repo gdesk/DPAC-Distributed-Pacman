@@ -20,17 +20,17 @@ trait Character[X,Y] extends GameItem[X,Y]{
     * @param point    a point of character within the game map
     * */
   def position_=(point: Point[X,Y]): Unit
+  /**
+    * getter of character's direction
+    *
+    * @return direction   a direction of character
+    * */
+  def direction() : Direction
 
   /**
     * setter of character's direction
     *
     * @param direction    a direction of character
-    * */
-  def direction() : Direction
-  /**
-    * getter of character's direction
-    *
-    * @return direction   a direction of character
     * */
   def direction_=(direction: Direction): Unit // la direzione dobbiamao valutare se lasciarla perchè  incapsulato in move di prolog e quindi servirebbe solo per il cambio immagine che può essere fatto anche nel momento in cui cambi durezione dalla tastiera
 
@@ -45,8 +45,7 @@ trait Character[X,Y] extends GameItem[X,Y]{
   /**
     * setter of character's state of its life
     *
-    * @param  true    if character is alive
-    *         false   otherwise
+    * @param  isAlive
     * */
   def isAlive_= (isAlive: Boolean): Unit
 
