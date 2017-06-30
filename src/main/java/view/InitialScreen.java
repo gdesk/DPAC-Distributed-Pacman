@@ -20,9 +20,14 @@ public class InitialScreen extends JPanel {
         JButton startGame = new JButton("<html><div align='center'>START<br>GAME</div></html>");
         startGame.setForeground(Color.WHITE);
         Font defaultFont = startGame.getFont();
-        int fontSize = (int)MainFrame.DIMENSION.getHeight() /10;
+        int fontSize = (int) MainFrame.DIMENSION.getHeight() /10;
         startGame.setFont(new Font(defaultFont.getName(), defaultFont.getStyle(), fontSize));
         startGame.setBorder(null);
+        startGame.addActionListener(e->{
+            MainFrame mainFrame = MainFrame.getInstance();
+            mainFrame.setContentPane(new JPanel());
+            mainFrame.repaint();
+        });
 
         this.add(startGame, BorderLayout.CENTER);
     }

@@ -12,8 +12,16 @@ import java.awt.*;
 public class MainFrame extends JFrame {
 
     public static final Dimension DIMENSION = Toolkit.getDefaultToolkit().getScreenSize();
+    private static MainFrame SINGLETON = null;
 
-    public MainFrame(){
+    public static MainFrame getInstance(){
+        if(SINGLETON == null){
+            SINGLETON = new MainFrame();
+        }
+        return SINGLETON;
+    }
+
+    private MainFrame(){
         super();
 
         setSize(DIMENSION);
@@ -26,6 +34,6 @@ public class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        new MainFrame();
+        MainFrame.getInstance();
     }
 }
