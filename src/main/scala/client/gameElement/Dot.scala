@@ -1,6 +1,5 @@
 package client.gameElement
 
-import client.Match
 import client.utils.{Point, ScoreUtils}
 
 /** A dot, used in the game as object that Pacman has to eat to win the game.
@@ -11,12 +10,10 @@ import client.utils.{Point, ScoreUtils}
   *
   * @author manuBottax
   */
-class Dot (override val position: Point[Double, Double]) extends Eatable {
+class Dot (override val position: Point[Int, Int]) extends Eatable {
 
   override val score: Int = ScoreUtils.DOT_SCORE
-  override def effect (x: Match) : Unit = x.score = x.score + score
 
-  //private def incrementScore = (x: Match) => x.score = x.score + score
 }
 
 /** Factory for [[client.gameElement.Dot]] instances. */
@@ -26,5 +23,5 @@ object Dot {
     *
     * @param position its position
     */
-  def apply(position: Point[Double, Double]): Dot = new Dot(position)
+  def apply(position: Point[Int, Int]): Dot = new Dot(position)
 }

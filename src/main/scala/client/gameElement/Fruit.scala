@@ -1,6 +1,5 @@
 package client.gameElement
 
-import client._
 import client.utils.{Point, ScoreUtils}
 
 import scala.util.Random
@@ -13,7 +12,7 @@ import scala.util.Random
   *
   * @author manuBottax
   */
-class Fruit (override val position: Point[Double, Double]) extends Eatable{
+abstract class Fruit (override val position: Point[Int, Int]) extends Eatable{
 
   private val id: Int = Random.nextInt(ScoreUtils.FRUIT_SCORE_LIST_DIMENSION)
 
@@ -22,19 +21,7 @@ class Fruit (override val position: Point[Double, Double]) extends Eatable{
     * @return the score
     */
   override val score: Int = getScore
-  override def effect (x: Match) : Unit = x.score = x.score + score
-
 
   private def getScore: Int = ScoreUtils.FRUIT_SCORE_LIST(id)
 
-}
-
-/** Factory for [[client.gameElement.Fruit]] instances. */
-object Fruit{
-
-  /** Create a Fruit with a given position
-    *
-    * @param position its position
-    */
-  def apply(position: Point[Double, Double]): Fruit = new Fruit(position)
 }

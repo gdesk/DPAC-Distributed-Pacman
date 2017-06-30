@@ -2,7 +2,7 @@ package client
 
 import client.gameElement.{Block, Eatable, GameItem}
 import client.utils.{Dimension, Point}
-
+import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 /** The current playground. Contains all the element created for a game and give control over them.
@@ -14,9 +14,10 @@ import scala.collection.mutable.ListBuffer
   */
 class Playground (val dimension: Dimension) {
 
-  var blockList: ListBuffer[Block] = ListBuffer.empty[Block]
-  var eatableList: ListBuffer[Eatable] = ListBuffer.empty[Eatable]
-  // basta così o è più comodo se lo rendiamo una matrice di posizioni ?
+  var map: mutable.HashMap[Point[Int,Int],GameItem] = new mutable.HashMap[Point[Int,Int],GameItem]()
+
+  private var blockList: ListBuffer[Block] = ListBuffer.empty[Block]
+  private var eatableList: ListBuffer[Eatable] = ListBuffer.empty[Eatable]
 
   /** Add a block at his own position if is available.
     *
@@ -33,8 +34,12 @@ class Playground (val dimension: Dimension) {
     //throw new OutOfPlaygroundBoundAccessException
     else {
       // controllo se esiste già qualcosa in quella posizione e nel caso do errore
-      if (getElementAtPosition(block.position).isEmpty)
+      if (getElementAtPosition(block.position).isEmpty) {
         this.blockList += block
+        val entry: (Point[Int,Int], GameItem) = (block.position, block)
+        this.map += entry
+      }
+
       else
         println("Position already used, cannot add block !")
       //throw new AlredyUsedPositionException
@@ -52,18 +57,20 @@ class Playground (val dimension: Dimension) {
     * @param block the block that is wanted to be removed to the playground
     */
   def removeBlock (block: Block): Unit = {
-    val item: Option[GameItem[Double,Double]] = getElementAtPosition(block.position)
+    val item: Option[GameItem] = getElementAtPosition(block.position)
     item match {
       case None => println("Block not in playground, cannot remove !")
       case Some(b) => {
-        if (b.isInstanceOf[Block]) this.blockList -= item.get.asInstanceOf[Block]
+        if (b.isInstanceOf[Block]) {
+          this.blockList -= item.get.asInstanceOf[Block]
+          this.map -= item.get.asInstanceOf[Block].position
+        }
         else println("element at that position is not a block, cannot remove it !")
       }
     }
   }
 
   def getAllBlocks: List[Block] = blockList.toList
-  // questo metodo non serve se i campi non sono private ( hanno getter e setter essendo var )
 
   /** Add a eatable at his own position if is available.
     *
@@ -80,8 +87,12 @@ class Playground (val dimension: Dimension) {
     //throw new OutOfPlaygroundBoundAccessException
     else {
       // controllo se esiste già qualcosa in quella posizione e nel caso do errore
-      if (getElementAtPosition(eatable.position).isEmpty)
+      if (getElementAtPosition(eatable.position).isEmpty){
         this.eatableList += eatable
+        val entry: (Point[Int,Int], GameItem) = (eatable.position, eatable)
+        this.map += entry
+      }
+
       else
         println("Position already used, cannot add eatable !")
       //throw new AlredyUsedPositionException
@@ -96,11 +107,14 @@ class Playground (val dimension: Dimension) {
     * @param eatable the eatable that is wanted to be removed to the playground.
     */
   def removeEatable (eatable: Eatable): Unit = {
-    val item: Option[GameItem[Double,Double]] = getElementAtPosition(eatable.position)
+    val item: Option[GameItem] = getElementAtPosition(eatable.position)
     item match {
       case None => println("Eatable not in playground, cannot remove !")
       case Some(e) => {
-        if (e.isInstanceOf[Eatable]) this.eatableList -= item.get.asInstanceOf[Eatable]
+        if (e.isInstanceOf[Eatable]) {
+          this.eatableList -= item.get.asInstanceOf[Eatable]
+          this.map -= item.get.asInstanceOf[Eatable].position
+        }
         else println("element at that position is not an eatable, cannot remove it !")
       }
     }
@@ -114,8 +128,14 @@ class Playground (val dimension: Dimension) {
     * @param position the position of the object to be returned.
     * @return the object found at that position if it exist.
     */
-  def getElementAtPosition(position: Point[Double, Double]): Option[GameItem[Double, Double]] = {
+  def getElementAtPosition(position: Point[Int, Int]): Option[GameItem] = {
 
+    if (checkPosition(position))
+      this.map.get(position)
+    else
+      Option.empty[GameItem]
+
+    /*
     if (checkPosition(position)) {
       for (b <- blockList) {
         if (b.position.x == position.x && b.position.y == position.y) return Option(b)
@@ -125,16 +145,17 @@ class Playground (val dimension: Dimension) {
         if (e.position.x == position.x && e.position.y == position.y) return Option(e)
       }
 
-      Option.empty[GameItem[Double, Double]]
+      Option.empty[GameItem]
     }
 
     else {
-      Option.empty[GameItem[Double, Double]]
+      Option.empty[GameItem]
     }
+    */
   }
 
   // check if a given position is inside the playground borders
-  private def checkPosition(point: Point[Double, Double]): Boolean = point.x <= dimension.xDimension && point.y <= dimension.yDimension
+  private def checkPosition(point: Point[Int, Int]): Boolean = point.x <= dimension.xDimension && point.y <= dimension.yDimension
 
 }
 
