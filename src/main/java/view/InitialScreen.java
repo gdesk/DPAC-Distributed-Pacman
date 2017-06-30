@@ -6,9 +6,10 @@ import java.awt.*;
 /**
  * Intial screen where it is possible start a new match.
  * User's Home of Distributed Pacman game.
- * 
+ *
  * Created by chiaravarini on a 30/06/17.
  */
+
 public class InitialScreen extends JPanel {
 
     public InitialScreen(){
