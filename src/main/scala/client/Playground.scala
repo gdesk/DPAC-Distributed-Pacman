@@ -28,7 +28,7 @@ class Playground (val dimension: Dimension) {
     }
 
     for (e <- eatableList){
-      if (e.position == point) return Option(e)
+      if (e.getPosition == point) return Option(e)
     }
 
     Option.empty[GameItem[Double, Double]]

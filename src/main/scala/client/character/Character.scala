@@ -110,5 +110,5 @@ abstract class CharacterImpl (override var isKillable: Boolean, override val liv
     *
     * @return position    a point of character within the game map
     * */
-  override def getPosition(): Unit = position
+  override def getPosition(): Point[Int,Int] = position
 }
