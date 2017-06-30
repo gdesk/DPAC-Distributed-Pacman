@@ -9,5 +9,5 @@ import client.utils.Point
   */
 
 trait GameItem [T,W] {
-  def position: Point[T,W]
+  def getPosition: Point[T,W]
 }
