@@ -1,8 +1,6 @@
 package view;
 
 
-import view.utils.ImagesResolutions;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,7 +12,6 @@ import java.awt.*;
 public class MainFrame extends JFrame {
 
     public static final Dimension DIMENSION = Toolkit.getDefaultToolkit().getScreenSize();
-    public static ImagesResolutions RESOLUTION = Utils.getResolution();
     private static MainFrame SINGLETON = null;
 
     public static MainFrame getInstance(){
