@@ -50,9 +50,4 @@ object Utils {
 
   def stopSong():Unit = if (mediaPlayer!=null) mediaPlayer.stop()*/
 
-  def main(args: Array[String]): Unit = {
-    Utils.getResource("")
-
-  }
-
 }

@@ -13,21 +13,44 @@ class CharacterViewTest extends FunSuite {
   private val resolution: String = Utils.getResolution().asString()
 
   test("Correct access to pacman images") {
-    val pacmanView: PacmanView = new PacmanView()
+    val pacmanView: CharacterViewImpl = new PacmanView()
 
-    val pacmanUpImage = Utils.getImage("pacman/"+resolution+"/Up")
-    assert(pacmanView.getCharacterUp == pacmanUpImage)
+    var pacmanImage = Utils.getImage("pacman/"+resolution+"/Up")
+    assert(pacmanView.getCharacterUp == pacmanImage)
+
+    pacmanImage= Utils.getImage("pacman/"+resolution+"/Down")
+    assert(pacmanView.getCharacterDown == pacmanImage)
+
+    pacmanImage= Utils.getImage("pacman/"+resolution+"/Left")
+    assert(pacmanView.getCharacterLeft == pacmanImage)
+
+    pacmanImage= Utils.getImage("pacman/"+resolution+"/Right")
+    assert(pacmanView.getCharacterRight == pacmanImage)
   }
 
-  /*test ("method effect increment the current Match score"){
-    val m: Match = new Match
-    val d: Dot = Dot(Point(5,6))
 
-    assert(m.score == 0)
+  test("Correct access to ghost images") {
+    //val ghostColor = "red"
+    // val ghostView: CharacterViewImpl = new RedGhostView()
+    //val ghostColor = "blue"
+    //val ghostView: CharacterViewImpl = new BlueGhostView()
+    //val ghostColor = "pink"
+    //val ghostView: CharacterViewImpl = new PinkGhostView()
+    val ghostColor = "yellow"
+    val ghostView: CharacterViewImpl = new YellowGhostView()
 
-    d.effect(m)
+    var ghostImage = Utils.getImage("ghosts/"+ghostColor+"/"+resolution+"/Up")
 
-    assert(m.score == d.score)
-  }*/
+    assert(ghostView.getCharacterUp == ghostImage)
 
+    ghostImage= Utils.getImage("ghosts/"+ghostColor+"/"+resolution+"/Down")
+    assert(ghostView.getCharacterDown == ghostImage)
+
+    ghostImage= Utils.getImage("ghosts/"+ghostColor+"/"+resolution+"/Left")
+    assert(ghostView.getCharacterLeft == ghostImage)
+
+    ghostImage= Utils.getImage("ghosts/"+ghostColor+"/"+resolution+"/Right")
+    assert(ghostView.getCharacterRight == ghostImage)
+  }
+  
 }
