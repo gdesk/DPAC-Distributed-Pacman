@@ -10,9 +10,9 @@ import java.awt.*;
  * Created by chiaravarini on a 30/06/17.
  */
 
-public class InitialScreen extends JPanel {
+public class GameStartPanel extends JPanel {
 
-    public InitialScreen(){
+    public GameStartPanel(){
 
         this.setLayout(new BorderLayout());
         this.setBackground(new Color(1,47,74));
