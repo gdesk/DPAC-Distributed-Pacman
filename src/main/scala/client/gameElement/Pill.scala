@@ -14,6 +14,8 @@ class Pill (override val position: Point[Int, Int]) extends Eatable {
 
   override val score: Int = ScoreUtils.PILL_SCORE
 
+  override def itemType: String = "pill"
+
 }
 
 /** Factory for [[client.gameElement.Pill]] instances. */

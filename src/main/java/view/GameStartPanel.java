@@ -37,24 +37,24 @@ public class GameStartPanel extends JPanel {
             MainFrame mainFrame = MainFrame.getInstance();
             Playground p = new Playground(Dimension.apply(50,50));
 
-            p.addBlock(new Block(new Point (10.0, 2.0), 1,1));
-            p.addBlock(new Block(new Point (11.0, 2.0), 1,1));
-            p.addBlock(new Block(new Point (12.0, 2.0), 1,1));
-            p.addBlock(new Block(new Point (13.0, 2.0), 1,1));
-            p.addBlock(new Block(new Point (14.0, 2.0), 1,1));
+            p.addBlock(new Block(new Point (10, 2), 1,1));
+            p.addBlock(new Block(new Point (11, 2), 1,1));
+            p.addBlock(new Block(new Point (12, 2), 1,1));
+            p.addBlock(new Block(new Point (13, 2), 1,1));
+            p.addBlock(new Block(new Point (14, 2), 1,1));
 
-            p.addBlock(new Block(new Point (11.0, 5.0), 1,1));
-            p.addBlock(new Block(new Point (11.0, 6.0), 1,1));
-            p.addBlock(new Block(new Point (11.0, 7.0), 1,1));
-            p.addBlock(new Block(new Point (11.0, 8.0), 1,1));
+            p.addBlock(new Block(new Point (11, 5), 1,1));
+            p.addBlock(new Block(new Point (11, 6), 1,1));
+            p.addBlock(new Block(new Point (11, 7), 1,1));
+            p.addBlock(new Block(new Point (11, 8), 1,1));
 
-            p.addEatable(new Dot(new Point (20.0, 20.0)));
-            p.addEatable(new Dot(new Point (20.0, 21.0)));
-            p.addEatable(new Dot(new Point (20.0, 22.0)));
-            p.addEatable(new Pill(new Point (20.0, 23.0)));
-            p.addEatable(new Dot(new Point (20.0, 24.0)));
-            p.addEatable(new Dot(new Point (20.0, 25.0)));
-            p.addEatable(new Dot(new Point (20.0, 26.0)));
+            p.addEatable(new Dot(new Point (20, 20)));
+            p.addEatable(new Dot(new Point (20, 21)));
+            p.addEatable(new Dot(new Point (20, 22)));
+            p.addEatable(new Pill(new Point (20, 23)));
+            p.addEatable(new Dot(new Point (20, 24)));
+            p.addEatable(new Dot(new Point (20, 25)));
+            p.addEatable(new Dot(new Point (20, 26)));
 
 
             mainFrame.setContentPane(new PlaygroundPanel(p));

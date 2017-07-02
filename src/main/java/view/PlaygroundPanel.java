@@ -25,15 +25,13 @@ public class PlaygroundPanel extends JPanel{
         this.setLayout(new GridLayout(50,50));
         this.setBackground(new Color(0,0,0));
 
-        //JLabel l = new JLabel();
-
-        for (Double i = 0.0; i < playground.dimension().yDimension(); i ++){
-            for (Double j = 0.0; j < playground.dimension().xDimension(); j++){
+        for (int i = 0; i < playground.dimension().yDimension(); i ++){
+            for (int j = 0; j < playground.dimension().xDimension(); j++){
                 JLabel l = new JLabel ();
                 l.setSize(24,24);
 
 
-                Option<GameItem<Double,Double>> it = playground.getElementAtPosition(new Point (i,j));
+                Option<GameItem> it = playground.getElementAtPosition(new Point (i,j));
                 if (! it.isEmpty()){
                     switch( it.get().itemType() ) {
                         case "block" :

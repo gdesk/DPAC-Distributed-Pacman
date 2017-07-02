@@ -15,6 +15,7 @@ class Block (override val position: Point[Int, Int] , val xDimension: Int = 1, v
 
   val dimension: Dimension = Dimension (xDimension, yDimension)
 
+  override def itemType: String = "block"
 }
 
 /** Factory for [[client.gameElement.Block]] instances. */
