@@ -1,7 +1,7 @@
-language: scala
-
-scala:
-  - 2.11.2
+language: java
 
 script:
   - './gradlew clean build'
+
+jdk:
+  - oraclejdk8

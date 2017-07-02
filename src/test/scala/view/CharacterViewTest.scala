@@ -1,6 +1,5 @@
 package view
 
-import client.Match
 import client.gameElement.Dot
 import client.utils.Point
 import org.scalatest.FunSuite
