@@ -21,7 +21,7 @@ class Fruit (override val position: Point[Int, Int], val fruitTypes: Fruits) ext
     */
   override val score: Int = fruitTypes.getScore
 
-  override def itemType: String = "fruit"
+  override def itemType: ItemType = ItemType.Fruit
 }
 
 /** Factory for [[client.gameElement.Fruit]] instances. */

@@ -12,5 +12,5 @@ trait GameItem {
   /** the position of the item in the playground. */
   def position: Point[Int,Int]
 
-  def itemType: String
+  def itemType: ItemType
 }

@@ -1,9 +1,7 @@
 package view;
 
 import client.Playground;
-import client.gameElement.Block;
-import client.gameElement.Dot;
-import client.gameElement.Pill;
+import client.gameElement.*;
 import client.utils.*;
 import client.utils.Dimension;
 import client.utils.Point;
@@ -20,7 +18,7 @@ import java.awt.*;
 
 public class GameStartPanel extends JPanel {
 
-    private Playground selectedPlayground  = new Playground(new Dimension(50,50));
+    //private Playground selectedPlayground  = new Playground(new Dimension(50,50));
 
     public GameStartPanel(){
 
@@ -35,7 +33,7 @@ public class GameStartPanel extends JPanel {
         startGame.setBorder(null);
         startGame.addActionListener(e->{
             MainFrame mainFrame = MainFrame.getInstance();
-            Playground p = new Playground(Dimension.apply(50,50));
+            Playground p = new Playground(Dimension.apply(40,40));
 
             p.addBlock(new Block(new Point (10, 2), 1,1));
             p.addBlock(new Block(new Point (11, 2), 1,1));
@@ -55,6 +53,15 @@ public class GameStartPanel extends JPanel {
             p.addEatable(new Dot(new Point (20, 24)));
             p.addEatable(new Dot(new Point (20, 25)));
             p.addEatable(new Dot(new Point (20, 26)));
+
+            p.addEatable(new Fruit(new Point (25,24),Fruits.Cherry));
+            p.addEatable(new Fruit(new Point (25,25),Fruits.Strawberry));
+            p.addEatable(new Fruit(new Point (25,26),Fruits.Orange));
+            p.addEatable(new Fruit(new Point (25,27),Fruits.Apple));
+            p.addEatable(new Fruit(new Point (25,28),Fruits.Grapes));
+            p.addEatable(new Fruit(new Point (25,29),Fruits.GalaxianShip));
+            p.addEatable(new Fruit(new Point (25,30),Fruits.Bell));
+            p.addEatable(new Fruit(new Point (25,31),Fruits.Key));
 
 
             mainFrame.setContentPane(new PlaygroundPanel(p));

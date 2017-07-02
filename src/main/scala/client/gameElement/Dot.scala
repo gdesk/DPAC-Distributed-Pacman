@@ -14,7 +14,7 @@ class Dot (override val position: Point[Int, Int]) extends Eatable {
 
   override val score: Int = ScoreUtils.DOT_SCORE
 
-  override def itemType: String = "dot"
+  override def itemType: ItemType = ItemType.Dot
 
 }
 
