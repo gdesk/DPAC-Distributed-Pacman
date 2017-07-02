@@ -15,7 +15,7 @@ class PlaygroundTest extends FunSuite{
 
   test("Block and eatable lists are empty in a new Playground"){
 
-    assert (playground.eatableList.isEmpty && playground.blockList.isEmpty)
+    assert (playground.getAllEatable.isEmpty && playground.getAllBlocks.isEmpty)
 
   }
 
@@ -31,7 +31,7 @@ class PlaygroundTest extends FunSuite{
     playground.addBlock(b2)
     playground.addBlock(b3)
 
-    assert(playground.blockList.size == 3)
+    assert(playground.getAllBlocks.size == 3)
   }
 
   val d: Dot = Dot (Point (4,4))
@@ -46,7 +46,7 @@ class PlaygroundTest extends FunSuite{
     playground.addEatable(p)
     playground.addEatable(f)
 
-    assert(playground.eatableList.size == 3)
+    assert(playground.getAllEatable.size == 3)
   }
 
   test ("removeBlock remove the correct block from the list"){
@@ -54,32 +54,32 @@ class PlaygroundTest extends FunSuite{
 
     playground.removeBlock(b1)
 
-    assert (playground.blockList.size == 2 && playground.blockList.head == b2 && playground.blockList(1) == b3)
+    assert (playground.getAllBlocks.size == 2 && playground.getAllBlocks.head == b2 && playground.getAllBlocks(1) == b3)
   }
 
   test ("removeEatable remove the correct eatable from the list"){
     val p: Pill = Pill (Point (5,5))
     playground.removeEatable(p)
 
-    assert (playground.eatableList.size == 2 && playground.eatableList.head == d && playground.eatableList(1) == f)
+    assert (playground.getAllEatable.size == 2 && playground.getAllEatable.head == d && playground.getAllEatable(1) == f)
   }
 
   test ("search for an element out of the dimension of playground has no effect (return Empty)"){
-    val point: Point[Double,Double] = Point(7,3)
+    val point: Point[Int,Int] = Point(7,3)
 
-    assert(playground.getElementAtPosition(point) == Option.empty[GameItem[Double, Double]])
+    assert(playground.getElementAtPosition(point) == Option.empty[GameItem])
   }
 
   test("search for an element in position find it properly"){
-    val point: Point[Double,Double] = Point(4,4)
+    val point: Point[Int,Int] = Point(4,4)
 
     assert(playground.getElementAtPosition(point) == Option(d))
   }
 
   test("search for an element that not exist return Empty "){
-    val point: Point[Double,Double] = Point(3,2)
+    val point: Point[Int,Int] = Point(3,2)
 
-    assert(playground.getElementAtPosition(point) == Option.empty[GameItem[Double, Double]])
+    assert(playground.getElementAtPosition(point) == Option.empty[GameItem])
   }
 
 }

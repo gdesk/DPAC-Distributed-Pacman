@@ -1,6 +1,5 @@
 package client.gameElement
 
-import client.Match
 import client.utils.{Point, ScoreUtils}
 
 /** A pill, used in the game as special item that Pacman can eat to scare the ghosts and make them vulnerable.
@@ -11,15 +10,10 @@ import client.utils.{Point, ScoreUtils}
   *
   * @author manuBottax
   */
-class Pill (override val position: Point[Double, Double]) extends Eatable {
+class Pill (override val position: Point[Int, Int]) extends Eatable {
 
   override val score: Int = ScoreUtils.PILL_SCORE
-  override def effect (x: Match) : Unit  = scareGhostAndIncrement (x)
 
-  private def scareGhostAndIncrement = (x: Match) => {
-    x.score = x.score + score
-    x.scareGhost()
-  }
 }
 
 /** Factory for [[client.gameElement.Pill]] instances. */
@@ -29,6 +23,6 @@ object Pill {
     *
     * @param position its position
     */
-  def apply (position: Point[Double, Double]) : Pill = new Pill(position)
+  def apply (position: Point[Int, Int]) : Pill = new Pill(position)
 }
 

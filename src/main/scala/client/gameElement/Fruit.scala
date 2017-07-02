@@ -1,6 +1,5 @@
 package client.gameElement
 
-import client._
 import client.utils.{Point, ScoreUtils}
 
 import scala.util.Random
@@ -10,31 +9,31 @@ import scala.util.Random
   *
   * @constructor create a new fruit with a position in the playground.
   * @param position the position in the playground.
+  * @param fruitTypes the type of this object. avery types has a different score. (see [[client.gameElement.Fruits]] )
   *
   * @author manuBottax
   */
-class Fruit (override val position: Point[Double, Double]) extends Eatable{
-
-  private val id: Int = Random.nextInt(ScoreUtils.FRUIT_SCORE_LIST_DIMENSION)
+class Fruit (override val position: Point[Int, Int], val fruitTypes: Fruits) extends Eatable{
 
   /** return the score value for that fruit, randomly chosen in a list of possible score value.
     *
     * @return the score
     */
-  override val score: Int = getScore
-  override def effect (x: Match) : Unit = x.score = x.score + score
-
-
-  private def getScore: Int = ScoreUtils.FRUIT_SCORE_LIST(id)
-
+  override val score: Int = fruitTypes.getScore
 }
 
 /** Factory for [[client.gameElement.Fruit]] instances. */
 object Fruit{
 
-  /** Create a Fruit with a given position
+  /** Create a Fruit with a given position of default type (Cherry)
     *
     * @param position its position
     */
-  def apply(position: Point[Double, Double]): Fruit = new Fruit(position)
+  def apply(position: Point[Int, Int]): Fruit = new Fruit(position, Fruits.Cherry)
+
+  /** Create a Fruit with a given position and specified types (see [[client.gameElement.Fruits]] )
+    *
+    * @param position its position
+    */
+  def apply(position: Point[Int, Int], fruitTypes: Fruits): Fruit = new Fruit(position, fruitTypes)
 }
