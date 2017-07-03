@@ -93,7 +93,7 @@ trait Character[X,Y] extends GameItem[X,Y]{
 
 abstract class CharacterImpl(override var isKillable: Boolean, override val lives: Lives) extends Character[Int, Int] {
   override var isAlive: Boolean = true
-  var pointPosition: Point[Int, Int] = Point.apply(30,30) // modificare in base a prolog
+  var pointPosition: Point[Int, Int] = InitializedInfoImpl.getStartPosition()
   override var direction: Direction = Direction.START
 
   /**

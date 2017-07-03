@@ -1,6 +1,6 @@
 package client
 
-import client.character.initializedInfoImpl
+import client.character.InitializedInfoImpl
 import client.utils.Point
 
 /**
@@ -9,21 +9,20 @@ import client.utils.Point
   *  Testing of initialized information from logical part made of prolog.
   */
 object InitializedTest extends App{
-  private val initializedInfo = new initializedInfoImpl()
 
   /* Verify the extraction of pacman's start position from prolog*/
-  var pacmanStartPosition : Point[Int,Int] = initializedInfo.getStartPosition()
+  var pacmanStartPosition : Point[Int,Int] = InitializedInfoImpl.getStartPosition()
   var x: Int = 30
   var y: Int = 30
   assert( pacmanStartPosition.x equals x)
   assert( pacmanStartPosition.y equals y)
 
   /*Verify the extraction pacman's number lives*/
-  var pacmanLives = initializedInfo.getCharacterLives("pacman_lives(X)")
+  var pacmanLives = InitializedInfoImpl.getCharacterLives("pacman")
   assert(pacmanLives == 3 )
 
   /*Verify the extraction ghost's number lives*/
-  var ghostLives = initializedInfo.getCharacterLives("ghost_lives(X)")
+  var ghostLives = InitializedInfoImpl.getCharacterLives("ghost")
   assert(ghostLives == 1)
 
 }

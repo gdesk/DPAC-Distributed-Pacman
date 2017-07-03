@@ -4,16 +4,7 @@ import character.Direction
 /**
   * Created by Giulia Lucchi on 28/06/2017.
   */
-trait Ghost{
-  def eatPacman(): Unit
-  def ghostDefended(): Unit
-
-}
-
-case class GhostImpl(override val name: String) extends CharacterImpl(true, new LivesImpl(1)) with Ghost{
-  override def eatPacman(): Unit = ???
-
-  override def ghostDefended(): Unit = ???
+case class GhostImpl(override val name: String) extends CharacterImpl(true, new LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))){
 
   /**
     * Manages the character's movement and consequently the contact with other item of the game.

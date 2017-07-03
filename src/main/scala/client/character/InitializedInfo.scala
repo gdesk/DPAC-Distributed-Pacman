@@ -11,16 +11,16 @@ import client.utils.{Point, ScalaProlog}
   *
   * @author Giulia Lucchi
   */
-trait initializedInfo{
+trait InitializedInfo{
   /**
     *
     * Extracts from the logic of the game implemented in prolog
     * the ghost's or pacman's number of lives
     *
-    * @param term  the goal in prolog
+    * @param characterName  the goal in prolog
     * @return number of lives of ghost
   **/
-  def getCharacterLives(term: String): Int
+  def getCharacterLives(characterName: String): Int
 
 
   /**
@@ -33,7 +33,7 @@ trait initializedInfo{
 }
 
 
-class initializedInfoImpl extends initializedInfo {
+object InitializedInfoImpl extends InitializedInfo{
   val FILE_NAME = "src/main/scala/client/character/prolog.pl"
   val ENGINE = ScalaProlog.mkPrologEngine(new Theory(new FileInputStream(FILE_NAME)))
 
@@ -42,11 +42,16 @@ class initializedInfoImpl extends initializedInfo {
     * Extracts from the logic of the game implemented in prolog
     * the ghost's or pacman's number of lives
     *
-    * @param goal the goal in prolog
+    * @param characterName the name of character
     * @return number of lives of ghost
     **/
-  override def getCharacterLives(goal: String): Int = {
-    val term = ScalaProlog.solveOneAndGetTerm(ENGINE, Term.createTerm(goal), "X")
+  override def getCharacterLives(characterName: String): Int = {
+    var term: Term =  null
+    if (characterName equals "ghost"){
+     term = ScalaProlog.solveOneAndGetTerm(ENGINE, Term.createTerm("ghost_lives(X)"), "X")
+    }else if (characterName equals "pacman"){
+      term = ScalaProlog.solveOneAndGetTerm(ENGINE, Term.createTerm("pacman_lives(X)"), "X")
+    }
     valueOf(term.toString)
   }
 
