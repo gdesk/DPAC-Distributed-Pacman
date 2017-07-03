@@ -1,9 +1,15 @@
+#language: java
+#
+#script:
+#  - './gradlew clean build'
+#
+#jdk:
+#  - oraclejdk8
+
 language: scala
 scala:
   - 2.12.2
-  
 script:
-  - './gradlew clean build'
-
-jdk:
-  - oraclejdk8
+  - "gradle test"
+before_script:
+  'rm -f gradle.properties'
