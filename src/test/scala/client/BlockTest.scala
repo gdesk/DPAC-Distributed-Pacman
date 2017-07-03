@@ -1,6 +1,6 @@
 package client
 
-import client.gameElement.Block
+import client.gameElement.VirtualBlock
 import client.utils.Point
 import org.scalatest.FunSuite
 
@@ -10,13 +10,13 @@ import org.scalatest.FunSuite
 class BlockTest extends FunSuite{
 
   test("A New Block without dimension specification is 1x1 wide") {
-    val b: Block = new Block(Point(5,6))
+    val b: VirtualBlock = new VirtualBlock(Point(5,6))
 
     assert(b.dimension.xDimension == 1 && b.dimension.yDimension == 1)
   }
 
   test("A New Block with dimension specification has correct dimension") {
-    val b: Block = new Block(Point(1,2), 3, 4)
+    val b: VirtualBlock = new VirtualBlock(Point(1,2), 3, 4)
 
     assert(b.dimension.xDimension == 3 && b.dimension.yDimension == 4)
   }

@@ -2,16 +2,29 @@ package client.utils
 
 /** The position of an Item in the playground.
   *
-  * @constructor create a new Point object.
-  * @param x the position of the item on x axis.
-  * @param y the position of the item on y axis.
-  *
   * @tparam T the measure unit used on x axis.
   * @tparam W the measure unit used on y axis.
   *
   * @author manuBottax
   */
-class Point [T,W] ( var x: T, var y: W){
+trait Position [T,W] {
+
+  /** the position of the item on x axis. */
+  def x: T
+
+  /** the position of the item on y axis. */
+  def y: W
+}
+
+/** A point that represent [[Position]] in a virtual playground
+  *
+  * @constructor create a new Point object.
+  * @param x the position of the item on x axis.
+  * @param y the position of the item on y axis.
+  *
+  */
+
+class Point [T,W] ( var x: T, var y: W) extends Position [T,W] {
   override def toString: String = "[" + this.x + " | " + this.y + "]"
 
   def canEqual(a: Any): Boolean = a.isInstanceOf[Point[T,W]]

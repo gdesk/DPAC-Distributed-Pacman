@@ -1,6 +1,6 @@
 package client.gameElement
 
-import client.utils.Point
+import client.utils.Position
 
 /**
   * A generic game item trait, represent every element in the map
@@ -10,7 +10,7 @@ import client.utils.Point
 trait GameItem {
 
   /** the position of the item in the playground. */
-  def position: Point[Int,Int]
+  def position: Position[Int,Int]
 
   def itemType: ItemType
 }

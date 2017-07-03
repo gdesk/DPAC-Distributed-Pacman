@@ -10,7 +10,7 @@ import org.scalatest.FunSuite
 
 class PlaygroundTest extends FunSuite{
 
-  val playground: Playground = new Playground(Dimension(5,5))
+  val playground: VirtualPlayground = new VirtualPlayground(Dimension(5,5))
 
 
   test("Block and eatable lists are empty in a new Playground"){
@@ -19,12 +19,12 @@ class PlaygroundTest extends FunSuite{
 
   }
 
-  val b2: Block = Block (Point (2,2), 1, 6)
-  val b3: Block = Block (Point (3,3))
+  val b2: VirtualBlock = VirtualBlock (Point (2,2), 1, 6)
+  val b3: VirtualBlock = VirtualBlock (Point (3,3))
 
   test("Correctly add block on block list"){
 
-    val b1: Block = Block (Point (1,1))
+    val b1: VirtualBlock = VirtualBlock (Point (1,1))
 
 
     playground.addBlock(b1)
@@ -34,13 +34,13 @@ class PlaygroundTest extends FunSuite{
     assert(playground.getAllBlocks.size == 3)
   }
 
-  val d: Dot = Dot (Point (4,4))
-  val f: Fruit = Fruit (Point (1,4))
+  val d: VirtualDot = VirtualDot (Point (4,4))
+  val f: VirtualFruit = VirtualFruit (Point (1,4))
 
   test("Correctly add eatable on eatable list"){
 
 
-    val p: Pill = Pill (Point (5,5))
+    val p: VirtualPill = VirtualPill (Point (5,5))
 
     playground.addEatable(d)
     playground.addEatable(p)
@@ -50,7 +50,7 @@ class PlaygroundTest extends FunSuite{
   }
 
   test ("removeBlock remove the correct block from the list"){
-    val b1: Block = Block (Point (1,1))
+    val b1: VirtualBlock = VirtualBlock (Point (1,1))
 
     playground.removeBlock(b1)
 
@@ -58,7 +58,7 @@ class PlaygroundTest extends FunSuite{
   }
 
   test ("removeEatable remove the correct eatable from the list"){
-    val p: Pill = Pill (Point (5,5))
+    val p: VirtualPill = VirtualPill (Point (5,5))
     playground.removeEatable(p)
 
     assert (playground.getAllEatable.size == 2 && playground.getAllEatable.head == d && playground.getAllEatable(1) == f)

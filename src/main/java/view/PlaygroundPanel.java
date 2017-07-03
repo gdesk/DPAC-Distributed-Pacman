@@ -1,7 +1,7 @@
 package view;
 
-import client.Playground;
-import client.gameElement.Fruit;
+import client.VirtualPlayground;
+import client.gameElement.VirtualFruit;
 import client.gameElement.GameItem;
 import client.utils.Point;
 import scala.Option;
@@ -20,12 +20,12 @@ public class PlaygroundPanel extends JPanel{
 
     private static final int LABEL_DIMENSION = 24;
 
-    private Playground playground;
+    private VirtualPlayground playground;
 
     private BlockView blocksImages = new BlockViewImpl();
     private GameObjectView gameObjectImages = new GameObjectViewImpl();
 
-    public PlaygroundPanel (Playground playground){
+    public PlaygroundPanel (VirtualPlayground playground){
         this.playground = playground;
 
         this.setLayout(new GridLayout(50,50));
@@ -73,7 +73,7 @@ public class PlaygroundPanel extends JPanel{
                         case Fruit :
                             System.out.println("Sono un fruit !");
 
-                            switch ( ((Fruit) it.get()).fruitTypes()){
+                            switch ( ((VirtualFruit) it.get()).fruitTypes()){
                                 case Cherry :
                                     //img = new ImageIcon(Utils.getResource("/images/fruit/24x24/cherry.png"));
                                     img = getImageIcon(gameObjectImages.getFruit(Fruits.CHERRY));

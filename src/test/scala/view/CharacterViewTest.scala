@@ -1,6 +1,6 @@
 package view
 
-import client.gameElement.Dot
+import client.gameElement.VirtualDot
 import client.utils.Point
 import org.scalatest.FunSuite
 

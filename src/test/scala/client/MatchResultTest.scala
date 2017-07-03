@@ -2,7 +2,7 @@ package client
 
 import java.util.Calendar
 
-import client.gameElement.Dot
+import client.gameElement.VirtualDot
 import client.utils.Point
 import org.scalatest.FunSuite
 
@@ -12,7 +12,7 @@ import org.scalatest.FunSuite
 class MatchResultTest extends FunSuite {
 
     test("A New Result has the current date & Time") {
-      val r: MatchResult = new MatchResult(true)
+      val r: MatchResult = new MatchResultImpl(true, 10)
       val date: Calendar = Calendar.getInstance()
 
 
