@@ -1,21 +1,21 @@
 package client.character
+
+import alice.tuprolog.{SolveInfo, Term, Theory}
 import character.Direction
+import client.utils.{Point, ScalaProlog}
 
 /**
-  * Created by Giulia Lucchi on 28/06/2017.
+  * @author Giulia Lucchi
   */
-case class GhostImpl(override val name: String) extends CharacterImpl(true, new LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))){
 
-  /**
-    * Manages the character's movement and consequently the contact with other item of the game.
-    *
-    * @param direction character's of direction
-    */
-  override def go(direction: Direction): Unit = ???
 
+case class GhostImpl(override val name: String) extends CharacterImpl(false, new LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))){
   /**
-    * Manage the the strategy of game, that is based on who the killer is and who the killable
+    * Manages the strategy of game, that is based on who is the killer and who is killable
     */
-  override def death(): Unit = ???
+  override def checkAllPositions(): Unit = ???
+
+
+
 }
 

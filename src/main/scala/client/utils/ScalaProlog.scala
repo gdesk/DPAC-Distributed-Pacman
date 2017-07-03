@@ -13,6 +13,11 @@ object ScalaProlog {
   def extractTerm(solveInfo:SolveInfo, s:String): Term =
     solveInfo.getTerm(s)
 
+  def getPrologEngine(theory: Theory): Prolog = {
+    val engine = new Prolog
+    engine.setTheory(theory)
+    engine
+  }
   def mkPrologEngine(theory: Theory): Term => Stream[SolveInfo] = {
     val engine = new Prolog
     engine.setTheory(theory)
@@ -30,8 +35,16 @@ object ScalaProlog {
     }.toStream
   }
 
-  def solveWithSuccess(engine: Term => Stream[SolveInfo], goal: Term): Boolean =
+  def multipleOutput(theory: Theory, goal: String) : SolveInfo = {
+    val engine = new Prolog
+    engine.setTheory(theory)
+    engine.solve(goal)
+  }
+
+  def solveWithSuccess(engine: Term => Stream[SolveInfo], goal: Term): Boolean ={
     engine(goal).map(_.isSuccess).headOption == Some(true)
+  }
+
 
   def solveOneAndGetTerm(engine: Term => Stream[SolveInfo], goal: Term, term: String): Term =
     engine(goal).headOption map (extractTerm(_,term)) get
@@ -39,5 +52,7 @@ object ScalaProlog {
   def solveAllAndGetTerm(engine: Term => Stream[SolveInfo], goal: Term, term: String): Stream[SolveInfo] = {
     engine(goal)
   }
+
+
 
 }

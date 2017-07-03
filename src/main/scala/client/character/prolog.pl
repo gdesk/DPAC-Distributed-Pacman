@@ -7,6 +7,10 @@ pacman_lives(3).
 %ghost_lives(-Lives).
 ghost_lives(1).
 
+street(20,30).
+street(30,31).
+street(31,30).
+
 %move is responsible for characters' movement; if character is moving himself into the
 %street, he can make the move, otherwhise he cannot.
 %	Input parameters:

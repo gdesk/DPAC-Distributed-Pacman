@@ -1,8 +1,9 @@
 package client.character
 
+import alice.tuprolog.Term
 import character.Direction
 import client.gameElement.GameItem
-import client.utils.Point
+import client.utils.{Point, ScalaProlog}
 
 /**
   * Manages the base model of character.
@@ -11,7 +12,6 @@ import client.utils.Point
   */
 trait Character[X,Y] extends GameItem[X,Y]{
   /**
-    *
     * Manages the character's movement and consequently the contact with other item of the game.
     *
     * @param direction    character's of direction
@@ -21,7 +21,7 @@ trait Character[X,Y] extends GameItem[X,Y]{
   /**
     * Manage the the strategy of game, that is based on who the killer is and who the killable
     */
-  def death(): Unit
+  def checkAllPositions(): Unit
 
   /**
     * setter character's position
@@ -100,6 +100,7 @@ abstract class CharacterImpl(override var isKillable: Boolean, override val live
     * setter character's position
     *
     * @param point a point of character within the game map
+    *
     **/
   override def setPosition(point: Point[Int, Int]): Unit = pointPosition = point
 
@@ -110,4 +111,31 @@ abstract class CharacterImpl(override var isKillable: Boolean, override val live
     * */
   override def position: Point[Int, Int] = pointPosition
 
+  /**
+    * Manages the character's movement and consequently the contact with other item of the game.
+    *
+    * @param direction    character's of direction
+    */
+  override def go(direction: Direction): Unit = {
+    if(ScalaProlog.solveWithSuccess(PrologConfig.ENGINE, Term.createTerm(s"move(${position x}, ${position y}, ${direction}, X1,Y1)"))){
+      val point: Point[Int,Int] = this.move(direction)
+      setPosition(point)
+      checkAllPositions()
+    }
+
+  }
+
+  def checkAllPositions(): Unit
+
+  /**
+    * Recall the predicate about the character's movement .
+    * @param direction  the character's direction during the movement
+    * @return           the new character's position after the movement
+    */
+  private def move (direction: Direction): Point[Int, Int] = {
+    val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${this.position.x}, ${this.position.y}, '${direction}', X1, Y1)")
+    val x = Integer.valueOf(solveInfo.getTerm("X1").toString)
+    val y = Integer.valueOf(solveInfo.getTerm("X2").toString)
+    Point[Int, Int](x, y)
+  }
 }
