@@ -35,21 +35,7 @@ class GameObjectViewImpl extends GameObjectView{
 
   override def getPill(): Image = getImage("pill/YellowPill")
 
-  override def getFruit(fruit: Fruits): Image = {
-    var fruitPath = "fruit/"+Utils.getResolution().asString()+"/"
-
-    fruit match{
-
-      case APPLE => getImage(fruitPath+"apple")
-      case BELL  => getImage(fruitPath+"bell")
-      case CHERRY => getImage(fruitPath+"cherry")
-      case GALAXIAN => getImage(fruitPath+"galaxian")
-      case GRAPES => getImage(fruitPath+"grapes")
-      case KEY => getImage(fruitPath+"key")
-      case ORANGE => getImage(fruitPath+"orange")
-      case STRAWBERRY => getImage(fruitPath+"strawberry")
-    }
-  }
+  override def getFruit(fruit: Fruits): Image = getImage("fruit/"+Utils.getResolution().asString()+"/"+fruit.getImageFileName)
 
   private def getImage(imageName: String): Image = Utils.getImage(imageName)
 
