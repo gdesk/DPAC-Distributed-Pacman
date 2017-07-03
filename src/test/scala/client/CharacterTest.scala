@@ -8,14 +8,14 @@ import characterjava.Direction
   */
 object CharacterTest extends App{
 
-  var ghost = new GhostImpl("ghost")
-  println(ghost.position.toString)
+  var ghost = GhostImpl("ghost")
+  println(ghost.position)
   ghost.go(Direction.RIGHT)
-  println(ghost.position.toString)
+  println(ghost.position)
 
-  var pacman = new PacmanImpl("pacman")
-  println(pacman.position.toString)
+  var pacman = PacmanImpl("pacman")
+  println(pacman.position)
   pacman.go(Direction.RIGHT)
-  println(pacman.position.toString)
+  println(pacman.position)
 
 }

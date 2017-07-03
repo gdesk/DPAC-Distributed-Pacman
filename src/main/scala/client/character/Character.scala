@@ -132,9 +132,9 @@ abstract class CharacterImpl(override var isKillable: Boolean, override val live
     * @return           the new character's position after the movement
     */
   private def move (direction: Direction): Point[Int, Int] = {
-    val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${this.position.x}, ${this.position.y},'${direction}', X1, Y1).")
-    val x = Integer.valueOf(solveInfo.getTerm("X1").toString)
-    val y = Integer.valueOf(solveInfo.getTerm("Y1").toString)
+    val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${this.position.x}, ${this.position.y},'${direction}', X, Y).")
+    val x = Integer.valueOf(solveInfo.getTerm("X").toString)
+    val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
     Point[Int, Int](x, y)
   }
 }

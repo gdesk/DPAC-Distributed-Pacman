@@ -1,6 +1,6 @@
 package client.character
 
-import alice.tuprolog.{SolveInfo, Term, Theory}
+
 import characterjava.Direction
 import client.utils.{Point, ScalaProlog}
 
