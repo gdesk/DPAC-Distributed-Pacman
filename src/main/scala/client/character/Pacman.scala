@@ -2,7 +2,7 @@ package client.character
 import java.io.FileInputStream
 
 import alice.tuprolog.Theory
-import character.Direction
+import characterjava.Direction
 import client.utils.{Point, ScalaProlog}
 
 /**
@@ -18,7 +18,7 @@ trait Pacman extends CharacterImpl {
 }
 
 case class PacmanImpl(override val name: String) extends CharacterImpl(true, new LivesImpl(InitializedInfoImpl.getCharacterLives("pacman"))) with Pacman{
-  setPosition(Point[Int,Int](0,0))// da prolog
+  setPosition(InitializedInfoImpl.getStartPosition())
   /**
     * Manages the character's strategy of mortality.
     */
@@ -29,6 +29,11 @@ case class PacmanImpl(override val name: String) extends CharacterImpl(true, new
     */
   override def checkAllPositions(): Unit = ???
 
+  /**
+    * Manages the character's movement and consequently the contact with other item of the game.
+    *
+    * @param direction    character's of direction
+    */
   override def go(direction: Direction): Unit = {
     super.go(direction)
     //richiare eat_objext che richiama prolog SOLO SE  si è effettivamente mosso

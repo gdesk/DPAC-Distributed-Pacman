@@ -1,4 +1,4 @@
-package character;
+package characterjava;
 
 /**
  * This enumeration manages the character's movement.

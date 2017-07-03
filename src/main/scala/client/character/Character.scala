@@ -1,9 +1,8 @@
 package client.character
 
-import alice.tuprolog.Term
-import character.Direction
+import characterjava.Direction
 import client.gameElement.GameItem
-import client.utils.{Point, ScalaProlog}
+import client.utils.{Point}
 
 /**
   * Manages the base model of character.
@@ -117,11 +116,11 @@ abstract class CharacterImpl(override var isKillable: Boolean, override val live
     * @param direction    character's of direction
     */
   override def go(direction: Direction): Unit = {
-    if(ScalaProlog.solveWithSuccess(PrologConfig.ENGINE, Term.createTerm(s"move(${position x}, ${position y}, ${direction}, X1,Y1)"))){
+   // if(ScalaProlog.solveWithSuccess(PrologConfig.ENGINE, Term.createTerm(s"move(${position x}, ${position y}, ${direction}, X1,Y1)."))){
       val point: Point[Int,Int] = this.move(direction)
       setPosition(point)
       checkAllPositions()
-    }
+  //  }
 
   }
 
@@ -133,9 +132,9 @@ abstract class CharacterImpl(override var isKillable: Boolean, override val live
     * @return           the new character's position after the movement
     */
   private def move (direction: Direction): Point[Int, Int] = {
-    val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${this.position.x}, ${this.position.y}, '${direction}', X1, Y1)")
+    val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${this.position.x}, ${this.position.y},'${direction}', X1, Y1).")
     val x = Integer.valueOf(solveInfo.getTerm("X1").toString)
-    val y = Integer.valueOf(solveInfo.getTerm("X2").toString)
+    val y = Integer.valueOf(solveInfo.getTerm("Y1").toString)
     Point[Int, Int](x, y)
   }
 }
