@@ -1,5 +1,6 @@
 package view;
 
+import client.Playground;
 import client.VirtualPlayground;
 import client.gameElement.*;
 import client.utils.Dimension;
@@ -17,7 +18,6 @@ import java.awt.*;
 
 public class GameStartPanel extends JPanel {
 
-    //private Playground selectedPlayground  = new Playground(new Dimension(50,50));
 
     public GameStartPanel(){
 
@@ -32,7 +32,17 @@ public class GameStartPanel extends JPanel {
         startGame.setBorder(null);
         startGame.addActionListener(e->{
             MainFrame mainFrame = MainFrame.getInstance();
-            mainFrame.setContentPane(new PlaygroundPanel(createPlayground()));
+            /// TEST DI ESEMPIO ///////////////////////////
+            Playground p = createPlayground();
+            PlaygroundPanel view = new PlaygroundPanel(p.dimension().xDimension(), p.dimension().yDimension());
+            //view.renderBlock((int) Utils.getJavaList(p.getAllBlocks()).get(0).position().x(), (int) Utils.getJavaList(p.getAllBlocks()).get(0).position().y());
+            //view.renderBlock((int) Utils.getJavaList(p.getAllBlocks()).get(1).position().x(), (int) Utils.getJavaList(p.getAllBlocks()).get(1).position().y());
+            //view.renderBlock((int) Utils.getJavaList(p.getAllBlocks()).get(2).position().x(), (int) Utils.getJavaList(p.getAllBlocks()).get(2).position().y());
+            //view.renderBlock((int) Utils.getJavaList(p.getAllBlocks()).get(3).position().x(), (int) Utils.getJavaList(p.getAllBlocks()).get(3).position().y());
+            view.renderBlock((int) Utils.getJavaList(p.getAllBlocks()).get(4).position().x(), (int) Utils.getJavaList(p.getAllBlocks()).get(4).position().y());
+
+            view.renderDot((int)Utils.getJavaList(p.getAllEatable()).get(0).position().x(), (int)Utils.getJavaList(p.getAllEatable()).get(0).position().y());
+            mainFrame.setContentPane(view);
             mainFrame.revalidate();
             mainFrame.repaint();
         });

@@ -14,6 +14,9 @@ import scala.collection.mutable.ListBuffer
   */
 trait Playground {
 
+  /** the dimension of the playground*/
+  def dimension: Dimension
+
   /** A container for the element of the current game. */
   def ground: mutable.Map[Position[Int,Int],GameItem]
 
@@ -73,7 +76,7 @@ trait Playground {
   * @constructor create an empty playground
   * @param dimension the dimension of the playground
   */
-class VirtualPlayground(val dimension: Dimension) extends Playground{
+class VirtualPlayground(override val dimension: Dimension) extends Playground{
 
   var ground: mutable.Map[Position[Int,Int],GameItem] = new mutable.HashMap[Position[Int,Int],GameItem]()
 

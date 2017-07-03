@@ -32,9 +32,11 @@ trait CharacterView {
 
 }
 
-class CharacterViewImpl(var path:String) extends CharacterView {
+//class CharacterViewImpl(var path:String) extends CharacterView {
 
- var pathAndResolution = path + Utils.getResolution().asString() + "/"
+class CharacterViewImpl(val characterPath: CharacterPath) extends CharacterView {
+
+ var pathAndResolution: String = characterPath.path + Utils.getResolution().asString() + "/"
   
   //resources/images/pacman/24x24/Up.png
 
@@ -50,8 +52,25 @@ class CharacterViewImpl(var path:String) extends CharacterView {
 
 }
 
-class RedGhostView extends CharacterViewImpl("ghosts/red/")
-class BlueGhostView extends CharacterViewImpl("ghosts/blue/")
-class PinkGhostView extends CharacterViewImpl("ghosts/pink/")
-class YellowGhostView extends CharacterViewImpl("ghosts/yellow/")
-class PacmanView extends CharacterViewImpl("pacman/")
+trait CharacterPath {
+  def path: String
+}
+
+class CharacterPathImpl (name: String) extends CharacterPath {
+
+  override val path: String = name.toLowerCase + "/"
+}
+
+class GhostPath (color: String ) extends CharacterPath {
+
+  override val path: String = "ghosts/" + color.toLowerCase + "/"
+}
+
+/*
+class RedGhostView extends CharacterViewImpl(new GhostPath("red"))
+class BlueGhostView extends CharacterViewImpl(new GhostPath("blue"))
+class PinkGhostView extends CharacterViewImpl(new GhostPath("pink"))
+class YellowGhostView extends CharacterViewImpl(new GhostPath("yellow"))
+class PacmanView extends CharacterViewImpl(new CharacterPathImpl("pacman"))
+
+*/
