@@ -7,9 +7,9 @@ import org.scalatest.FunSuite
   */
 class BlockViewTest extends FunSuite {
 
-  private val resolution: String = Utils.getResolution().asString()
-
   test("Correct access to block images"){
+
+    val resolution: String = Utils.getResolution().asString()
 
     val blockView: BlockView = new BlockViewImpl()
 

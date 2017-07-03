@@ -18,10 +18,11 @@ object Utils {
   private val IMAGES_EXTENSION = ".png"
 
 
-  def getResource(path: String): URL = Utils.getClass.getResource(path)
+  def getResource(path: String): URL = Utils.getClass.getResource(path)   //TODO lanciare eccezione nel caso in cui non trovi la risorsa!
 
 
   def getImage(path: String): Image = {
+
     new ImageIcon(getResource(IMAGES_BASE_PATH + path + IMAGES_EXTENSION)).getImage
   }
 
