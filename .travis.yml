@@ -10,6 +10,10 @@ language: scala
 scala:
   - 2.12.2
 script:
-  - "gradle test"
+  #- "gradle test"
+  - './gradlew clean build'
 before_script:
   'rm -f gradle.properties'
+
+jdk:
+  - oraclejdk8
