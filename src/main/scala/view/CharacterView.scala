@@ -35,24 +35,18 @@ trait CharacterView {
 class CharacterViewImpl(var path:String) extends CharacterView {
 
  var pathAndResolution = path + Utils.getResolution().asString() + "/"
+  
+  //resources/images/pacman/24x24/Up.png
 
+  def getCharacterUp: Image = getImage("Up")
 
-  /**
-    * resources/images/pacman/24x24/Up.png
-    * *
-    * resources/images/  --> Utils
-    * pacman/ --> path
-    * 24x24/ -->CharacterViewImpl
-    * Up --> getCharacterUp
-    * .png --> Utils
-    */
-  def getCharacterUp: Image = Utils.getImage (pathAndResolution + "Up")
+  def getCharacterDown: Image = getImage("Down")
 
-  def getCharacterDown: Image = Utils.getImage (pathAndResolution + "Down")
+  def getCharacterLeft: Image = getImage("Left")
 
-  def getCharacterLeft: Image = Utils.getImage (pathAndResolution + "Left")
+  def getCharacterRight: Image = getImage("Right")
 
-  def getCharacterRight: Image = Utils.getImage (pathAndResolution + "Right")
+  private def getImage(direction: String): Image = Utils.getImage(pathAndResolution+direction)
 
 }
 
