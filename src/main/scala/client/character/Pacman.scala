@@ -1,13 +1,41 @@
 package client.character
+import java.io.FileInputStream
 
-import client.utils.LivesImpl
+import alice.tuprolog.Theory
+import characterjava.Direction
+import client.utils.{Point, ScalaProlog}
 
 /**
-  * Created by Giulia Lucchi on 28/06/2017.
+  * Manages the Pacman character.
+  *
+  * @author Giulia Lucchi
   */
-//trait Pacman[X, Y] extends Character[X, Y]{
-  //def eatItem(eatable: Eatable) GUARDA PROLOG probabilmente non serve perchè verrà richiamato il metodo prolog direttamente da go
-  //si potrebbe fare privato e richiamare prolog . tutto richimto su go del quale facciamo un override
-//}
-case class PacmanImpl(override val name: String) extends CharacterImpl(true, new LivesImpl(3/*da prolog*/)) /*with Pacman[Int, Int]*/ {
+trait Pacman extends CharacterImpl {
+  /**
+    * Manages the character's strategy of mortality.
+    */
+ def eatObject(): Unit
+}
+
+case class PacmanImpl(override val name: String) extends CharacterImpl(true, new LivesImpl(InitializedInfoImpl.getCharacterLives("pacman"))) with Pacman{
+  setPosition(InitializedInfoImpl.getStartPosition())
+  /**
+    * Manages the character's strategy of mortality.
+    */
+  override def eatObject(): Unit = ??? // farla solo se si è msso
+
+  /**
+    * Manage the the strategy of game, that is based on who the killer is and who the killable
+    */
+  override def checkAllPositions(): Unit = ???
+
+  /**
+    * Manages the character's movement and consequently the contact with other item of the game.
+    *
+    * @param direction    character's of direction
+    */
+  override def go(direction: Direction): Unit = {
+    super.go(direction)
+    //richiare eat_objext che richiama prolog SOLO SE  si è effettivamente mosso
+  }
 }

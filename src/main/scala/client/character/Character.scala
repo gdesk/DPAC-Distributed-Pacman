@@ -1,22 +1,27 @@
 package client.character
 
-import character.Direction
+import alice.tuprolog.Term
+import characterjava.Direction
 import client.gameElement.GameItem
-import client.utils.{Lives, Point}
+import client.utils.{Point, ScalaProlog}
 
 /**
-  * The class manages the base model of character.
+  * Manages the base model of character.
   *
-  * Created by Giulia Lucchi on 28/06/2017.
+  * @author Giulia Lucchi
   */
 trait Character[X,Y] extends GameItem[X,Y]{
-
   /**
     * Manages the character's movement and consequently the contact with other item of the game.
     *
     * @param direction    character's of direction
     */
   def go(direction: Direction): Unit
+
+  /**
+    * Manage the the strategy of game, that is based on who the killer is and who the killable
+    */
+  def checkAllPositions(): Unit
 
   /**
     * setter character's position
@@ -37,7 +42,7 @@ trait Character[X,Y] extends GameItem[X,Y]{
     *
     * @param direction    a direction of character
     * */
-  def direction_=(direction: Direction): Unit // la direzione dobbiamao valutare se lasciarla perchè  incapsulato in move di prolog e quindi servirebbe solo per il cambio immagine che può essere fatto anche nel momento in cui cambi durezione dalla tastiera
+  def direction_=(direction: Direction): Unit
 
   /**
     * getter of character's state of its life
@@ -86,29 +91,53 @@ trait Character[X,Y] extends GameItem[X,Y]{
   def lives: Lives
 }
 
-abstract class CharacterImpl (override var isKillable: Boolean, override val lives: Lives) extends Character[Int, Int]{
+abstract class CharacterImpl(override var isKillable: Boolean, override val lives: Lives) extends Character[Int, Int] {
   override var isAlive: Boolean = true
-  var position: Point[Int, Int] = Point.apply(30,30) // modificare in base a prolog
+  var pointPosition: Point[Int, Int] = InitializedInfoImpl.getStartPosition()
   override var direction: Direction = Direction.START
-
-  /**
-    * Manages the character's movement and consequently the contact with other item of the game.
-    *
-    * @param direction    character's of direction
-    */
-  override def go(direction: Direction): Unit = {}
 
   /**
     * setter character's position
     *
-    * @param point    a point of character within the game map
-    * */
-  override def setPosition(point: Point[Int, Int]): Unit = position = point
+    * @param point a point of character within the game map
+    *
+    **/
+  override def setPosition(point: Point[Int, Int]): Unit = pointPosition = point
 
   /**
     * getter character's position
     *
     * @return position    a point of character within the game map
     * */
-  override def getPosition(): Point[Int,Int] = position
+  override def position: Point[Int, Int] = pointPosition
+
+  /**
+    * Manages the character's movement and consequently the contact with other item of the game.
+    *
+    * @param direction    character's of direction
+    */
+  override def go(direction: Direction): Unit = {
+    if(ScalaProlog.solveWithSuccess(PrologConfig.ENGINE, Term.createTerm(s"move(${position x}, ${position y}, ${direction getDirection}, X1,Y1)"))){
+      val point: Point[Int,Int] = this.move(direction)
+      setPosition(point)
+//      checkAllPositions()
+    }else{
+      println("NO. it hit the wall.")
+    }
+
+  }
+
+  def checkAllPositions(): Unit
+
+  /**
+    * Recall the predicate about the character's movement .
+    * @param direction  the character's direction during the movement
+    * @return           the new character's position after the movement
+    */
+  private def move (direction: Direction): Point[Int, Int] = {
+    val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${this.position.x}, ${this.position.y},${direction getDirection}, X, Y).")
+    val x = Integer.valueOf(solveInfo.getTerm("X").toString)
+    val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
+    Point[Int, Int](x, y)
+  }
 }
