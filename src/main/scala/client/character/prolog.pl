@@ -1,3 +1,9 @@
+street(20,30).
+street(30,31).
+street(31,30).
+street(20,21).
+street(21,20).
+
 %pacman_initial_position(-XPosition, -YPosition).
 pacman_initial_position(30,30).
 
@@ -7,9 +13,6 @@ pacman_lives(3).
 %ghost_lives(-Lives).
 ghost_lives(1).
 
-street(20,30).
-street(30,31).
-street(31,30).
 
 %move is responsible for characters' movement; if character is moving himself into the
 %street, he can make the move, otherwhise he cannot.

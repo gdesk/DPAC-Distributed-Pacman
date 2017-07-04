@@ -12,6 +12,8 @@ object CharacterTest extends App{
   println(ghost.position)
   ghost.go(Direction.RIGHT)
   println(ghost.position)
+  ghost.go(Direction.RIGHT)
+  println(ghost position)
 
   var pacman = PacmanImpl("pacman")
   println(pacman.position)

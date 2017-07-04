@@ -1,8 +1,9 @@
 package client.character
 
+import alice.tuprolog.Term
 import characterjava.Direction
 import client.gameElement.GameItem
-import client.utils.{Point}
+import client.utils.{Point, ScalaProlog}
 
 /**
   * Manages the base model of character.
@@ -41,7 +42,7 @@ trait Character[X,Y] extends GameItem[X,Y]{
     *
     * @param direction    a direction of character
     * */
-  def direction_=(direction: Direction): Unit // la direzione dobbiamao valutare se lasciarla perchè  incapsulato in move di prolog e quindi servirebbe solo per il cambio immagine che può essere fatto anche nel momento in cui cambi durezione dalla tastiera
+  def direction_=(direction: Direction): Unit
 
   /**
     * getter of character's state of its life
@@ -116,11 +117,13 @@ abstract class CharacterImpl(override var isKillable: Boolean, override val live
     * @param direction    character's of direction
     */
   override def go(direction: Direction): Unit = {
-   // if(ScalaProlog.solveWithSuccess(PrologConfig.ENGINE, Term.createTerm(s"move(${position x}, ${position y}, ${direction}, X1,Y1)."))){
+    if(ScalaProlog.solveWithSuccess(PrologConfig.ENGINE, Term.createTerm(s"move(${position x}, ${position y}, ${direction getDirection}, X1,Y1)"))){
       val point: Point[Int,Int] = this.move(direction)
       setPosition(point)
-      checkAllPositions()
-  //  }
+//      checkAllPositions()
+    }else{
+      println("NO. it hit the wall.")
+    }
 
   }
 
@@ -132,7 +135,7 @@ abstract class CharacterImpl(override var isKillable: Boolean, override val live
     * @return           the new character's position after the movement
     */
   private def move (direction: Direction): Point[Int, Int] = {
-    val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${this.position.x}, ${this.position.y},'${direction}', X, Y).")
+    val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${this.position.x}, ${this.position.y},${direction getDirection}, X, Y).")
     val x = Integer.valueOf(solveInfo.getTerm("X").toString)
     val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
     Point[Int, Int](x, y)
