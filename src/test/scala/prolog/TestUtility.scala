@@ -1,7 +1,5 @@
 package prolog
 
-import java.io.FileInputStream
-
 import alice.tuprolog.{Prolog, SolveInfo, Term, Theory}
 
 /**
@@ -11,14 +9,23 @@ object TestUtility {
 
   implicit def stringToTerm(s: String): Term = Term.createTerm(s)
   implicit def listToTerm[T](l: List[T]): Term = l.mkString("[",",","]")
+  var engine = new Prolog
 
   def mkPrologEngine(theory: Theory): Term => Stream[SolveInfo] = {
-    val engine = new Prolog
     engine.setTheory(theory)
+    getStreamSolveInfo()
 
-    goal => new Iterable[SolveInfo]{
+  }
 
-      override def iterator = new Iterator[SolveInfo]{
+  def modifyPrologEngine(theory: Theory): Term => Stream[SolveInfo] = {
+    engine.addTheory(theory)
+    getStreamSolveInfo()
+
+  }
+
+  def getStreamSolveInfo(): Term => Stream[SolveInfo] = {
+    goal => new Iterable[SolveInfo] {
+      override def iterator = new Iterator[SolveInfo] {
         var solution: Option[SolveInfo] = Some(engine.solve(goal))
 
         override def hasNext = solution.isDefined &&
@@ -40,6 +47,9 @@ object TestUtility {
   def solveWithSuccess(engine: Term => Stream[SolveInfo], goal: Term): Boolean =
     engine(goal).map(_.isSuccess).headOption == Some(true)
 
- 
+
+
+
+
 
 }

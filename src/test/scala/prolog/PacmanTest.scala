@@ -1,15 +1,17 @@
+package prolog
 import java.io.FileInputStream
 
-import alice.tuprolog.{Prolog, SolveInfo, Term, Theory}
 import org.scalatest.FunSuite
+import TestUtility._
+import alice.tuprolog.Theory
 
 /**
   * Created by Federica on 01/07/17.
   */
-class PacmanTest extends FunSuite{
+class PacmanTest extends FunSuite {
 
-  implicit def stringToTerm(s: String): Term = Term.createTerm(s)
-  implicit def listToTerm[T](l: List[T]): Term = l.mkString("[",",","]")
+  private var engine = mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/dpac-prolog.pl")))
+
 
   test("Pacman initial number of lives is 3") {
     val goal = "pacman_lives(L)"
@@ -38,40 +40,36 @@ class PacmanTest extends FunSuite{
 
   }
 
-  /**
-    * method to link prolog with scala
-    * @param theory
-    * @return
-    */
-  def mkPrologEngine(theory: Theory): Term => Stream[SolveInfo] = {
-    val engine = new Prolog
-    engine.setTheory(theory)
+  test("Testing Pacman walking only along streets") {
+    val t: Theory = new Theory("street(1,0). " +
+                                "street(1,1). " +
+                                "street(0,1). "
+    )
 
-    goal => new Iterable[SolveInfo]{
+    engine = modifyPrologEngine(t)
 
-      override def iterator = new Iterator[SolveInfo]{
-        var solution: Option[SolveInfo] = Some(engine.solve(goal))
+    var goal = "move(0,1,right,X,Y)"
+    var risXnewPos = solveOneAndGetTerm(engine, goal, "X").toString
+    var risYnewPos = solveOneAndGetTerm(engine, goal, "Y").toString
 
-        override def hasNext = solution.isDefined &&
-          (solution.get.isSuccess || solution.get.hasOpenAlternatives)
+    assert(risXnewPos.equals("1") && risYnewPos.equals("1"))
 
-        override def next() =
-          try solution.get
-          finally solution = if (solution.get.hasOpenAlternatives) Some(engine.solveNext()) else None
-      }
-    }.toStream
   }
 
-  def extractTerm(solveInfo:SolveInfo, s:String): Term =
-    solveInfo.getTerm(s)
+   test("Testing Pacman standing still if a block is present") {
 
-  def solveOneAndGetTerm(engine: Term => Stream[SolveInfo], goal: Term, term: String): Term =
-    engine(goal).headOption map (extractTerm(_,term)) get
+     val t: Theory = new Theory("street(1,0). " +
+                                 "street(1,1). " +
+                                 "street(0,1). "
+     )
 
-  def solveWithSuccess(engine: Term => Stream[SolveInfo], goal: Term): Boolean =
-    engine(goal).map(_.isSuccess).headOption == Some(true)
+     engine = modifyPrologEngine(t)
 
-  private val engine = mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/dpac-prolog.pl")))
+     var goal = "move(0,1,down,X,Y)"
+     var risnewPos = solveWithSuccess(engine, goal)
 
+     assert(risnewPos.equals(false))
+
+   }
 
 }
