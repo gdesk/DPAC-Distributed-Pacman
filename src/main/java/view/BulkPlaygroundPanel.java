@@ -1,0 +1,36 @@
+package view;
+
+import client.gameElement.*;
+import view.utils.FruitsImages;
+
+import java.util.List;
+
+/**
+ * Created by Manuel Bottax on 04/07/2017.
+ */
+public class BulkPlaygroundPanel extends PlaygroundPanel {
+
+    public BulkPlaygroundPanel (){
+        super();
+    }
+
+    public void renderBlockList(List<Block> blockList){
+        for ( Block b : blockList) {
+            super.renderBlock((int) b.position().x(), (int) b.position().y());
+        }
+    }
+
+    public void renderEatableList(List<Eatable> eatableList){
+        for (Eatable e : eatableList){
+            if (e instanceof Dot){
+                super.renderDot((int) e.position().x(), (int) e.position().y());
+            }
+            else if (e instanceof Pill) {
+                super.renderPill((int) e.position().x(), (int) e.position().y());
+            }
+            else if (e instanceof Fruit) {
+                super.renderFruit((int) e.position().x(), (int) e.position().y(), FruitsImages.APPLE);      //TODO passare dal tipo alla enum delle immagini
+            }
+        }
+    }
+}

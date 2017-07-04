@@ -14,14 +14,14 @@ import static view.PlaygroundSettings.*;
  */
 
 
-public class PlaygroundPanel2 extends JPanel{
+public class PlaygroundPanel extends JPanel implements PlaygroundView{
 
     private final JLabel[][] cells;
     private final GridBagConstraints gbc = new GridBagConstraints();
     private BlockView blocksImages = new BlockViewImpl();
     private GameObjectView gameObjectImages = new GameObjectViewImpl();
 
-    public PlaygroundPanel2(){
+    public PlaygroundPanel(){
 
         setLayout(new GridBagLayout());
         setBackground(backgroundColor); //Look at import static for settings
@@ -73,9 +73,10 @@ public class PlaygroundPanel2 extends JPanel{
     }
 
     /**
-     * Shows a dot in the specified position
+     * Shows a fruit in the specified position
      * @param x Horizontal position on grid
      * @param y Vertical position on grid
+     * @param type The fruit type to be rendered.
      */
     public void renderFruit(int x, int y, FruitsImages type){
        checkAndInsert(x,y,getImageIcon(gameObjectImages.getFruit(type)));

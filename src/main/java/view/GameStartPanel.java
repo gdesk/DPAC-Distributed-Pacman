@@ -38,21 +38,12 @@ public class GameStartPanel extends JPanel {
             MainFrame mainFrame = MainFrame.getInstance();
             /// TEST DI ESEMPIO ///////////////////////////
             Playground p = createPlayground();
-            PlaygroundPanel view1 = new PlaygroundPanel(p.dimension().xDimension(), p.dimension().yDimension());
-            PlaygroundPanel2 view = new PlaygroundPanel2();
-            view.renderBlock(columns -1, rows -1);
-            view.renderBlock(0,0);
-            view.renderDot(10,10);
-            view.renderPill(14,20);
-            view.renderFruit(18,18, APPLE);
-            view.renderCharacter(3,3,"pacman", "up");
-            //view.renderBlock((int) Utils.getJavaList(p.getAllBlocks()).get(0).position().x(), (int) Utils.getJavaList(p.getAllBlocks()).get(0).position().y());
-            //view.renderBlock((int) Utils.getJavaList(p.getAllBlocks()).get(1).position().x(), (int) Utils.getJavaList(p.getAllBlocks()).get(1).position().y());
-            //view.renderBlock((int) Utils.getJavaList(p.getAllBlocks()).get(2).position().x(), (int) Utils.getJavaList(p.getAllBlocks()).get(2).position().y());
-            //view.renderBlock((int) Utils.getJavaList(p.getAllBlocks()).get(3).position().x(), (int) Utils.getJavaList(p.getAllBlocks()).get(3).position().y());
-           // view.renderBlock((int) Utils.getJavaList(p.getAllBlocks()).get(4).position().x(), (int) Utils.getJavaList(p.getAllBlocks()).get(4).position().y());
+            BulkPlaygroundPanel view = new BulkPlaygroundPanel();
 
-           // view.renderDot((int)Utils.getJavaList(p.getAllEatable()).get(0).position().x(), (int)Utils.getJavaList(p.getAllEatable()).get(0).position().y());
+            view.renderBlockList(Utils.getJavaList(p.getAllBlocks()));
+            view.renderEatableList(Utils.getJavaList(p.getAllEatable()));
+            view.renderCharacter(3,3,"pacman", "up");
+
             mainFrame.setContentPane(view);
             mainFrame.revalidate();
             mainFrame.repaint();
