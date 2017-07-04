@@ -3,7 +3,7 @@ package view.utils;
 /**
  * Created by chiaravarini on 03/07/17.
  */
-public enum Fruits {
+public enum FruitsImages {
 
     APPLE("apple"),
     BELL("bell"),
@@ -16,7 +16,7 @@ public enum Fruits {
 
     private final String imageFileName;
 
-    private Fruits(final String imageFileName){
+    private FruitsImages(final String imageFileName){
         this.imageFileName = imageFileName;
     }
 
