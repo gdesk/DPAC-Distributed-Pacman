@@ -32,7 +32,7 @@ public class GameTest {
     }
 
     private PlaygroundPanel initializePlaygroundView (Playground playground, List<Character> characterList) {
-        BulkPlaygroundPanel view = new BulkPlaygroundPanel();
+        BulkPlaygroundPanel view = new BulkPlaygroundPanel(playground.dimension());
 
         view.renderBlockList(Utils.getJavaList(playground.getAllBlocks()));
         view.renderEatableList(Utils.getJavaList(playground.getAllEatable()));
@@ -49,7 +49,9 @@ public class GameTest {
 
 
     private VirtualPlayground createPlayground() {
-        VirtualPlayground p = new VirtualPlayground(Dimension.apply(40, 40));
+        VirtualPlayground p = new VirtualPlayground(Dimension.apply(61, 32));
+        // TODO la dimensione dovrebbe essere decisa standard dal server e visualizzata diversamente a seconda dello schermo, ma non deve cambiare il numero di blocchi
+        // tra diversi schermi con dimensioni diverse
 
         p.addBlock(new VirtualBlock(new Point(10, 2), 1, 1));
         p.addBlock(new VirtualBlock(new Point(11, 2), 1, 1));

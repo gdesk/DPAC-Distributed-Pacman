@@ -14,8 +14,9 @@ public final class PlaygroundSettings {
 
     static final Dimension cellDim = new Dimension(cellSize,cellSize);
 
-    static final int columns = (int)Math.floor(DIMENSION.getWidth()/cellSize);
+    //static final int columns = (int)Math.floor(DIMENSION.getWidth()/cellSize);
 
-    static final int rows = (int)Math.floor(DIMENSION.getHeight()/cellSize)-1; //TODO La dimensione non dovrebbe dipendere anche dalla dimensione del playground che è specificata nel model ?
+
+    //static final int rows = (int)Math.floor(DIMENSION.getHeight()/cellSize)-1; //TODO La dimensione non dovrebbe dipendere anche dalla dimensione del playground che è specificata nel model ?
 
 }

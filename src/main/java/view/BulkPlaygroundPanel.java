@@ -1,6 +1,7 @@
 package view;
 
 import client.gameElement.*;
+import client.utils.Dimension;
 import view.utils.ImagesUtils;
 
 import java.util.List;
@@ -10,8 +11,8 @@ import java.util.List;
  */
 public class BulkPlaygroundPanel extends PlaygroundPanel {
 
-    public BulkPlaygroundPanel (){
-        super();
+    public BulkPlaygroundPanel (Dimension playgroundDimension){
+        super(playgroundDimension);
     }
 
     public void renderBlockList(List<Block> blockList){

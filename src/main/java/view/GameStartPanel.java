@@ -1,17 +1,8 @@
 package view;
 
-import client.Playground;
-import client.VirtualPlayground;
-import client.gameElement.*;
-import client.utils.Dimension;
-import client.utils.Point;
-
 import javax.swing.*;
 import java.awt.*;
 
-import static view.PlaygroundSettings.rows;
-import static view.PlaygroundSettings.columns;
-import static view.utils.FruitsImages.APPLE;
 
 /**
  * Intial screen where it is possible start a new match.

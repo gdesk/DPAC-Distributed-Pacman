@@ -1,5 +1,6 @@
 package view;
 
+import client.utils.Dimension;
 import view.utils.FruitsImages;
 import view.utils.ImagesUtils;
 
@@ -21,7 +22,13 @@ public class PlaygroundPanel extends JPanel implements PlaygroundView{
     private BlockView blocksImages = new BlockViewImpl();
     private GameObjectView gameObjectImages = new GameObjectViewImpl();
 
-    public PlaygroundPanel(){
+    private int rows;
+    private int columns;
+
+    public PlaygroundPanel(Dimension playgroundDimension){
+
+        this.rows = playgroundDimension.yDimension();
+        this.columns = playgroundDimension.xDimension();
 
         setLayout(new GridBagLayout());
         setBackground(backgroundColor); //Look at import static for settings
