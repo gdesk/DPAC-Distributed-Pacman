@@ -27,6 +27,8 @@ public class PlaygroundPanel extends JPanel implements PlaygroundView{
         setBackground(backgroundColor); //Look at import static for settings
         cells = new JLabel[columns][rows];
 
+        System.out.println(" size : [ " + columns + " | " + rows  + "] !");
+
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;

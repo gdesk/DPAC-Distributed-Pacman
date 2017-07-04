@@ -22,8 +22,12 @@ import static view.utils.FruitsImages.APPLE;
 
 public class GameStartPanel extends JPanel {
 
+    private PlaygroundPanel playground;
 
-    public GameStartPanel(){
+
+    public GameStartPanel(PlaygroundPanel playground){
+
+        this.playground = playground;
 
         this.setLayout(new BorderLayout());
         this.setBackground(new Color(1,47,74));
@@ -37,14 +41,15 @@ public class GameStartPanel extends JPanel {
         startGame.addActionListener(e->{
             MainFrame mainFrame = MainFrame.getInstance();
             /// TEST DI ESEMPIO ///////////////////////////
-            Playground p = createPlayground();
+            /*Playground p = createPlayground();
             BulkPlaygroundPanel view = new BulkPlaygroundPanel();
 
             view.renderBlockList(Utils.getJavaList(p.getAllBlocks()));
             view.renderEatableList(Utils.getJavaList(p.getAllEatable()));
             view.renderCharacter(3,3,"pacman", "up");
 
-            mainFrame.setContentPane(view);
+            */
+            mainFrame.setContentPane(this.playground);
             mainFrame.revalidate();
             mainFrame.repaint();
         });
@@ -52,6 +57,7 @@ public class GameStartPanel extends JPanel {
         this.add(startGame, BorderLayout.CENTER);
     }
 
+    /*
     private VirtualPlayground createPlayground(){
         VirtualPlayground p = new VirtualPlayground(Dimension.apply(40,40));
 
@@ -84,5 +90,5 @@ public class GameStartPanel extends JPanel {
         p.addEatable(new VirtualFruit(new Point (25,31),Fruits.Key));
 
         return p;
-    }
+    } */
 }
