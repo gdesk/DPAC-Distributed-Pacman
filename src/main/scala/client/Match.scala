@@ -1,21 +1,86 @@
 package client
 
-/** Represent the current match status, holding some information about the game.
-  * Is a common object for all the characters.
+import client.utils.Point
+
+import scala.collection.immutable.HashMap
+
+/**
+  * Represent the current match status, holding some information about the game.
   *
-  * @author manuBottax
+  * @author Margherita Pecorelli
   */
-class Match {
+trait Match {
 
-  /** the current match score*/
-  var score: Int = 0
-  var ghostState: Boolean = true
+  /**
+    * Returns the playground of the current match. The playground is composed by a list of the coordinates of the steet.
+    *
+    * @return a list of Point representing the coordinates of the steet.
+    */
+  def playground(): List[Point[Int,Int]]
 
-  /**  change the ghost state, used when Pacman eat the pill and the ghost became scared and can be eaten by Pacman */
-  def scareGhost () : Unit = {
-    ghostState = false
-    println("Ghost can now be eaten by pacman")
-    //dopo un tot ritorna normale
-  }
-  // lo facciamo booleano e lo risetta il controller ? o fa da solo cin un timer ?
+  /**
+    * Sets the playground of the current match with the list of the coordinates of the steet.
+    *
+    * @param streetPositionsList - the list of Point representing the coordinates of the steet.
+    */
+  def playground_=(streetPositionsList: List[Point[Int,Int]]): Unit
+
+  /**
+    * Returns the list of all characters who participate at the match.
+    *
+    * @return the list of all characters.
+    */
+  def characters(): List[Character[Int, Int]]
+
+  /**
+    * Sets the list of all characters who participate at the match.
+    *
+    * @param allCharacters - the list of all characters.
+    */
+  def characters_=(allCharacters: List[Character[Int, Int]]): Unit
+
+  /**
+    * Returns the list of dead characters.
+    *
+    * @return the list of dead characters.
+    */
+  def deadCharacters(): List[Character[Int, Int]]
+
+  /**
+    * Sets the list of dead characters.
+    *
+    * @param deadCharacters - the list of dead characters.
+    */
+  def deadCharacters_=(deadCharacters: List[Character[Int, Int]]): Unit
+
+}
+
+case class MatchImpl(override var playground: List[Point[Int,Int]], val mapUserCharacter: HashMap[String, Character[Int, Int]]) extends Match {
+  /**
+    * Returns the list of all characters who participate at the match.
+    *
+    * @return the list of all characters.
+    */
+  override def characters(): List[Character[Int, Int]] = ???
+
+  /**
+    * Sets the list of all characters who participate at the match.
+    *
+    * @param allCharacters - the list of all characters.
+    */
+  override def characters_=(allCharacters: List[Character[Int, Int]]): Unit = ???
+
+  /**
+    * Returns the list of dead characters.
+    *
+    * @return the list of dead characters.
+    */
+  override def deadCharacters(): List[Character[Int, Int]] = ???
+
+  /**
+    * Sets the list of dead characters.
+    *
+    * @param deadCharacters - the list of dead characters.
+    */
+  override def deadCharacters_=(deadCharacters: List[Character[Int, Int]]): Unit = ???
 }
