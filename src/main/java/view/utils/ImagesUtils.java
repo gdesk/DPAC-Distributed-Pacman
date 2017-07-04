@@ -1,5 +1,7 @@
 package view.utils;
 
+import client.gameElement.Fruits;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -17,5 +19,36 @@ public class ImagesUtils {
         g2.dispose();
 
         return resizedImg;
+    }
+
+    public static FruitsImages getFruitsImage (Fruits type){
+        switch (type){
+            case Cherry:
+                return FruitsImages.CHERRY;
+
+            case Strawberry:
+                return FruitsImages.STRAWBERRY;
+
+            case Orange:
+                return FruitsImages.ORANGE;
+
+            case Apple:
+                return FruitsImages.APPLE;
+
+            case Grapes:
+                return FruitsImages.GRAPES;
+
+            case GalaxianShip:
+                return FruitsImages.GALAXIAN;
+
+            case Bell:
+                return FruitsImages.BELL;
+
+            case Key:
+                return FruitsImages.KEY;
+
+        }
+
+        return null;
     }
 }

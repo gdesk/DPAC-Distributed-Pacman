@@ -1,7 +1,7 @@
 package view;
 
 import client.gameElement.*;
-import view.utils.FruitsImages;
+import view.utils.ImagesUtils;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class BulkPlaygroundPanel extends PlaygroundPanel {
                 super.renderPill((int) e.position().x(), (int) e.position().y());
             }
             else if (e instanceof Fruit) {
-                super.renderFruit((int) e.position().x(), (int) e.position().y(), FruitsImages.APPLE);      //TODO passare dal tipo alla enum delle immagini
+                super.renderFruit((int) e.position().x(), (int) e.position().y(), ImagesUtils.getFruitsImage(((Fruit) e).fruitTypes()));      //TODO passare dal tipo alla enum delle immagini
             }
         }
     }
