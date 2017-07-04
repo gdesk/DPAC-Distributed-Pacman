@@ -2,7 +2,7 @@ package client
 
 import java.util
 
-import client.gameElement.{VirtualBlock, Eatable, GameItem}
+import client.gameElement.{Block, Eatable, GameItem, VirtualBlock}
 import client.utils.{Dimension, Point, Position}
 
 import scala.collection.mutable
@@ -27,7 +27,7 @@ trait Playground {
     *
     * @param block the block that is wanted to be added to the playground
     */
-  def addBlock(block: VirtualBlock): Unit
+  def addBlock(block: Block): Unit
 
   /** Remove a block from the playground (if it is possible).
     *
@@ -36,10 +36,10 @@ trait Playground {
     *
     * @param block the block that is wanted to be removed to the playground
     */
-  def removeBlock (block: VirtualBlock): Unit
+  def removeBlock (block: Block): Unit
 
   /** return a List of all the blocks in the current ground */
-  def getAllBlocks: List[VirtualBlock]
+  def getAllBlocks: List[Block]
 
   /** Add a eatable at his own position if is available.
     *
@@ -80,10 +80,10 @@ class VirtualPlayground(override val dimension: Dimension) extends Playground{
 
   var ground: mutable.Map[Position[Int,Int],GameItem] = new mutable.HashMap[Position[Int,Int],GameItem]()
 
-  private var blockList: ListBuffer[VirtualBlock] = ListBuffer.empty[VirtualBlock]
+  private var blockList: ListBuffer[Block] = ListBuffer.empty[Block]
   private var eatableList: ListBuffer[Eatable] = ListBuffer.empty[Eatable]
 
-  def addBlock(block: VirtualBlock): Unit = {
+  def addBlock(block: Block): Unit = {
 
     // se aggiungo fuori dalla posizione mi deve dare errore
     if (! checkPosition(block.position))
@@ -105,21 +105,21 @@ class VirtualPlayground(override val dimension: Dimension) extends Playground{
   // e se la dimension copre fuori dai bordi ? devo controllare anche le dimensioni di quei cosi
   // fare questa cosa con i blocchi dimensionati è esageratamente complicato
 
-  def removeBlock (block: VirtualBlock): Unit = {
+  def removeBlock (block: Block): Unit = {
     val item: Option[GameItem] = getElementAtPosition(block.position)
     item match {
       case None => println("Block not in playground, cannot remove !")
       case Some(b) => {
-        if (b.isInstanceOf[VirtualBlock]) {
+        if (b.isInstanceOf[Block]) {
           this.blockList -= item.get.asInstanceOf[VirtualBlock]
-          this.ground -= item.get.asInstanceOf[VirtualBlock].position
+          this.ground -= item.get.asInstanceOf[Block].position
         }
         else println("element at that position is not a block, cannot remove it !")
       }
     }
   }
 
-  def getAllBlocks: List[VirtualBlock] = blockList.toList
+  def getAllBlocks: List[Block] = blockList.toList
 
 
   def addEatable(eatable: Eatable): Unit = {
