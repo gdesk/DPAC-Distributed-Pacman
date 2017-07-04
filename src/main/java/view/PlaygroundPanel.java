@@ -7,7 +7,7 @@ import view.utils.ImagesUtils;
 import javax.swing.*;
 import java.awt.*;
 
-import static view.PlaygroundSettings.*;
+//import static view.PlaygroundSettings.*;
 
 /**
  * This class represent the base playground panel of Distributed Pacman game
@@ -22,29 +22,28 @@ public class PlaygroundPanel extends JPanel implements PlaygroundView{
     private BlockView blocksImages = new BlockViewImpl();
     private GameObjectView gameObjectImages = new GameObjectViewImpl();
 
-    private int rows;
-    private int columns;
+    private PlaygroundDynamicSettings settings;
 
     public PlaygroundPanel(Dimension playgroundDimension){
 
-        this.rows = playgroundDimension.yDimension();
-        this.columns = playgroundDimension.xDimension();
+        settings = new PlaygroundDynamicSettings(playgroundDimension);
 
         setLayout(new GridBagLayout());
-        setBackground(backgroundColor); //Look at import static for settings
-        cells = new JLabel[columns][rows];
+        setBackground(PlaygroundDynamicSettings.backgroundColor);
+        cells = new JLabel[settings.getColumns()][settings.getRows()];
 
-        System.out.println(" size : [ " + columns + " | " + rows  + "] !");
+        System.out.println(" size : [ " + settings.getColumns() + " | " + settings.getRows()  + " ] !");
+        System.out.println(" dim : [ " + settings.getCellDim() + " | size : " + settings.getCellSize()  + " ] !");
 
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
-        for (int i = 0; i < columns; ++i) {
-            for (int j = 0; j < rows; ++j) {
+        for (int i = 0; i < settings.getColumns(); ++i) {
+            for (int j = 0; j < settings.getRows(); ++j) {
                 cells[i][j] = new JLabel();
-                cells[i][j].setMaximumSize(cellDim);
-                cells[i][j].setMinimumSize(cellDim);
-                cells[i][j].setPreferredSize(cellDim);
+                cells[i][j].setMaximumSize(settings.getCellDim());
+                cells[i][j].setMinimumSize(settings.getCellDim());
+                cells[i][j].setPreferredSize(settings.getCellDim());
 
                 gbc.gridx = i;
                 gbc.gridy = j;
@@ -129,7 +128,7 @@ public class PlaygroundPanel extends JPanel implements PlaygroundView{
 
     private void checkAndInsert(int x, int y, ImageIcon img){
 
-        if(x<columns && y<rows) {
+        if(x<settings.getColumns() && y<settings.getRows()) {
 
             cells[x][y].setIcon(img);
             gbc.gridx = x;
@@ -143,6 +142,6 @@ public class PlaygroundPanel extends JPanel implements PlaygroundView{
     }
 
     private ImageIcon getImageIcon(final Image image){
-        return new ImageIcon(ImagesUtils.getScaledImage(image, cellSize, cellSize));
+        return new ImageIcon(ImagesUtils.getScaledImage(image, settings.getCellSize(), settings.getCellSize()));
     }
 }

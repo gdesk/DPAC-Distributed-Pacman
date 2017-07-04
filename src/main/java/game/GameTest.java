@@ -37,6 +37,8 @@ public class GameTest {
         view.renderBlockList(Utils.getJavaList(playground.getAllBlocks()));
         view.renderEatableList(Utils.getJavaList(playground.getAllEatable()));
 
+        view.renderCharacter( 45, 17,"pacman" , "left");
+
         // TODO: merge with character-model part in order to use this
         /*
         for(Character ch : characterList) {
@@ -49,37 +51,52 @@ public class GameTest {
 
 
     private VirtualPlayground createPlayground() {
-        VirtualPlayground p = new VirtualPlayground(Dimension.apply(61, 32));
+        VirtualPlayground p = new VirtualPlayground(Dimension.apply(60, 30));
         // TODO la dimensione dovrebbe essere decisa standard dal server e visualizzata diversamente a seconda dello schermo, ma non deve cambiare il numero di blocchi
         // tra diversi schermi con dimensioni diverse
 
-        p.addBlock(new VirtualBlock(new Point(10, 2), 1, 1));
-        p.addBlock(new VirtualBlock(new Point(11, 2), 1, 1));
-        p.addBlock(new VirtualBlock(new Point(12, 2), 1, 1));
-        p.addBlock(new VirtualBlock(new Point(13, 2), 1, 1));
-        p.addBlock(new VirtualBlock(new Point(14, 2), 1, 1));
+        for (int i = 1; i < 59; i++ ){
+            p.addBlock(new VirtualBlock(new Point(i, 1), 1, 1));
+        }
 
-        p.addBlock(new VirtualBlock(new Point(11, 5), 1, 1));
-        p.addBlock(new VirtualBlock(new Point(11, 6), 1, 1));
-        p.addBlock(new VirtualBlock(new Point(11, 7), 1, 1));
-        p.addBlock(new VirtualBlock(new Point(11, 8), 1, 1));
+        for (int i = 1; i < 59; i++ ){
+            p.addBlock(new VirtualBlock(new Point(i, 29), 1, 1));
+        }
 
-        p.addEatable(new VirtualDot(new Point(20, 20)));
-        p.addEatable(new VirtualDot(new Point(20, 21)));
-        p.addEatable(new VirtualDot(new Point(20, 22)));
-        p.addEatable(new VirtualPill(new Point(20, 23)));
-        p.addEatable(new VirtualDot(new Point(20, 24)));
-        p.addEatable(new VirtualDot(new Point(20, 25)));
-        p.addEatable(new VirtualDot(new Point(20, 26)));
+        for (int j = 1; j < 29; j++ ){
+            p.addBlock(new VirtualBlock(new Point(1, j), 1, 1));
+        }
 
-        p.addEatable(new VirtualFruit(new Point(25, 24), Fruits.Cherry));
-        p.addEatable(new VirtualFruit(new Point(25, 25), Fruits.Strawberry));
-        p.addEatable(new VirtualFruit(new Point(25, 26), Fruits.Orange));
-        p.addEatable(new VirtualFruit(new Point(25, 27), Fruits.Apple));
-        p.addEatable(new VirtualFruit(new Point(25, 28), Fruits.Grapes));
-        p.addEatable(new VirtualFruit(new Point(25, 29), Fruits.GalaxianShip));
-        p.addEatable(new VirtualFruit(new Point(25, 30), Fruits.Bell));
-        p.addEatable(new VirtualFruit(new Point(25, 31), Fruits.Key));
+        for (int j = 1; j < 29; j++ ){
+            p.addBlock(new VirtualBlock(new Point(59, j), 1, 1));
+        }
+
+        for (int j = 5; j < 29; j = j + 5 ){
+            for (int i = 4; i < 57 ; i++ ) {
+                p.addBlock(new VirtualBlock(new Point(i, j), 1, 1));
+            }
+        }
+
+        for (int j = 7; j < 29; j = j + 5 ){
+            if (j != 17) {
+                for (int i = 7; i < 54; i++) {
+                    if (i % 14 == 0) {
+                        p.addEatable(new VirtualPill(new Point(i, j)));
+                    } else
+                        p.addEatable(new VirtualDot(new Point(i, j)));
+                }
+            }
+        }
+
+
+        p.addEatable(new VirtualFruit(new Point(22, 17), Fruits.Cherry));
+        p.addEatable(new VirtualFruit(new Point(23, 17), Fruits.Strawberry));
+        p.addEatable(new VirtualFruit(new Point(24, 17), Fruits.Orange));
+        p.addEatable(new VirtualFruit(new Point(25, 17), Fruits.Apple));
+        p.addEatable(new VirtualFruit(new Point(26, 17), Fruits.Grapes));
+        p.addEatable(new VirtualFruit(new Point(27, 17), Fruits.GalaxianShip));
+        p.addEatable(new VirtualFruit(new Point(28, 17), Fruits.Bell));
+        p.addEatable(new VirtualFruit(new Point(29, 17), Fruits.Key));
 
         return p;
 
