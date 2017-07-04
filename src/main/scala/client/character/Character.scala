@@ -89,12 +89,27 @@ trait Character[X,Y] extends GameItem[X,Y]{
     * @return lives   lives of the game in the sigle match
     */
   def lives: Lives
+
+  /**
+    * getter of current character's score
+    *
+    * @return current character's score
+    */
+  def score: Int
+
+  /**
+    * Setter of current chararcter's score
+    *
+    * @param score incremented score
+    */
+  def score_=(score: Int) : Unit
 }
 
 abstract class CharacterImpl(override var isKillable: Boolean, override val lives: Lives) extends Character[Int, Int] {
   override var isAlive: Boolean = true
   var pointPosition: Point[Int, Int] = InitializedInfoImpl.getStartPosition()
   override var direction: Direction = Direction.START
+  override var score: Int = 0
 
   /**
     * setter character's position
@@ -120,7 +135,7 @@ abstract class CharacterImpl(override var isKillable: Boolean, override val live
     if(ScalaProlog.solveWithSuccess(PrologConfig.ENGINE, Term.createTerm(s"move(${position x}, ${position y}, ${direction getDirection}, X1,Y1)"))){
       val point: Point[Int,Int] = this.move(direction)
       setPosition(point)
-//      checkAllPositions()
+      checkAllPositions()
     }else{
       println("NO. it hit the wall.")
     }
