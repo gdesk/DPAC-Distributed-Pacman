@@ -11,7 +11,7 @@ import java.awt.*;
  */
 public class MainFrame extends JFrame {
 
-    public static final Dimension DIMENSION = Toolkit.getDefaultToolkit().getScreenSize();
+    public static final Dimension DIMENSION = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
     private static MainFrame SINGLETON = null;
 
     public static MainFrame getInstance(){
