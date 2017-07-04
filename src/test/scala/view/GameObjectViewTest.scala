@@ -1,7 +1,7 @@
 package view
 
 import org.scalatest.FunSuite
-import view.utils.Fruits._
+import view.utils.FruitsImages._
 
 /**
   * Created by chiaravarini on 03/07/17.
