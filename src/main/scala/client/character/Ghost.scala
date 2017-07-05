@@ -25,14 +25,22 @@ case class GhostImpl(override val name: String, override var color: Color) exten
     */
   override def checkAllPositions(): Unit = {
     if (isKillable) {
-      val fruit: List[GhostImpl] = List(GhostImpl("ghost", Color.BLUE), GhostImpl("ghost1", Color.RED), GhostImpl("ghost1", Color.CYAN))
+
+      val blueghost = GhostImpl("ghost3", Color.BLUE)
+      val ghostList: List[GhostImpl] = List(blueghost, GhostImpl("ghost1", Color.RED), GhostImpl("ghost2", Color.CYAN))
       val ghostEaten: Int = 1
       var EatenGhostColor: List[Color] = List()
       val pacman : Pacman = PacmanImpl("pacman")
+      pacman.setPosition(Point[Int,Int](21,20))
 
-      val solveInfo = PrologConfig.getPrologEngine().solve(s"ghost_defeat(+pacman(${pacman.position x},${pacman.position y},${pacman.lives.remainingLives()},${pacman.}), +GhostList, +NumberOfGhostEaten, -NewPacmanScore, -ListOfEatenGhostsColor).")
-      val x = Integer.valueOf(solveInfo.getTerm("X").toString)
-      val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
+      val solveInfo = PrologConfig.getPrologEngine().solve(s"ghost_defeat(pacman(${pacman.position x},${pacman.position y},${pacman.lives.remainingLives()},${pacman.score}), ${ghostList}, ${ghostEaten}, PS, EG).")
+      val newScore = Integer.valueOf(solveInfo.getTerm("PS").toString)
+      val eatenGhost = solveInfo.getTerm("EG")
+
+      println(eatenGhost.toString)
+
+
+      score = newScore
 
       //ghost_defeat
     } else {
