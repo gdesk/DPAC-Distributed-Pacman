@@ -2,6 +2,7 @@ package prolog
 
 import alice.tuprolog.{Prolog, SolveInfo, Term, Theory}
 
+
 /**
   * Created by Federica on 03/07/17.
   */

@@ -42,8 +42,8 @@ class PacmanTest extends FunSuite {
 
   test("Testing Pacman walking only along streets") {
     val t: Theory = new Theory("street(1,0). " +
-                                "street(1,1). " +
-                                "street(0,1). "
+      "street(1,1). " +
+      "street(0,1). "
     )
 
     engine = modifyPrologEngine(t)
@@ -59,8 +59,8 @@ class PacmanTest extends FunSuite {
    test("Testing Pacman standing still if a block is present") {
 
      val t: Theory = new Theory("street(1,0). " +
-                                 "street(1,1). " +
-                                 "street(0,1). "
+       "street(1,1). " +
+       "street(0,1). "
      )
 
      engine = modifyPrologEngine(t)
@@ -72,4 +72,32 @@ class PacmanTest extends FunSuite {
 
    }
 
+  test("Checking the three following pacman's actions:" +
+    "- being eaten by ghost and remaining with one last life" +
+    "- eating the only eatable object left in list" +
+    "- match winning") {
+
+    var goal = "eat_pacman(pacman(1,1,2,_),[ghost(2,2,500,red),ghost(1,1,0,green),ghost(2,2,0,yellow)],NL1,NGS,C)"
+    val risLives = solveOneAndGetTerm(engine, goal, "NL1").toString
+    var risScore = solveOneAndGetTerm(engine, goal, "NGS").toString
+    val risColor = solveOneAndGetTerm(engine, goal, "C").toString
+
+    assert(risScore.equals("500"))
+    assert(risColor.equals("green"))
+
+    assert(risLives.equals("1"))
+    goal = "eat_object(pacman(1,1,_,2000),[eatable_object(1,1,100,cherry)],NS,T,N)"
+    risScore = solveOneAndGetTerm(engine, goal, "NS").toString
+    val risObjects = solveOneAndGetTerm(engine, goal, "T").toString
+    val risName = solveOneAndGetTerm(engine, goal, "N").toString
+
+    assert(risScore.equals("2100"))
+    assert(risObjects.equals("[]"))
+    assert(risName.equals("cherry"))
+
+    goal = "pacman_victory(pacman(_,_,"+risLives+",_),[])"
+    val risVictory = solveWithSuccess(engine, goal)
+    assert(risVictory.equals(true))
+
+  }
 }
