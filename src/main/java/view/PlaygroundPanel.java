@@ -58,8 +58,8 @@ public class PlaygroundPanel extends JPanel implements PlaygroundView{
      * @param x Horizontal position on grid
      * @param y Vertical position on grid
      */
-    public void renderBlock(int x, int y){  //TODO caricare blocchi diversi a seconda di quelli intorno a lui...da fare in un'altra classe
-        checkAndInsert(x,y,getImageIcon(blocksImages.getHorizontal()));
+    public void renderBlock(int x, int y, Image blocksImage){
+        checkAndInsert(x,y,getImageIcon(blocksImage));  //TODO fare enunmeration per i blocchi?
     }
 
     /**

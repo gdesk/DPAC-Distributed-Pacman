@@ -13,19 +13,14 @@ public class PlaygroundDynamicSettings {
 
     private int columns;
     private int rows;
-
-    private int xCellSize;
-    private int yCellSize;
     private int cellSize;
-
     private  java.awt.Dimension cellDim;
 
     static final Color backgroundColor = new Color(0,0,0);
 
-
     public PlaygroundDynamicSettings(Dimension playgroundDimension){
-        xCellSize = (int)(DIMENSION.getWidth()/ playgroundDimension.xDimension());
-        yCellSize = (int)(DIMENSION.getHeight()/ playgroundDimension.yDimension());
+        int xCellSize = (int)(DIMENSION.getWidth()/ playgroundDimension.xDimension());
+        int yCellSize = (int)(DIMENSION.getHeight()/ playgroundDimension.yDimension());
 
         rows = playgroundDimension.yDimension();
         columns = playgroundDimension.xDimension();
@@ -42,8 +37,6 @@ public class PlaygroundDynamicSettings {
     public int getColumns() {return this.columns;}
 
     public java.awt.Dimension getCellDim() {return this.cellDim;}
-
-
 
 
 }

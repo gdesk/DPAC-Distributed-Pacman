@@ -2,7 +2,7 @@ package view;
 
 import view.utils.FruitsImages;
 
-import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by Manuel Bottax on 04/07/2017.
@@ -14,7 +14,7 @@ public interface PlaygroundView {
      * @param x Horizontal position on grid
      * @param y Vertical position on grid
      */
-    void renderBlock(int x, int y);
+    void renderBlock(int x, int y, Image blocksImage);  //TODO fare enunmeration per i blocchi? sistemare javadoc
 
     /**
      * Shows a dot in the specified position
