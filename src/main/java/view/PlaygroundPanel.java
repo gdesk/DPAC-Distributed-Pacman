@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
  * Created by Manuel Bottax and chiaravarini on 04/07/2017.
  */
 
-//PimpMyLibrary pattern?
-public class PlaygroundPanel extends BasePlaygroundPanel {  //TODO rinominare
+public class PlaygroundPanel extends BasePlaygroundPanel {
 
     public PlaygroundPanel(Dimension playgroundDimension){
         super(playgroundDimension);
@@ -102,37 +101,37 @@ public class PlaygroundPanel extends BasePlaygroundPanel {  //TODO rinominare
             return  blockViwer.getLeftEnd();
 
         }else if(isLeftOpen){
-           return blockViwer.getLeftUpLower();
+           return blockViwer.getVerticalLeft();
 
        }else if(isLowerEnd){
             return blockViwer.getLowerEnd();
 
         }else if(isLowerLeftEdge){
-           return blockViwer.getLowerLeftEdge();
+           return blockViwer.getLowerLeftCorner();
 
         }else if(isLowerOpen){
-            return blockViwer.getLeftRightLower();
+            return blockViwer.getHorizontalBottom();
 
         }else if(isLowerRightEdge){
-            return blockViwer.getLowerRightEdge();
+            return blockViwer.getLowerRightCorner();
 
         }else if(isRightEnd){
             return blockViwer.getRightEnd();
 
         }else if(isRightOpen){
-            return blockViwer.getUpRightLower();
+            return blockViwer.getVerticalRight();
 
         }else if(isUpperEnd) {
             return blockViwer.getUpperEnd();
 
         }else if(isUpperLeftEdge){
-            return blockViwer.getUpperLeftEdge();
+            return blockViwer.getUpperLeftCorner();
 
         }else if(isUpperOpen){
-            return blockViwer.getLeftUpperRight();
+            return blockViwer.getHorizontalUp();
 
         }else if(isUpperRightEdge){
-            return blockViwer.getUpperRightEdge();
+            return blockViwer.getUpperRightCorner();
 
         }else if(isVertical){
             return blockViwer.getVertical();

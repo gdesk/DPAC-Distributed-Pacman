@@ -7,7 +7,6 @@ import view.utils.ImagesUtils;
 import javax.swing.*;
 import java.awt.*;
 
-//import static view.PlaygroundSettings.*;
 
 /**
  * This class represent the base playground panel of Distributed Pacman game
