@@ -13,10 +13,10 @@ import java.awt.*;
 
 public class GameStartPanel extends JPanel {
 
-    private PlaygroundPanel playground;
+    private BasePlaygroundPanel playground;
 
 
-    public GameStartPanel(PlaygroundPanel playground){
+    public GameStartPanel(BasePlaygroundPanel playground){
 
         this.playground = playground;
 
@@ -33,7 +33,7 @@ public class GameStartPanel extends JPanel {
             MainFrame mainFrame = MainFrame.getInstance();
             /// TEST DI ESEMPIO ///////////////////////////
             /*Playground p = createPlayground();
-            BulkPlaygroundPanel view = new BulkPlaygroundPanel();
+            PlaygroundPanel view = new PlaygroundPanel();
 
             view.renderBlockList(Utils.getJavaList(p.getAllBlocks()));
             view.renderEatableList(Utils.getJavaList(p.getAllEatable()));

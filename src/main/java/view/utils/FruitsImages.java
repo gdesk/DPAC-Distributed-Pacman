@@ -16,7 +16,7 @@ public enum FruitsImages {
 
     private final String imageFileName;
 
-    private FruitsImages(final String imageFileName){
+    FruitsImages(final String imageFileName){
         this.imageFileName = imageFileName;
     }
 

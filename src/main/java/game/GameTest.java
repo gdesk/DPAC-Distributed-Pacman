@@ -21,7 +21,7 @@ public class GameTest {
     public GameTest(){
         Playground currentPlayground = createPlayground(); // TODO: Poi sarà nel model o nel controller, verrà passato da un metodo (arriva dal server)
 
-        PlaygroundPanel playgroundView = initializePlaygroundView( currentPlayground , null /*model.getCharacterList()*/);
+        BasePlaygroundPanel playgroundView = initializePlaygroundView( currentPlayground , null /*model.getCharacterList()*/);
         view = MainFrame.getInstance();
         view.setPlayground(playgroundView);
 
@@ -31,8 +31,8 @@ public class GameTest {
         GameTest game = new GameTest();
     }
 
-    private PlaygroundPanel initializePlaygroundView (Playground playground, List<Character> characterList) {
-        BulkPlaygroundPanel view = new BulkPlaygroundPanel(playground.dimension());
+    private BasePlaygroundPanel initializePlaygroundView (Playground playground, List<Character> characterList) {
+        PlaygroundPanel view = new PlaygroundPanel(playground.dimension());
 
         view.renderBlockList(Utils.getJavaList(playground.getAllBlocks()));
         view.renderEatableList(Utils.getJavaList(playground.getAllEatable()));

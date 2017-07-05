@@ -14,7 +14,7 @@ public class MainFrame extends JFrame {
     public static final Dimension DIMENSION = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
     private static MainFrame SINGLETON = null;
 
-    private PlaygroundPanel playground;
+    private BasePlaygroundPanel playground;
 
     public static MainFrame getInstance(){
         if(SINGLETON == null){
@@ -32,7 +32,7 @@ public class MainFrame extends JFrame {
 
     }
 
-    public void setPlayground(PlaygroundPanel playground){
+    public void setPlayground(BasePlaygroundPanel playground){
         this.playground = playground;
         setContentPane(new GameStartPanel(this.playground));
         setVisible(true);

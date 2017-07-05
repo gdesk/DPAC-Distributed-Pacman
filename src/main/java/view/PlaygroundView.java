@@ -45,5 +45,5 @@ public interface PlaygroundView {
      * @param name Chracter's name
      * @param direction Character's direction
      */
-    public void renderCharacter(int x, int y, String name, String direction);
+    void renderCharacter(int x, int y, String name, String direction);
 }

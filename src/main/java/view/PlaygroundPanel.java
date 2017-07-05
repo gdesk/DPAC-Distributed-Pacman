@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
  */
 
 //PimpMyLibrary pattern?
-public class BulkPlaygroundPanel extends PlaygroundPanel {  //TODO rinominare
+public class PlaygroundPanel extends BasePlaygroundPanel {  //TODO rinominare
 
-    public BulkPlaygroundPanel (Dimension playgroundDimension){
+    public PlaygroundPanel(Dimension playgroundDimension){
         super(playgroundDimension);
     }
 

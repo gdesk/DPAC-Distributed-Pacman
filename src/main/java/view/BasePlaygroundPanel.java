@@ -15,7 +15,7 @@ import java.awt.*;
  */
 
 
-public class PlaygroundPanel extends JPanel implements PlaygroundView{
+public class BasePlaygroundPanel extends JPanel implements PlaygroundView{
 
     private final JLabel[][] cells;
     private final GridBagConstraints gbc = new GridBagConstraints();
@@ -24,7 +24,7 @@ public class PlaygroundPanel extends JPanel implements PlaygroundView{
 
     private PlaygroundDynamicSettings settings;
 
-    public PlaygroundPanel(Dimension playgroundDimension){
+    public BasePlaygroundPanel(Dimension playgroundDimension){
 
         settings = new PlaygroundDynamicSettings(playgroundDimension);
 
