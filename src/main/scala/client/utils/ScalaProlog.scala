@@ -49,8 +49,15 @@ object ScalaProlog {
 
   def toPrologList(list : List[String]): String = {
     var string : String  = "["
+    var c=0
 
-    list.toStream.foreach(x => string= string.concat(x+","))
+    list.toStream.foreach(x =>
+      if(c ==0){
+        string = string.concat(x)
+         c=1
+      }else{
+        string = string.concat(","+x)
+      })
     string = string.concat("]")
     string
   }

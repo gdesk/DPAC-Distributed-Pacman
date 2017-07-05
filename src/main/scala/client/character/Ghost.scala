@@ -4,18 +4,18 @@ package client.character
 import java.awt.Color
 
 import characterjava.Direction
-import client.utils.Point
+import client.utils.{Point, ScalaProlog}
 
 /**
   * @author Giulia Lucchi
   */
 
 trait Ghost{
-  def color: Color
-  def color_=(color: Color): Unit
+  def color: String
+  def color_=(color: String): Unit
 }
 
-case class GhostImpl(override val name: String, override var color: Color) extends CharacterImpl(false, new LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))) with Ghost {
+case class GhostImpl(override val name: String, override var color: String) extends CharacterImpl(false, new LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))) with Ghost {
   setPosition(Point[Int, Int](20, 20))
 
   override def go(direction: Direction): Unit = super.go(direction)
@@ -24,30 +24,35 @@ case class GhostImpl(override val name: String, override var color: Color) exten
     * Manages the strategy of game, that is based on who is the killer and who is killable
     */
   override def checkAllPositions(): Unit = {
+    /*solo per capire se funziona poi lo importeremo da scalaprolog e dovrò fare the convert ghost scala to ghost prolog*/
+    val blueghost = GhostImpl("ghost3", "blue")
+    val ghost1 = GhostImpl("ghost1", "red")
+    val ghost2 = GhostImpl("ghost2", "yellow")
+    val ghostList: List[String] = List(s" ghost(${blueghost.position x}, ${blueghost.position y}, ${blueghost.score}, ${blueghost.color.toString})", s"ghost(${ghost1.position x}, ${ghost1.position y}, ${ghost1.score}, ${ghost1.color})")
+    val ghostEaten: Int = 1
+    var EatenGhostColor: List[Color] = List()
+    //per test
+    val pacman : Pacman = PacmanImpl("pacman")
+    pacman.setPosition(Point[Int,Int](20,20))
+   val listProlog = ScalaProlog.toPrologList(ghostList)
 
 
 
     if (isKillable) {
 
-      val blueghost = GhostImpl("ghost3", Color.BLUE)
-      val ghostList: List[GhostImpl] = List(blueghost, GhostImpl("ghost1", Color.RED), GhostImpl("ghost2", Color.CYAN))
-      val ghostEaten: Int = 1
-      var EatenGhostColor: List[Color] = List()
-      val pacman : Pacman = PacmanImpl("pacman")
-      pacman.setPosition(Point[Int,Int](21,20))
-
-      val solveInfo = PrologConfig.getPrologEngine().solve(s"ghost_defeat(pacman(${pacman.position x},${pacman.position y},${pacman.lives.remainingLives()},${pacman.score}), ${ghostList}, ${ghostEaten}, PS, EG).")
+      val solveInfo = PrologConfig.getPrologEngine().solve(s"ghost_defeat(pacman(${pacman.position x},${pacman.position y},${pacman.lives.remainingLives()},${pacman.score.toString}), ${listProlog}, ${ghostEaten}, PS, EG).")
       val newScore = Integer.valueOf(solveInfo.getTerm("PS").toString)
       val eatenGhost = solveInfo.getTerm("EG")
-
-      println(eatenGhost.toString)
-
-
-      score = newScore
-
-      //ghost_defeat
+      pacman.score = newScore
     } else {
       //eat_pacman
+
+
+      val solveInfo = PrologConfig.getPrologEngine().solve(s"eat_pacman(pacman(${pacman.position x},${pacman.position y},${pacman.lives.remainingLives()},${pacman.score.toString}), ${listProlog}, NL, GS, CG).")
+      val newPacmanLives = Integer.valueOf(solveInfo.getTerm("NL").toString)
+      pacman.lives.remainingLives_=(newPacmanLives)
+      val eatenGhost = solveInfo.getTerm("EG")
+
     }
   }
 
