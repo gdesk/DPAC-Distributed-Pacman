@@ -30,57 +30,57 @@ trait Match {
     *
     * @return the list of all characters.
     */
-  def characters(): List[Character[Int, Int]]
+  def characters(): List[Character]
 
   /**
     * Sets the list of all characters who participate at the match.
     *
     * @param allCharacters - the list of all characters.
     */
-  def characters_=(allCharacters: List[Character[Int, Int]]): Unit
+  def characters_=(allCharacters: List[Character]): Unit
 
   /**
     * Returns the list of dead characters.
     *
     * @return the list of dead characters.
     */
-  def deadCharacters(): List[Character[Int, Int]]
+  def deadCharacters(): List[Character]
 
   /**
     * Sets the list of dead characters.
     *
     * @param deadCharacters - the list of dead characters.
     */
-  def deadCharacters_=(deadCharacters: List[Character[Int, Int]]): Unit
+  def deadCharacters_=(deadCharacters: List[Character]): Unit
 
 }
 
-case class MatchImpl(override var playground: List[Point[Int,Int]], val mapUserCharacter: HashMap[String, Character[Int, Int]]) extends Match {
+case class MatchImpl(override var playground: List[Point[Int,Int]], val mapUserCharacter: HashMap[String, Character]) extends Match {
   /**
     * Returns the list of all characters who participate at the match.
     *
     * @return the list of all characters.
     */
-  override def characters(): List[Character[Int, Int]] = ???
+  override def characters(): List[Character] = ???
 
   /**
     * Sets the list of all characters who participate at the match.
     *
     * @param allCharacters - the list of all characters.
     */
-  override def characters_=(allCharacters: List[Character[Int, Int]]): Unit = ???
+  override def characters_=(allCharacters: List[Character]): Unit = ???
 
   /**
     * Returns the list of dead characters.
     *
     * @return the list of dead characters.
     */
-  override def deadCharacters(): List[Character[Int, Int]] = ???
+  override def deadCharacters(): List[Character] = ???
 
   /**
     * Sets the list of dead characters.
     *
     * @param deadCharacters - the list of dead characters.
     */
-  override def deadCharacters_=(deadCharacters: List[Character[Int, Int]]): Unit = ???
+  override def deadCharacters_=(deadCharacters: List[Character]): Unit = ???
 }

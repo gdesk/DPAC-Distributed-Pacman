@@ -17,8 +17,8 @@ class Pill (override val position: Point[Double, Double]) extends Eatable {
   override def effect (x: Match) : Unit  = scareGhostAndIncrement (x)
 
   private def scareGhostAndIncrement = (x: Match) => {
-    x.score = x.score + score
-    x.scareGhost()
+    //x.score = x.score + score
+    //x.scareGhost()
   }
 }
 

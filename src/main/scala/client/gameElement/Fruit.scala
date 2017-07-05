@@ -22,7 +22,7 @@ class Fruit (override val position: Point[Double, Double]) extends Eatable{
     * @return the score
     */
   override val score: Int = getScore
-  override def effect (x: Match) : Unit = x.score = x.score + score
+  override def effect (x: Match) : Unit ={}
 
 
   private def getScore: Int = ScoreUtils.FRUIT_SCORE_LIST(id)

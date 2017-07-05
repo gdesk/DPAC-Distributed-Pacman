@@ -14,7 +14,7 @@ import client.utils.{Point, ScoreUtils}
 class Dot (override val position: Point[Double, Double]) extends Eatable {
 
   override val score: Int = ScoreUtils.DOT_SCORE
-  override def effect (x: Match) : Unit = x.score = x.score + score
+ override def effect (x: Match) : Unit = {}
 
   //private def incrementScore = (x: Match) => x.score = x.score + score
 }
