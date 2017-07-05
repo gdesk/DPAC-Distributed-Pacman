@@ -1,7 +1,5 @@
 package view;
 
-import client.utils.Dimension;
-
 import java.awt.*;
 
 import static view.MainFrame.DIMENSION;
@@ -14,21 +12,22 @@ public class PlaygroundDynamicSettings {
     private int columns;
     private int rows;
     private int cellSize;
-    private  java.awt.Dimension cellDim;
+    private Dimension cellDim;
 
-    static final Color backgroundColor = new Color(0,0,0);
+    private Color backgroundColor;
+    private Image backgroundImage;
 
-    public PlaygroundDynamicSettings(Dimension playgroundDimension){
-        int xCellSize = (int)(DIMENSION.getWidth()/ playgroundDimension.xDimension());
-        int yCellSize = (int)(DIMENSION.getHeight()/ playgroundDimension.yDimension());
+    public PlaygroundDynamicSettings(final int columns, final int rows){
+        this.rows = rows;
 
-        rows = playgroundDimension.yDimension();
-        columns = playgroundDimension.xDimension();
+        this.columns = columns;
 
-        cellSize = Math.min(xCellSize, yCellSize);
-        cellDim = new java.awt.Dimension(cellSize,cellSize);
+        int xCellSize = (int)(DIMENSION.getWidth()/ columns);
+        int yCellSize = (int)(DIMENSION.getHeight()/ rows);
+
+        this.cellSize = Math.min(xCellSize, yCellSize);
+        this.cellDim = new Dimension(cellSize,cellSize);
     }
-
 
     public int getCellSize() {return this.cellSize;}
 
@@ -36,7 +35,22 @@ public class PlaygroundDynamicSettings {
 
     public int getColumns() {return this.columns;}
 
-    public java.awt.Dimension getCellDim() {return this.cellDim;}
+    public Dimension getCellDim() {return this.cellDim;}
 
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public Image getBackgroundImage() {
+        return backgroundImage;
+    }
+
+    public void setBackgroundImage(Image backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
 
 }

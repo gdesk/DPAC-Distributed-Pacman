@@ -1,7 +1,6 @@
 package view;
 
 import client.gameElement.*;
-import client.utils.Dimension;
 import client.utils.Point;
 import view.utils.BlocksImages;
 import view.utils.ImagesUtils;
@@ -17,16 +16,17 @@ import static view.utils.BlocksImages.*;
  * Created by Manuel Bottax and chiaravarini on 04/07/2017.
  */
 
-public class PlaygroundPanel extends BasePlaygroundPanel {
+public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundView {
 
-    public PlaygroundPanel(Dimension playgroundDimension){
-        super(playgroundDimension);
+    public PlaygroundPanel(PlaygroundDynamicSettings playgroundsettings){
+        super(playgroundsettings);
     }
 
     /**
      * Shows all labyrinth blocks in their specified position
      * @param blockList to render
      */
+    @Override
     public void renderBlockList(List<Block> blockList){
         for ( Block b : blockList) {
             super.renderBlock((int) b.position().x(), (int) b.position().y(), chooseBlockImage(b, blockList));
@@ -37,6 +37,7 @@ public class PlaygroundPanel extends BasePlaygroundPanel {
      * Shows all etable elemnts (dots and fruits) in the specified position
      * @param eatableList to render
      */
+    @Override
     public void renderEatableList(List<Eatable> eatableList){
         for (Eatable e : eatableList){
             if (e instanceof Dot){
@@ -46,7 +47,7 @@ public class PlaygroundPanel extends BasePlaygroundPanel {
                 super.renderPill((int) e.position().x(), (int) e.position().y());
             }
             else if (e instanceof Fruit) {
-                super.renderFruit((int) e.position().x(), (int) e.position().y(), ImagesUtils.getFruitsImage(((Fruit) e).fruitTypes()));      //TODO passare dal tipo alla enum delle immagini
+                super.renderFruit((int) e.position().x(), (int) e.position().y(), ImagesUtils.getFruitsImage(((Fruit) e).fruitTypes()));
             }
         }
     }

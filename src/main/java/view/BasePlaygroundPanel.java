@@ -1,6 +1,5 @@
 package view;
 
-import client.utils.Dimension;
 import view.utils.BlocksImages;
 import view.utils.FruitsImages;
 import view.utils.ImagesUtils;
@@ -15,20 +14,19 @@ import java.awt.*;
  */
 
 
-public class BasePlaygroundPanel extends JPanel implements PlaygroundView{
+public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
 
     private final JLabel[][] cells;
     private final GridBagConstraints gbc = new GridBagConstraints();
-    private GameObjectView gameObjectImages = new GameObjectViewImpl();
+    private final GameObjectView gameObjectImages = new GameObjectViewImpl();
+    private final PlaygroundDynamicSettings settings;
 
-    private PlaygroundDynamicSettings settings;
+    public BasePlaygroundPanel(PlaygroundDynamicSettings playgroundSetting){
 
-    public BasePlaygroundPanel(Dimension playgroundDimension){
-
-        settings = new PlaygroundDynamicSettings(playgroundDimension);
+        settings = playgroundSetting;
 
         setLayout(new GridBagLayout());
-        setBackground(PlaygroundDynamicSettings.backgroundColor);
+        setBackground(settings.getBackgroundColor());
         cells = new JLabel[settings.getColumns()][settings.getRows()];
 
         System.out.println(" size : [ " + settings.getColumns() + " | " + settings.getRows()  + " ] !");

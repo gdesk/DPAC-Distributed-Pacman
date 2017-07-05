@@ -13,10 +13,10 @@ import java.awt.*;
 
 public class GameStartPanel extends JPanel {
 
-    private BasePlaygroundPanel playground;
+    private PlaygroundPanel playground;
 
 
-    public GameStartPanel(BasePlaygroundPanel playground){
+    public GameStartPanel(PlaygroundPanel playground){
 
         this.playground = playground;
 
@@ -31,15 +31,6 @@ public class GameStartPanel extends JPanel {
         startGame.setBorder(null);
         startGame.addActionListener(e->{
             MainFrame mainFrame = MainFrame.getInstance();
-            /// TEST DI ESEMPIO ///////////////////////////
-            /*Playground p = createPlayground();
-            PlaygroundPanel view = new PlaygroundPanel();
-
-            view.renderBlockList(Utils.getJavaList(p.getAllBlocks()));
-            view.renderEatableList(Utils.getJavaList(p.getAllEatable()));
-            view.renderCharacter(3,3,"pacman", "up");
-
-            */
             mainFrame.setContentPane(this.playground);
             mainFrame.revalidate();
             mainFrame.repaint();
@@ -48,38 +39,4 @@ public class GameStartPanel extends JPanel {
         this.add(startGame, BorderLayout.CENTER);
     }
 
-    /*
-    private VirtualPlayground createPlayground(){
-        VirtualPlayground p = new VirtualPlayground(Dimension.apply(40,40));
-
-        p.addBlock(new VirtualBlock(new Point (10, 2), 1,1));
-        p.addBlock(new VirtualBlock(new Point (11, 2), 1,1));
-        p.addBlock(new VirtualBlock(new Point (12, 2), 1,1));
-        p.addBlock(new VirtualBlock(new Point (13, 2), 1,1));
-        p.addBlock(new VirtualBlock(new Point (14, 2), 1,1));
-
-        p.addBlock(new VirtualBlock(new Point (11, 5), 1,1));
-        p.addBlock(new VirtualBlock(new Point (11, 6), 1,1));
-        p.addBlock(new VirtualBlock(new Point (11, 7), 1,1));
-        p.addBlock(new VirtualBlock(new Point (11, 8), 1,1));
-
-        p.addEatable(new VirtualDot(new Point (20, 20)));
-        p.addEatable(new VirtualDot(new Point (20, 21)));
-        p.addEatable(new VirtualDot(new Point (20, 22)));
-        p.addEatable(new VirtualPill(new Point (20, 23)));
-        p.addEatable(new VirtualDot(new Point (20, 24)));
-        p.addEatable(new VirtualDot(new Point (20, 25)));
-        p.addEatable(new VirtualDot(new Point (20, 26)));
-
-        p.addEatable(new VirtualFruit(new Point (25,24),Fruits.CHERRY));
-        p.addEatable(new VirtualFruit(new Point (25,25),Fruits.STRAWBERRY));
-        p.addEatable(new VirtualFruit(new Point (25,26),Fruits.ORANGE));
-        p.addEatable(new VirtualFruit(new Point (25,27),Fruits.APPLE));
-        p.addEatable(new VirtualFruit(new Point (25,28),Fruits.GRAPES));
-        p.addEatable(new VirtualFruit(new Point (25,29),Fruits.GALAXIAN_SHIP));
-        p.addEatable(new VirtualFruit(new Point (25,30),Fruits.BELL));
-        p.addEatable(new VirtualFruit(new Point (25,31),Fruits.KEY));
-
-        return p;
-    } */
 }

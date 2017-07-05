@@ -1,49 +1,16 @@
 package view;
 
-import view.utils.BlocksImages;
-import view.utils.FruitsImages;
+import client.gameElement.Block;
+import client.gameElement.Eatable;
+
+import java.util.List;
 
 /**
- * Created by Manuel Bottax on 04/07/2017.
+ * Created by chiaravarini on 06/07/17.
  */
-public interface PlaygroundView {
+public interface PlaygroundView extends BasePlaygroundView{
 
-    /**
-     * Shows a labyrinth block in the specified position
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     * @param blocksImage The block imaget to be render
-     */
-    void renderBlock(int x, int y, BlocksImages blocksImage);
+    void renderBlockList(final List<Block> blocksList);
+    void renderEatableList(final List<Eatable> blocksList);
 
-    /**
-     * Shows a dot in the specified position
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     */
-    void renderDot(int x, int y);
-
-    /**
-     * Shows a pill in the specified position
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     */
-    void renderPill(int x, int y);
-
-    /**
-     * Shows a fruit in the specified position
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     * @param type The fruit type to be rendered.
-     */
-    void renderFruit(int x, int y, FruitsImages type);
-
-    /**
-     * Shows the specified character in the specified position and direction
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     * @param name Chracter's name
-     * @param direction Character's direction
-     */
-    void renderCharacter(int x, int y, String name, String direction);
 }

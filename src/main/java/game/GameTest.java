@@ -7,6 +7,7 @@ import client.utils.Dimension;
 import client.utils.PointImpl;
 import view.*;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -19,9 +20,9 @@ public class GameTest {
     //private GameController controller;
 
     public GameTest(){
-        Playground currentPlayground = createPlayground(); // TODO: Poi sarà nel model o nel controller, verrà passato da un metodo (arriva dal server)
 
-        BasePlaygroundPanel playgroundView = initializePlaygroundView( currentPlayground , null /*model.getCharacterList()*/);
+        Playground currentPlayground = createPlayground(); // TODO: Poi sarà nel model o nel controller, verrà passato da un metodo (arriva dal server)
+        PlaygroundPanel playgroundView = initializePlaygroundView( currentPlayground , null /*model.getCharacterList()*/);
         view = MainFrame.getInstance();
         view.setPlayground(playgroundView);
 
@@ -31,8 +32,13 @@ public class GameTest {
         GameTest game = new GameTest();
     }
 
-    private BasePlaygroundPanel initializePlaygroundView (Playground playground, List<Character> characterList) {
-        PlaygroundPanel view = new PlaygroundPanel(playground.dimension());
+    private PlaygroundPanel initializePlaygroundView (Playground playground, List<Character> characterList) {
+
+        PlaygroundView view = new PlaygroundBuilderImpl()
+                .setColumns(playground.dimension().xDimension())
+                .setRows(playground.dimension().yDimension())
+                .setBackground(Color.black)
+                .createPlayground();
 
         view.renderBlockList(Utils.getJavaList(playground.getAllBlocks()));
         view.renderEatableList(Utils.getJavaList(playground.getAllEatable()));
@@ -45,15 +51,11 @@ public class GameTest {
             view.renderCharacter((int) ch.position().x(), (int) ch.position().y(), ch.name() /*"pacman"*/ /*, ch.direction()/*"up"*//*);
         } */
 
-        return view;
+        return (PlaygroundPanel)view;
     }
-
-
 
     private VirtualPlayground createPlayground() {
         VirtualPlayground p = new VirtualPlayground(Dimension.apply(60, 30));
-        // TODO la dimensione dovrebbe essere decisa standard dal server e visualizzata diversamente a seconda dello schermo, ma non deve cambiare il numero di blocchi
-        // tra diversi schermi con dimensioni diverse
 
         for (int i = 1; i < 59; i++ ){
             p.addBlock(new VirtualBlock(new PointImpl(i, 1)));

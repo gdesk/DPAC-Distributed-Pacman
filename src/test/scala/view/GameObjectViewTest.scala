@@ -12,7 +12,7 @@ class GameObjectViewTest extends FunSuite{
 
     val gameObjectView: GameObjectView = new GameObjectViewImpl()
 
-    var gameObjectImage = Utils.getImage("dot/YellowDot") //TODO se si vuole giocare con le bianche cambiare
+    var gameObjectImage = Utils.getImage("dot/YellowDot")
     assert(gameObjectView.getDot() == gameObjectImage)
 
     gameObjectImage = Utils.getImage("pill/YellowPill")
