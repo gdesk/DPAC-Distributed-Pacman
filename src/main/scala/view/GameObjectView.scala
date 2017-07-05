@@ -30,9 +30,9 @@ trait GameObjectView {
 
 class GameObjectViewImpl extends GameObjectView{
 
-  override def getDot(): Image = getImage("dot/YellowDot")
+  override def getDot(): Image = getImage("dot/"+Utils.getResolution().asString()+"/YellowDot")
 
-  override def getPill(): Image = getImage("pill/YellowPill")
+  override def getPill(): Image = getImage("pill/"+Utils.getResolution().asString()+"/YellowPill")
 
   override def getFruit(fruit: FruitsImages): Image = getImage("fruit/"+Utils.getResolution().asString()+"/"+fruit.getImageFileName)
 

@@ -68,7 +68,7 @@ public class PlaygroundPanel extends JPanel implements PlaygroundView{
      * @param y Vertical position on grid
      */
     public void renderDot(int x, int y){
-        checkAndInsert(x,y,gameObjectImages.getDot());
+        checkAndInsert(x,y,getImageIconSmall(gameObjectImages.getDot()));
     }
 
     /**
@@ -77,7 +77,7 @@ public class PlaygroundPanel extends JPanel implements PlaygroundView{
      * @param y Vertical position on grid
      */
     public void renderPill(int x, int y){
-        checkAndInsert(x,y,gameObjectImages.getPill());
+        checkAndInsert(x,y,getImageIconSmall(gameObjectImages.getPill()));
     }
 
     /**
@@ -120,12 +120,7 @@ public class PlaygroundPanel extends JPanel implements PlaygroundView{
             checkAndInsert(x,y,img);
         }
     }
-
-
-    private void checkAndInsert(int x, int y, Image img) {
-        checkAndInsert(x,y,new ImageIcon(img));
-    }
-
+    
     private void checkAndInsert(int x, int y, ImageIcon img){
 
         if(x<settings.getColumns() && y<settings.getRows()) {
@@ -143,5 +138,9 @@ public class PlaygroundPanel extends JPanel implements PlaygroundView{
 
     private ImageIcon getImageIcon(final Image image){
         return new ImageIcon(ImagesUtils.getScaledImage(image, settings.getCellSize(), settings.getCellSize()));
+    }
+
+    private ImageIcon getImageIconSmall(final Image image){
+        return new ImageIcon(ImagesUtils.getScaledImage(image, settings.getCellSize()/2, settings.getCellSize()/2));
     }
 }
