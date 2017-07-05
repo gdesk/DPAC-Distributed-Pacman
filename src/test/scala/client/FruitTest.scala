@@ -25,20 +25,4 @@ class FruitTest extends FunSuite{
     assert (fruit1.fruitTypes != fruit2.fruitTypes)
   }
 
-<<<<<<< HEAD
-  /*test ("method effect increment the current Match score"){
-    val m: Match = new Match
-    val d: Fruit = Fruit(Point(5,6))
-=======
->>>>>>> 365060356dfa7ad4f3d318a5322a3c8940a37172
-
-
-
-<<<<<<< HEAD
-    assert(m.score == d.score)
-  }*/
-=======
-
->>>>>>> 365060356dfa7ad4f3d318a5322a3c8940a37172
-
 }

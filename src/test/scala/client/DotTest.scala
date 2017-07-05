@@ -17,20 +17,6 @@ class DotTest extends FunSuite {
     assert(d.position.x == 5 && d.position.y == 6)
   }
 
-<<<<<<< HEAD
-  test ("method effect increment the current Match score"){
-    /*val m: Match = new Match
-    val d: Dot = Dot(Point(5,6))
-
-    assert(m.score == 0)
-
-    d.effect(m)
-
-    assert(m.score == d.score)*/
-  }
-
-=======
->>>>>>> 365060356dfa7ad4f3d318a5322a3c8940a37172
 }
 
 

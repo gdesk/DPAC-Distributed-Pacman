@@ -24,6 +24,9 @@ case class GhostImpl(override val name: String, override var color: Color) exten
     * Manages the strategy of game, that is based on who is the killer and who is killable
     */
   override def checkAllPositions(): Unit = {
+
+
+
     if (isKillable) {
 
       val blueghost = GhostImpl("ghost3", Color.BLUE)

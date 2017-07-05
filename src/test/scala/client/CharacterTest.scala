@@ -7,6 +7,7 @@ import characterjava.Direction
 
 /**
   * Testing for le working of character class
+  *
   * @author Giulia Lucchi
   */
 object CharacterTest extends App{

@@ -3,7 +3,9 @@ package client.utils
 import alice.tuprolog._
 
 /**
-  * Created by Giulia Lucchi on 02/07/2017.
+  * Manages the prolog interaction.
+  *
+  * @author Giulia Lucchi
   */
 object ScalaProlog {
 
@@ -43,6 +45,14 @@ object ScalaProlog {
 
   def solveWithSuccess(engine: Term => Stream[SolveInfo], goal: Term): Boolean ={
     engine(goal).map(_.isSuccess).headOption == Some(true)
+  }
+
+  def toPrologList(list : List[String]): String = {
+    var string : String  = "["
+
+    list.toStream.foreach(x => string= string.concat(x+","))
+    string = string.concat("]")
+    string
   }
 
 
