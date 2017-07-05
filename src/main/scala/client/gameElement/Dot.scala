@@ -1,6 +1,6 @@
 package client.gameElement
 
-import client.utils.{Position, ScoreUtils}
+import client.utils.{Point, ScoreUtils}
 
 
 /** A dot, used in the game as object that Pacman has to eat to win the game.
@@ -15,7 +15,7 @@ trait Dot extends Eatable
   * @constructor create a new dot with a position in the playground.
   * @param position the position in the playground.
   */
-class VirtualDot(override val position: Position[Int, Int]) extends Dot {
+class VirtualDot(override val position: Point[Int, Int]) extends Dot {
 
   override val score: Int = ScoreUtils.DOT_SCORE
 
@@ -30,5 +30,5 @@ object VirtualDot {
     *
     * @param position its position
     */
-  def apply(position: Position[Int, Int]): VirtualDot = new VirtualDot(position)
+  def apply(position: Point[Int, Int]): VirtualDot = new VirtualDot(position)
 }

@@ -1,6 +1,6 @@
 package client.gameElement
 
-import client.utils.Position
+import client.utils.Point
 
 /** Fruit, used in the game as object that Pacman can eat to gain extra point.
   * Is a subtype of trait [[client.gameElement.Eatable]]
@@ -20,7 +20,7 @@ trait Fruit extends Eatable {
   *
   * @author manuBottax
   */
-class VirtualFruit (override val position: Position[Int, Int], override val fruitTypes: Fruits) extends Fruit{
+class VirtualFruit (override val position: Point[Int, Int], override val fruitTypes: Fruits) extends Fruit{
 
   /** return the score value for that fruit, randomly chosen in a list of possible score value.
     *
@@ -38,11 +38,11 @@ object VirtualFruit{
     *
     * @param position its position
     */
-  def apply(position: Position[Int, Int]): VirtualFruit = new VirtualFruit(position, Fruits.Cherry)
+  def apply(position: Point[Int, Int]): VirtualFruit = new VirtualFruit(position, Fruits.Cherry)
 
   /** Create a Fruit with a given position and specified types (see [[client.gameElement.Fruits]] )
     *
     * @param position its position
     */
-  def apply(position: Position[Int, Int], fruitTypes: Fruits): VirtualFruit = new VirtualFruit(position, fruitTypes)
+  def apply(position: Point[Int, Int], fruitTypes: Fruits): VirtualFruit = new VirtualFruit(position, fruitTypes)
 }

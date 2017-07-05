@@ -3,7 +3,7 @@ package client
 import java.util
 
 import client.gameElement.{Block, Eatable, GameItem, VirtualBlock}
-import client.utils.{Dimension, Point, Position}
+import client.utils.{Dimension, PointImpl, Point}
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -18,7 +18,7 @@ trait Playground {
   def dimension: Dimension
 
   /** A container for the element of the current game. */
-  def ground: mutable.Map[Position[Int,Int],GameItem]
+  def ground: mutable.Map[Point[Int,Int],GameItem]
 
   /** Add a block at his own position if is available.
     *
@@ -67,7 +67,7 @@ trait Playground {
     * @param position the position of the object to be returned.
     * @return the object found at that position if it exist.
     */
-  def getElementAtPosition(position: Position[Int, Int]): Option[GameItem]
+  def getElementAtPosition(position: Point[Int, Int]): Option[GameItem]
 }
 
 
@@ -78,7 +78,7 @@ trait Playground {
   */
 class VirtualPlayground(override val dimension: Dimension) extends Playground{
 
-  var ground: mutable.Map[Position[Int,Int],GameItem] = new mutable.HashMap[Position[Int,Int],GameItem]()
+  var ground: mutable.Map[Point[Int,Int],GameItem] = new mutable.HashMap[Point[Int,Int],GameItem]()
 
   private var blockList: ListBuffer[Block] = ListBuffer.empty[Block]
   private var eatableList: ListBuffer[Eatable] = ListBuffer.empty[Eatable]
@@ -93,7 +93,7 @@ class VirtualPlayground(override val dimension: Dimension) extends Playground{
       // controllo se esiste già qualcosa in quella posizione e nel caso do errore
       if (getElementAtPosition(block.position).isEmpty) {
         this.blockList += block
-        val entry: (Position[Int,Int], GameItem) = (block.position, block)
+        val entry: (Point[Int,Int], GameItem) = (block.position, block)
         this.ground += entry
       }
 
@@ -132,7 +132,7 @@ class VirtualPlayground(override val dimension: Dimension) extends Playground{
       // controllo se esiste già qualcosa in quella posizione e nel caso do errore
       if (getElementAtPosition(eatable.position).isEmpty){
         this.eatableList += eatable
-        val entry: (Position[Int,Int], GameItem) = (eatable.position, eatable)
+        val entry: (Point[Int,Int], GameItem) = (eatable.position, eatable)
         this.ground += entry
       }
 
@@ -158,7 +158,7 @@ class VirtualPlayground(override val dimension: Dimension) extends Playground{
 
   def getAllEatable: List[Eatable] = eatableList.toList
 
-  def getElementAtPosition(position: Position[Int,Int]): Option[GameItem] = {
+  def getElementAtPosition(position: Point[Int,Int]): Option[GameItem] = {
 
     if (checkPosition(position))
       this.ground.get(position)
@@ -185,7 +185,7 @@ class VirtualPlayground(override val dimension: Dimension) extends Playground{
   }
 
   // check if a given position is inside the playground borders
-  private def checkPosition(point: Position[Int, Int]): Boolean = point.x <= dimension.xDimension && point.y <= dimension.yDimension
+  private def checkPosition(point: Point[Int, Int]): Boolean = point.x <= dimension.xDimension && point.y <= dimension.yDimension
 
 }
 

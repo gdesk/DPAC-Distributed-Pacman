@@ -1,8 +1,7 @@
 package view;
 
+import view.utils.BlocksImages;
 import view.utils.FruitsImages;
-
-import java.awt.*;
 
 /**
  * Created by Manuel Bottax on 04/07/2017.
@@ -13,8 +12,9 @@ public interface PlaygroundView {
      * Shows a labyrinth block in the specified position
      * @param x Horizontal position on grid
      * @param y Vertical position on grid
+     * @param blocksImage The block imaget to be render
      */
-    void renderBlock(int x, int y, Image blocksImage);  //TODO fare enunmeration per i blocchi? sistemare javadoc
+    void renderBlock(int x, int y, BlocksImages blocksImage);
 
     /**
      * Shows a dot in the specified position

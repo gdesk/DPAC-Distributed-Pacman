@@ -22,7 +22,6 @@ object Utils {
 
 
   def getImage(path: String): Image = {
-
     new ImageIcon(getResource(IMAGES_BASE_PATH + path + IMAGES_EXTENSION)).getImage
   }
 

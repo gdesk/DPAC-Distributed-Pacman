@@ -2,13 +2,15 @@ package view;
 
 import client.gameElement.*;
 import client.utils.Dimension;
-import client.utils.Position;
+import client.utils.Point;
+import view.utils.BlocksImages;
 import view.utils.ImagesUtils;
 
-import java.awt.*;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static view.utils.BlocksImages.*;
 
 /**
  * This class strengthens the BasePlayground
@@ -65,7 +67,7 @@ public class PlaygroundPanel extends BasePlaygroundPanel {
         return lookAt(blockList,  p->((int)p.x() == (int) block.position().x() && (int)p.y() == (int) block.position().y()+1));
     }
 
-    private boolean lookAt(List<Block> blockList, Predicate<Position> predicate){  //Strategy
+    private boolean lookAt(List<Block> blockList, Predicate<Point> predicate){  //Strategy
         return blockList
                 .stream()
                 .map(b->b.position())
@@ -74,67 +76,64 @@ public class PlaygroundPanel extends BasePlaygroundPanel {
                 .size() >= 1;
     }
 
-
-    private Image chooseBlockImage(Block block, List<Block> list){
+    private BlocksImages chooseBlockImage(Block block, List<Block> list){
 
         boolean isHorizontal = lookAtLeft(block,list) && lookAtRight(block,list) && !lookAtTop(block,list) && !lookAtBottom(block,list);
         boolean isLeftEnd = !lookAtLeft(block,list) && lookAtRight(block,list) && !lookAtTop(block,list) && !lookAtBottom(block,list);
-        boolean isLeftOpen = lookAtLeft(block,list) && !lookAtRight(block, list) && lookAtTop(block,list) && lookAtBottom(block,list);
+        boolean isVerticalLeft = lookAtLeft(block,list) && !lookAtRight(block, list) && lookAtTop(block,list) && lookAtBottom(block,list);
         boolean isLowerEnd = !lookAtLeft(block,list) && !lookAtRight(block,list) && lookAtTop(block,list) && !lookAtBottom(block,list);
-        boolean isLowerLeftEdge = !lookAtLeft(block,list) && lookAtRight(block,list) && lookAtTop(block,list) && !lookAtBottom(block,list);
-        boolean isLowerOpen = lookAtLeft(block,list) && lookAtRight(block,list) && !lookAtTop(block,list) && lookAtBottom(block,list);
-        boolean isLowerRightEdge = lookAtLeft(block,list) && !lookAtRight(block,list) && lookAtTop(block,list) && !lookAtBottom(block,list);
+        boolean isLowerLeftCorner = !lookAtLeft(block,list) && lookAtRight(block,list) && lookAtTop(block,list) && !lookAtBottom(block,list);
+        boolean isHorizontalBottom = lookAtLeft(block,list) && lookAtRight(block,list) && !lookAtTop(block,list) && lookAtBottom(block,list);
+        boolean isLowerRightCorner = lookAtLeft(block,list) && !lookAtRight(block,list) && lookAtTop(block,list) && !lookAtBottom(block,list);
         boolean isRightEnd = lookAtLeft(block,list) && !lookAtRight(block,list) && !lookAtTop(block,list) && !lookAtBottom(block,list);
-        boolean isRightOpen = !lookAtLeft(block,list) && lookAtRight(block,list) && lookAtTop(block,list) && lookAtBottom(block,list);
+        boolean isVerticalRight = !lookAtLeft(block,list) && lookAtRight(block,list) && lookAtTop(block,list) && lookAtBottom(block,list);
         boolean isUpperEnd = !lookAtLeft(block,list) && !lookAtRight(block,list) && !lookAtTop(block,list) && lookAtBottom(block,list);
-        boolean isUpperLeftEdge = !lookAtLeft(block,list) && lookAtRight(block,list) && !lookAtTop(block,list) && lookAtBottom(block,list);
-        boolean isUpperOpen = lookAtLeft(block,list) && lookAtRight(block,list) && lookAtTop(block,list) && !lookAtBottom(block,list);
-        boolean isUpperRightEdge = lookAtLeft(block,list) && !lookAtRight(block,list) && !lookAtTop(block,list) && lookAtBottom(block,list);
+        boolean isUpperLeftCorner = !lookAtLeft(block,list) && lookAtRight(block,list) && !lookAtTop(block,list) && lookAtBottom(block,list);
+        boolean isHorizontalUp = lookAtLeft(block,list) && lookAtRight(block,list) && lookAtTop(block,list) && !lookAtBottom(block,list);
+        boolean isUpperRightCorner = lookAtLeft(block,list) && !lookAtRight(block,list) && !lookAtTop(block,list) && lookAtBottom(block,list);
         boolean isVertical = !lookAtLeft(block,list) && !lookAtRight(block,list) && lookAtTop(block,list) && lookAtBottom(block,list);
 
-        BlockView blockViwer = new BlockViewImpl();
-
         if(isHorizontal){
-            return blockViwer.getHorizontal();
+            return HORIZONTAL;
 
        } else if(isLeftEnd){
-            return  blockViwer.getLeftEnd();
+            return LEFT_END;
 
-        }else if(isLeftOpen){
-           return blockViwer.getVerticalLeft();
+        }else if(isVerticalLeft){
+           return VERTICAL_LEFT;
 
        }else if(isLowerEnd){
-            return blockViwer.getLowerEnd();
+            return LOWER_END;
 
-        }else if(isLowerLeftEdge){
-           return blockViwer.getLowerLeftCorner();
+        }else if(isLowerLeftCorner){
+           return LOWER_LEFT_CORNER;
 
-        }else if(isLowerOpen){
-            return blockViwer.getHorizontalBottom();
+        }else if(isHorizontalBottom){
+            return HORIZONTAL_BOTTOM;
 
-        }else if(isLowerRightEdge){
-            return blockViwer.getLowerRightCorner();
+        }else if(isLowerRightCorner){
+            return LOWER_RIGHT_CORNER;
 
         }else if(isRightEnd){
-            return blockViwer.getRightEnd();
+            return RIGHT_END;
 
-        }else if(isRightOpen){
-            return blockViwer.getVerticalRight();
+        }else if(isVerticalRight){
+            return VERTICAL_RIGHT;
 
         }else if(isUpperEnd) {
-            return blockViwer.getUpperEnd();
+            return UPPER_END;
 
-        }else if(isUpperLeftEdge){
-            return blockViwer.getUpperLeftCorner();
+        }else if(isUpperLeftCorner){
+            return UPPER_LEFT_CORNER;
 
-        }else if(isUpperOpen){
-            return blockViwer.getHorizontalUp();
+        }else if(isHorizontalUp){
+            return HORIZONTAL_UP;
 
-        }else if(isUpperRightEdge){
-            return blockViwer.getUpperRightCorner();
+        }else if(isUpperRightCorner){
+            return UPPER_RIGHT_CORNER;
 
         }else if(isVertical){
-            return blockViwer.getVertical();
+            return VERTICAL;
         }else {
             return null; //TODO caricare immagine default quadratino blu
         }

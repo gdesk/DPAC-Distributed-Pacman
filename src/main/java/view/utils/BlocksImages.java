@@ -1,5 +1,9 @@
 package view.utils;
 
+import view.Utils;
+
+import java.awt.*;
+
 /**
  * Created by chiaravarini on 05/07/17.
  */
@@ -29,8 +33,8 @@ public enum BlocksImages {
         this.imageFileName = imageFileName;
     }
 
-    public String getImageFileName(){
-        return this.imageFileName;
+    public Image getImage(){
+        return Utils.getImage("block/"+Utils.getResolution().asString()+"/"+this.imageFileName);
     }
 }
 

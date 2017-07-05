@@ -1,6 +1,6 @@
 package client.gameElement
 
-import client.utils.Position
+import client.utils.Point
 
 
 /** A block element for the playground, used to build walls.
@@ -14,7 +14,7 @@ trait Block extends GameItem
   * @constructor create a new block with a position in the playground and a dimension.
   * @param position the position in the playground.
   */
-class VirtualBlock(override val position: Position[Int, Int]) extends Block {
+class VirtualBlock(override val position: Point[Int, Int]) extends Block {
 
   override def itemType: ItemType = ItemType.Block
 }
@@ -27,5 +27,5 @@ object VirtualBlock{
     * @param position its position
     * @return a new Block in the given position
     */
-  def apply( position: Position[Int, Int]) = new VirtualBlock (position)
+  def apply( position: Point[Int, Int]) = new VirtualBlock (position)
 }

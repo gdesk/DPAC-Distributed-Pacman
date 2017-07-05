@@ -4,7 +4,7 @@ import client.Playground;
 import client.VirtualPlayground;
 import client.gameElement.*;
 import client.utils.Dimension;
-import client.utils.Point;
+import client.utils.PointImpl;
 import view.*;
 
 import java.util.List;
@@ -56,24 +56,24 @@ public class GameTest {
         // tra diversi schermi con dimensioni diverse
 
         for (int i = 1; i < 59; i++ ){
-            p.addBlock(new VirtualBlock(new Point(i, 1)));
+            p.addBlock(new VirtualBlock(new PointImpl(i, 1)));
         }
 
         for (int i = 1; i < 59; i++ ){
-            p.addBlock(new VirtualBlock(new Point(i, 29)));
+            p.addBlock(new VirtualBlock(new PointImpl(i, 29)));
         }
 
         for (int j = 1; j < 29; j++ ){
-            p.addBlock(new VirtualBlock(new Point(1, j)));
+            p.addBlock(new VirtualBlock(new PointImpl(1, j)));
         }
 
         for (int j = 1; j < 29; j++ ){
-            p.addBlock(new VirtualBlock(new Point(59, j)));
+            p.addBlock(new VirtualBlock(new PointImpl(59, j)));
         }
 
         for (int j = 5; j < 29; j = j + 5 ){
             for (int i = 4; i < 57 ; i++ ) {
-                p.addBlock(new VirtualBlock(new Point(i, j)));
+                p.addBlock(new VirtualBlock(new PointImpl(i, j)));
             }
         }
 
@@ -81,22 +81,22 @@ public class GameTest {
             if (j != 17) {
                 for (int i = 7; i < 54; i++) {
                     if (i % 14 == 0) {
-                        p.addEatable(new VirtualPill(new Point(i, j)));
+                        p.addEatable(new VirtualPill(new PointImpl(i, j)));
                     } else
-                        p.addEatable(new VirtualDot(new Point(i, j)));
+                        p.addEatable(new VirtualDot(new PointImpl(i, j)));
                 }
             }
         }
 
 
-        p.addEatable(new VirtualFruit(new Point(22, 17), Fruits.Cherry));
-        p.addEatable(new VirtualFruit(new Point(23, 17), Fruits.Strawberry));
-        p.addEatable(new VirtualFruit(new Point(24, 17), Fruits.Orange));
-        p.addEatable(new VirtualFruit(new Point(25, 17), Fruits.Apple));
-        p.addEatable(new VirtualFruit(new Point(26, 17), Fruits.Grapes));
-        p.addEatable(new VirtualFruit(new Point(27, 17), Fruits.GalaxianShip));
-        p.addEatable(new VirtualFruit(new Point(28, 17), Fruits.Bell));
-        p.addEatable(new VirtualFruit(new Point(29, 17), Fruits.Key));
+        p.addEatable(new VirtualFruit(new PointImpl(22, 17), Fruits.Cherry));
+        p.addEatable(new VirtualFruit(new PointImpl(23, 17), Fruits.Strawberry));
+        p.addEatable(new VirtualFruit(new PointImpl(24, 17), Fruits.Orange));
+        p.addEatable(new VirtualFruit(new PointImpl(25, 17), Fruits.Apple));
+        p.addEatable(new VirtualFruit(new PointImpl(26, 17), Fruits.Grapes));
+        p.addEatable(new VirtualFruit(new PointImpl(27, 17), Fruits.GalaxianShip));
+        p.addEatable(new VirtualFruit(new PointImpl(28, 17), Fruits.Bell));
+        p.addEatable(new VirtualFruit(new PointImpl(29, 17), Fruits.Key));
 
         return p;
 

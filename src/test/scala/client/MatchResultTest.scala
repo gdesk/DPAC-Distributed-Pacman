@@ -3,7 +3,7 @@ package client
 import java.util.Calendar
 
 import client.gameElement.VirtualDot
-import client.utils.Point
+import client.utils.PointImpl
 import org.scalatest.FunSuite
 
 /**

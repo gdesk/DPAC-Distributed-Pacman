@@ -1,6 +1,7 @@
 package view;
 
 import client.utils.Dimension;
+import view.utils.BlocksImages;
 import view.utils.FruitsImages;
 import view.utils.ImagesUtils;
 
@@ -18,7 +19,6 @@ public class BasePlaygroundPanel extends JPanel implements PlaygroundView{
 
     private final JLabel[][] cells;
     private final GridBagConstraints gbc = new GridBagConstraints();
-    private BlockView blocksImages = new BlockViewImpl();
     private GameObjectView gameObjectImages = new GameObjectViewImpl();
 
     private PlaygroundDynamicSettings settings;
@@ -57,8 +57,8 @@ public class BasePlaygroundPanel extends JPanel implements PlaygroundView{
      * @param x Horizontal position on grid
      * @param y Vertical position on grid
      */
-    public void renderBlock(int x, int y, Image blocksImage){
-        checkAndInsert(x,y,getImageIcon(blocksImage));  //TODO fare enunmeration per i blocchi?
+    public void renderBlock(int x, int y, BlocksImages blocksImage){
+        checkAndInsert(x,y,getImageIcon(blocksImage.getImage()));
     }
 
     /**
