@@ -56,24 +56,24 @@ public class GameTest {
         // tra diversi schermi con dimensioni diverse
 
         for (int i = 1; i < 59; i++ ){
-            p.addBlock(new VirtualBlock(new Point(i, 1), 1, 1));
+            p.addBlock(new VirtualBlock(new Point(i, 1)));
         }
 
         for (int i = 1; i < 59; i++ ){
-            p.addBlock(new VirtualBlock(new Point(i, 29), 1, 1));
+            p.addBlock(new VirtualBlock(new Point(i, 29)));
         }
 
         for (int j = 1; j < 29; j++ ){
-            p.addBlock(new VirtualBlock(new Point(1, j), 1, 1));
+            p.addBlock(new VirtualBlock(new Point(1, j)));
         }
 
         for (int j = 1; j < 29; j++ ){
-            p.addBlock(new VirtualBlock(new Point(59, j), 1, 1));
+            p.addBlock(new VirtualBlock(new Point(59, j)));
         }
 
         for (int j = 5; j < 29; j = j + 5 ){
             for (int i = 4; i < 57 ; i++ ) {
-                p.addBlock(new VirtualBlock(new Point(i, j), 1, 1));
+                p.addBlock(new VirtualBlock(new Point(i, j)));
             }
         }
 

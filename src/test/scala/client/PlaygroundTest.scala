@@ -19,7 +19,7 @@ class PlaygroundTest extends FunSuite{
 
   }
 
-  val b2: VirtualBlock = VirtualBlock (Point (2,2), 1, 6)
+  val b2: VirtualBlock = VirtualBlock (Point (2,2))
   val b3: VirtualBlock = VirtualBlock (Point (3,3))
 
   test("Correctly add block on block list"){
