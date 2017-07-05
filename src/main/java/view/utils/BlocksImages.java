@@ -36,5 +36,9 @@ public enum BlocksImages {
     public Image getImage(){
         return Utils.getImage("block/"+Utils.getResolution().asString()+"/"+this.imageFileName);
     }
+
+    public String getImageFileName(){
+        return imageFileName;
+    }
 }
 
