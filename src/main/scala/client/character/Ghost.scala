@@ -2,6 +2,7 @@ package client.character
 
 
 import java.awt.Color
+import java.lang.Integer.valueOf
 
 import characterjava.Direction
 import client.utils.{Point, ScalaProlog}
@@ -30,8 +31,7 @@ case class GhostImpl(override val name: String, override var color: String) exte
     val ghost2 = GhostImpl("ghost2", "yellow")
     val ghostList: List[String] = List(s" ghost(${blueghost.position x}, ${blueghost.position y}, ${blueghost.score}, ${blueghost.color.toString})", s"ghost(${ghost1.position x}, ${ghost1.position y}, ${ghost1.score}, ${ghost1.color})")
     val ghostEaten: Int = 1
-    var EatenGhostColor: List[Color] = List()
-    //per test
+    var EatenGhostColor: List[Color] = List()// lista
     val pacman : Pacman = PacmanImpl("pacman")
     pacman.setPosition(Point[Int,Int](20,20))
    val listProlog = ScalaProlog.toPrologList(ghostList)
@@ -41,18 +41,18 @@ case class GhostImpl(override val name: String, override var color: String) exte
     if (isKillable) {
 
       val solveInfo = PrologConfig.getPrologEngine().solve(s"ghost_defeat(pacman(${pacman.position x},${pacman.position y},${pacman.lives.remainingLives()},${pacman.score.toString}), ${listProlog}, ${ghostEaten}, PS, EG).")
-      val newScore = Integer.valueOf(solveInfo.getTerm("PS").toString)
-      val eatenGhost = solveInfo.getTerm("EG")
+      val newScore = valueOf(solveInfo.getTerm("PS").toString)
+      val eatenGhost = solveInfo.getTerm("EG").toString // Lista colori ---> trasforma in lista scala
+
       pacman.score = newScore
     } else {
-      //eat_pacman
-
 
       val solveInfo = PrologConfig.getPrologEngine().solve(s"eat_pacman(pacman(${pacman.position x},${pacman.position y},${pacman.lives.remainingLives()},${pacman.score.toString}), ${listProlog}, NL, GS, CG).")
-      val newPacmanLives = Integer.valueOf(solveInfo.getTerm("NL").toString)
+      val newPacmanLives: Int = valueOf(solveInfo.getTerm("NL").toString)
       pacman.lives.remainingLives_=(newPacmanLives)
-      val eatenGhost = solveInfo.getTerm("EG")
-
+      val scoreGhost: Int = valueOf(solveInfo.getTerm("GS").toString)
+      score = scoreGhost
+      val killerGhost: String = solveInfo.getTerm("CG").toString
     }
   }
 
