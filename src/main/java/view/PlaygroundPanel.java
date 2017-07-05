@@ -1,146 +1,143 @@
 package view;
 
+import client.gameElement.*;
 import client.utils.Dimension;
-import view.utils.FruitsImages;
+import client.utils.Position;
 import view.utils.ImagesUtils;
 
-import javax.swing.*;
 import java.awt.*;
-
-//import static view.PlaygroundSettings.*;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
- * This class represent the base playground panel of Distributed Pacman game
- * Created by Manuel Bottax and Chiara Varini on 01/07/17.
+ * This class strengthens the BasePlayground
+ * Created by Manuel Bottax and chiaravarini on 04/07/2017.
  */
 
-
-public class PlaygroundPanel extends JPanel implements PlaygroundView{
-
-    private final JLabel[][] cells;
-    private final GridBagConstraints gbc = new GridBagConstraints();
-    private BlockView blocksImages = new BlockViewImpl();
-    private GameObjectView gameObjectImages = new GameObjectViewImpl();
-
-    private PlaygroundDynamicSettings settings;
+//PimpMyLibrary pattern?
+public class PlaygroundPanel extends BasePlaygroundPanel {  //TODO rinominare
 
     public PlaygroundPanel(Dimension playgroundDimension){
+        super(playgroundDimension);
+    }
 
-        settings = new PlaygroundDynamicSettings(playgroundDimension);
+    /**
+     * Shows all labyrinth blocks in their specified position
+     * @param blockList to render
+     */
+    public void renderBlockList(List<Block> blockList){
+        for ( Block b : blockList) {
+            super.renderBlock((int) b.position().x(), (int) b.position().y(), chooseBlockImage(b, blockList));
+        }
+    }
 
-        setLayout(new GridBagLayout());
-        setBackground(PlaygroundDynamicSettings.backgroundColor);
-        cells = new JLabel[settings.getColumns()][settings.getRows()];
-
-        System.out.println(" size : [ " + settings.getColumns() + " | " + settings.getRows()  + " ] !");
-        System.out.println(" dim : [ " + settings.getCellDim() + " | size : " + settings.getCellSize()  + " ] !");
-
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
-        for (int i = 0; i < settings.getColumns(); ++i) {
-            for (int j = 0; j < settings.getRows(); ++j) {
-                cells[i][j] = new JLabel();
-                cells[i][j].setMaximumSize(settings.getCellDim());
-                cells[i][j].setMinimumSize(settings.getCellDim());
-                cells[i][j].setPreferredSize(settings.getCellDim());
-
-                gbc.gridx = i;
-                gbc.gridy = j;
-                add(cells[i][j], gbc);
+    /**
+     * Shows all etable elemnts (dots and fruits) in the specified position
+     * @param eatableList to render
+     */
+    public void renderEatableList(List<Eatable> eatableList){
+        for (Eatable e : eatableList){
+            if (e instanceof Dot){
+                super.renderDot((int) e.position().x(), (int) e.position().y());
+            }
+            else if (e instanceof Pill) {
+                super.renderPill((int) e.position().x(), (int) e.position().y());
+            }
+            else if (e instanceof Fruit) {
+                super.renderFruit((int) e.position().x(), (int) e.position().y(), ImagesUtils.getFruitsImage(((Fruit) e).fruitTypes()));      //TODO passare dal tipo alla enum delle immagini
             }
         }
     }
 
-
-    /**
-     * Shows a labyrinth block in the specified position
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     */
-    public void renderBlock(int x, int y, Image blocksImage){
-        checkAndInsert(x,y,getImageIcon(blocksImage));  //TODO fare enunmeration per i blocchi?
+    private boolean lookAtLeft(Block block, List<Block> blockList){
+        return lookAt(blockList,  p->((int)p.x() == (int) block.position().x()-1 && (int)p.y() == (int) block.position().y()));
     }
 
-    /**
-     * Shows a dot in the specified position
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     */
-    public void renderDot(int x, int y){
-        checkAndInsert(x,y,getImageIconSmall(gameObjectImages.getDot()));
+    private boolean lookAtRight(Block block, List<Block> blockList){
+        return lookAt(blockList,  p->((int)p.x() == (int) block.position().x()+1 && (int)p.y() == (int) block.position().y()));
     }
 
-    /**
-     * Shows a pill in the specified position
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     */
-    public void renderPill(int x, int y){
-        checkAndInsert(x,y,getImageIconSmall(gameObjectImages.getPill()));
+    private boolean lookAtTop(Block block, List<Block> blockList){
+        return lookAt(blockList,  p->((int)p.x() == (int) block.position().x() && (int)p.y() == (int) block.position().y()-1));
     }
 
-    /**
-     * Shows a fruit in the specified position
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     * @param type The fruit type to be rendered.
-     */
-    public void renderFruit(int x, int y, FruitsImages type){
-       checkAndInsert(x,y,getImageIcon(gameObjectImages.getFruit(type)));
+    private boolean lookAtBottom(Block block, List<Block> blockList){
+        return lookAt(blockList,  p->((int)p.x() == (int) block.position().x() && (int)p.y() == (int) block.position().y()+1));
     }
 
-    /**
-     * Shows the specified character in the specified position and direction
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     * @param name Chracter's name
-     * @param direction Character's direction
-     */
-    public void renderCharacter(int x, int y, String name, String direction){
+    private boolean lookAt(List<Block> blockList, Predicate<Position> predicate){  //Strategy
+        return blockList
+                .stream()
+                .map(b->b.position())
+                .filter(predicate)
+                .collect(Collectors.toList())
+                .size() >= 1;
+    }
 
-        CharacterView characterView = new CharacterViewImpl(new CharacterPathImpl(name));
 
-        if (characterView != null) {
-            ImageIcon img = getImageIcon(characterView.getCharacterLeft());
-            switch(direction){
-                case "up" :
-                    img = getImageIcon(characterView.getCharacterUp());
-                    break;
-                case "down" :
-                    img = getImageIcon(characterView.getCharacterDown());
-                    break;
-                case "right" :
-                    img = getImageIcon(characterView.getCharacterRight());
-                    break;
-                case "left" :
-                    img = getImageIcon(characterView.getCharacterLeft());
-                    break;
-            }
-            checkAndInsert(x,y,img);
+    private Image chooseBlockImage(Block block, List<Block> list){
+
+        boolean isHorizontal = lookAtLeft(block,list) && lookAtRight(block,list) && !lookAtTop(block,list) && !lookAtBottom(block,list);
+        boolean isLeftEnd = !lookAtLeft(block,list) && lookAtRight(block,list) && !lookAtTop(block,list) && !lookAtBottom(block,list);
+        boolean isLeftOpen = lookAtLeft(block,list) && !lookAtRight(block, list) && lookAtTop(block,list) && lookAtBottom(block,list);
+        boolean isLowerEnd = !lookAtLeft(block,list) && !lookAtRight(block,list) && lookAtTop(block,list) && !lookAtBottom(block,list);
+        boolean isLowerLeftEdge = !lookAtLeft(block,list) && lookAtRight(block,list) && lookAtTop(block,list) && !lookAtBottom(block,list);
+        boolean isLowerOpen = lookAtLeft(block,list) && lookAtRight(block,list) && !lookAtTop(block,list) && lookAtBottom(block,list);
+        boolean isLowerRightEdge = lookAtLeft(block,list) && !lookAtRight(block,list) && lookAtTop(block,list) && !lookAtBottom(block,list);
+        boolean isRightEnd = lookAtLeft(block,list) && !lookAtRight(block,list) && !lookAtTop(block,list) && !lookAtBottom(block,list);
+        boolean isRightOpen = !lookAtLeft(block,list) && lookAtRight(block,list) && lookAtTop(block,list) && lookAtBottom(block,list);
+        boolean isUpperEnd = !lookAtLeft(block,list) && !lookAtRight(block,list) && !lookAtTop(block,list) && lookAtBottom(block,list);
+        boolean isUpperLeftEdge = !lookAtLeft(block,list) && lookAtRight(block,list) && !lookAtTop(block,list) && lookAtBottom(block,list);
+        boolean isUpperOpen = lookAtLeft(block,list) && lookAtRight(block,list) && lookAtTop(block,list) && !lookAtBottom(block,list);
+        boolean isUpperRightEdge = lookAtLeft(block,list) && !lookAtRight(block,list) && !lookAtTop(block,list) && lookAtBottom(block,list);
+        boolean isVertical = !lookAtLeft(block,list) && !lookAtRight(block,list) && lookAtTop(block,list) && lookAtBottom(block,list);
+
+        BlockView blockViwer = new BlockViewImpl();
+
+        if(isHorizontal){
+            return blockViwer.getHorizontal();
+
+       } else if(isLeftEnd){
+            return  blockViwer.getLeftEnd();
+
+        }else if(isLeftOpen){
+           return blockViwer.getLeftUpLower();
+
+       }else if(isLowerEnd){
+            return blockViwer.getLowerEnd();
+
+        }else if(isLowerLeftEdge){
+           return blockViwer.getLowerLeftEdge();
+
+        }else if(isLowerOpen){
+            return blockViwer.getLeftRightLower();
+
+        }else if(isLowerRightEdge){
+            return blockViwer.getLowerRightEdge();
+
+        }else if(isRightEnd){
+            return blockViwer.getRightEnd();
+
+        }else if(isRightOpen){
+            return blockViwer.getUpRightLower();
+
+        }else if(isUpperEnd) {
+            return blockViwer.getUpperEnd();
+
+        }else if(isUpperLeftEdge){
+            return blockViwer.getUpperLeftEdge();
+
+        }else if(isUpperOpen){
+            return blockViwer.getLeftUpperRight();
+
+        }else if(isUpperRightEdge){
+            return blockViwer.getUpperRightEdge();
+
+        }else if(isVertical){
+            return blockViwer.getVertical();
+        }else {
+            return null; //TODO caricare immagine default quadratino blu
         }
-    }
-    
-    private void checkAndInsert(int x, int y, ImageIcon img){
-
-        if(x<settings.getColumns() && y<settings.getRows()) {
-
-            cells[x][y].setIcon(img);
-            gbc.gridx = x;
-            gbc.gridy = y;
-            revalidate();
-            repaint();
-
-        } else {
-            System.err.println("Error! Invalid position");
-        }
-    }
-
-    private ImageIcon getImageIcon(final Image image){
-        return new ImageIcon(ImagesUtils.getScaledImage(image, settings.getCellSize(), settings.getCellSize()));
-    }
-
-    private ImageIcon getImageIconSmall(final Image image){
-        return new ImageIcon(ImagesUtils.getScaledImage(image, settings.getCellSize()/2, settings.getCellSize()/2));
     }
 }
