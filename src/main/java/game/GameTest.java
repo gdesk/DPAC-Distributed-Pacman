@@ -89,14 +89,14 @@ public class GameTest {
         }
 
 
-        p.addEatable(new VirtualFruit(new PointImpl(22, 17), Fruits.Cherry));
-        p.addEatable(new VirtualFruit(new PointImpl(23, 17), Fruits.Strawberry));
-        p.addEatable(new VirtualFruit(new PointImpl(24, 17), Fruits.Orange));
-        p.addEatable(new VirtualFruit(new PointImpl(25, 17), Fruits.Apple));
-        p.addEatable(new VirtualFruit(new PointImpl(26, 17), Fruits.Grapes));
-        p.addEatable(new VirtualFruit(new PointImpl(27, 17), Fruits.GalaxianShip));
-        p.addEatable(new VirtualFruit(new PointImpl(28, 17), Fruits.Bell));
-        p.addEatable(new VirtualFruit(new PointImpl(29, 17), Fruits.Key));
+        p.addEatable(new VirtualFruit(new PointImpl(22, 17), Fruits.CHERRY));
+        p.addEatable(new VirtualFruit(new PointImpl(23, 17), Fruits.STRAWBERRY));
+        p.addEatable(new VirtualFruit(new PointImpl(24, 17), Fruits.ORANGE));
+        p.addEatable(new VirtualFruit(new PointImpl(25, 17), Fruits.APPLE));
+        p.addEatable(new VirtualFruit(new PointImpl(26, 17), Fruits.GRAPES));
+        p.addEatable(new VirtualFruit(new PointImpl(27, 17), Fruits.GALAXIAN_SHIP));
+        p.addEatable(new VirtualFruit(new PointImpl(28, 17), Fruits.BELL));
+        p.addEatable(new VirtualFruit(new PointImpl(29, 17), Fruits.KEY));
 
         return p;
 

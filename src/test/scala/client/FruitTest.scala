@@ -9,18 +9,18 @@ import org.scalatest.FunSuite
   */
 class FruitTest extends FunSuite{
 
-  test("default fruit is a Cherry "){
+  test("default fruit is a CHERRY "){
 
     val fruit: VirtualFruit = VirtualFruit(PointImpl(1,1))
 
-    assert( fruit.fruitTypes == Fruits.Cherry && fruit.score == Fruits.Cherry.getScore)
+    assert( fruit.fruitTypes == Fruits.CHERRY && fruit.score == Fruits.CHERRY.getScore)
 
   }
 
   test ("Fruit of different types are different") {
 
-    val fruit1: VirtualFruit = VirtualFruit(PointImpl(1,1), Fruits.Apple)
-    val fruit2: VirtualFruit = VirtualFruit(PointImpl(2,2), Fruits.Grapes)
+    val fruit1: VirtualFruit = VirtualFruit(PointImpl(1,1), Fruits.APPLE)
+    val fruit2: VirtualFruit = VirtualFruit(PointImpl(2,2), Fruits.GRAPES)
 
     assert (fruit1.fruitTypes != fruit2.fruitTypes)
   }

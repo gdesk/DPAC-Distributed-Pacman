@@ -71,14 +71,14 @@ public class GameStartPanel extends JPanel {
         p.addEatable(new VirtualDot(new Point (20, 25)));
         p.addEatable(new VirtualDot(new Point (20, 26)));
 
-        p.addEatable(new VirtualFruit(new Point (25,24),Fruits.Cherry));
-        p.addEatable(new VirtualFruit(new Point (25,25),Fruits.Strawberry));
-        p.addEatable(new VirtualFruit(new Point (25,26),Fruits.Orange));
-        p.addEatable(new VirtualFruit(new Point (25,27),Fruits.Apple));
-        p.addEatable(new VirtualFruit(new Point (25,28),Fruits.Grapes));
-        p.addEatable(new VirtualFruit(new Point (25,29),Fruits.GalaxianShip));
-        p.addEatable(new VirtualFruit(new Point (25,30),Fruits.Bell));
-        p.addEatable(new VirtualFruit(new Point (25,31),Fruits.Key));
+        p.addEatable(new VirtualFruit(new Point (25,24),Fruits.CHERRY));
+        p.addEatable(new VirtualFruit(new Point (25,25),Fruits.STRAWBERRY));
+        p.addEatable(new VirtualFruit(new Point (25,26),Fruits.ORANGE));
+        p.addEatable(new VirtualFruit(new Point (25,27),Fruits.APPLE));
+        p.addEatable(new VirtualFruit(new Point (25,28),Fruits.GRAPES));
+        p.addEatable(new VirtualFruit(new Point (25,29),Fruits.GALAXIAN_SHIP));
+        p.addEatable(new VirtualFruit(new Point (25,30),Fruits.BELL));
+        p.addEatable(new VirtualFruit(new Point (25,31),Fruits.KEY));
 
         return p;
     } */

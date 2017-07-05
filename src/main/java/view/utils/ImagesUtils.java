@@ -23,28 +23,28 @@ public class ImagesUtils {
 
     public static FruitsImages getFruitsImage (Fruits type){
         switch (type){
-            case Cherry:
+            case CHERRY:
                 return FruitsImages.CHERRY;
 
-            case Strawberry:
+            case STRAWBERRY:
                 return FruitsImages.STRAWBERRY;
 
-            case Orange:
+            case ORANGE:
                 return FruitsImages.ORANGE;
 
-            case Apple:
+            case APPLE:
                 return FruitsImages.APPLE;
 
-            case Grapes:
+            case GRAPES:
                 return FruitsImages.GRAPES;
 
-            case GalaxianShip:
+            case GALAXIAN_SHIP:
                 return FruitsImages.GALAXIAN;
 
-            case Bell:
+            case BELL:
                 return FruitsImages.BELL;
 
-            case Key:
+            case KEY:
                 return FruitsImages.KEY;
 
         }

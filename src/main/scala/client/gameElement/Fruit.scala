@@ -34,11 +34,11 @@ class VirtualFruit (override val position: Point[Int, Int], override val fruitTy
 /** Factory for [[client.gameElement.VirtualFruit]] instances. */
 object VirtualFruit{
 
-  /** Create a Fruit with a given position of default type (Cherry)
+  /** Create a Fruit with a given position of default type (CHERRY)
     *
     * @param position its position
     */
-  def apply(position: Point[Int, Int]): VirtualFruit = new VirtualFruit(position, Fruits.Cherry)
+  def apply(position: Point[Int, Int]): VirtualFruit = new VirtualFruit(position, Fruits.CHERRY)
 
   /** Create a Fruit with a given position and specified types (see [[client.gameElement.Fruits]] )
     *
