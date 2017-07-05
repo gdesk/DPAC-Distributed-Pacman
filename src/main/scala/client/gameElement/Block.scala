@@ -11,7 +11,7 @@ import client.utils.{Dimension, Point}
   *
   * @author manuBottax
   */
-class Block (override val position: Point[Double, Double] , val xDimension: Int = 1, val yDimension: Int = 1) extends GameItem [Double,Double] {
+class Block (override val position: Point[Int, Int] , val xDimension: Int = 1, val yDimension: Int = 1) extends GameItem {
 
   val dimension: Dimension = Dimension (xDimension, yDimension)
 
@@ -26,12 +26,12 @@ object Block{
     * @param xDimension its dimension on x axis
     * @param yDimension its dimension on y axis
     */
-  def apply( position: Point[Double, Double] , xDimension: Int, yDimension: Int ): Block = new Block( position, xDimension, yDimension )
+  def apply( position: Point[Int, Int] , xDimension: Int, yDimension: Int ): Block = new Block( position, xDimension, yDimension )
 
   /** Create a Block with a given position
     *
     * @param position its position
     * @return a new Block with dimension's default value (1,1)
     */
-  def apply( position: Point[Double, Double]) = new Block (position)
+  def apply( position: Point[Int, Int]) = new Block (position)
 }

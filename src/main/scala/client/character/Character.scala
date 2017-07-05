@@ -10,7 +10,7 @@ import client.utils.{Point, ScalaProlog}
   *
   * @author Giulia Lucchi
   */
-trait Character[X,Y] extends GameItem[X,Y]{
+trait Character[X,Y] extends GameItem{
   /**
     * Manages the character's movement and consequently the contact with other item of the game.
     *

@@ -13,6 +13,21 @@ package client.utils
   */
 class Point [T,W] ( var x: T, var y: W){
   override def toString: String = "[" + this.x + " | " + this.y + "]"
+
+  def canEqual(a: Any): Boolean = a.isInstanceOf[Point[T,W]]
+
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: Point[T,W] => that.canEqual(this) && ( this.x == that.x && this.y == that.y )
+      case _ => false
+    }
+
+  override def hashCode: Int = {
+    val prime = 7
+    var result = 1
+    result = prime * result + (if (x.isInstanceOf[Numeric[T]] && y.isInstanceOf[Numeric[W]] ) 3 else 0)
+    result
+  }
 }
 
 /** Factory for [[client.utils.Dimension]] instances. */
