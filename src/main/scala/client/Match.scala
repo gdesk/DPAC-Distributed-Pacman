@@ -3,6 +3,7 @@ package client
 import client.utils.Point
 
 import scala.collection.immutable.HashMap
+import client.character.Character
 
 /**
   * Represent the current match status, holding some information about the game.
@@ -30,57 +31,57 @@ trait Match {
     *
     * @return the list of all characters.
     */
-  def characters(): List[Character]
+  def characters(): List[Character[Int, Int]]
 
   /**
     * Sets the list of all characters who participate at the match.
     *
     * @param allCharacters - the list of all characters.
     */
-  def characters_=(allCharacters: List[Character]): Unit
+  def characters_=(allCharacters: List[Character[Int, Int]]): Unit
 
   /**
     * Returns the list of dead characters.
     *
     * @return the list of dead characters.
     */
-  def deadCharacters(): List[Character]
+  def deadCharacters(): List[Character[Int, Int]]
 
   /**
     * Sets the list of dead characters.
     *
     * @param deadCharacters - the list of dead characters.
     */
-  def deadCharacters_=(deadCharacters: List[Character]): Unit
+  def deadCharacters_=(deadCharacters: List[Character[Int, Int]]): Unit
 
 }
 
-case class MatchImpl(override var playground: List[Point[Int,Int]], val mapUserCharacter: HashMap[String, Character]) extends Match {
+case class MatchImpl(override var playground: List[Point[Int,Int]], val mapUserCharacter: HashMap[String, Character[Int, Int]]) extends Match {
   /**
     * Returns the list of all characters who participate at the match.
     *
     * @return the list of all characters.
     */
-  override def characters(): List[Character] = ???
+  override def characters(): List[Character[Int, Int]] = mapUserCharacter.valuesIterator.toList
 
   /**
     * Sets the list of all characters who participate at the match.
     *
     * @param allCharacters - the list of all characters.
     */
-  override def characters_=(allCharacters: List[Character]): Unit = ???
+  override def characters_=(allCharacters: List[Character[Int, Int]]): Unit = {}
 
   /**
     * Returns the list of dead characters.
     *
     * @return the list of dead characters.
     */
-  override def deadCharacters(): List[Character] = ???
+  override def deadCharacters(): List[Character[Int, Int]] = mapUserCharacter.values.toList //aggiustaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
   /**
     * Sets the list of dead characters.
     *
     * @param deadCharacters - the list of dead characters.
     */
-  override def deadCharacters_=(deadCharacters: List[Character]): Unit = ???
+  override def deadCharacters_=(deadCharacters: List[Character[Int, Int]]): Unit = {}
 }

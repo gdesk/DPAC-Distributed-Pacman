@@ -22,12 +22,12 @@ case class PacmanImpl(override val name: String) extends CharacterImpl(true, new
   /**
     * Manages the character's strategy of mortality.
     */
-  override def eatObject(): Unit = ??? // farla solo se si è msso
+  override def eatObject(): Unit = {} // farla solo se si è msso
 
   /**
     * Manage the the strategy of game, that is based on who the killer is and who the killable
     */
-  override def checkAllPositions(): Unit = ???
+  override def checkAllPositions(): Unit = {}
 
   /**
     * Manages the character's movement and consequently the contact with other item of the game.
