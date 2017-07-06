@@ -4,24 +4,23 @@ import java.awt.Color
 
 import character.{GhostImpl, PacmanImpl}
 import characterjava.Direction
+import client.utils.ScalaProlog
 
 /**
   * Testing for le working of character class
+  *
   * @author Giulia Lucchi
   */
 object CharacterTest extends App{
-
-  var ghost = GhostImpl("ghost", Color.BLUE)
-  ghost.isKillable = true
-  println(ghost.position)
+  var ghost = GhostImpl("ghost", "pink")
+  ghost.isKillable = false
+  // println(ghost.position)
   ghost.go(Direction.RIGHT)
-  println(ghost.position)
+//  println(ghost.position)
   ghost.go(Direction.RIGHT)
-  println(ghost position)
+ // println(ghost position)
 
 
-  ghost.checkAllPositions()
-  println(ghost.score)
 
   /*var pacman = PacmanImpl("pacman")
   println(pacman.position)

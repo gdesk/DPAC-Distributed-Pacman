@@ -132,27 +132,27 @@ abstract class CharacterImpl(override var isKillable: Boolean, override val live
     * @param direction    character's of direction
     */
   override def go(direction: Direction): Unit = {
-    if(ScalaProlog.solveWithSuccess(PrologConfig.ENGINE, Term.createTerm(s"move(${position x}, ${position y}, ${direction getDirection}, X1,Y1)"))){
-      val point: Point[Int,Int] = this.move(direction)
-      setPosition(point)
+    val point: Option[Point[Int, Int]] = move(direction)
+    if (point nonEmpty) {
+      setPosition(point get)
       checkAllPositions()
-    }else{
+    } else {
       println("NO. it hit the wall.")
     }
-
   }
-
-  def checkAllPositions(): Unit
 
   /**
     * Recall the predicate about the character's movement .
-    * @param direction  the character's direction during the movement
-    * @return           the new character's position after the movement
+    *
+    * @param direction the character's direction during the movement
+    * @return the new character's position after the movement
     */
-  private def move (direction: Direction): Point[Int, Int] = {
+  private def move(direction: Direction): Option[Point[Int, Int]] = {
     val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${this.position.x}, ${this.position.y},${direction getDirection}, X, Y).")
-    val x = Integer.valueOf(solveInfo.getTerm("X").toString)
-    val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
-    Point[Int, Int](x, y)
+    if (solveInfo isSuccess) {
+      val x = Integer.valueOf(solveInfo.getTerm("X").toString)
+      val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
+      Option(Point[Int, Int](x, y))
+    }else{None}
   }
 }
