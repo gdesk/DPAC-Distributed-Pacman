@@ -13,12 +13,12 @@ import characterjava.Direction
 object CharacterTest extends App{
 
   var ghost = GhostImpl("ghost", "pink")
-  ghost.isKillable = false
- //  println(ghost.position)
+  ghost.isKillable = true
+   println(ghost.position)
   ghost.go(Direction.RIGHT)
- // println(ghost.position)
+  println(ghost.position)
   ghost.go(Direction.RIGHT)
- // println(ghost position)
+  println(ghost position)
 
 
 

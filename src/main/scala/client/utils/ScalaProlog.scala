@@ -37,6 +37,7 @@ object ScalaProlog {
     }.toStream
   }
 
+
   def multipleOutput(theory: Theory, goal: String) : SolveInfo = {
     val engine = new Prolog
     engine.setTheory(theory)
@@ -47,11 +48,10 @@ object ScalaProlog {
     engine(goal).map(_.isSuccess).headOption == Some(true)
   }
 
-  def toPrologList(list : List[String]): String = {
+  def scalaToPrologList(scalaList : List[String]): String = {
     var string : String  = "["
     var c=0
-
-    list.toStream.foreach(x =>
+    scalaList.toStream.foreach(x =>
       if(c ==0){
         string = string.concat(x)
          c=1
@@ -60,6 +60,10 @@ object ScalaProlog {
       })
     string = string.concat("]")
     string
+  }
+
+  def prologToScalaList(prologList: String): Unit ={
+
   }
 
 
