@@ -1,6 +1,5 @@
 package client.character
 
-
 import java.awt.Color
 import java.lang.Integer.valueOf
 
@@ -24,7 +23,8 @@ case class GhostImpl(override val name: String, override var color: String) exte
   override def go(direction: Direction): Unit = super.go(direction)
 
   /**
-    * Manages the strategy of game, that is based on who is the killer and who is killable
+    * Manages the strategy of game, that is based on who is the killer and who is killable.
+    * 
     */
   override def checkAllPositions(): Unit = {
     /*solo per capire se funziona poi lo importeremo da scalaprolog e dovrò fare the convert ghost scala to ghost prolog*/
@@ -36,20 +36,14 @@ case class GhostImpl(override val name: String, override var color: String) exte
     var EatenGhostColor: List[Color] = List()// lista
     val pacman : Pacman = PacmanImpl("pacman")
     pacman.setPosition(Point[Int,Int](20,20))
-   val listProlog = ScalaProlog.scalaToPrologList(ghostList)
-
-
+    val listProlog = ScalaProlog.scalaToPrologList(ghostList)
 
     if (isKillable) {
-
       val solveInfo = PrologConfig.getPrologEngine().solve(s"ghost_defeat(pacman(${pacman.position x},${pacman.position y},${pacman.lives.remainingLives()},${pacman.score.toString}), ${listProlog}, ${ghostEaten}, PS, EG).")
       val newScore = valueOf(solveInfo.getTerm("PS").toString)
-      val eatenGhost = solveInfo.getTerm("EG").toString // Lista colori ---> trasforma in lista scala
-      println( solveInfo.isSuccess)
-
+      val eatenGhost = ScalaProlog.prologToScalaList(solveInfo.getTerm("EG").toString )
       pacman.score = newScore
     } else {
-
       val solveInfo = PrologConfig.getPrologEngine().solve(s"eat_pacman(pacman(${pacman.position x},${pacman.position y},${pacman.lives.remainingLives()},${pacman.score.toString}), ${listProlog}, NL, GS, CG).")
       val newPacmanLives: Int = valueOf(solveInfo.getTerm("NL").toString)
       pacman.lives.remainingLives_=(newPacmanLives)
@@ -57,8 +51,6 @@ case class GhostImpl(override val name: String, override var color: String) exte
       score = scoreGhost
       val killerGhost: String = solveInfo.getTerm("CG").toString
     }
-
-
   }
 }
 

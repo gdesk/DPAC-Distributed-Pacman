@@ -154,7 +154,5 @@ abstract class CharacterImpl(override var isKillable: Boolean, override val live
       val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
       Option(Point[Int, Int](x, y))
     }else{None}
-
   }
-
 }
