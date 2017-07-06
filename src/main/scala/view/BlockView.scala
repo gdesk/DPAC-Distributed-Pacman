@@ -80,6 +80,11 @@ trait BlockView {
     */
   def getVertical(): Image
 
+  /**
+    * @return The image of a single square block
+    */
+  def getSingle(): Image
+
 }
 
 class BlockViewImpl extends BlockView {
@@ -113,6 +118,8 @@ class BlockViewImpl extends BlockView {
   override def getUpperRightCorner(): Image = getImage(UPPER_RIGHT_CORNER.getImageFileName())
 
   override def getVertical(): Image = getImage(VERTICAL.getImageFileName())
+
+  override def getSingle(): Image = getImage(SINGLE.getImageFileName())
 
   private def getImage( fileName: String): Image = Utils.getImage(path + fileName)
 

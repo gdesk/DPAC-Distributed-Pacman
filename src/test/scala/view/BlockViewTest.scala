@@ -54,6 +54,9 @@ class BlockViewTest extends FunSuite {
 
     blockImage = Utils.getImage("block/"+resolution+"/verticalBlock")
     assert(blockView.getVertical() == blockImage)
+
+    blockImage = Utils.getImage("block/"+resolution+"/singleBlock")
+    assert(blockView.getSingle() == blockImage)
   }
 
 }

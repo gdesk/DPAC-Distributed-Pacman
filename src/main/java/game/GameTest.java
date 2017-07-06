@@ -74,7 +74,7 @@ public class GameTest {
         }
 
         for (int j = 5; j < 29; j = j + 5 ){
-            for (int i = 4; i < 57 ; i++ ) {
+            for (int i = 3; i < 58 ; i++ ) {
                 p.addBlock(new VirtualBlock(new PointImpl(i, j)));
             }
         }

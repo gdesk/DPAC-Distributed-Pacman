@@ -136,7 +136,7 @@ public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundVi
         }else if(isVertical){
             return VERTICAL;
         }else {
-            return null; //TODO caricare immagine default quadratino blu
+            return SINGLE;
         }
     }
 }

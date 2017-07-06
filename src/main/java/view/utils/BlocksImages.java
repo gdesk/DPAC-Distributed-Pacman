@@ -10,8 +10,8 @@ import java.awt.*;
 public enum BlocksImages {
 
     HORIZONTAL("horizontalBlock"),
-    HORIZONTAL_BOTTOM("HorizontalBottom"),
-    HORIZONTAL_UP("HorizontalUp"),
+    HORIZONTAL_BOTTOM("horizontalBottom"),
+    HORIZONTAL_UP("horizontalUp"),
 
     LEFT_END("leftEnd"),
     LOWER_END("lowerEnd"),
@@ -25,7 +25,9 @@ public enum BlocksImages {
     LOWER_LEFT_CORNER("lowerLeftCorner"),
     LOWER_RIGHT_CORNER("lowerRightCorner"),
     UPPER_LEFT_CORNER("upperLeftCorner"),
-    UPPER_RIGHT_CORNER("upperRightCorner");
+    UPPER_RIGHT_CORNER("upperRightCorner"),
+
+    SINGLE("singleBlock");
 
     private final String imageFileName;
 
