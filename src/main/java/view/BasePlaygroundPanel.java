@@ -1,11 +1,14 @@
 package view;
 
+import controller.UserInputController;
 import view.utils.BlocksImages;
 import view.utils.FruitsImages;
 import view.utils.ImagesUtils;
 
+import javax.rmi.CORBA.Util;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 
 
 /**
@@ -47,6 +50,21 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
                 add(cells[i][j], gbc);
             }
         }
+
+        this.setFocusable(true);
+    }
+
+    @Override
+    public void addKeyListener(KeyListener listener){
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        this.requestFocus();
+        System.out.println(this.requestFocusInWindow());
+        super.addKeyListener(listener);
+        this.revalidate();
     }
 
 
@@ -116,6 +134,16 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
             }
             checkAndInsert(x,y,img);
         }
+    }
+
+    public void removeCharacter (int x, int y) {
+        //todo: check if there is a character there
+        ImageIcon img = new ImageIcon(Utils.getImage("empty"));
+        cells[x][y].setIcon(img);
+        gbc.gridx = x;
+        gbc.gridy = y;
+        revalidate();
+        repaint();
     }
 
     private void checkAndInsert(int x, int y, ImageIcon img){

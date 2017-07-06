@@ -46,4 +46,13 @@ public interface BasePlaygroundView {
      * @param direction Character's direction
      */
     void renderCharacter(int x, int y, String name, String direction);
+
+
+    /**
+     * remove a character sprite in the specified position (if present).
+     *
+     * @param x Horizontal position on grid
+     * @param y Vertical position on grid
+     */
+    void removeCharacter(int x, int y);
 }

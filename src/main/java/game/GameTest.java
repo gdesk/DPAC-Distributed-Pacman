@@ -5,6 +5,7 @@ import client.VirtualPlayground;
 import client.gameElement.*;
 import client.utils.Dimension;
 import client.utils.PointImpl;
+import controller.UserInputController;
 import view.*;
 
 import java.awt.*;
@@ -25,6 +26,11 @@ public class GameTest {
         PlaygroundPanel playgroundView = initializePlaygroundView( currentPlayground , null /*model.getCharacterList()*/);
         view = MainFrame.getInstance();
         view.setPlayground(playgroundView);
+
+        UserInputController keyboardController = new UserInputController(playgroundView);
+        playgroundView.addKeyListener(keyboardController);
+        System.out.println(playgroundView.hasFocus());
+
 
     }
 
