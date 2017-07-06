@@ -3,7 +3,7 @@ package characterjava;
 /**
  * This enumeration manages the character's movement.
  *
- * Created by Giulia Lucchi on 28/06/2017.
+ * @author Giulia Lucchi
  */
 public enum Direction {
 

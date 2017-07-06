@@ -1,24 +1,22 @@
 package client.character
-import java.io.FileInputStream
 
-import alice.tuprolog.Theory
 import characterjava.Direction
-import client.utils.{Point, ScalaProlog}
+import client.character.InitializedInfoImpl.{getCharacterLives, getStartPosition}
 
 /**
   * Manages the Pacman character.
   *
   * @author Giulia Lucchi
   */
-trait Pacman extends CharacterImpl {
+trait Pacman {
   /**
     * Manages the character's strategy of mortality.
     */
  def eatObject(): Unit
 }
 
-case class PacmanImpl(override val name: String) extends CharacterImpl(true, new LivesImpl(InitializedInfoImpl.getCharacterLives("pacman"))) with Pacman{
-  setPosition(InitializedInfoImpl.getStartPosition())
+case class PacmanImpl(override val name: String) extends CharacterImpl(true, new LivesImpl(getCharacterLives("pacman")), getStartPosition()) with Pacman{
+  setPosition(getStartPosition())
   /**
     * Manages the character's strategy of mortality.
     */

@@ -1,9 +1,8 @@
 package client.character
 
-import alice.tuprolog.Term
 import characterjava.Direction
 import client.gameElement.GameItem
-import client.utils.{Point, ScalaProlog}
+import client.utils.Point
 
 /**
   * Manages the base model of character.
@@ -105,9 +104,8 @@ trait Character[X,Y] extends GameItem{
   def score_=(score: Int) : Unit
 }
 
-abstract class CharacterImpl(override var isKillable: Boolean, override val lives: Lives) extends Character[Int, Int] {
+abstract class CharacterImpl(override var isKillable: Boolean, override val lives: Lives, var pointPosition: Point[Int,Int]) extends Character[Int, Int] {
   override var isAlive: Boolean = true
-  var pointPosition: Point[Int, Int] = InitializedInfoImpl.getStartPosition()
   override var direction: Direction = Direction.START
   override var score: Int = 0
 
