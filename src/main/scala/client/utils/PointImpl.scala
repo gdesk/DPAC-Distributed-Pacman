@@ -2,23 +2,36 @@ package client.utils
 
 /** The position of an Item in the playground.
   *
-  * @constructor create a new Point object.
-  * @param x the position of the item on x axis.
-  * @param y the position of the item on y axis.
-  *
   * @tparam T the measure unit used on x axis.
   * @tparam W the measure unit used on y axis.
   *
   * @author manuBottax
   */
-class Point [T,W] ( var x: T, var y: W){
+trait Point [T,W] {
+
+  /** the position of the item on x axis. */
+  def x: T
+
+  /** the position of the item on y axis. */
+  def y: W
+}
+
+/** A point that represent [[Point]] in a virtual playground
+  *
+  * @constructor create a new Point object.
+  * @param x the position of the item on x axis.
+  * @param y the position of the item on y axis.
+  *
+  */
+
+class PointImpl [T,W](var x: T, var y: W) extends Point [T,W] {
   override def toString: String = "[" + this.x + " | " + this.y + "]"
 
-  def canEqual(a: Any): Boolean = a.isInstanceOf[Point[T,W]]
+  def canEqual(a: Any): Boolean = a.isInstanceOf[PointImpl[T,W]]
 
   override def equals(that: Any): Boolean =
     that match {
-      case that: Point[T,W] => that.canEqual(this) && ( this.x == that.x && this.y == that.y )
+      case that: PointImpl[T,W] => that.canEqual(this) && ( this.x == that.x && this.y == that.y )
       case _ => false
     }
 
@@ -31,7 +44,7 @@ class Point [T,W] ( var x: T, var y: W){
 }
 
 /** Factory for [[client.utils.Dimension]] instances. */
-object Point {
+object PointImpl {
 
   /** Create a Dimension object with given x and y dimension.
     *
@@ -41,5 +54,5 @@ object Point {
     * @tparam T the measure unit used on x axis.
     * @tparam W the measure unit used on y axis.
     */
-  def apply[T, W](x: T, y: W) = new Point (x, y)
+  def apply[T, W](x: T, y: W) = new PointImpl (x, y)
 }

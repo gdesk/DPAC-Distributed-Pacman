@@ -1,23 +1,24 @@
 package client
 
-import client.gameElement.{Block, Eatable, GameItem}
-import client.utils.{Dimension, Point}
+import java.util
+
+import client.gameElement.{Block, Eatable, GameItem, VirtualBlock}
+import client.utils.{Dimension, PointImpl, Point}
+
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
-/** The current playground. Contains all the element created for a game and give control over them.
-  *
-  * @constructor create an empty playground
-  * @param dimension the dimension of the playground
+/** The playground for a game. Contains all the element for a single game and give control over them
   *
   * @author manuBottax
   */
-class Playground (val dimension: Dimension) {
+trait Playground {
 
-  var map: mutable.HashMap[Point[Int,Int],GameItem] = new mutable.HashMap[Point[Int,Int],GameItem]()
+  /** the dimension of the playground*/
+  def dimension: Dimension
 
-  private var blockList: ListBuffer[Block] = ListBuffer.empty[Block]
-  private var eatableList: ListBuffer[Eatable] = ListBuffer.empty[Eatable]
+  /** A container for the element of the current game. */
+  def ground: mutable.Map[Point[Int,Int],GameItem]
 
   /** Add a block at his own position if is available.
     *
@@ -26,6 +27,62 @@ class Playground (val dimension: Dimension) {
     *
     * @param block the block that is wanted to be added to the playground
     */
+  def addBlock(block: Block): Unit
+
+  /** Remove a block from the playground (if it is possible).
+    *
+    * If in the specified block's position the is an item and that item is a block it is removed,
+    * otherwise nothing happens and an error message is shown.
+    *
+    * @param block the block that is wanted to be removed to the playground
+    */
+  def removeBlock (block: Block): Unit
+
+  /** return a List of all the blocks in the current ground */
+  def getAllBlocks: List[Block]
+
+  /** Add a eatable at his own position if is available.
+    *
+    * If the specified eatable has a position inside the border of the playground and that position is free the eatable is added,
+    * otherwise nothing happens and an error message is shown.
+    *
+    * @param eatable the eatable that is wanted to be added to the playground.
+    */
+  def addEatable(eatable: Eatable): Unit
+
+  /** Remove an eatable from the playground (if it is possible).
+    *
+    * If in the specified eatable's position the is an item and that item is a eatable it is removed,
+    * otherwise nothing happens and an error message is shown.
+    *
+    * @param eatable the eatable that is wanted to be removed to the playground.
+    */
+  def removeEatable (eatable: Eatable): Unit
+
+  /** return a List of all the eatables in the current ground */
+  def getAllEatable: List[Eatable]
+
+  /** Return the [[GameItem]] found in a given position. If the position is free or invalid return an empty [[Option]].
+    *
+    * @param position the position of the object to be returned.
+    * @return the object found at that position if it exist.
+    */
+  def getElementAtPosition(position: Point[Int, Int]): Option[GameItem]
+}
+
+
+/** Implementation of [[Playground]] for a match in a virtual Playground.
+  *
+  * @constructor create an empty playground
+  * @param dimension the dimension of the playground
+  */
+class VirtualPlayground(override val dimension: Dimension) extends Playground{
+
+  var ground: mutable.Map[Point[Int,Int],GameItem] = new mutable.HashMap[Point[Int,Int],GameItem]()
+
+  private var blockList: ListBuffer[Block] = ListBuffer.empty[Block]
+  private var eatableList: ListBuffer[Eatable] = ListBuffer.empty[Eatable]
+
   def addBlock(block: Block): Unit = {
 
     // se aggiungo fuori dalla posizione mi deve dare errore
@@ -37,7 +94,7 @@ class Playground (val dimension: Dimension) {
       if (getElementAtPosition(block.position).isEmpty) {
         this.blockList += block
         val entry: (Point[Int,Int], GameItem) = (block.position, block)
-        this.map += entry
+        this.ground += entry
       }
 
       else
@@ -48,22 +105,14 @@ class Playground (val dimension: Dimension) {
   // e se la dimension copre fuori dai bordi ? devo controllare anche le dimensioni di quei cosi
   // fare questa cosa con i blocchi dimensionati è esageratamente complicato
 
-
-  /** Remove a block from the playground (if it is possible).
-    *
-    * If in the specified block's position the is an item and that item is a block it is removed,
-    * otherwise nothing happens and an error message is shown.
-    *
-    * @param block the block that is wanted to be removed to the playground
-    */
   def removeBlock (block: Block): Unit = {
     val item: Option[GameItem] = getElementAtPosition(block.position)
     item match {
       case None => println("Block not in playground, cannot remove !")
       case Some(b) => {
         if (b.isInstanceOf[Block]) {
-          this.blockList -= item.get.asInstanceOf[Block]
-          this.map -= item.get.asInstanceOf[Block].position
+          this.blockList -= item.get.asInstanceOf[VirtualBlock]
+          this.ground -= item.get.asInstanceOf[Block].position
         }
         else println("element at that position is not a block, cannot remove it !")
       }
@@ -72,13 +121,7 @@ class Playground (val dimension: Dimension) {
 
   def getAllBlocks: List[Block] = blockList.toList
 
-  /** Add a eatable at his own position if is available.
-    *
-    * If the specified eatable has a position inside the border of the playground and that position is free the eatable is added,
-    * otherwise nothing happens and an error message is shown.
-    *
-    * @param eatable the eatable that is wanted to be added to the playground.
-    */
+
   def addEatable(eatable: Eatable): Unit = {
 
     // se aggiungo fuori dalla posizione mi deve dare errore
@@ -90,7 +133,7 @@ class Playground (val dimension: Dimension) {
       if (getElementAtPosition(eatable.position).isEmpty){
         this.eatableList += eatable
         val entry: (Point[Int,Int], GameItem) = (eatable.position, eatable)
-        this.map += entry
+        this.ground += entry
       }
 
       else
@@ -99,13 +142,6 @@ class Playground (val dimension: Dimension) {
     }
   }
 
-  /** Remove an eatable from the playground (if it is possible).
-    *
-    * If in the specified eatable's position the is an item and that item is a eatable it is removed,
-    * otherwise nothing happens and an error message is shown.
-    *
-    * @param eatable the eatable that is wanted to be removed to the playground.
-    */
   def removeEatable (eatable: Eatable): Unit = {
     val item: Option[GameItem] = getElementAtPosition(eatable.position)
     item match {
@@ -113,7 +149,7 @@ class Playground (val dimension: Dimension) {
       case Some(e) => {
         if (e.isInstanceOf[Eatable]) {
           this.eatableList -= item.get.asInstanceOf[Eatable]
-          this.map -= item.get.asInstanceOf[Eatable].position
+          this.ground -= item.get.asInstanceOf[Eatable].position
         }
         else println("element at that position is not an eatable, cannot remove it !")
       }
@@ -122,16 +158,10 @@ class Playground (val dimension: Dimension) {
 
   def getAllEatable: List[Eatable] = eatableList.toList
 
-
-  /** Return the [[GameItem]] found in a given position. If the position is free or invalid return an empty [[Option]].
-    *
-    * @param position the position of the object to be returned.
-    * @return the object found at that position if it exist.
-    */
-  def getElementAtPosition(position: Point[Int, Int]): Option[GameItem] = {
+  def getElementAtPosition(position: Point[Int,Int]): Option[GameItem] = {
 
     if (checkPosition(position))
-      this.map.get(position)
+      this.ground.get(position)
     else
       Option.empty[GameItem]
 

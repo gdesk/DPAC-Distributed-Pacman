@@ -1,11 +1,18 @@
 package client.gameElement
 
-import client.utils.{Point, ScoreUtils}
-
-import scala.util.Random
+import client.utils.Point
 
 /** Fruit, used in the game as object that Pacman can eat to gain extra point.
   * Is a subtype of trait [[client.gameElement.Eatable]]
+  *
+  * @author manuBottax
+  */
+trait Fruit extends Eatable {
+
+  def fruitTypes: Fruits
+}
+
+/** Implementation of [[Fruit]] for the virtual version of the game.
   *
   * @constructor create a new fruit with a position in the playground.
   * @param position the position in the playground.
@@ -13,27 +20,29 @@ import scala.util.Random
   *
   * @author manuBottax
   */
-class Fruit (override val position: Point[Int, Int], val fruitTypes: Fruits) extends Eatable{
+class VirtualFruit (override val position: Point[Int, Int], override val fruitTypes: Fruits) extends Fruit{
 
   /** return the score value for that fruit, randomly chosen in a list of possible score value.
     *
     * @return the score
     */
   override val score: Int = fruitTypes.getScore
+
+  override def itemType: ItemType = ItemType.Fruit
 }
 
-/** Factory for [[client.gameElement.Fruit]] instances. */
-object Fruit{
+/** Factory for [[client.gameElement.VirtualFruit]] instances. */
+object VirtualFruit{
 
-  /** Create a Fruit with a given position of default type (Cherry)
+  /** Create a Fruit with a given position of default type (CHERRY)
     *
     * @param position its position
     */
-  def apply(position: Point[Int, Int]): Fruit = new Fruit(position, Fruits.Cherry)
+  def apply(position: Point[Int, Int]): VirtualFruit = new VirtualFruit(position, Fruits.CHERRY)
 
   /** Create a Fruit with a given position and specified types (see [[client.gameElement.Fruits]] )
     *
     * @param position its position
     */
-  def apply(position: Point[Int, Int], fruitTypes: Fruits): Fruit = new Fruit(position, fruitTypes)
+  def apply(position: Point[Int, Int], fruitTypes: Fruits): VirtualFruit = new VirtualFruit(position, fruitTypes)
 }
