@@ -67,7 +67,7 @@ object ScalaProlog {
   }
 
   def prologToScalaList( prologList: String): List[String] ={
-    var list = prologList.replace("[","").replace("]","").replace(" ","")
+    val list = prologList.replace("[","").replace("]","").replace(" ","")
     list.split(",").toList
   }
 
@@ -78,7 +78,4 @@ object ScalaProlog {
   def solveAllAndGetTerm(engine: Term => Stream[SolveInfo], goal: Term): Stream[SolveInfo] = {
     engine(goal)
   }
-
-
-
 }

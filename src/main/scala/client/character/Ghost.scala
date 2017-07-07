@@ -13,13 +13,19 @@ import client.utils.{Point, ScalaProlog}
   */
 
 case class GhostImpl(override val name: String) extends CharacterImpl(false, new LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))) {
+
   setPosition(Point[Int, Int](20, 20))
 
+  /**
+    * Manages the character's movement and consequently the contact with other item of the game.
+    *
+    * @param direction    character's of direction
+    */
   override def go(direction: Direction): Unit = super.go(direction)
 
   /**
     * Manages the strategy of game, that is based on who is the killer and who is killable.
-    * 
+    *
     */
   override def checkAllPositions(): Unit = {
     /*solo per capire se funziona poi lo importeremo da scalaprolog e dovrò fare the convert ghost scala to ghost prolog*/
@@ -27,6 +33,7 @@ case class GhostImpl(override val name: String) extends CharacterImpl(false, new
     val redGhost = GhostImpl("red")
     val yellowGhost = GhostImpl("yellow")
     val ghostList: List[String] = List(s" ghost(${blueGhost.position x}, ${blueGhost.position y}, ${blueGhost.score}, ${blueGhost.name})", s"ghost(${redGhost.position x}, ${redGhost.position y}, ${redGhost.score}, ${redGhost.name})")
+
     val ghostEaten: Int = 1
     var EatenGhostColor: List[Color] = List()// lista
     val pacman : Pacman = PacmanImpl("pacman")

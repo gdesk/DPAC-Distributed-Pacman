@@ -1,10 +1,10 @@
 package client.character
 
 import java.lang.Integer.valueOf
-
-import characterjava.Direction
 import client.Playground
 import client.utils.{Dimension, Point, ScalaProlog}
+import characterjava.Direction
+import client.character.InitializedInfoImpl.{getCharacterLives, getStartPosition}
 
 /**
   * Manages the Pacman character.
@@ -12,7 +12,7 @@ import client.utils.{Dimension, Point, ScalaProlog}
   * @author Margherita Pecorelli
   * @author Giulia Lucchi
   */
-trait Pacman extends CharacterImpl {
+trait Pacman {
   /**
     * This method checks if Pacman can eat some {@Eatable} object
     */
