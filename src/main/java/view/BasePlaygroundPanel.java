@@ -39,7 +39,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         for (int i = 0; i < settings.getColumns(); ++i) {
             for (int j = 0; j < settings.getRows(); ++j) {
                 cells[i][j] = new JLabel();
-                //cells[i][j].setBorder(BorderFactory.createLineBorder(Color.white));
+                cells[i][j].setBorder(BorderFactory.createLineBorder(Color.white));
                 cells[i][j].setMaximumSize(settings.getCellDim());
                 cells[i][j].setMinimumSize(settings.getCellDim());
                 cells[i][j].setPreferredSize(settings.getCellDim());
@@ -136,12 +136,14 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
 
     public void removeCharacter (int x, int y) {
         //todo: check if there is a character there
-        ImageIcon img = new ImageIcon(Utils.getImage("empty"));
-        cells[x][y].setIcon(img);
-        gbc.gridx = x;
-        gbc.gridy = y;
-        revalidate();
-        repaint();
+        if(x>=0 && y>=0 && x<settings.getColumns() && y<settings.getRows()) {
+            ImageIcon img = new ImageIcon(Utils.getImage("empty"));
+            cells[x][y].setIcon(img);
+            gbc.gridx = x;
+            gbc.gridy = y;
+            revalidate();
+            repaint();
+        }
     }
 
     private void drawMap(final int characterX, final int characterY){
@@ -149,44 +151,87 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         int r = settings.getRowsToRender();
         int indexC = Math.floorDiv(c,2);
         int indexR = Math.floorDiv(r,2);
-        //  System.out.println("IndexC "+indexC);
-        // System.out.println("IndexR "+indexR);
 
         //pulisco la griglia
         renderedCells.forEach(cell->remove(cell));
+        renderedCells.clear();
 
-        //se è nel centro
-        for(int i = 0; i<c; i++){
-            for(int j = 0; j<r; j++){
+        if(characterX<indexC) { //sul bordo sinistro
+            System.out.println("bordo sinistro");
 
-                int x = characterX-indexC+i;
-                int y = characterY-indexR+j;
+            for (int i = 0; i < c; i++) {
+                for (int j = 0; j < r; j++) {
 
-                if(x<c){ //sul bordo sinistro
-                    int colToAddAtRight = c-x;
-                    x = 0;
-                    r = r+colToAddAtRight;
+                    int x = i;
+                    int y = characterY - indexR + j;
+                    insert(i,y,x,j);
                 }
+            }
 
-                if(x>=0 && y>=0 && x< settings.getColumns() && y<settings.getRows()) {
+        }else  if(characterY<indexR) { //sul bordo sinistro
+            System.out.println("bordo superiore");
 
-                    gbc.gridx = i;
-                    gbc.gridy = j;
-                    add(cells[x][y],gbc); // aggiunge il personaggio
-                    renderedCells.add(cells[x][y]);
-                    // System.out.println("ADD: "+ x +"  "+y);
+            for (int i = 0; i < c; i++) {
+                for (int j = 0; j < r; j++) {
+
+                    int x = characterX - indexC + i;
+                    int y = j;
+                    insert(i,y,x,j);
+                }
+            }
+
+        }else  if(characterX+indexC>settings.getColumns()) {
+            System.out.println("bordo destro");
+            int toAdd = indexC - (settings.getColumns() - characterX);
+
+            for (int i = 0; i < c; i++) {
+                for (int j = 0; j < r; j++) {
+
+                    int x = characterX - indexC - toAdd + i;
+                    int y = characterY - indexR + j;
+                    insert(i,y,x,j);
+                }
+            }
+        }else  if(characterY+indexR>settings.getRows()){
+            System.out.println("bordo inferiore");
+            int toAdd = indexR-(settings.getRows()-characterY);
+
+            for(int i = 0; i<c; i++){
+                for(int j = 0; j<r; j++){
+
+                    int x = characterX - indexC + i;
+                    int y = characterY - indexR - toAdd + j;
+                    insert(i,y,x,j);
+                }
+            }
+        } else {
+            System.out.println("centro");
+            //se è nel centro
+            for (int i = 0; i < c; i++) {
+                for (int j = 0; j < r; j++) {
+
+                    int x = characterX - indexC + i;
+                    int y = characterY - indexR + j;
+                    insert(i,y,x,j);
                 }
             }
         }
-
-        //se è sul bordo
-
-
     }
+
+    private void insert(int i, int y, int x, int j){
+        if (x >= 0 && y >= 0 && x < settings.getColumns() && y < settings.getRows()) {
+
+            gbc.gridx = i;
+            gbc.gridy = j;
+            add(cells[x][y], gbc); // aggiunge il personaggio
+            renderedCells.add(cells[x][y]);
+        }
+    }
+
 
     private void checkAndInsert(int x, int y, ImageIcon img){
 
-        if(x<settings.getColumns() && y<settings.getRows()) {
+        if(x>=0 && y>=0 && x<settings.getColumns() && y<settings.getRows()) {
 
             cells[x][y].setIcon(img);
             gbc.gridx = x;

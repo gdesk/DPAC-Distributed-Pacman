@@ -16,51 +16,68 @@ class UserInputController (val view: PlaygroundPanel)/*(val character: Character
     //todo: controllare bordi
     e.getKeyCode match {
       case KeyEvent.VK_LEFT => {
-        view.removeCharacter(currentX,currentY)
-        currentX = currentX - 1
-        view.renderCharacter(currentX,currentY,"pacman","left")
+        if (check(currentX - 1, currentY)) {
+          view.removeCharacter(currentX, currentY)
+          currentX = currentX - 1
+          view.renderCharacter(currentX, currentY, "pacman", "left")
+        }
       }
 
+
       case KeyEvent.VK_RIGHT => {
-        view.removeCharacter(currentX,currentY)
-        currentX = currentX + 1
-        view.renderCharacter(currentX,currentY,"pacman","right")
+        if (check(currentX +1, currentY)) {
+          view.removeCharacter(currentX, currentY)
+          currentX = currentX + 1
+          view.renderCharacter(currentX, currentY, "pacman", "right")
+        }
       }
 
       case KeyEvent.VK_UP => {
-        view.removeCharacter(currentX,currentY)
-        currentY = currentY - 1
-        view.renderCharacter(currentX,currentY,"pacman","up")
+        if (check(currentX , currentY-1)) {
+          view.removeCharacter(currentX, currentY)
+          currentY = currentY - 1
+          view.renderCharacter(currentX, currentY, "pacman", "up")
+        }
       }
 
       case KeyEvent.VK_DOWN => {
-        view.removeCharacter(currentX,currentY)
-        currentY = currentY + 1
-        view.renderCharacter(currentX,currentY,"pacman","down")
+        if (check(currentX , currentY + 1)) {
+          view.removeCharacter(currentX, currentY)
+          currentY = currentY + 1
+          view.renderCharacter(currentX, currentY, "pacman", "down")
+        }
       }
 
       case KeyEvent.VK_A => {
-        view.removeCharacter(currentX,currentY)
-        currentX = currentX - 1
-        view.renderCharacter(currentX,currentY,"pacman","left")
+        if (check(currentX - 1, currentY)) {
+          view.removeCharacter(currentX, currentY)
+          currentX = currentX - 1
+          view.renderCharacter(currentX, currentY, "pacman", "left")
+        }
       }
 
       case KeyEvent.VK_D => {
-        view.removeCharacter(currentX,currentY)
-        currentX = currentX + 1
-        view.renderCharacter(currentX,currentY,"pacman","right")
+        if (check(currentX + 1, currentY)) {
+          view.removeCharacter(currentX, currentY)
+          currentX = currentX + 1
+          view.renderCharacter(currentX, currentY, "pacman", "right")
+        }
       }
 
       case KeyEvent.VK_W => {
-        view.removeCharacter(currentX,currentY)
-        currentY = currentY - 1
-        view.renderCharacter(currentX,currentY,"pacman","up")
+        if (check(currentX, currentY - 1)) {
+          view.removeCharacter(currentX, currentY)
+          currentY = currentY - 1
+          view.renderCharacter(currentX, currentY, "pacman", "up")
+        }
       }
 
       case KeyEvent.VK_S => {
-        view.removeCharacter(currentX,currentY)
-        currentY = currentY + 1
-        view.renderCharacter(currentX,currentY,"pacman","down")
+        if (check(currentX, currentY - 1)) {
+          view.removeCharacter(currentX, currentY)
+          currentY = currentY + 1
+          view.renderCharacter(currentX, currentY, "pacman", "down")
+        }
       }
       case _ =>
     }
@@ -70,6 +87,9 @@ class UserInputController (val view: PlaygroundPanel)/*(val character: Character
   override def keyTyped(e: KeyEvent): Unit = {}
 
   override def keyReleased(e: KeyEvent): Unit = {}
+
+  private def check(x: Int, y: Int): Boolean = x>=0 && y>=0 && x<60 && y<30 //TODO passare le columns e le rows del playground
+
 }
 
 
