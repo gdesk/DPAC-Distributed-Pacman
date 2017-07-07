@@ -25,8 +25,8 @@ public class PlaygroundSettings {
 
         this.columns = columns;
 
-        int xCellSize = (int)(DIMENSION.getWidth()/ columns);
-        int yCellSize = (int)(DIMENSION.getHeight()/ rows);
+        int xCellSize = (int)(DIMENSION.getWidth()/ columnsToRender);
+        int yCellSize = (int)(DIMENSION.getHeight()/ rowsToRender);
 
         this.cellSize = Math.min(xCellSize, yCellSize);
         this.cellDim = new Dimension(cellSize,cellSize);

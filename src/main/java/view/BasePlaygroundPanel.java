@@ -7,6 +7,8 @@ import view.utils.ImagesUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -18,6 +20,7 @@ import java.awt.event.KeyListener;
 public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
 
     private final JLabel[][] cells;
+    private final List<JLabel> renderedCells = new ArrayList<>();
     private final GridBagConstraints gbc = new GridBagConstraints();
     private final GameObjectView gameObjectImages = new GameObjectViewImpl();
     private final PlaygroundSettings settings;
@@ -36,14 +39,13 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         for (int i = 0; i < settings.getColumns(); ++i) {
             for (int j = 0; j < settings.getRows(); ++j) {
                 cells[i][j] = new JLabel();
+                //cells[i][j].setBorder(BorderFactory.createLineBorder(Color.white));
                 cells[i][j].setMaximumSize(settings.getCellDim());
                 cells[i][j].setMinimumSize(settings.getCellDim());
                 cells[i][j].setPreferredSize(settings.getCellDim());
 
                 gbc.gridx = i;
                 gbc.gridy = j;
-
-                //add(cells[i][j], gbc);
             }
         }
 
@@ -128,7 +130,6 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
                     break;
             }
             checkAndInsert(x,y,img);
-            System.out.println(x+"  "+y);
             drawMap(x,y);
         }
     }
@@ -148,21 +149,38 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         int r = settings.getRowsToRender();
         int indexC = Math.floorDiv(c,2);
         int indexR = Math.floorDiv(r,2);
-        System.out.println("IndexC "+indexC);
-        System.out.println("IndexR "+indexR);
+        //  System.out.println("IndexC "+indexC);
+        // System.out.println("IndexR "+indexR);
 
+        //pulisco la griglia
+        renderedCells.forEach(cell->remove(cell));
+
+        //se è nel centro
         for(int i = 0; i<c; i++){
             for(int j = 0; j<r; j++){
+
                 int x = characterX-indexC+i;
                 int y = characterY-indexR+j;
-                System.out.println("ADD: "+ x +"  "+y);
-                if(x>0 && y>0 && x< settings.getColumns() && y<settings.getRows()) {
+
+                if(x<c){ //sul bordo sinistro
+                    int colToAddAtRight = c-x;
+                    x = 0;
+                    r = r+colToAddAtRight;
+                }
+
+                if(x>=0 && y>=0 && x< settings.getColumns() && y<settings.getRows()) {
+
                     gbc.gridx = i;
                     gbc.gridy = j;
                     add(cells[x][y],gbc); // aggiunge il personaggio
+                    renderedCells.add(cells[x][y]);
+                    // System.out.println("ADD: "+ x +"  "+y);
                 }
             }
         }
+
+        //se è sul bordo
+
 
     }
 
