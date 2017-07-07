@@ -1,25 +1,48 @@
 package client.gameElement
 
-import client._
-import client.utils.{Point, ScoreUtils}
+import client.utils.Point
 
-import scala.util.Random
-
-/**
-  * Created by ManuBottax on 25/06/2017.
+/** Fruit, used in the game as object that Pacman can eat to gain extra point.
+  * Is a subtype of trait [[client.gameElement.Eatable]]
+  *
+  * @author manuBottax
   */
-class Fruit (override val position: Point[Double, Double]) extends Eatable{
+trait Fruit extends Eatable {
 
-  private val id: Int = Random.nextInt(ScoreUtils.FRUIT_SCORE_LIST_DIMENSION)
-
-  override val score: Int = getScore
-  override def effect (x: Match) : Unit = incrementScore(x)
-
-  private def getScore: Int = ScoreUtils.FRUIT_SCORE_LIST(id)
-  private def incrementScore = (x: Match) => x.score = x.score + score
-
+  def fruitTypes: Fruits
 }
 
-object Fruit{
-  def apply(position: Point[Double, Double]): Fruit = new Fruit(position)
+/** Implementation of [[Fruit]] for the virtual version of the game.
+  *
+  * @constructor create a new fruit with a position in the playground.
+  * @param position the position in the playground.
+  * @param fruitTypes the type of this object. avery types has a different score. (see [[client.gameElement.Fruits]] )
+  *
+  * @author manuBottax
+  */
+class VirtualFruit (override val position: Point[Int, Int], override val fruitTypes: Fruits) extends Fruit{
+
+  /** return the score value for that fruit, randomly chosen in a list of possible score value.
+    *
+    * @return the score
+    */
+  override val score: Int = fruitTypes.getScore
+
+  override def itemType: ItemType = ItemType.Fruit
+}
+
+/** Factory for [[client.gameElement.VirtualFruit]] instances. */
+object VirtualFruit{
+
+  /** Create a Fruit with a given position of default type (CHERRY)
+    *
+    * @param position its position
+    */
+  def apply(position: Point[Int, Int]): VirtualFruit = new VirtualFruit(position, Fruits.CHERRY)
+
+  /** Create a Fruit with a given position and specified types (see [[client.gameElement.Fruits]] )
+    *
+    * @param position its position
+    */
+  def apply(position: Point[Int, Int], fruitTypes: Fruits): VirtualFruit = new VirtualFruit(position, fruitTypes)
 }

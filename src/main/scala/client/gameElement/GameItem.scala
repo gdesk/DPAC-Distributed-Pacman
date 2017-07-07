@@ -7,7 +7,10 @@ import client.utils.Point
   *
   * @author ManuBottax
   */
+trait GameItem {
 
-trait GameItem [T,W] {
-  def position: Point[T,W]
+  /** the position of the item in the playground. */
+  def position: Point[Int,Int]
+
+  def itemType: ItemType
 }

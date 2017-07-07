@@ -1,14 +1,13 @@
 package client.gameElement
 
-import client.Match
+/** Trait that specify an item as eatable by Pacman.*/
+trait Eatable extends GameItem {
 
-/**
-  * Created by ManuBottax on 25/06/2017.
-  */
-trait Eatable extends GameItem[Double, Double] {
-
+    /** the value that is given as score when Pacman eat that item.
+      *
+      * @return the score value
+      */
     def score: Int
-    def effect (x: Match) : Unit
 }
 
 

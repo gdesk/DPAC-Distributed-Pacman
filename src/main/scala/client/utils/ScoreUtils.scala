@@ -1,7 +1,8 @@
 package client.utils
 
-/**
-  * Created by ManuBottax on 26/06/2017.
+/** Static List of score used in the game.
+  *
+  * @author manuBottax
   */
 class ScoreUtils
 
