@@ -30,9 +30,6 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         setBackground(settings.getBackgroundColor());
         cells = new JLabel[settings.getColumns()][settings.getRows()];
 
-        System.out.println(" size : [ " + settings.getColumns() + " | " + settings.getRows()  + " ] !");
-        System.out.println(" dim : [ " + settings.getCellDim() + " | size : " + settings.getCellSize()  + " ] !");
-
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
@@ -60,7 +57,6 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
             e.printStackTrace();
         }
         this.requestFocus();
-        System.out.println(this.requestFocusInWindow());
         super.addKeyListener(listener);
         this.revalidate();
     }

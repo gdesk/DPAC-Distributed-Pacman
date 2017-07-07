@@ -62,6 +62,7 @@ class UserInputController (val view: PlaygroundPanel)/*(val character: Character
         currentY = currentY + 1
         view.renderCharacter(currentX,currentY,"pacman","down")
       }
+      case _ =>
     }
 
   }

@@ -29,9 +29,7 @@ public class GameTest {
 
         UserInputController keyboardController = new UserInputController(playgroundView);
         playgroundView.addKeyListener(keyboardController);
-        System.out.println(playgroundView.hasFocus());
-
-
+        
     }
 
     public static void main(String[] args) {
