@@ -18,7 +18,7 @@ import static view.utils.BlocksImages.*;
 
 public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundView {
 
-    public PlaygroundPanel(PlaygroundDynamicSettings playgroundsettings){
+    public PlaygroundPanel(PlaygroundSettings playgroundsettings){
         super(playgroundsettings);
     }
 

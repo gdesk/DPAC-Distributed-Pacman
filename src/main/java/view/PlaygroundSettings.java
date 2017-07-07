@@ -7,7 +7,7 @@ import static view.MainFrame.DIMENSION;
 /**
  * Created by Manuel Bottax on 04/07/2017.
  */
-public class PlaygroundDynamicSettings {
+public class PlaygroundSettings {
 
     private int columns;
     private int rows;
@@ -17,7 +17,7 @@ public class PlaygroundDynamicSettings {
     private Color backgroundColor;
     private Image backgroundImage;
 
-    public PlaygroundDynamicSettings(final int columns, final int rows){
+    public PlaygroundSettings(final int columns, final int rows){
         this.rows = rows;
 
         this.columns = columns;

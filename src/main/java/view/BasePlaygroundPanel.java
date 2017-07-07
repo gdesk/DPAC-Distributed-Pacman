@@ -1,11 +1,9 @@
 package view;
 
-import controller.UserInputController;
 import view.utils.BlocksImages;
 import view.utils.FruitsImages;
 import view.utils.ImagesUtils;
 
-import javax.rmi.CORBA.Util;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
@@ -22,9 +20,9 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     private final JLabel[][] cells;
     private final GridBagConstraints gbc = new GridBagConstraints();
     private final GameObjectView gameObjectImages = new GameObjectViewImpl();
-    private final PlaygroundDynamicSettings settings;
+    private final PlaygroundSettings settings;
 
-    public BasePlaygroundPanel(PlaygroundDynamicSettings playgroundSetting){
+    public BasePlaygroundPanel(PlaygroundSettings playgroundSetting){
 
         settings = playgroundSetting;
 

@@ -37,7 +37,7 @@ public class PlaygroundBuilderImpl implements PlaygroundBuilder {
     }
 
     public PlaygroundView createPlayground(){
-        PlaygroundDynamicSettings settings = new PlaygroundDynamicSettings(colums,rows);
+        PlaygroundSettings settings = new PlaygroundSettings(colums,rows);
         settings.setBackgroundColor(color);
         if(image!=null){
             settings.setBackgroundImage(image);
