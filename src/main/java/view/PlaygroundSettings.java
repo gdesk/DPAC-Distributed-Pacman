@@ -9,6 +9,9 @@ import static view.MainFrame.DIMENSION;
  */
 public class PlaygroundSettings {
 
+    private int columnsToRender = 10;
+    private int rowsToRender = 10;
+
     private int columns;
     private int rows;
     private int cellSize;
@@ -53,4 +56,19 @@ public class PlaygroundSettings {
         this.backgroundImage = backgroundImage;
     }
 
+    public int getColumnsToRender() {
+        return columnsToRender;
+    }
+
+    public void setColumnsToRender(int columnsToRender) {
+        this.columnsToRender = columnsToRender;
+    }
+
+    public int getRowsToRender() {
+        return rowsToRender;
+    }
+
+    public void setRowsToRender(int rowsToRender) {
+        this.rowsToRender = rowsToRender;
+    }
 }

@@ -42,7 +42,8 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
 
                 gbc.gridx = i;
                 gbc.gridy = j;
-                add(cells[i][j], gbc);
+
+                //add(cells[i][j], gbc);
             }
         }
 
@@ -96,7 +97,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
      * @param type The fruit type to be rendered.
      */
     public void renderFruit(int x, int y, FruitsImages type){
-       checkAndInsert(x,y,getImageIcon(gameObjectImages.getFruit(type)));
+        checkAndInsert(x,y,getImageIcon(gameObjectImages.getFruit(type)));
     }
 
     /**
@@ -127,6 +128,8 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
                     break;
             }
             checkAndInsert(x,y,img);
+            System.out.println(x+"  "+y);
+            drawMap(x,y);
         }
     }
 
@@ -138,6 +141,29 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         gbc.gridy = y;
         revalidate();
         repaint();
+    }
+
+    private void drawMap(final int characterX, final int characterY){
+        int c = settings.getColumnsToRender();
+        int r = settings.getRowsToRender();
+        int indexC = Math.floorDiv(c,2);
+        int indexR = Math.floorDiv(r,2);
+        System.out.println("IndexC "+indexC);
+        System.out.println("IndexR "+indexR);
+
+        for(int i = 0; i<c; i++){
+            for(int j = 0; j<r; j++){
+                int x = characterX-indexC+i;
+                int y = characterY-indexR+j;
+                System.out.println("ADD: "+ x +"  "+y);
+                if(x>0 && y>0 && x< settings.getColumns() && y<settings.getRows()) {
+                    gbc.gridx = i;
+                    gbc.gridy = j;
+                    add(cells[x][y],gbc); // aggiunge il personaggio
+                }
+            }
+        }
+
     }
 
     private void checkAndInsert(int x, int y, ImageIcon img){
