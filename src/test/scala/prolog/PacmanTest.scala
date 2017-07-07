@@ -23,16 +23,9 @@ class PacmanTest extends FunSuite {
 
   test("Pacman loosing match") {
     var risXnewPos, risYnewPos: String = "30"
-    goal = Some("eat_pacman(pacman(" + risXnewPos + "," + risYnewPos + ",3,_), [ghost(30,30,100,red),ghost(31,31,200,blue),ghost(32,32,300,green)],NL1,_,_)")
+    goal = Some("eat_pacman(pacman(" + risXnewPos + "," + risYnewPos + ",1,_), [ghost(30,30,100,Inky),ghost(31,31,200,Blinky),ghost(32,32,300,Pinky)],NL1,_,_)")
     var risEat = solveOneAndGetTerm(engine, goal.get, "NL1")
     var i: Int = 0
-
-    for (i <- 1 to 2) {
-      risXnewPos = String.valueOf(Integer.valueOf(risXnewPos) + 1)
-      risYnewPos = String.valueOf(Integer.valueOf(risYnewPos) + 1)
-      goal = Some("eat_pacman(pacman(" + risXnewPos + "," + risYnewPos + ", " + risEat + ",_), [ghost(30,30,100,red),ghost(31,31,200,blue),ghost(32,32,300,green)],NL1,_,_)")
-      risEat = solveOneAndGetTerm(engine, goal.get, "NL1")
-    }
 
     goal = Some("pacman_death(pacman(_,_," + risEat + ",_))")
     var risDeath = solveWithSuccess(engine, goal.get)
@@ -57,34 +50,32 @@ class PacmanTest extends FunSuite {
 
   }
 
-   test("Testing Pacman standing still if a block is present") {
+  test("Testing Pacman standing still if a block is present") {
+    val theory = "street(1,0). " +
+      "street(1,1). " +
+      "street(0,1). "
 
-     val theory = "street(1,0). " +
-       "street(1,1). " +
-       "street(0,1). "
+    engine = modifyPrologEngine(theory)
 
-     engine = modifyPrologEngine(theory)
+    goal = Some("move(0,1,down,X,Y)")
+    val risnewPos = solveWithSuccess(engine, goal.get)
 
-     goal = Some("move(0,1,down,X,Y)")
-     val risnewPos = solveWithSuccess(engine, goal.get)
+    assert(risnewPos.equals(false))
 
-     assert(risnewPos.equals(false))
+  }
 
-   }
-
-  test("Checking the three following pacman's actions:" +
-    "- being eaten by ghost and remaining with one last life" +
-    "- eating the only eatable object left in list" +
-    "- match winning") {
-
-    map = scala.collection.mutable.Map("NL1" -> "1", "NGS" -> "500", "C" -> "green")
-    goal = Some("eat_pacman(pacman(1,1,2,_),[ghost(2,2,500,red),ghost(1,1,0,green),ghost(2,2,0,yellow)],NL1,NGS,C)")
+  test("Pacman has been eaten by a ghost and remained with one last life") {
+    map = scala.collection.mutable.Map("NL1" -> "1", "NGS" -> "500", "C" -> "Inky")
+    goal = Some("eat_pacman(pacman(1,1,2,_),[ghost(2,2,500,Blinky),ghost(1,1,0,Inky),ghost(2,2,0,Pinky)],NL1,NGS,C)")
 
     for((k,v) <- map) {
       val ris = solveOneAndGetTerm(engine, goal.get, k).toString
       assert(ris.equals(v))
     }
 
+  }
+
+  test("Pacman eating the only eatable object left in list") {
     map = scala.collection.mutable.Map("NS" -> "2100", "T" -> "[]", "N" -> "cherry")
     goal = Some("eat_object(pacman(1,1,_,2000),[eatable_object(1,1,100,cherry)],NS,T,N)")
 
@@ -93,9 +84,13 @@ class PacmanTest extends FunSuite {
       assert(ris.equals(v))
     }
 
+  }
+
+  test("Pacman winning match") {
     goal = Some("pacman_victory(pacman(_,_,1,_),[])")
     val risVictory = solveWithSuccess(engine, goal.get)
     assert(risVictory.equals(true))
 
   }
+
 }

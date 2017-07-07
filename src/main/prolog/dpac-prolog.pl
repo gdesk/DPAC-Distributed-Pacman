@@ -68,7 +68,7 @@ ghost_defeat(pacman(PX,PY,_,PS),[_|T],N,NPS,L1):- ghost_defeat(pacman(PX,PY,_,PS
 % 	-number of pacman lives left
 % 	-the new ghost score thus, current score plus value of pacman eaten
 % 	-the color of ghost that ate pacman
-%eat_pacman(+pacman(X,Y,Lives,_), +GhostList, -NewPacmanLives, -NewGhostScore, -GhostColor).
+%eat_pacman(+pacman(X,Y,Lives,_), +GhostList, -NewPacmanLives, -NewGhostScore, -GhostName).
 eat_pacman(pacman(_,_,NL,_),[],NL,0,"").
-eat_pacman(pacman(PX,PY,NL,_),[ghost(PX,PY,GS,C)|T],NL1,NGS,C):- NL1 is NL-1, NGS is GS+500, !.
-eat_pacman(pacman(PX,PY,NL,_),[_|T],NL1,NGS,C):- eat_pacman(pacman(PX,PY,NL,_),T,NL1,NGS,C).
+eat_pacman(pacman(PX,PY,NL,_),[ghost(PX,PY,GS,GN)|T],NL1,NGS,GN):- NL1 is NL-1, NGS is GS+500, !.
+eat_pacman(pacman(PX,PY,NL,_),[_|T],NL1,NGS,GN):- eat_pacman(pacman(PX,PY,NL,_),T,NL1,NGS,GN).
