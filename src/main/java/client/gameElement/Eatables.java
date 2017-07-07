@@ -1,9 +1,11 @@
 package client.gameElement;
 
 /**
- * Created by Manuel Bottax on 30/06/2017.
+ * Created by margherita on 07/07/17.
  */
-public enum Fruits {
+public enum Eatables {
+    Dot          ("dot",10),
+    Pill         ("pill",50),
     Cherry       ("fruit",100),
     Strawberry   ("fruit",300),
     Orange       ("fruit",500),
@@ -16,7 +18,7 @@ public enum Fruits {
     private final String family;
     private final int score;
 
-    Fruits(final String family, final int score) {
+    Eatables(final String family, final int score) {
         this.family = family;
         this.score = score;
     }

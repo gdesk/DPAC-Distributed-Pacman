@@ -12,7 +12,7 @@ import client.utils.ScalaProlog
   * @author Giulia Lucchi
   */
 object CharacterTest extends App{
-  var ghost = GhostImpl("ghost", "pink")
+  var ghost = GhostImpl("pink")
   ghost.isKillable = false
   // println(ghost.position)
   ghost.go(Direction.RIGHT)

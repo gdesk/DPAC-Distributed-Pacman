@@ -12,7 +12,7 @@ import scala.collection.mutable.ListBuffer
   *
   * @author manuBottax
   */
-class Playground (val dimension: Dimension) {
+case class Playground (val dimension: Dimension) {
 
   var map: mutable.HashMap[Point[Int,Int],GameItem] = new mutable.HashMap[Point[Int,Int],GameItem]()
 

@@ -12,12 +12,7 @@ import client.utils.{Point, ScalaProlog}
   * @author Giulia Lucchi
   */
 
-trait Ghost{
-  def color: String
-  def color_=(color: String): Unit
-}
-
-case class GhostImpl(override val name: String, override var color: String) extends CharacterImpl(false, new LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))) with Ghost {
+case class GhostImpl(override val name: String) extends CharacterImpl(false, new LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))) {
   setPosition(Point[Int, Int](20, 20))
 
   override def go(direction: Direction): Unit = super.go(direction)
@@ -28,10 +23,10 @@ case class GhostImpl(override val name: String, override var color: String) exte
     */
   override def checkAllPositions(): Unit = {
     /*solo per capire se funziona poi lo importeremo da scalaprolog e dovrò fare the convert ghost scala to ghost prolog*/
-    val blueghost = GhostImpl("ghost3", "blue")
-    val ghost1 = GhostImpl("ghost1", "red")
-    val ghost2 = GhostImpl("ghost2", "yellow")
-    val ghostList: List[String] = List(s" ghost(${blueghost.position x}, ${blueghost.position y}, ${blueghost.score}, ${blueghost.color.toString})", s"ghost(${ghost1.position x}, ${ghost1.position y}, ${ghost1.score}, ${ghost1.color})")
+    val blueGhost = GhostImpl("blue")
+    val redGhost = GhostImpl("red")
+    val yellowGhost = GhostImpl("yellow")
+    val ghostList: List[String] = List(s" ghost(${blueGhost.position x}, ${blueGhost.position y}, ${blueGhost.score}, ${blueGhost.name})", s"ghost(${redGhost.position x}, ${redGhost.position y}, ${redGhost.score}, ${redGhost.name})")
     val ghostEaten: Int = 1
     var EatenGhostColor: List[Color] = List()// lista
     val pacman : Pacman = PacmanImpl("pacman")

@@ -13,25 +13,36 @@ import scala.util.Random
   *
   * @author manuBottax
   */
-class Fruit (override val position: Point[Int, Int], val fruitTypes: Fruits) extends Eatable{
+case class Fruit (override val position: Point[Int, Int], val fruitTypes: Fruits) extends Eatable{
 
   /** return the score value for that fruit, randomly chosen in a list of possible score value.
     *
     * @return the score
     */
   override val score: Int = fruitTypes.getScore
+
+  /**
+    * Returns the family to which the eatable object belongs
+    *
+    * @return object's family
+    */
+  override def belonginFamily: String = Eatables.Friut getFamily
 }
 
-/** Factory for [[client.gameElement.Fruit]] instances. */
+/**
+  * Factory for [[client.gameElement.Fruit]] instances.
+  */
 object Fruit{
 
-  /** Create a Fruit with a given position of default type (Cherry)
+  /**
+    * Create a Fruit with a given position of default type (Cherry).
     *
     * @param position its position
     */
   def apply(position: Point[Int, Int]): Fruit = new Fruit(position, Fruits.Cherry)
 
-  /** Create a Fruit with a given position and specified types (see [[client.gameElement.Fruits]] )
+  /**
+    * Create a Fruit with a given position and specified types (see [[client.gameElement.Fruits]]).
     *
     * @param position its position
     */

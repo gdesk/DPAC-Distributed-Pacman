@@ -50,15 +50,19 @@ object ScalaProlog {
 
   def scalaToPrologList(scalaList : List[String]): String = {
     var string : String  = "["
-    var c=0
+    /*var c=0
     scalaList.toStream.foreach(x =>
-      if(c ==0){
-        string = string.concat(x)
-         c=1
-      }else{
-        string = string.concat(","+x)
-      })
-    string = string.concat("]")
+     if(c ==0){
+       string = string.concat(x)
+        c=1
+     }else{
+       string = string.concat(","+x)
+     })*/
+    scalaList.toStream.foreach(x =>
+      string = string.concat(x+",")
+      )
+    string = string substring (0,string.size-2)
+    string = string concat ("]")
     string
   }
 
