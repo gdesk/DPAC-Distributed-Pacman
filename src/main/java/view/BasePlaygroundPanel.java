@@ -156,71 +156,65 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         renderedCells.forEach(cell->remove(cell));
         renderedCells.clear();
 
-        if(characterX<indexC) { //sul bordo sinistro
+        if(characterX<indexC && characterY<indexR){
+            System.out.println("angolo alto sinistro");
+            insert2(0,0);
+
+        } else if(characterX<indexC && characterY+indexR>settings.getRows()){
+            System.out.println("angolo basso sinistro");
+            int toAdd = indexR-(settings.getRows()-characterY);
+            insert2(0, characterY - indexR - toAdd);
+
+        } else if (characterX+indexC>settings.getColumns() && characterY<indexR){
+            System.out.println("angolo alto destra");
+            int toAdd = indexC - (settings.getColumns() - characterX);
+            insert2(characterX - indexC - toAdd,0);
+
+        } else if(characterX+indexC>settings.getColumns() && characterY+indexR>settings.getRows())  {
+            System.out.println("angolo basso destra");
+            int toAddRight = indexC - (settings.getColumns() - characterX);
+            int toAddBottom = indexR-(settings.getRows()-characterY);
+            insert2(characterX - indexC - toAddRight, characterY - indexR - toAddBottom);
+
+        } else if(characterX<indexC) { //sul bordo sinistro
             System.out.println("bordo sinistro");
-
-            for (int i = 0; i < c; i++) {
-                for (int j = 0; j < r; j++) {
-
-                    int x = i;
-                    int y = characterY - indexR + j;
-                    insert(i,y,x,j);
-                }
-            }
+            insert2(0, characterY - indexR);
 
         }else  if(characterY<indexR) { //sul bordo sinistro
             System.out.println("bordo superiore");
-
-            for (int i = 0; i < c; i++) {
-                for (int j = 0; j < r; j++) {
-
-                    int x = characterX - indexC + i;
-                    int y = j;
-                    insert(i,y,x,j);
-                }
-            }
+            insert2(characterX - indexC, 0);
 
         }else  if(characterX+indexC>settings.getColumns()) {
             System.out.println("bordo destro");
             int toAdd = indexC - (settings.getColumns() - characterX);
+            insert2(characterX - indexC - toAdd, characterY - indexR);
 
-            for (int i = 0; i < c; i++) {
-                for (int j = 0; j < r; j++) {
-
-                    int x = characterX - indexC - toAdd + i;
-                    int y = characterY - indexR + j;
-                    insert(i,y,x,j);
-                }
-            }
         }else  if(characterY+indexR>settings.getRows()){
             System.out.println("bordo inferiore");
             int toAdd = indexR-(settings.getRows()-characterY);
+            insert2(characterX - indexC, characterY - indexR - toAdd);
 
-            for(int i = 0; i<c; i++){
-                for(int j = 0; j<r; j++){
-
-                    int x = characterX - indexC + i;
-                    int y = characterY - indexR - toAdd + j;
-                    insert(i,y,x,j);
-                }
-            }
         } else {
             System.out.println("centro");
-            //se è nel centro
-            for (int i = 0; i < c; i++) {
-                for (int j = 0; j < r; j++) {
+            insert2(characterX - indexC, characterY - indexR);
 
-                    int x = characterX - indexC + i;
-                    int y = characterY - indexR + j;
-                    insert(i,y,x,j);
-                }
+        }
+    }
+
+    private void insert2(int x1, int y1){
+        int c = settings.getColumnsToRender();
+        int r = settings.getRowsToRender();
+        for (int i = 0; i < c; i++) {
+            for (int j = 0; j < r; j++) {
+                int x = x1 + i;
+                int y = y1 + j;
+                insert(i,y,x,j);
             }
         }
     }
 
     private void insert(int i, int y, int x, int j){
         if (x >= 0 && y >= 0 && x < settings.getColumns() && y < settings.getRows()) {
-
             gbc.gridx = i;
             gbc.gridy = j;
             add(cells[x][y], gbc); // aggiunge il personaggio
@@ -228,11 +222,9 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         }
     }
 
-
     private void checkAndInsert(int x, int y, ImageIcon img){
 
         if(x>=0 && y>=0 && x<settings.getColumns() && y<settings.getRows()) {
-
             cells[x][y].setIcon(img);
             gbc.gridx = x;
             gbc.gridy = y;

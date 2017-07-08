@@ -9,8 +9,8 @@ import static view.MainFrame.DIMENSION;
  */
 public class PlaygroundSettings {
 
-    private int columnsToRender = 10;
-    private int rowsToRender = 10;
+    private int columnsToRender = 30;
+    private int rowsToRender = 20;
 
     private int columns;
     private int rows;
