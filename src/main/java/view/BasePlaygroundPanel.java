@@ -71,7 +71,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
      * @param y Vertical position on grid
      */
     public void renderBlock(int x, int y, BlocksImages blocksImage){
-        checkAndInsert(x,y,getImageIcon(blocksImage.getImage()));
+        insertImage(x,y,getImageIcon(blocksImage.getImage()));
     }
 
     /**
@@ -80,7 +80,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
      * @param y Vertical position on grid
      */
     public void renderDot(int x, int y){
-        checkAndInsert(x,y,getImageIconSmall(gameObjectImages.getDot(),4));
+        insertImage(x,y,getImageIconSmall(gameObjectImages.getDot(),4));
     }
 
     /**
@@ -89,7 +89,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
      * @param y Vertical position on grid
      */
     public void renderPill(int x, int y){
-        checkAndInsert(x,y,getImageIconSmall(gameObjectImages.getPill(),2));
+        insertImage(x,y,getImageIconSmall(gameObjectImages.getPill(),2));
     }
 
     /**
@@ -99,7 +99,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
      * @param type The fruit type to be rendered.
      */
     public void renderFruit(int x, int y, FruitsImages type){
-        checkAndInsert(x,y,getImageIcon(gameObjectImages.getFruit(type)));
+        insertImage(x,y,getImageIcon(gameObjectImages.getFruit(type)));
     }
 
     /**
@@ -129,7 +129,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
                     img = getImageIcon(characterView.getCharacterLeft());
                     break;
             }
-            checkAndInsert(x,y,img);
+            insertImage(x,y,img);
             drawMap(x,y);
         }
     }
@@ -152,88 +152,92 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         int indexC = Math.floorDiv(c,2);
         int indexR = Math.floorDiv(r,2);
 
-        //pulisco la griglia
         renderedCells.forEach(cell->remove(cell));
         renderedCells.clear();
 
-        if(characterX<indexC && characterY<indexR){
-            System.out.println("angolo alto sinistro");
-            insert2(0,0);
+        boolean leftPosition = characterX<indexC;
+        boolean upperPosition = characterY<indexR;
+        boolean rightPosition = characterX+indexC>settings.getColumns();
+        boolean bottomPosition = characterY+indexR>settings.getRows();
+        boolean upperLeftCorner = leftPosition && upperPosition;
+        boolean bottomLeftCorner = leftPosition && bottomPosition;
+        boolean upperRightCorner = rightPosition && upperPosition;
+        boolean bottomRightCorner = rightPosition && bottomPosition;
 
-        } else if(characterX<indexC && characterY+indexR>settings.getRows()){
-            System.out.println("angolo basso sinistro");
-            int toAdd = indexR-(settings.getRows()-characterY);
-            insert2(0, characterY - indexR - toAdd);
+        if(upperLeftCorner){
+            renderAllCells(0,0);
 
-        } else if (characterX+indexC>settings.getColumns() && characterY<indexR){
-            System.out.println("angolo alto destra");
+        } else if(bottomLeftCorner){
+            int deltaRows = indexR-(settings.getRows()-characterY);
+            renderAllCells(0, characterY - indexR - deltaRows);
+
+        } else if (upperRightCorner){
+            int deltaColumms = indexC - (settings.getColumns() - characterX);
+            renderAllCells(characterX - indexC - deltaColumms,0);
+
+        } else if(bottomRightCorner)  {
+            int deltaColumms = indexC - (settings.getColumns() - characterX);
+            int deltaRows = indexR-(settings.getRows()-characterY);
+            renderAllCells(characterX - indexC - deltaColumms, characterY - indexR - deltaRows);
+
+        } else if(leftPosition) {
+            renderAllCells(0, characterY - indexR);
+
+        }else  if(upperPosition) {
+            renderAllCells(characterX - indexC, 0);
+
+        }else  if(rightPosition) {
             int toAdd = indexC - (settings.getColumns() - characterX);
-            insert2(characterX - indexC - toAdd,0);
+            renderAllCells(characterX - indexC - toAdd, characterY - indexR);
 
-        } else if(characterX+indexC>settings.getColumns() && characterY+indexR>settings.getRows())  {
-            System.out.println("angolo basso destra");
-            int toAddRight = indexC - (settings.getColumns() - characterX);
-            int toAddBottom = indexR-(settings.getRows()-characterY);
-            insert2(characterX - indexC - toAddRight, characterY - indexR - toAddBottom);
-
-        } else if(characterX<indexC) { //sul bordo sinistro
-            System.out.println("bordo sinistro");
-            insert2(0, characterY - indexR);
-
-        }else  if(characterY<indexR) { //sul bordo sinistro
-            System.out.println("bordo superiore");
-            insert2(characterX - indexC, 0);
-
-        }else  if(characterX+indexC>settings.getColumns()) {
-            System.out.println("bordo destro");
-            int toAdd = indexC - (settings.getColumns() - characterX);
-            insert2(characterX - indexC - toAdd, characterY - indexR);
-
-        }else  if(characterY+indexR>settings.getRows()){
-            System.out.println("bordo inferiore");
+        }else  if(bottomPosition){
             int toAdd = indexR-(settings.getRows()-characterY);
-            insert2(characterX - indexC, characterY - indexR - toAdd);
+            renderAllCells(characterX - indexC, characterY - indexR - toAdd);
 
         } else {
-            System.out.println("centro");
-            insert2(characterX - indexC, characterY - indexR);
-
+            renderAllCells(characterX - indexC, characterY - indexR);
         }
     }
 
-    private void insert2(int x1, int y1){
+    private void renderAllCells(int x1, int y1){
         int c = settings.getColumnsToRender();
         int r = settings.getRowsToRender();
         for (int i = 0; i < c; i++) {
             for (int j = 0; j < r; j++) {
                 int x = x1 + i;
                 int y = y1 + j;
-                insert(i,y,x,j);
+                insertSingleCell(i,y,x,j);
             }
         }
     }
 
-    private void insert(int i, int y, int x, int j){
-        if (x >= 0 && y >= 0 && x < settings.getColumns() && y < settings.getRows()) {
+    private void insertSingleCell(int i, int y, int x, int j){
+        if (check(x,j)) {
             gbc.gridx = i;
             gbc.gridy = j;
-            add(cells[x][y], gbc); // aggiunge il personaggio
+            add(cells[x][y], gbc); //add to JPanel
             renderedCells.add(cells[x][y]);
         }
     }
 
-    private void checkAndInsert(int x, int y, ImageIcon img){
+    private void insertImage(int x, int y, ImageIcon img){
 
-        if(x>=0 && y>=0 && x<settings.getColumns() && y<settings.getRows()) {
+        if(check(x,y)) {
             cells[x][y].setIcon(img);
             gbc.gridx = x;
             gbc.gridy = y;
             revalidate();
             repaint();
-
-        } else {
-            System.err.println("Error! Invalid position");
         }
+    }
+
+    private boolean check(final int x, final int y){
+          if(x>=0 && y>=0 && x<settings.getColumns() && y<settings.getRows()){
+              return true;
+          }else {
+              System.err.println("Error! Invalid position");
+              return false;
+          }
     }
 
     private ImageIcon getImageIcon(final Image image){
