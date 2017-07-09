@@ -47,7 +47,7 @@ public class GameTest {
         view.renderBlockList(Utils.getJavaList(playground.getAllBlocks()));
         view.renderEatableList(Utils.getJavaList(playground.getAllEatable()));
 
-        view.renderCharacter( 45, 17,"pacman" , "left");
+        view.renderCharacter( 45, 17, new CharacterFactory().createPacman() , "left");
 
         // TODO: merge with character-model part in order to use this
         /*

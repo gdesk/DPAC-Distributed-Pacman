@@ -39,7 +39,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         for (int i = 0; i < settings.getColumns(); ++i) {
             for (int j = 0; j < settings.getRows(); ++j) {
                 cells[i][j] = new JLabel();
-                cells[i][j].setBorder(BorderFactory.createLineBorder(Color.white));
+                //cells[i][j].setBorder(BorderFactory.createLineBorder(Color.white));
                 cells[i][j].setMaximumSize(settings.getCellDim());
                 cells[i][j].setMinimumSize(settings.getCellDim());
                 cells[i][j].setPreferredSize(settings.getCellDim());
@@ -106,12 +106,10 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
      * Shows the specified character in the specified position and direction
      * @param x Horizontal position on grid
      * @param y Vertical position on grid
-     * @param name Chracter's name
      * @param direction Character's direction
      */
-    public void renderCharacter(int x, int y, String name, String direction){
+    public void renderCharacter(int x, int y, CharacterView characterView, String direction){
 
-        CharacterView characterView = new CharacterViewImpl(new CharacterPathImpl(name));
 
         if (characterView != null) {
             ImageIcon img = getImageIcon(characterView.getCharacterLeft());
@@ -135,8 +133,8 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     }
 
     public void removeCharacter (int x, int y) {
-        //todo: check if there is a character there
-        if(x>=0 && y>=0 && x<settings.getColumns() && y<settings.getRows()) {
+
+        if(characterIsPresent(x,y)){
             ImageIcon img = new ImageIcon(Utils.getImage("empty"));
             cells[x][y].setIcon(img);
             gbc.gridx = x;
@@ -147,18 +145,20 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     }
 
     private void drawMap(final int characterX, final int characterY){
-        int c = settings.getColumnsToRender();
-        int r = settings.getRowsToRender();
-        int indexC = Math.floorDiv(c,2);
-        int indexR = Math.floorDiv(r,2);
-
         renderedCells.forEach(cell->remove(cell));
         renderedCells.clear();
+        drawCells(characterX,characterY);
 
-        boolean leftPosition = characterX<indexC;
-        boolean upperPosition = characterY<indexR;
-        boolean rightPosition = characterX+indexC>settings.getColumns();
-        boolean bottomPosition = characterY+indexR>settings.getRows();
+    }
+
+    private void drawCells (final int characterX, final int characterY){
+        int halfColumnsToRender = Math.floorDiv(settings.getColumnsToRender(),2);
+        int halfRowsToRender = Math.floorDiv(settings.getRowsToRender(),2);
+
+        boolean leftPosition = characterX<halfColumnsToRender;
+        boolean upperPosition = characterY<halfRowsToRender;
+        boolean rightPosition = characterX+halfColumnsToRender>settings.getColumns();
+        boolean bottomPosition = characterY+halfRowsToRender>settings.getRows();
         boolean upperLeftCorner = leftPosition && upperPosition;
         boolean bottomLeftCorner = leftPosition && bottomPosition;
         boolean upperRightCorner = rightPosition && upperPosition;
@@ -168,51 +168,51 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
             renderAllCells(0,0);
 
         } else if(bottomLeftCorner){
-            int deltaRows = indexR-(settings.getRows()-characterY);
-            renderAllCells(0, characterY - indexR - deltaRows);
+            int deltaRows = halfRowsToRender-(settings.getRows()-characterY);
+            renderAllCells(0, characterY - halfRowsToRender - deltaRows);
 
         } else if (upperRightCorner){
-            int deltaColumms = indexC - (settings.getColumns() - characterX);
-            renderAllCells(characterX - indexC - deltaColumms,0);
+            int deltaColumms = halfColumnsToRender - (settings.getColumns() - characterX);
+            renderAllCells(characterX - halfColumnsToRender - deltaColumms,0);
 
         } else if(bottomRightCorner)  {
-            int deltaColumms = indexC - (settings.getColumns() - characterX);
-            int deltaRows = indexR-(settings.getRows()-characterY);
-            renderAllCells(characterX - indexC - deltaColumms, characterY - indexR - deltaRows);
+            int deltaColumms = halfColumnsToRender - (settings.getColumns() - characterX);
+            int deltaRows = halfRowsToRender-(settings.getRows()-characterY);
+            renderAllCells(characterX - halfColumnsToRender - deltaColumms, characterY - halfRowsToRender - deltaRows);
 
         } else if(leftPosition) {
-            renderAllCells(0, characterY - indexR);
+            renderAllCells(0, characterY - halfRowsToRender);
 
         }else  if(upperPosition) {
-            renderAllCells(characterX - indexC, 0);
+            renderAllCells(characterX - halfColumnsToRender, 0);
 
         }else  if(rightPosition) {
-            int toAdd = indexC - (settings.getColumns() - characterX);
-            renderAllCells(characterX - indexC - toAdd, characterY - indexR);
+            int toAdd = halfColumnsToRender - (settings.getColumns() - characterX);
+            renderAllCells(characterX - halfColumnsToRender - toAdd, characterY - halfRowsToRender);
 
         }else  if(bottomPosition){
-            int toAdd = indexR-(settings.getRows()-characterY);
-            renderAllCells(characterX - indexC, characterY - indexR - toAdd);
+            int toAdd = halfRowsToRender-(settings.getRows()-characterY);
+            renderAllCells(characterX - halfColumnsToRender, characterY - halfRowsToRender - toAdd);
 
         } else {
-            renderAllCells(characterX - indexC, characterY - indexR);
+            renderAllCells(characterX - halfColumnsToRender, characterY - halfRowsToRender);
         }
     }
 
-    private void renderAllCells(int x1, int y1){
+    private void renderAllCells(int ColumnsIndex, int RowsIndex){
         int c = settings.getColumnsToRender();
         int r = settings.getRowsToRender();
         for (int i = 0; i < c; i++) {
             for (int j = 0; j < r; j++) {
-                int x = x1 + i;
-                int y = y1 + j;
+                int x = ColumnsIndex + i;
+                int y = RowsIndex + j;
                 insertSingleCell(i,y,x,j);
             }
         }
     }
 
     private void insertSingleCell(int i, int y, int x, int j){
-        if (check(x,j)) {
+        if (checkBorder(x,j)) {
             gbc.gridx = i;
             gbc.gridy = j;
             add(cells[x][y], gbc); //add to JPanel
@@ -221,8 +221,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     }
 
     private void insertImage(int x, int y, ImageIcon img){
-
-        if(check(x,y)) {
+        if(checkBorder(x,y)) {
             cells[x][y].setIcon(img);
             gbc.gridx = x;
             gbc.gridy = y;
@@ -231,13 +230,24 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         }
     }
 
-    private boolean check(final int x, final int y){
-          if(x>=0 && y>=0 && x<settings.getColumns() && y<settings.getRows()){
-              return true;
-          }else {
-              System.err.println("Error! Invalid position");
-              return false;
-          }
+    private boolean checkBorder(final int x, final int y){
+        if(x>=0 && y>=0 && x<settings.getColumns() && y<settings.getRows()){
+            return true;
+        }else {
+            System.err.println("Error! Invalid position");
+            return false;
+        }
+    }
+
+    private boolean characterIsPresent(final int x, final int y){
+
+        if (checkBorder(x, y)) {
+
+           // CharacterView characterView = new CharacterViewImpl(new CharacterPathImpl(settings.getMyCharacter()));
+           // getImageIcon(characterView.getCharacterLeft());   //TODO implementa
+
+        }
+        return true;
     }
 
     private ImageIcon getImageIcon(final Image image){

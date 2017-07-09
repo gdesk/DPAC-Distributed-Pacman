@@ -2,7 +2,7 @@ package controller
 
 import java.awt.event.{KeyEvent, KeyListener}
 
-import view.PlaygroundPanel
+import view.{CharacterFactory, PlaygroundPanel}
 
 /**
   * Created by Manuel Bottax on 06/07/2017.
@@ -19,7 +19,7 @@ class UserInputController (val view: PlaygroundPanel)/*(val character: Character
         if (check(currentX - 1, currentY)) {
           view.removeCharacter(currentX, currentY)
           currentX = currentX - 1
-          view.renderCharacter(currentX, currentY, "pacman", "left")
+          view.renderCharacter(currentX, currentY, new CharacterFactory().createPacman, "left")
         }
       }
 
@@ -28,7 +28,7 @@ class UserInputController (val view: PlaygroundPanel)/*(val character: Character
         if (check(currentX +1, currentY)) {
           view.removeCharacter(currentX, currentY)
           currentX = currentX + 1
-          view.renderCharacter(currentX, currentY, "pacman", "right")
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "right")
         }
       }
 
@@ -36,7 +36,7 @@ class UserInputController (val view: PlaygroundPanel)/*(val character: Character
         if (check(currentX , currentY-1)) {
           view.removeCharacter(currentX, currentY)
           currentY = currentY - 1
-          view.renderCharacter(currentX, currentY, "pacman", "up")
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "up")
         }
       }
 
@@ -44,7 +44,7 @@ class UserInputController (val view: PlaygroundPanel)/*(val character: Character
         if (check(currentX , currentY + 1)) {
           view.removeCharacter(currentX, currentY)
           currentY = currentY + 1
-          view.renderCharacter(currentX, currentY, "pacman", "down")
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "down")
         }
       }
 
@@ -52,7 +52,7 @@ class UserInputController (val view: PlaygroundPanel)/*(val character: Character
         if (check(currentX - 1, currentY)) {
           view.removeCharacter(currentX, currentY)
           currentX = currentX - 1
-          view.renderCharacter(currentX, currentY, "pacman", "left")
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "left")
         }
       }
 
@@ -60,7 +60,7 @@ class UserInputController (val view: PlaygroundPanel)/*(val character: Character
         if (check(currentX + 1, currentY)) {
           view.removeCharacter(currentX, currentY)
           currentX = currentX + 1
-          view.renderCharacter(currentX, currentY, "pacman", "right")
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "right")
         }
       }
 
@@ -68,7 +68,7 @@ class UserInputController (val view: PlaygroundPanel)/*(val character: Character
         if (check(currentX, currentY - 1)) {
           view.removeCharacter(currentX, currentY)
           currentY = currentY - 1
-          view.renderCharacter(currentX, currentY, "pacman", "up")
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "up")
         }
       }
 
@@ -76,7 +76,7 @@ class UserInputController (val view: PlaygroundPanel)/*(val character: Character
         if (check(currentX, currentY - 1)) {
           view.removeCharacter(currentX, currentY)
           currentY = currentY + 1
-          view.renderCharacter(currentX, currentY, "pacman", "down")
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "down")
         }
       }
       case _ =>

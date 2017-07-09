@@ -42,10 +42,10 @@ public interface BasePlaygroundView {
      * Shows the specified character in the specified position and direction
      * @param x Horizontal position on grid
      * @param y Vertical position on grid
-     * @param name Chracter's name
+     * @param characterView Chracter's name
      * @param direction Character's direction
      */
-    void renderCharacter(int x, int y, String name, String direction);
+    void renderCharacter(int x, int y, CharacterView characterView, String direction);
 
 
     /**
