@@ -1,12 +1,12 @@
 package game;
 
-import client.Playground;
-import client.PlaygroundImpl$;
-import client.gameElement.*;
-import client.utils.Dimension;
-import client.utils.PointImpl;
-import controller.UserInputController;
-import view.*;
+import client.model.Playground;
+import client.model.PlaygroundImpl$;
+import client.model.character.gameElement.*;
+import client.model.utils.Dimension;
+import client.model.utils.PointImpl;
+import client.model.controller.UserInputController;
+import client.view.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,11 +19,11 @@ public class GameTest {
 
     private MainFrame view ;
     //private Game model;
-    //private GameController controller;
+    //private GameController client.model.controller;
 
     public GameTest(){
 
-        Playground currentPlayground = createPlayground(); // TODO: Poi sarà nel model o nel controller, verrà passato da un metodo (arriva dal server)
+        Playground currentPlayground = createPlayground(); // TODO: Poi sarà nel model o nel client.model.controller, verrà passato da un metodo (arriva dal server)
         PlaygroundPanel playgroundView = initializePlaygroundView( currentPlayground , null /*model.getCharacterList()*/);
         view = MainFrame.getInstance();
         view.setPlayground(playgroundView);
@@ -52,10 +52,10 @@ public class GameTest {
 
         view.renderCharacter( 45, 17,"pacman" , "left");
 
-        // TODO: merge with character-model part in order to use this
+        // TODO: merge with client.model.character.gameElement.character-model part in order to use this
         /*
         for(Character ch : characterList) {
-            view.renderCharacter((int) ch.position().x(), (int) ch.position().y(), ch.name() /*"pacman"*/ /*, ch.direction()/*"up"*//*);
+            client.view.renderCharacter((int) ch.position().x(), (int) ch.position().y(), ch.name() /*"pacman"*/ /*, ch.direction()/*"up"*//*);
         } */
 
         return (PlaygroundPanel)view;
@@ -90,7 +90,7 @@ public class GameTest {
         }
         playground.blocks_$eq((scala.collection.immutable.List<Block>) blocks);
 
-        List<client.gameElement.Eatable> eatables = new ArrayList<>();
+        List<client.model.character.gameElement.Eatable> eatables = new ArrayList<>();
         int pillId = 0;
         int dotId = 0;
         for (int j=7; j<29; j=j+5){

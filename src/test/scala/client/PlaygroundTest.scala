@@ -1,7 +1,8 @@
 package client
 
-import client.gameElement._
-import client.utils.{Dimension, PointImpl}
+import client.model.PlaygroundImpl
+import client.model.character.gameElement._
+import client.model.utils.{Dimension, PointImpl}
 import org.scalatest.FunSuite
 
 /**

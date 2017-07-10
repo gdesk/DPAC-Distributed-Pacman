@@ -2,10 +2,12 @@ package client
 
 import java.awt.Color
 
+import client.model.{Match, MatchImpl}
+
 import scala.collection.immutable.HashMap
-import client.character.{Character, GhostImpl, Pacman, PacmanImpl}
-import client.gameElement.GameItem
-import client.utils.{Point, PointImpl}
+import client.model.character.{Character, GhostImpl, Pacman, PacmanImpl}
+import client.model.character.gameElement.GameItem
+import client.model.utils.{Point, PointImpl}
 import org.scalatest.FunSuite
 
 

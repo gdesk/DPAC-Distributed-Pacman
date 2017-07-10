@@ -1,7 +1,7 @@
 package client
 
-import client.character.InitializedInfoImpl
-import client.utils.Point
+import client.model.character.InitializedInfoImpl
+import client.model.utils.Point
 
 /**
   *  Created by Giulia on 03/07/2017.

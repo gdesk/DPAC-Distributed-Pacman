@@ -1,6 +1,3 @@
-import client.gameElement.Cherry;
-import client.utils.PointImpl;
-
 /**
  * Created by ManuBottax on 16/06/2017.
  */

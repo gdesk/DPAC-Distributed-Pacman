@@ -1,7 +1,7 @@
 package client
 
-import client.gameElement. VirtualPill
-import client.utils.PointImpl
+import client.model.character.gameElement. VirtualPill
+import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 
 /**

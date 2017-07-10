@@ -2,12 +2,12 @@ package client
 
 import java.awt.Color
 
-import character.{GhostImpl, PacmanImpl}
+import client.model.character.{GhostImpl, PacmanImpl}
 import characterjava.Direction
-import client.utils.ScalaProlog
+import client.model.utils.ScalaProlog
 
 /**
-  * Testing for le working of character class
+  * Testing for le working of client.model.character.gameElement.character class
   *
   * @author Giulia Lucchi
   */
