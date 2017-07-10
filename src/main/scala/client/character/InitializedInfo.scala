@@ -1,15 +1,16 @@
 package client.character
 
-import java.io.FileInputStream
 import java.lang.Integer.valueOf
 
 import alice.tuprolog.{Term, Theory}
-import client.utils.{Point, ScalaProlog}
+import client.gameElement.CharactersNames
+import client.utils.{Point, PointImpl, ScalaProlog}
 
 /**
   * Extraction of starting information of the game
   *
   * @author Giulia Lucchi
+  * @author Marghertia Pecorelli
   */
 trait InitializedInfo{
   /**
@@ -29,7 +30,7 @@ trait InitializedInfo{
     *
     * @return the coordinate of pacman's starting position
     */
-  def getStartPosition(): Point[Int, Int]
+  def getStartPosition(characterName: String): Point[Int, Int]
 }
 
 object InitializedInfoImpl extends InitializedInfo{
@@ -44,10 +45,9 @@ object InitializedInfoImpl extends InitializedInfo{
     **/
   override def getCharacterLives(characterName: String): Int = {
     var term: Term =  null
-    if (characterName equals "ghost"){
-     term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("ghost_lives(X)"), "X")
-    }else if (characterName equals "pacman"){
-      term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("pacman_lives(X)"), "X")
+    characterName match {
+      case "ghost" => term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("ghost_lives(X)"), "X")
+      case "pacman" => term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("pacman_lives(X)"), "X")
     }
     valueOf(term.toString)
   }
@@ -58,10 +58,18 @@ object InitializedInfoImpl extends InitializedInfo{
     *
     * @return the coordinate of pacman's starting position
     */
-  override def getStartPosition(): Point[Int, Int] ={
+  override def getStartPosition(characterName: String): Point[Int, Int] ={
+    /*
+    characterName match {
+      case "pacman" => term =
+      case CharactersNames.BlueGhost.getName => term =
+      case CharactersNames.RedGhost.getName => term =
+      ...
+    }
+     */
     val term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("pacman_initial_position(X,X)"), "X")
     val value: Int = valueOf(term.toString)
-    Point[Int, Int](value, value)
+    PointImpl[Int, Int](value, value)
   }
 
 }

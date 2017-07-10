@@ -3,9 +3,9 @@ package client
 import java.awt.Color
 
 import scala.collection.immutable.HashMap
-import client.character.{GhostImpl, PacmanImpl}
-import client.utils.Point
-import client.character.Character
+import client.character.{Character, GhostImpl, Pacman, PacmanImpl}
+import client.gameElement.GameItem
+import client.utils.{Point, PointImpl}
 import org.scalatest.FunSuite
 
 

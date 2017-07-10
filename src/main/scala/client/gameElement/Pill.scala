@@ -1,44 +1,26 @@
 package client.gameElement
 
-import client.utils.{Point, ScoreUtils}
+import client.utils.Point
 
 /**
-  * A pill, used in the game as special item that Pacman can eat to scare the ghosts and make them vulnerable.
-  * Is a subtype of trait [[client.gameElement.Eatable]]
-  *
-  * @constructor create a new pill with a position in the playground.
-  * @param position the position in the playground.
-  *
-  * @author manuBottax
+  * Created by margherita on 10/07/17.
   */
-case class Pill (override val position: Point[Int, Int]) extends Dot(position) {
-
+case class Pill(override val id: String, override val position: Point[Int, Int]) extends Eatable{
   /**
     * Returns the value that is given as score when Pacman eat that item.
     *
     * @return the score value.
     */
-  override val score: Int = ScoreUtils.PILL_SCORE
+  override def score: Int = Pill.score
 
   /**
     * Returns the family to which the eatable object belongs
     *
     * @return object's family
     */
-  override def belonginFamily: String = Eatables.Pill getFamily
-
+  override def belonginFamily: String = "pill"
 }
 
-/**
-  * Factory for [[client.gameElement.Pill]] instances.
-  */
 object Pill {
-
-  /**
-    * Create a Pill with a given position.
-    *
-    * @param position its position.
-    */
-  def apply (position: Point[Int, Int]) : Pill = new Pill(position)
+  private val score = 50
 }
-

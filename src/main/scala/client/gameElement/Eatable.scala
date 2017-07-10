@@ -1,7 +1,5 @@
 package client.gameElement
 
-import client.utils.Point
-
 /**
   * Trait that specify an item as eatable by Pacman.
   */
@@ -20,22 +18,18 @@ trait Eatable extends GameItem {
       * @return object's family
       */
     def belonginFamily: String
-}
-
-case class EatableImpl(override val position: Point[Int, Int], val eatableObject: Eatables) extends Eatable {
-    /**
-      * Returns the value that is given as score when Pacman eat that item.
-      *
-      * @return the score value.
-      */
-    override def score: Int = eatableObject getScore
 
     /**
-      * Returns the family to which the eatable object belongs
+      * Returns the identifier of the eatable object.
       *
-      * @return object's family
+      * @return the object's identifier.
       */
-    override def belonginFamily: String = eatableObject getFamily
+    def id: String
 }
+
+//case class EatableImpl(override val id: String, override val position: Point[Int, Int]) extends Eatable {
+//}
+
+
 
 

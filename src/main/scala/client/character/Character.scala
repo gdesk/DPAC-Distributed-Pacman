@@ -1,13 +1,14 @@
 package client.character
 
-import characterjava.Direction
+import character.Direction
 import client.gameElement.GameItem
-import client.utils.Point
+import client.utils.{Point, PointImpl}
 
 /**
   * Manages the base model of character.
   *
   * @author Giulia Lucchi
+  * @author Margherita Pecorelli
   */
 trait Character[X,Y] extends GameItem{
   /**
@@ -34,7 +35,7 @@ trait Character[X,Y] extends GameItem{
     *
     * @return direction   a direction of character
     * */
-  def direction() : Direction
+  def direction: Direction
 
   /**
     * setter of character's direction
@@ -49,7 +50,7 @@ trait Character[X,Y] extends GameItem{
     * @return true    if character is alive
     *         false   otherwise
     * */
-  def isAlive(): Boolean
+  def isAlive: Boolean
 
   /**
     * setter of character's state of its life
@@ -57,7 +58,7 @@ trait Character[X,Y] extends GameItem{
     * @param isAlive   true    if character is alive
     *                  false   otherwise
     * */
-  def isAlive_= (isAlive: Boolean): Unit
+  def isAlive_=(isAlive: Boolean): Unit
 
   /**
     * getter if the character is killer or killable
@@ -65,7 +66,7 @@ trait Character[X,Y] extends GameItem{
     * @return true    if character is killable of other character
     *         false   otherwise
     * */
-  def isKillable(): Boolean
+  def isKillable: Boolean
 
   /**
     * setter if the character is killer or killable
@@ -73,14 +74,14 @@ trait Character[X,Y] extends GameItem{
     * @return true    if character is killable of other character
     *         false   otherwise
     * */
-  def isKillable_= (isKillable: Boolean): Unit
+  def isKillable_=(isKillable: Boolean): Unit
 
   /**
     * getter of character's name
     *
     * @return name    character's name
     */
-  def name(): String
+  def name: String
 
   /**
     * getter of lives in the single match
@@ -101,35 +102,21 @@ trait Character[X,Y] extends GameItem{
     *
     * @param score incremented score
     */
-  def score_=(score: Int) : Unit
+  def score_=(score: Int): Unit
 }
 
-abstract class CharacterImpl(override var isKillable: Boolean, override val lives: Lives) extends Character[Int, Int] {
-  var pointPosition: Point[Int,Int]
+abstract class CharacterImpl(override var isKillable: Boolean) extends Character[Int, Int] {
+
+  private var pos: Point[Int, Int] = PointImpl(0,0)
 
   override var isAlive: Boolean = true
   override var direction: Direction = Direction.START
   override var score: Int = 0
 
   /**
-    * setter character's position
+    * Manages the character's movement.
     *
-    * @param point a point of character within the game map
-    *
-    **/
-  override def setPosition(point: Point[Int, Int]): Unit = pointPosition = point
-
-  /**
-    * getter character's position
-    *
-    * @return position    a point of character within the game map
-    * */
-  override def position: Point[Int, Int] = pointPosition
-
-  /**
-    * Manages the character's movement and consequently the contact with other item of the game.
-    *
-    * @param direction    character's of direction
+    * @param direction - character's direction
     */
   override def go(direction: Direction): Unit = {
     val point: Option[Point[Int, Int]] = move(direction)
@@ -148,11 +135,25 @@ abstract class CharacterImpl(override var isKillable: Boolean, override val live
     * @return the new character's position after the movement
     */
   private def move(direction: Direction): Option[Point[Int, Int]] = {
-    val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${this.position.x}, ${this.position.y},${direction getDirection}, X, Y).")
+    val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${pos x}, ${pos y},${direction getDirection}, X, Y).")
     if (solveInfo isSuccess) {
       val x = Integer.valueOf(solveInfo.getTerm("X").toString)
       val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
-      Option(Point[Int, Int](x, y))
+      Option(PointImpl[Int, Int](x, y))
     }else{None}
   }
-}
+
+  /**
+    * Returns the position of the item in the playground.
+    *
+    * @return item's position.
+    */
+  override def position: Point[Int, Int] = pos
+
+   /**
+     * setter character's position
+     *
+     * @param point a point of character within the game map
+     **/
+   override def setPosition(point: Point[Int, Int]): Unit = pos = point
+ }

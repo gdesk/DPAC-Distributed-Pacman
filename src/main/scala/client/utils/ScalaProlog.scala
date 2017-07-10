@@ -20,6 +20,7 @@ object ScalaProlog {
     engine.setTheory(theory)
     engine
   }
+
   def mkPrologEngine(theory: Theory): Term => Stream[SolveInfo] = {
     val engine = new Prolog
     engine.setTheory(theory)
@@ -36,7 +37,6 @@ object ScalaProlog {
       }
     }.toStream
   }
-
 
   def multipleOutput(theory: Theory, goal: String) : SolveInfo = {
     val engine = new Prolog
@@ -66,7 +66,7 @@ object ScalaProlog {
     string
   }
 
-  def prologToScalaList( prologList: String): List[String] ={
+  def prologToScalaList( prologList: String): List[String] = {
     val list = prologList.replace("[","").replace("]","").replace(" ","")
     list.split(",").toList
   }

@@ -1,8 +1,6 @@
 package client
 
-import client.utils.Point
-
-import scala.collection.immutable.HashMap
+import scala.collection.mutable.HashMap
 import client.character.Character
 
 /**
@@ -17,14 +15,14 @@ trait Match {
     *
     * @return a list of Point representing the coordinates of the steet.
     */
-  def playground(): List[Point[Int,Int]]
+  def playground(): Playground
 
   /**
     * Sets the playground of the current match with the list of the coordinates of the steet.
     *
-    * @param streetPositionsList - the list of Point representing the coordinates of the steet.
+    * @param playground - the list of Point representing the coordinates of the steet.
     */
-  def playground_=(streetPositionsList: List[Point[Int,Int]]): Unit
+  def playground_=(playground: Playground): Unit
 
   /**
     * Returns the list of all characters who participate at the match.
@@ -34,13 +32,6 @@ trait Match {
   def characters(): List[Character[Int, Int]]
 
   /**
-    * Sets the list of all characters who participate at the match.
-    *
-    * @param allCharacters - the list of all characters.
-    */
-  def characters_=(allCharacters: List[Character[Int, Int]]): Unit
-
-  /**
     * Returns the list of dead characters.
     *
     * @return the list of dead characters.
@@ -48,40 +39,58 @@ trait Match {
   def deadCharacters(): List[Character[Int, Int]]
 
   /**
-    * Sets the list of dead characters.
+    * Add a dead characters to the list.
     *
-    * @param deadCharacters - the list of dead characters.
+    * @param deadCharacters - the dead characters.
+    * @return the user's id of the player that was using that character.
     */
-  def deadCharacters_=(deadCharacters: List[Character[Int, Int]]): Unit
+  def addDeadCharacters(deadCharacters: Character[Int, Int]): String
 
 }
 
-case class MatchImpl(override var playground: List[Point[Int,Int]], val mapUserCharacter: HashMap[String, Character[Int, Int]]) extends Match {
+case class MatchImpl private() extends Match {
+
+  private var deadChars: List[Character[Int, Int]] = List.empty
+  private val mapCharacterUser: HashMap[Character[Int, Int], String] = HashMap[Character[Int, Int], String]()
+
+  override var playground: Playground = null
+
   /**
     * Returns the list of all characters who participate at the match.
     *
     * @return the list of all characters.
     */
-  override def characters(): List[Character[Int, Int]] = mapUserCharacter.valuesIterator.toList
-
-  /**
-    * Sets the list of all characters who participate at the match.
-    *
-    * @param allCharacters - the list of all characters.
-    */
-  override def characters_=(allCharacters: List[Character[Int, Int]]): Unit = {}
+  override def characters(): List[Character[Int, Int]] = (mapCharacterUser keySet) toList
 
   /**
     * Returns the list of dead characters.
     *
     * @return the list of dead characters.
     */
-  override def deadCharacters(): List[Character[Int, Int]] = mapUserCharacter.values.toList //aggiustaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  override def deadCharacters(): List[Character[Int, Int]] = deadChars
 
   /**
     * Sets the list of dead characters.
     *
     * @param deadCharacters - the list of dead characters.
     */
-  override def deadCharacters_=(deadCharacters: List[Character[Int, Int]]): Unit = {}
+  override def addDeadCharacters(deadCharacters: Character[Int, Int]) = {
+    deadCharacters :: deadChars
+    (mapCharacterUser remove  deadCharacters) get
+  }
+}
+
+object MatchImpl {
+
+  private var _instance: MatchImpl = null
+
+  /**
+    * Returns the only {@MatchImpl}'s instance. Pattern Singleton.
+    *
+    * @return the only MatchImpl's instance.
+    */
+  def instance(): Match = {
+    if(_instance == null) _instance = MatchImpl()
+    _instance
+  }
 }
