@@ -47,7 +47,7 @@ public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundVi
                 super.renderPill((int) e.position().x(), (int) e.position().y());
             }
             else if (e instanceof Fruit) {
-                super.renderFruit((int) e.position().x(), (int) e.position().y(), ImagesUtils.getFruitsImage(((Fruit) e).fruitTypes()));
+                super.renderFruit((int) e.position().x(), (int) e.position().y(), ImagesUtils.getFruitsImage(e));
             }
         }
     }

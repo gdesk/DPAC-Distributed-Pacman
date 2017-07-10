@@ -25,9 +25,4 @@ class FruitTest extends FunSuite{
     assert (fruit1.fruitTypes != fruit2.fruitTypes)
   }
 
-
-
-
-
-
 }

@@ -1,36 +1,26 @@
 package client.gameElement
 
-import client.utils.{Point, ScoreUtils}
+import client.utils.Point
 
-/** An eatable pill, used in the game as special item that Pacman can eat to scare the ghosts and make them vulnerable.
-  *
-  * @author manuBottax
+/**
+  * Created by margherita on 10/07/17.
   */
-trait Pill extends Eatable
-
-
-
-/** Implementation of [[Pill]] for the virtual version of the game.
-  *
-  * @constructor create a new pill with a position in the playground.
-  * @param position the position in the playground.
-  *
-  */
-class VirtualPill (override val position: Point[Int, Int]) extends Pill {
-
-  override val score: Int = ScoreUtils.PILL_SCORE
-
-  override def itemType: ItemType = ItemType.Pill
-
-}
-
-/** Factory for [[client.gameElement.VirtualPill]] instances. */
-object VirtualPill {
-
-  /** Create a Pill with a given position
+case class Pill(override val id: String, override val position: Point[Int, Int]) extends Eatable{
+  /**
+    * Returns the value that is given as score when Pacman eat that item.
     *
-    * @param position its position
+    * @return the score value.
     */
-  def apply (position: Point[Int, Int]) : VirtualPill = new VirtualPill(position)
+  override def score: Int = Pill.score
+
+  /**
+    * Returns the family to which the eatable object belongs
+    *
+    * @return object's family
+    */
+  override def belonginFamily: String = "pill"
 }
 
+object Pill {
+  private val score = 50
+}

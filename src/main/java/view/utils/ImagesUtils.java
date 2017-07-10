@@ -1,6 +1,6 @@
 package view.utils;
 
-import client.gameElement.Fruits;
+import client.gameElement.Eatable;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -21,34 +21,33 @@ public class ImagesUtils {
         return resizedImg;
     }
 
-    public static FruitsImages getFruitsImage (Fruits type){
-        switch (type){
-            case CHERRY:
+    public static FruitsImages getFruitsImage(Eatable type/*Eatables type*/){
+        switch (type.getClass().getSimpleName()){
+            case "Cherry":
                 return FruitsImages.CHERRY;
 
-            case STRAWBERRY:
+            case "Strawberry":
                 return FruitsImages.STRAWBERRY;
 
-            case ORANGE:
+            case "Orange":
                 return FruitsImages.ORANGE;
 
-            case APPLE:
+            case "Apple":
                 return FruitsImages.APPLE;
 
-            case GRAPES:
+            case "Grapes":
                 return FruitsImages.GRAPES;
 
-            case GALAXIAN_SHIP:
+            case "GalaxianShip":
                 return FruitsImages.GALAXIAN;
 
-            case BELL:
+            case "Bell":
                 return FruitsImages.BELL;
 
-            case KEY:
+            case "Key":
                 return FruitsImages.KEY;
 
         }
-
         return null;
     }
 }
