@@ -1,37 +1,26 @@
 package client.gameElement
 
-import client.Match
-import client.utils.{Point, ScoreUtils}
+import client.utils.Point
 
 /**
-  * Created by ManuBottax on 25/06/2017.
+  * Created by margherita on 10/07/17.
   */
+case class Dot(override val id: String, override val position: Point[Int, Int]) extends Eatable {
+  /**
+    * Returns the value that is given as score when Pacman eat that item.
+    *
+    * @return the score value.
+    */
+  override def score: Int = Dot.score
 
-
-
-class Dot (override val position: Point[Double, Double]) extends Eatable {
-
-  override val score: Int = ScoreUtils.DOT_SCORE
-  override def effect (x: Match) : Unit = incrementScore(x)
-
-  private def incrementScore = (x: Match) => x.score = x.score + score
+  /**
+    * Returns the family to which the eatable object belongs
+    *
+    * @return object's family
+    */
+  override def belonginFamily: String = "dot"
 }
 
 object Dot {
-  def apply(position: Point[Double, Double]): Dot = new Dot(position)
-}
-
-class Pill (override val position: Point[Double, Double]) extends Eatable {
-
-  override val score: Int = ScoreUtils.PILL_SCORE
-  override def effect (x: Match) : Unit  = scareGhostAndIncrement (x)
-
-  private def scareGhostAndIncrement = (x: Match) => {
-      x.score = x.score + score
-      x.scareGhost()
-  }
-}
-
-object Pill {
-  def apply (position: Point[Double, Double]) : Pill = new Pill(position)
+  private val score = 10
 }

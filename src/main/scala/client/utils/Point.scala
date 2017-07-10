@@ -1,13 +1,27 @@
 package client.utils
 
-/**
-  * Created by ManuBottax on 25/06/2017.
+/** The position of an Item in the playground.
+  *
+  * @tparam T the measure unit used on x axis.
+  * @tparam W the measure unit used on y axis.
+  *
+  * @author manuBottax
   */
+trait Point [T,W] {
 
-class Point [T,W] ( var x: T, var y: W){
-  override def toString: String = "[" + this.x + " | " + this.y + "]"
+  /** the position of the item on x axis. */
+  def x: T
+
+  /** the position of the item on y axis. */
+  def y: W
 }
 
-object Point {
-  def apply[T, W](x: T, y: W) = new Point (x, y)
-}
+/**
+  * A point that represent [[Point]] in a virtual playground
+  *
+  * @constructor create a new Point object.
+  *
+  * @param x the position of the item on x axis.
+  * @param y the position of the item on y axis.
+  */
+case class PointImpl [T,W] (var x: T, var y: W) extends Point [T,W] {}

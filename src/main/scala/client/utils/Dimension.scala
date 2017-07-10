@@ -1,11 +1,12 @@
 package client.utils
 
-/**
-  * Created by ManuBottax on 25/06/2017.
+/** The dimension of an Item in the playground.
+  *
+  * @constructor create a new Dimension object.
+  * @param x the dimension of the item on x axis.
+  * @param y the dimension of the item on y axis.
+  *
+  * @author manuBottax
   */
-class Dimension (val xDimension: Int, val yDimension: Int)
+case class Dimension (val x: Int, val y: Int)
 
-
-object Dimension{
-  def apply(xDimension: Int, yDimension: Int): Dimension = new Dimension(xDimension, yDimension)
-}
