@@ -15,8 +15,7 @@ dependencies {
     compile 'org.scala-lang:scala-library:2.12.2'
     testCompile 'junit:junit:4.12'
     compile 'org.scalatest:scalatest_2.12:3.0.1'
-    compile group: 'it.unibo.alice.tuprolog', name: 'tuprolog', version: '3.2.1'
-
+    compile 'it.unibo.alice.tuprolog:tuprolog:3.2.1'
 }
 
 sourceSets {
