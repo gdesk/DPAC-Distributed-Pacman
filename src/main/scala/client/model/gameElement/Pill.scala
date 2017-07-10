@@ -1,4 +1,4 @@
-package client.model.character.gameElement
+package client.model.gameElement
 
 import client.model.utils.Point
 

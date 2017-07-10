@@ -1,6 +1,6 @@
 package client.view.utils;
 
-import client.model.character.gameElement.Eatable;
+import client.model.gameElement.Eatable;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

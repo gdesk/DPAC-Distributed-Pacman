@@ -1,6 +1,6 @@
 package client.model
 
-import client.model.character.gameElement.{Block, Eatable, GameItem}
+import client.model.gameElement.{Block, Eatable, GameItem}
 import client.model.utils.{Dimension, Point, PointImpl}
 
 import scala.collection.mutable.{HashMap, Map}

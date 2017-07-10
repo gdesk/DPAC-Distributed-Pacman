@@ -1,7 +1,7 @@
 package client.view;
 
-import client.model.character.gameElement.Block;
-import client.model.character.gameElement.Eatable;
+import client.model.gameElement.Block;
+import client.model.gameElement.Eatable;
 
 import java.util.List;
 

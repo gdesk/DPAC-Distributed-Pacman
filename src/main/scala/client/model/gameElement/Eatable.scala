@@ -1,4 +1,4 @@
-package client.model.character.gameElement
+package client.model.gameElement
 
 /**
   * Trait that specify an item as eatable by Pacman.

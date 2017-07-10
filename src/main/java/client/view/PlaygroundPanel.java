@@ -1,6 +1,6 @@
 package client.view;
 
-import client.model.character.gameElement.*;
+import client.model.gameElement.*;
 import client.model.utils.Point;
 import client.view.utils.BlocksImages;
 import client.view.utils.ImagesUtils;

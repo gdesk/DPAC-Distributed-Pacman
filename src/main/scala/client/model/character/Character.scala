@@ -1,7 +1,7 @@
 package client.model.character
 
 import client.model.Direction
-import client.model.character.gameElement.GameItem
+import client.model.gameElement.GameItem
 import client.model.utils.{Point, PointImpl}
 
 /**

@@ -3,7 +3,7 @@ package client.model
 import java.lang.Integer.valueOf
 
 import client.model.character._
-import client.model.character.gameElement.Eatable
+import client.model.gameElement.Eatable
 import client.model.utils.{Point, ScalaProlog}
 
 

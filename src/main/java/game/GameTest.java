@@ -2,7 +2,7 @@ package game;
 
 import client.model.Playground;
 import client.model.PlaygroundImpl$;
-import client.model.character.gameElement.*;
+import client.model.gameElement.*;
 import client.model.utils.Dimension;
 import client.model.utils.PointImpl;
 import client.model.controller.UserInputController;
@@ -90,7 +90,7 @@ public class GameTest {
         }
         playground.blocks_$eq((scala.collection.immutable.List<Block>) blocks);
 
-        List<client.model.character.gameElement.Eatable> eatables = new ArrayList<>();
+        List<Eatable> eatables = new ArrayList<>();
         int pillId = 0;
         int dotId = 0;
         for (int j=7; j<29; j=j+5){
