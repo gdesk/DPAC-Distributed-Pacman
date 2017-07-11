@@ -5,7 +5,7 @@ import java.util.Calendar
 
 import client.model.gameElement._
 import client.model.{Playground, PlaygroundImpl}
-import client.model.utils.{Dimension, Point, PointImpl}
+import client.model.utils.{Dimension, PointImpl}
 
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
@@ -21,9 +21,9 @@ object IOUtils {
 
   private val writer : PrintWriter = new PrintWriter(new File("log.txt" ))
 
-  /**
+  /** Utils method for save a string on file, used as a logger feature for the application.
     *
-    * @param log
+    * @param log the string to be saved
     */
   def saveLog(log: String): Unit = {
     println("log ricevuto: " + log)
@@ -35,6 +35,29 @@ object IOUtils {
       //writer.close()
   }
 
+  /** Get the specified file from the default path and parse it to generate a playground.
+    *
+    * the syntax for that file is :
+    * 'x' -> block
+    * '.' -> dot
+    * 'p' -> pill
+    *
+    * 'a' -> apple
+    * 'b' -> bell
+    * 'c' -> cherry
+    * 's' -> Galaxian Ship
+    * 'g' -> grapes
+    * 'k' -> key
+    * 'o' -> orange
+    * 's' -> strawberry
+    *
+    * other char are taken as blank space by default.
+    *
+    * dimension are taken from file counting the line and the length of the line in it.
+    *
+    * @param fileName the name of the file to be parsed. Suggested format is ''filename.dpac''
+    * @return the playground parsed from file
+    */
   def getPlaygroundFromFile(fileName: String) : Playground = {
     val playground: Playground = PlaygroundImpl.instance()
 

@@ -53,7 +53,7 @@ public class GameTest {
         view.renderBlockList(Utils.getJavaList(playground.blocks()));
         view.renderEatableList(Utils.getJavaList(playground.eatables()));
 
-        view.renderCharacter( 45, 13,"pacman" , "left");
+        view.renderCharacter( 45, 15,"pacman" , "left");
 
         // TODO: merge with client.model.character.gameElement.character-model part in order to use this
         /*
