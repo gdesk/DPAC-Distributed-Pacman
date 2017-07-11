@@ -6,6 +6,7 @@ import client.model.gameElement.*;
 import client.model.utils.Dimension;
 import client.model.utils.PointImpl;
 import client.model.controller.UserInputController;
+import client.utils.IOUtils;
 import client.view.*;
 import scala.collection.mutable.ListBuffer;
 
@@ -33,6 +34,7 @@ public class GameTest {
         playgroundView.addKeyListener(keyboardController);
         System.out.println(playgroundView.hasFocus());
 
+        IOUtils.saveLog("game can start !");
 
     }
 
@@ -51,7 +53,7 @@ public class GameTest {
         view.renderBlockList(Utils.getJavaList(playground.blocks()));
         view.renderEatableList(Utils.getJavaList(playground.eatables()));
 
-        view.renderCharacter( 45, 17,"pacman" , "left");
+        view.renderCharacter( 45, 15,"pacman" , "left");
 
         // TODO: merge with client.model.character.gameElement.character-model part in order to use this
         /*
@@ -59,10 +61,16 @@ public class GameTest {
             client.view.renderCharacter((int) ch.position().x(), (int) ch.position().y(), ch.name() /*"pacman"*/ /*, ch.direction()/*"up"*//*);
         } */
 
+        IOUtils.saveLog("playground initialized !");
+
         return (PlaygroundPanel)view;
     }
 
     private Playground createPlayground() {
+
+        IOUtils.saveLog("playground created !");
+        return IOUtils.getPlaygroundFromFile("default.dpac");
+        /*
         Playground playground = PlaygroundImpl$.MODULE$.instance();
         playground.dimension_$eq(Dimension.apply(60, 30));
 
@@ -127,6 +135,8 @@ public class GameTest {
         playground.eatables_$eq(eatables.toList());
 
         return playground;
+        */
+
     }
 
 }
