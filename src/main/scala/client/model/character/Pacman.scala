@@ -1,8 +1,8 @@
-package client.model
+package client.model.character
 
 import java.lang.Integer.valueOf
 
-import client.model.character._
+import client.model._
 import client.model.gameElement.Eatable
 import client.model.utils.{Point, ScalaProlog}
 
@@ -32,7 +32,7 @@ case class PacmanImpl(override val name: String, val strategy: EatObjectStrategy
   /**
     * This method checks if Pacman can eat some {@Eatable} object
     */
-  override def eatObject(): Unit = {
+  override def eatObject() = {
     var eatables: String = "["
     playground.eatables foreach(e =>
       eatables = eatables + "eatable_object(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.belonginFamily + "," + e.id + "),"
@@ -43,7 +43,7 @@ case class PacmanImpl(override val name: String, val strategy: EatObjectStrategy
     val solveInfo = PrologConfig.getPrologEngine().solve(s"eat_object(pacman(${position x},${position y},${lives remainingLives},${score toString}), ${eatables}, NS, L, N).")
     score = valueOf(solveInfo getTerm ("NS") toString)
     val remainingEatableObjectsId: List[String] = ScalaProlog prologToScalaList((solveInfo getTerm("L")) toString)
-    val remainingEatableObjects: List[Eatable] =List()
+    val remainingEatableObjects: List[Eatable] = List()
     remainingEatableObjectsId.foreach(r => (playground.eatables.find(e => e.id.equals(r)) get) :: remainingEatableObjects)
     playground eatables = remainingEatableObjects
     val eatenObjectFamily = (solveInfo getTerm("N") toString)
@@ -53,7 +53,7 @@ case class PacmanImpl(override val name: String, val strategy: EatObjectStrategy
   /**
     * Manage the the strategy of game, that is based on who the killer is and who the killable
     */
-  override def checkAllPositions(): Unit = {
+  override def checkAllPositions() = {
     var ghosts: String = "["
     game.characters() filter (c => !(c.isInstanceOf[Pacman])) foreach(e =>
       ghosts = ghosts + "ghost(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.name + "),"
@@ -81,7 +81,7 @@ case class PacmanImpl(override val name: String, val strategy: EatObjectStrategy
     *
     * @param direction - client.model.character.gameElement.character's direction
     */
-  override def go(direction: Direction): Unit = {
+  override def go(direction: Direction) = {
     val prePosition: Point[Int, Int] = position
     super.go(direction)
     val pos: Point[Int, Int] = position

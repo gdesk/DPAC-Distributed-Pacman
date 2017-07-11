@@ -2,7 +2,7 @@ package client.model
 
 import client.model.character.Character
 
-import scala.collection.mutable.HashMap
+import scala.collection.mutable.Map
 
 /**
   * Represent the current match status, holding some information about the game.
@@ -26,6 +26,27 @@ trait Match {
   def playground_=(playground: Playground): Unit
 
   /**
+    * Adds all match's players, excluding the main one.
+    *
+    * @param players - the characters and users Map.
+    */
+  def addPlayers(players: Map[Character[Int, Int], String]): Unit
+
+  /**
+    * Returns the character of the main user.
+    *
+    * @return - the character of the main user.
+    */
+  def myCharacter(): Character[Int, Int]
+
+  /**
+    * Sets the character of the main user.
+    *
+    * @param character - the character of the main user.
+    */
+  def myCharacter_=(character: Character[Int, Int]): Unit
+
+  /**
     * Returns the list of all characters who participate at the match.
     *
     * @return the list of all characters.
@@ -40,7 +61,7 @@ trait Match {
   def deadCharacters(): List[Character[Int, Int]]
 
   /**
-    * Add a dead characters to the list.
+    * Adds a dead characters to the list.
     *
     * @param deadCharacters - the dead characters.
     * @return the user's id of the player that was using that client.model.character.gameElement.character.
@@ -49,12 +70,25 @@ trait Match {
 
 }
 
+/**
+  *
+  *
+  *
+  */
 case class MatchImpl private() extends Match {
 
   private var deadChars: List[Character[Int, Int]] = List.empty
-  private val mapCharacterUser: HashMap[Character[Int, Int], String] = HashMap[Character[Int, Int], String]()
+  private var mapCharacterUser: Map[Character[Int, Int], String] = Map empty
 
   override var playground: Playground = null
+  override var myCharacter: Character[Int, Int] = null
+
+  /**
+    * Adds all match's players, excluding the main one.
+    *
+    * @param players - the characters and users Map.
+    */
+  override def addPlayers(players: Map[Character[Int, Int], String]): Unit = mapCharacterUser = players
 
   /**
     * Returns the list of all characters who participate at the match.
@@ -77,7 +111,9 @@ case class MatchImpl private() extends Match {
     */
   override def addDeadCharacters(deadCharacters: Character[Int, Int]) = {
     deadCharacters :: deadChars
-    (mapCharacterUser remove  deadCharacters) get
+    val character = mapCharacterUser get deadCharacters
+    mapCharacterUser -=  deadCharacters
+    character get
   }
 }
 

@@ -2,7 +2,7 @@ package client.model.character
 
 import java.lang.Integer.valueOf
 
-import client.model.{Direction, PacmanImpl}
+import client.model.Direction
 import client.model.utils.{PointImpl, ScalaProlog}
 
 /**
@@ -22,13 +22,13 @@ case class GhostImpl(override val name: String) extends CharacterImpl(false) {
     *
     * @param direction - client.model.character.gameElement.character's of direction
     */
-  override def go(direction: Direction): Unit = super.go(direction)
+  override def go(direction: Direction) = super.go(direction)
 
   /**
     * Manages the strategy of game, that is based on who is the killer and who is killable.
     *
     */
-  override def checkAllPositions(): Unit = {
+  override def checkAllPositions() = {
     /*solo per capire se funziona poi lo importeremo da scalaprolog e dovrò fare the convert ghost scala to ghost prolog*/
     val blueGhost = GhostImpl("blueGhost")
     val redGhost = GhostImpl("redGhost")

@@ -17,35 +17,3 @@ trait EatObjectStrategy {
   def eat(eatenObjectFamily: String):Unit
 
 }
-
-case class BaseStrategy() extends EatObjectStrategy {
-
-  private val playground: Playground = PlaygroundImpl instance()
-  private val game: Match = MatchImpl instance()
-
-  override def eat(family: String) = family match {
-    case "pill" =>
-      //val pacmanName: String = CharactersNames.Pacman.getName
-      game.characters() foreach(c => c.isInstanceOf[Pacman] match {
-        case true => c.isKillable = false
-        case _ => c.isKillable = true
-      })
-      val thread = new Thread {
-        override def run: Unit = {
-          val time = System.currentTimeMillis()
-          while(System.currentTimeMillis() < time + BaseStrategy.secondsToWait) {
-            //non faccio nulla
-          }
-          game.characters() foreach(c => c.isInstanceOf[Pacman] match {
-            case true => c.isKillable = true
-            case _ => c.isKillable = false
-          })
-        }
-      }
-      thread.start
-  }
-}
-
-object BaseStrategy {
-  private val secondsToWait = 10000
-}

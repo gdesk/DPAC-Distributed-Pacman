@@ -41,52 +41,12 @@ trait Playground {
     */
   def ground_=(elementsMap: Map[Point[Int,Int],GameItem]): Unit
 
-  /*
-  /**
-    * Add a block at his own position if is available.
-    *
-    * If the specified block has a position inside the border of the playground and that position is free the Block is added,
-    * otherwise nothing happens and an error message is shown.
-    *
-    * @param block the block that is wanted to be added to the playground
-    */
-  def addBlock(block: Block): Unit
-
-  /**
-    * Remove a block from the playground (if it is possible).
-    *
-    * If in the specified block's position the is an item and that item is a block it is removed,
-    * otherwise nothing happens and an error message is shown.
-    *
-    * @param block the block that is wanted to be removed to the playground
-    */
-  def removeBlock (block: Block): Unit
-  */
-
   /**
     * Returns a List of all the blocks in the current match.
     *
     * @return a List of all the blocks.
     */
   def blocks: List[Block]
-
-  /**
-    * Sets the playground of the current match with the blocks' list.
-    *
-    * @param blocks - current match's blocks' list
-    */
-  def blocks_=(blocks: List[Block]): Unit
-
-  /*
-  /**
-    * Add a eatable at his own position if is available.
-    *
-    * If the specified eatable has a position inside the border of the playground and that position is free the eatable is added,
-    * otherwise nothing happens and an error message is shown.
-    *
-    * @param eatable the eatable that is wanted to be added to the playground.
-    */
-  def addEatable(eatable: Eatable): Unit
 
   /**
     * Remove an eatable from the playground (if it is possible).
@@ -97,21 +57,27 @@ trait Playground {
     * @param eatable the eatable that is wanted to be removed to the playground.
     */
   def removeEatable(eatable: Eatable): Unit
-  */
 
   /**
-    * Returns a List of all the eatables in the current match.
+    * Returns the List of all the eatables in the current match.
     *
-    * @return a List of all the eatables.
+    * @return the List of all the eatables.
     */
   def eatables: List[Eatable]
 
   /**
-    *Sets the playground of the current match with the eatables' list.
+    * Returns the List of all the eaten objects in the current match.
     *
-    * @param eatables - current match's eatables' list
+    * @return the List of all the eaten objects.
     */
-  def eatables_=(eatables: List[Eatable]): Unit
+  def eatenObjects: List[Eatable]
+
+  /**
+    * Returns a list of all street's positions.
+    *
+    * @return a list of street's positions.
+    */
+  def streetPositions(): List[Point[Int, Int]]
 
   /**
     * Returns the [[GameItem]] found in a given position. If the position is free or invalid return an empty [[Option]].
@@ -120,13 +86,6 @@ trait Playground {
     * @return the object found at that position if it exist.
     */
   def elementAtPosition(position: Point[Int, Int]): Option[GameItem]
-
-  /**
-    * Returns a list of all street's positions.
-    *
-    * @return a list of street's positions.
-    */
-  def streetPositions(): List[Point[Int, Int]]
 }
 
 
@@ -137,99 +96,86 @@ trait Playground {
   */
 case class PlaygroundImpl private() extends Playground{
 
-  //private var blockList: ListBuffer[Block] = ListBuffer.empty[Block]
-  //private var eatableList: ListBuffer[Eatable] = ListBuffer.empty[Eatable]
   private var blockList: List[Block] = List empty
   private var eatableList: List[Eatable] = List empty
+  private var eatenList: List[Eatable] = List empty
+  private var streetPositionsList: List[Point[Int,Int]] = List empty
+  private var groundMap: Map[Point[Int,Int],GameItem] = HashMap empty
 
   override var dimension: Dimension = Dimension(0,0)
-  override var ground: Map[Point[Int,Int],GameItem] = HashMap[Point[Int,Int],GameItem]()
 
-  /*
   /**
-    * Add a block at his own position if is available.
+    * Returns the Map which contains all the elements of the current match.
     *
-    * If the specified block has a position inside the border of the playground and that position is free the Block is added,
-    * otherwise nothing happens and an error message is shown.
-    *
-    * @param block the block that is wanted to be added to the playground
+    * @return the map with all match's elements.
     */
-  override def addBlock(block: Block): Unit = {
-    // se aggiungo fuori dalla posizione mi deve dare errore
-    if (! checkPosition(block.position))
-      println("Block position is out of playground, cannot add it !")
-    //throw new OutOfPlaygroundBoundAccessException
-    else {
-      // controllo se esiste già qualcosa in quella posizione e nel caso do errore
-      if (elementAtPosition(block.position).isEmpty) {
-        this.blockList += block
-        val entry: (Point[Int,Int], GameItem) = (block.position, block)
-        this.ground += entry
-      }
-      else
-        println("Position already used, cannot add block !")
-      //throw new AlredyUsedPositionException
-    }
-  }*/
-  // e se la dimension copre fuori dai bordi ? devo controllare anche le dimensioni di quei cosi
-  // fare questa cosa con i blocchi dimensionati è esageratamente complicato
+  override def ground = groundMap
 
-  /*
   /**
-    * Remove a block from the playground (if it is possible).
+    * Sets the Map which contains all the elements of the current match.
     *
-    * If in the specified block's position the is an item and that item is a block it is removed,
-    * otherwise nothing happens and an error message is shown.
-    *
-    * @param block the block that is wanted to be removed to the playground
+    * @param elementsMap - the map with all match's elements.
     */
-  override def removeBlock (block: Block): Unit = {
-    val item: Option[GameItem] = elementAtPosition(block.position)
-    item match {
-      case None => println("Block not in playground, cannot remove !")
-      case Some(b) => {
-        if (b.isInstanceOf[Block]) {
-          this.blockList -= item.get.asInstanceOf[Block]
-          this.ground -= item.get.asInstanceOf[Block].position
-        }
-        else println("element at that position is not a block, cannot remove it !")
-      }
-    }
-  }*/
+  override def ground_=(elementsMap: Map[Point[Int, Int], GameItem]) = {
+    groundMap = elementsMap
+    groundMap.foreach(p => checkItemPosition(p._2))
+  }
 
   /**
     * Returns a List of all the blocks in the current match.
     *
     * @return a List of all the blocks.
     */
-  override def blocks: List[Block] = blockList
-
-  /**
-    * Sets the playground of the current match with the blocks' list.
-    *
-    * @param blocks - current match's blocks' listscala.collection.mutable.HashMap
-    */
-  override def blocks_=(blocks: List[Block]) = {
-    blockList = blocks
-    blockList foreach(b => checkItemPosition(b))
+  override def blocks: List[Block] = {
+    if(blockList.isEmpty) {
+      ground.foreach(p =>
+        if(p._2.isInstanceOf[Block]) {
+          p._2.asInstanceOf[Block]
+          p._2 :: blockList
+        }
+      )
+    }
+    blockList
   }
 
   /**
-    * Returns a List of all the eatables in the current match.
+    * Returns the List of all the eatables in the current match.
     *
-    * @return a List of all the eatables.
+    * @return the List of all the eatables.
     */
-  override def eatables: List[Eatable] = eatableList
+  override def eatables: List[Eatable] = {
+    if(eatableList.isEmpty) {
+      ground.foreach(p =>
+        if(p._2.isInstanceOf[Eatable]) {
+          p._2.asInstanceOf[Eatable]
+          p._2 :: eatableList
+        }
+      )
+    }
+    eatableList
+  }
 
   /**
-    * Sets the playground of the current match with the eatables' list.
+    * Remove an eatable from the playground (if it is possible).
     *
-    * @param eatables - current match's eatables' list
+    * If in the specified eatable's position the is an item and that item is a eatable it is removed,
+    * otherwise nothing happens and an error message is shown.
+    *
+    * @param eatable the eatable that is wanted to be removed to the playground.
     */
-  override def eatables_=(eatables: List[Eatable]) = {
-    eatableList = eatables
-    eatableList foreach(e => checkItemPosition(e))
+  override def removeEatable(eatable: Eatable) = {
+    var point: Point[Int, Int] = groundMap.find(p => p._2 equals eatable).get._1
+    val eatableObj = (groundMap get point get).asInstanceOf[Eatable]
+    eatableObj :: eatenList
+    groundMap -= point
   }
+
+  /**
+    * Returns the List of all the eaten objects in the current match.
+    *
+    * @return the List of all the eaten objects.
+    */
+  override def eatenObjects: List[Eatable] = eatenList
 
   private def checkItemPosition(item: GameItem): Unit = {
     // se aggiungo fuori dalla posizione mi deve dare errore
@@ -257,39 +203,21 @@ case class PlaygroundImpl private() extends Playground{
     */
   private def checkPosition(point: Point[Int, Int]): Boolean = point.x <= dimension.x && point.y <= dimension.y
 
-  /*
-  def addEatable(eatable: Eatable): Unit = {
-    // se aggiungo fuori dalla posizione mi deve dare errore
-    if (!checkPosition(eatable.position))
-      println("Eatable position is out of playground, cannot add it !")
-    //throw new OutOfPlaygroundBoundAccessException
-    else {
-      // controllo se esiste già qualcosa in quella posizione e nel caso do errore
-      if (elementAtPosition(eatable.position).isEmpty){
-        this.eatableList += eatable
-        val entry: (Point[Int,Int], GameItem) = (eatable.position, eatable)
-        this.ground += entry
-      }
-      else
-        println("Position already used, cannot add eatable !")
-      //throw new AlredyUsedPositionException
-    }
-  }
-  */
-
-  /*def removeEatable (eatable: Eatable): Unit = {
-    val item: Option[GameItem] = elementAtPosition(eatable.position)
-    item match {
-      case None => println("Eatable not in playground, cannot remove !")
-      case Some(e) => {
-        if (e.isInstanceOf[Eatable]) {
-          this.eatableList -= item.get.asInstanceOf[Eatable]
-          this.ground -= item.get.asInstanceOf[Eatable].position
+  /**
+    * Returns a list of all street's positions.
+    *
+    * @return a list of street's positions.
+    */
+  override def streetPositions(): List[Point[Int, Int]] = {
+    if(streetPositionsList.isEmpty) {
+      for(i <- 0 to dimension.x) {
+        for(j <- 0 to dimension.y) {
+          if(!ground.contains(PointImpl(i,j))) PointImpl(i,j) :: streetPositionsList
         }
-        else println("element at that position is not an eatable, cannot remove it !")
       }
     }
-  }*/
+    streetPositionsList
+  }
 
   /**
     * Returns the [[GameItem]] found in a given position. If the position is free or invalid return an empty [[Option]].
@@ -303,36 +231,6 @@ case class PlaygroundImpl private() extends Playground{
     } else {
       Option.empty[GameItem]
     }
-    /*if (checkPosition(position)) {
-      for (b <- blockList) {
-        if (b.position.x == position.x && b.position.y == position.y) return Option(b)
-      }
-
-      for (e <- eatableList) {
-        if (e.position.x == position.x && e.position.y == position.y) return Option(e)
-      }
-
-      Option.empty[GameItem]
-    }
-
-    else {
-      Option.empty[GameItem]
-    }*/
-  }
-
-  /**
-    * Returns a list of all street's positions.
-    *
-    * @return a list of street's positions.
-    */
-  override def streetPositions(): List[Point[Int, Int]] = {
-    var street: List[Point[Int, Int]] = List.empty
-    for(i <- 0 to dimension.x) {
-      for(j <- 0 to dimension.y) {
-        if(!ground.contains(PointImpl(i,j))) PointImpl(i,j) :: street
-      }
-    }
-    street
   }
 }
 
@@ -350,10 +248,3 @@ object PlaygroundImpl {
     _instance
   }
 }
-
-/*
-
-case class OutOfPlaygroundBoundAccessException (private val message: String = "Access Out of Playground Bound",
-                                                private val cause: Throwable = None.orNull)
-           extends Exception(message, cause)
-*/

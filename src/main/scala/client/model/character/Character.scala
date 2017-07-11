@@ -120,7 +120,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     */
   override def go(direction: Direction): Unit = {
     val point: Option[Point[Int, Int]] = move(direction)
-    if (point nonEmpty) {
+    if(point nonEmpty) {
       setPosition(point get)
       checkAllPositions()
     } else {
