@@ -1,7 +1,7 @@
 package client
 
-import client.gameElement.{VirtualFruit, Fruits}
-import client.utils.PointImpl
+import client.model.character.gameElement.{VirtualFruit, Fruits}
+import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 
 /**
@@ -24,10 +24,5 @@ class FruitTest extends FunSuite{
 
     assert (fruit1.fruitTypes != fruit2.fruitTypes)
   }
-
-
-
-
-
 
 }

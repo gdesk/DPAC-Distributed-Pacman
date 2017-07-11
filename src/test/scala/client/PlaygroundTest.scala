@@ -1,7 +1,8 @@
 package client
 
-import client.gameElement._
-import client.utils.{Dimension, PointImpl}
+import client.model.PlaygroundImpl
+import client.model.character.gameElement._
+import client.model.utils.{Dimension, PointImpl}
 import org.scalatest.FunSuite
 
 /**
@@ -10,28 +11,28 @@ import org.scalatest.FunSuite
 
 class PlaygroundTest extends FunSuite{
 
-  val playground: VirtualPlayground = new VirtualPlayground(Dimension(5,5))
+  val playground: PlaygroundImpl = new PlaygroundImpl(Dimension(5,5))
 
 
   test("Block and eatable lists are empty in a new Playground"){
 
-    assert (playground.getAllEatable.isEmpty && playground.getAllBlocks.isEmpty)
+    assert (playground.eatables.isEmpty && playground.blocks.isEmpty)
 
   }
 
-  val b2: VirtualBlock = VirtualBlock (PointImpl (2,2))
-  val b3: VirtualBlock = VirtualBlock (PointImpl (3,3))
+  val b2: Block = Block (PointImpl (2,2))
+  val b3: Block = Block (PointImpl (3,3))
 
   test("Correctly add block on block list"){
 
-    val b1: VirtualBlock = VirtualBlock (PointImpl (1,1))
+    val b1: Block = Block (PointImpl (1,1))
 
 
     playground.addBlock(b1)
     playground.addBlock(b2)
     playground.addBlock(b3)
 
-    assert(playground.getAllBlocks.size == 3)
+    assert(playground.blocks.size == 3)
   }
 
   val d: VirtualDot = VirtualDot (PointImpl (4,4))
@@ -46,40 +47,40 @@ class PlaygroundTest extends FunSuite{
     playground.addEatable(p)
     playground.addEatable(f)
 
-    assert(playground.getAllEatable.size == 3)
+    assert(playground.eatables.size == 3)
   }
 
   test ("removeBlock remove the correct block from the list"){
-    val b1: VirtualBlock = VirtualBlock (PointImpl (1,1))
+    val b1: Block = Block (PointImpl (1,1))
 
     playground.removeBlock(b1)
 
-    assert (playground.getAllBlocks.size == 2 && playground.getAllBlocks.head == b2 && playground.getAllBlocks(1) == b3)
+    assert (playground.blocks.size == 2 && playground.blocks.head == b2 && playground.blocks(1) == b3)
   }
 
   test ("removeEatable remove the correct eatable from the list"){
     val p: VirtualPill = VirtualPill (PointImpl (5,5))
     playground.removeEatable(p)
 
-    assert (playground.getAllEatable.size == 2 && playground.getAllEatable.head == d && playground.getAllEatable(1) == f)
+    assert (playground.eatables.size == 2 && playground.eatables.head == d && playground.eatables(1) == f)
   }
 
   test ("search for an element out of the dimension of playground has no effect (return Empty)"){
     val point: PointImpl[Int,Int] = PointImpl(7,3)
 
-    assert(playground.getElementAtPosition(point) == Option.empty[GameItem])
+    assert(playground.elementAtPosition(point) == Option.empty[GameItem])
   }
 
   test("search for an element in position find it properly"){
     val point: PointImpl[Int,Int] = PointImpl(4,4)
 
-    assert(playground.getElementAtPosition(point) == Option(d))
+    assert(playground.elementAtPosition(point) == Option(d))
   }
 
   test("search for an element that not exist return Empty "){
     val point: PointImpl[Int,Int] = PointImpl(3,2)
 
-    assert(playground.getElementAtPosition(point) == Option.empty[GameItem])
+    assert(playground.elementAtPosition(point) == Option.empty[GameItem])
   }
 
 }
