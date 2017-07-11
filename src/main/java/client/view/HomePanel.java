@@ -18,45 +18,47 @@ public class HomePanel extends JPanel {
     private final JButton startGame = new JButton("START GAME");
 
     public HomePanel(final List<MatchResult> results){
-        setLayout(new BorderLayout());
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JPanel north = new JPanel();
         north.setBackground(BACKGROUND_COLOR);
-
-        startGame.setMinimumSize(new Dimension((int)MainFrameDimension.getWidth()/10, (int)MainFrameDimension.getHeight()/3));
         north.add(startGame);
-        add(north, BorderLayout.NORTH);
+        add(north);
 
-        JPanel ceneter = new JPanel();
+        JPanel center = new JPanel();
+        center.setBackground(BACKGROUND_COLOR);
+        JLabel label = new JLabel(new ImageIcon(Utils.getGif("whiteGhosts")));
+        center.add(label);
+        add(center);
 
-        JPanel matchesPanel = new JPanel();
-        matchesPanel.setLayout(new BoxLayout(matchesPanel, BoxLayout.Y_AXIS));
-        addResults(matchesPanel, results);
-        JScrollPane scroll = new JScrollPane(matchesPanel);
-        add(scroll, BorderLayout.SOUTH);
+        JTable table = createMatchTable(results);
+        table.setFont(new Font(table.getFont().getName(), Font.PLAIN, 15));
+        table.setRowHeight(25);
+        table.setShowHorizontalLines(true);
+        table.getTableHeader().setFont(new Font(table.getFont().getName(), Font.BOLD, 25));
+        JScrollPane scrollPane = new JScrollPane(table);
+        table.setFillsViewportHeight(true);
+        add(scrollPane);
 
+        startGame.addActionListener(e->{
+            //startGame
+            // MainFrame.getInstance().setContentPane(new PlaygroundPanel());
+        });
     }
 
-    private void addResults(final JPanel matchesPanel, final List<MatchResult> results){
 
-        results.forEach( res ->{
-            JPanel p = new JPanel(new BorderLayout());
-            p.setMaximumSize(new Dimension(MainFrameDimension.width, (int)MainFrameDimension.getHeight()/30));
-
-            JPanel resultPanel = new JPanel();
-            resultPanel.add(new JLabel( res.result() ? "VICTORY" : "DEFEAT"));
-            p.add(resultPanel, BorderLayout.WEST);
-
-            JPanel datePanel = new JPanel();
+    private int xTableIndex = 0;
+    private JTable createMatchTable(final List<MatchResult> results){
+        String[] columnNames = {"Result", "Date", "Score"};
+        Object[][] data = new Object[results.size()][columnNames.length];
+        results.forEach(res ->{
+            data[xTableIndex][0] = res.result() ? "VICTORY" : "DEFEAT";
             SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-            datePanel.add(new JLabel(format1.format(res.date().getTime())));
-            p.add(datePanel, BorderLayout.CENTER);
-
-            JPanel scorePanel = new JPanel();
-            scorePanel.add(new JLabel("Score: "+res.score()));
-            p.add(scorePanel, BorderLayout.EAST);
-
-            matchesPanel.add(p);
+            data[xTableIndex][1] = format1.format(res.date().getTime());
+            data[xTableIndex][2] = "Score: "+res.score();
+            xTableIndex = xTableIndex+1;
         });
+
+        return new JTable(data, columnNames);
     }
 }
