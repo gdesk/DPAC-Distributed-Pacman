@@ -1,0 +1,185 @@
+package client.utils
+
+import java.io.{File, PrintWriter}
+import java.util.Calendar
+
+import client.model.gameElement._
+import client.model.{Playground, PlaygroundImpl}
+import client.model.utils.{Dimension, Point, PointImpl}
+
+import scala.collection.mutable.ListBuffer
+import scala.io.Source
+
+/**
+  * Created by ManuBottax on 11/07/2017.
+  */
+object IOUtils {
+
+  private val BASE_PATH = "/playground/"
+  private val PLAYGROUND_FILE_EXTENSION = ".dpac"
+
+  def getPlaygroundFromFile(path: String) : Playground = {
+    val playground: Playground = PlaygroundImpl.instance()
+
+    val playgroundFile: File = new File("src/main/resources/playground/default.dpac")
+
+    // todo: con la versione vecchia del model era infinitamente più facile ed economico farlo
+    // playground = parseFile(path)
+
+    val block: List[Block] = parseBlock (playgroundFile)
+    val eatable: List[Eatable] = parseEatable (playgroundFile)
+
+    // todo: perchè character vuole i tipi ?
+    //val character: List[Character[Int,Int]] = parseCharacter(playgroundFile)
+
+    playground.dimension = parseDimension(playgroundFile)
+    playground.blocks_=(block)
+    playground.eatables_=(eatable)
+
+    println("Created a Playground of dimension [ " + playground.dimension.x + " | " + playground.dimension.y
+      + " ] with " + block.size + " blocks and " + eatable.size + " eatable elements")
+
+    playground
+  }
+
+  private def parseBlock(file: File): List[Block] = {
+    var blockList: ListBuffer[Block] = new ListBuffer[Block]
+    var xPosition: Int = 0
+    var yPosition: Int = 0
+
+    Source.fromFile(file).foreach( _ match {
+      case 'x' => {
+        println("I'm a Block at pos [" + xPosition + " | " + yPosition + " ]")
+        xPosition = xPosition + 1
+        blockList.+=(Block(PointImpl (xPosition,yPosition)))
+      }
+      case '\n' => {
+        yPosition = yPosition + 1
+        xPosition = 0
+        false
+      }
+      case _ => {
+        xPosition = xPosition + 1
+        false
+      }
+    } )
+
+    blockList.toList
+  }
+
+
+  private def parseEatable(file: File): List[Eatable] = {
+      var eatableList: ListBuffer[Eatable] = new ListBuffer[Eatable]
+      var xPosition: Int = 0
+      var yPosition: Int = 0
+
+      Source.fromFile(file).foreach( _ match {
+        case '.' => {
+          println("I'm a dot at pos [" + xPosition + " | " + yPosition + " ]")
+          xPosition = xPosition + 1
+          eatableList.+=(Dot("",PointImpl (xPosition,yPosition)))
+        }
+        case 'p' => {
+          println("I'm a pill at pos [" + xPosition + " | " + yPosition + " ]")
+          xPosition = xPosition + 1
+          eatableList.+=(Pill("",PointImpl (xPosition,yPosition)))
+        }
+        case 'a' => {
+          println("I'm an apple at pos [" + xPosition + " | " + yPosition + " ]")
+          xPosition = xPosition + 1
+          eatableList.+=(Apple("",PointImpl (xPosition,yPosition)))
+        }
+        case 'b' => {
+          println("I'm a bell at pos [" + xPosition + " | " + yPosition + " ]")
+          xPosition = xPosition + 1
+          eatableList.+=(Bell("",PointImpl (xPosition,yPosition)))
+        }
+        case 'c' => {
+          println("I'm a cherry at pos [" + xPosition + " | " + yPosition + " ]")
+          xPosition = xPosition + 1
+          eatableList.+=(Cherry("",PointImpl (xPosition,yPosition)))
+        }
+        case 's' => {
+          println("I'm a galaxian Ship at pos [" + xPosition + " | " + yPosition + " ]")
+          xPosition = xPosition + 1
+          eatableList.+=(GalaxianShip("",PointImpl (xPosition,yPosition)))
+        }
+        case 'g' => {
+          println("I'm a grapes at pos [" + xPosition + " | " + yPosition + " ]")
+          xPosition = xPosition + 1
+          eatableList.+=(Grapes("",PointImpl (xPosition,yPosition)))
+        }
+        case 'k' => {
+          println("I'm a key at pos [" + xPosition + " | " + yPosition + " ]")
+          xPosition = xPosition + 1
+          eatableList.+=(Key("",PointImpl (xPosition,yPosition)))
+        }
+
+        case 'o' => {
+          println("I'm an orange at pos [" + xPosition + " | " + yPosition + " ]")
+          xPosition = xPosition + 1
+          eatableList.+=(Orange("",PointImpl (xPosition,yPosition)))
+        }
+
+        case 's' => {
+          println("I'm an apple at pos [" + xPosition + " | " + yPosition + " ]")
+          xPosition = xPosition + 1
+          eatableList.+=(Strawberry("",PointImpl (xPosition,yPosition)))
+        }
+
+        case '\n' => {
+          yPosition = yPosition + 1
+          xPosition = 0
+          false
+        }
+        case _ => {
+          xPosition = xPosition + 1
+          false
+        }
+      } )
+
+      eatableList.toList
+    }
+
+  private def parseDimension(file: File) :  Dimension = {
+
+    var xPosition: Int = 0
+    var yPosition: Int = 0
+
+    var xDim: Int = 0
+    var yDim: Int = 0
+
+    Source.fromFile(file).foreach(_ match {
+      case '\n' => {
+        if (xPosition > xDim)
+          xDim = xPosition
+        xPosition = 0
+        yPosition = yPosition + 1
+      }
+
+      case _ => {
+        xPosition = xPosition + 1
+      }
+    } )
+
+    yDim = yPosition
+
+    Dimension(xDim,yDim)
+  }
+
+  def main(args: Array[String]): Unit = {
+    val playgroundFiles: File = new File("src/main/resources/playground/default.dpac")
+    getPlaygroundFromFile("src/main/resources/playground/default.dpac")
+  }
+
+  def saveLog(log: String): Unit = {
+    def main(args: Array[String]) {
+      val writer = new PrintWriter(new File("log.txt" ))
+
+      writer.append("[ " + Calendar.DAY_OF_MONTH + "/" +  Calendar.MONTH + "/" + Calendar.YEAR + "/" + Calendar.HOUR + "/" +
+        Calendar.MINUTE + Calendar.SECOND + " ]: " + log)
+      writer.close()
+    }
+  }
+
+}
