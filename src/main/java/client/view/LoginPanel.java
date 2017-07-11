@@ -1,8 +1,11 @@
 package client.view;
 
+import client.model.MatchResult;
+import controller.FakeController;
+
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
+import java.util.List;
 
 /**
  * Created by chiaravarini on 11/07/17.
@@ -22,14 +25,8 @@ public class LoginPanel extends JPanel {
         setLayout(new BorderLayout());
         setBackground(BACKGROUND_COLOR);
 
-        URL url = Utils.getResource("/images/login/loginAnimated.gif");
-        ImageIcon icon = new ImageIcon(url);
-
         //TODO resize gif
-
-
-        JLabel label = new JLabel(icon);
-
+        JLabel label = new JLabel(new ImageIcon(Utils.getGif("login")));
 
 
         add(label, BorderLayout.CENTER);
@@ -71,6 +68,9 @@ public class LoginPanel extends JPanel {
 
         login.addActionListener(e->{
             //controller.login();
+            List<MatchResult> matches = FakeController.getmatches(); //controller.getMathces(username); --> Return a List of matches
+            MainFrame.getInstance().setContentPane(new HomePanel(matches));
+
         });
 
         registration.addActionListener(e->{

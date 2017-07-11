@@ -17,12 +17,19 @@ object Utils {
   private val IMAGES_BASE_PATH = "/images/"
   private val IMAGES_EXTENSION = ".png"
 
+  private val GIF_BASE_PATH = "/gif/"
+  private val GIF_EXTENSION = ".gif"
+
 
   def getResource(path: String): URL = Utils.getClass.getResource(path)   //TODO lanciare eccezione nel caso in cui non trovi la risorsa!
 
 
   def getImage(path: String): Image = {
     new ImageIcon(getResource(IMAGES_BASE_PATH + path + IMAGES_EXTENSION)).getImage
+  }
+
+  def getGif(name: String): Image = {
+    new ImageIcon(getResource(GIF_BASE_PATH + name + GIF_EXTENSION)).getImage
   }
 
   def getResolution(): ImagesResolutions =  Toolkit.getDefaultToolkit().getScreenResolution() match{

@@ -37,4 +37,10 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }*/
 
+    @Override
+    public void setContentPane(Container contentPane) {
+        super.setContentPane(contentPane);
+        revalidate();
+        repaint();
+    }
 }
