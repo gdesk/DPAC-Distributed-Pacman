@@ -15,13 +15,27 @@ import scala.io.Source
   */
 object IOUtils {
 
-  private val BASE_PATH = "/playground/"
+  private val BASE_PATH = "src/main/resources/playground/"
   private val PLAYGROUND_FILE_EXTENSION = ".dpac"
 
-  def getPlaygroundFromFile(path: String) : Playground = {
+  def main(args: Array[String]): Unit = {
+    getPlaygroundFromFile("default.dpac")
+  }
+
+  def saveLog(log: String): Unit = {
+    def main(args: Array[String]) {
+      val writer = new PrintWriter(new File("log.txt" ))
+
+      writer.append("[ " + Calendar.DAY_OF_MONTH + "/" +  Calendar.MONTH + "/" + Calendar.YEAR + "/" + Calendar.HOUR + "/" +
+        Calendar.MINUTE + Calendar.SECOND + " ]: " + log)
+      writer.close()
+    }
+  }
+
+  def getPlaygroundFromFile(fileName: String) : Playground = {
     val playground: Playground = PlaygroundImpl.instance()
 
-    val playgroundFile: File = new File("src/main/resources/playground/default.dpac")
+    val playgroundFile: File = new File(BASE_PATH + fileName)
 
     // todo: con la versione vecchia del model era infinitamente più facile ed economico farlo
     // playground = parseFile(path)
@@ -72,6 +86,9 @@ object IOUtils {
       var eatableList: ListBuffer[Eatable] = new ListBuffer[Eatable]
       var xPosition: Int = 0
       var yPosition: Int = 0
+
+
+    //todo : perchè mela, ciliegia, uva e arancia funzionano e gli altri frutti no ???????
 
       Source.fromFile(file).foreach( _ match {
         case '.' => {
@@ -165,21 +182,6 @@ object IOUtils {
     yDim = yPosition
 
     Dimension(xDim,yDim)
-  }
-
-  def main(args: Array[String]): Unit = {
-    val playgroundFiles: File = new File("src/main/resources/playground/default.dpac")
-    getPlaygroundFromFile("src/main/resources/playground/default.dpac")
-  }
-
-  def saveLog(log: String): Unit = {
-    def main(args: Array[String]) {
-      val writer = new PrintWriter(new File("log.txt" ))
-
-      writer.append("[ " + Calendar.DAY_OF_MONTH + "/" +  Calendar.MONTH + "/" + Calendar.YEAR + "/" + Calendar.HOUR + "/" +
-        Calendar.MINUTE + Calendar.SECOND + " ]: " + log)
-      writer.close()
-    }
   }
 
 }

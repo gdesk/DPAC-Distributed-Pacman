@@ -6,6 +6,7 @@ import client.model.gameElement.*;
 import client.model.utils.Dimension;
 import client.model.utils.PointImpl;
 import client.model.controller.UserInputController;
+import client.utils.IOUtils;
 import client.view.*;
 import scala.collection.mutable.ListBuffer;
 
@@ -63,6 +64,9 @@ public class GameTest {
     }
 
     private Playground createPlayground() {
+
+        return IOUtils.getPlaygroundFromFile("default.dpac");
+        /*
         Playground playground = PlaygroundImpl$.MODULE$.instance();
         playground.dimension_$eq(Dimension.apply(60, 30));
 
@@ -127,6 +131,7 @@ public class GameTest {
         playground.eatables_$eq(eatables.toList());
 
         return playground;
+        */
     }
 
 }
