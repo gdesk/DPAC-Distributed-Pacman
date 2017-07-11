@@ -2,7 +2,7 @@ package client.view;
 
 import java.awt.*;
 
-import static view.MainFrame.DIMENSION;
+import static client.view.MainFrame.DIMENSION;
 
 /**
  * Created by Manuel Bottax on 04/07/2017.
