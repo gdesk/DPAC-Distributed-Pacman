@@ -10,26 +10,29 @@ import client.model.utils.{Dimension, Point, PointImpl}
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
 
-/**
-  * Created by ManuBottax on 11/07/2017.
+/** Utils for handle file I/O.
+  *
+  * @author ManuBottax
   */
 object IOUtils {
 
   private val BASE_PATH = "src/main/resources/playground/"
   private val PLAYGROUND_FILE_EXTENSION = ".dpac"
 
-  def main(args: Array[String]): Unit = {
-    getPlaygroundFromFile("default.dpac")
-  }
+  private val writer : PrintWriter = new PrintWriter(new File("log.txt" ))
 
+  /**
+    *
+    * @param log
+    */
   def saveLog(log: String): Unit = {
-    def main(args: Array[String]) {
-      val writer = new PrintWriter(new File("log.txt" ))
-
-      writer.append("[ " + Calendar.DAY_OF_MONTH + "/" +  Calendar.MONTH + "/" + Calendar.YEAR + "/" + Calendar.HOUR + "/" +
-        Calendar.MINUTE + Calendar.SECOND + " ]: " + log)
-      writer.close()
-    }
+    println("log ricevuto: " + log)
+      val cal : Calendar = Calendar.getInstance()
+      writer.append("[ " + cal.get(Calendar.DAY_OF_MONTH) + "/" +  cal.get(Calendar.MONTH) + "/" + cal.get(Calendar.YEAR)
+        + " " + cal.get(Calendar.HOUR) + ":" +
+        cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND) + " ]: " + log + "\n")
+    writer.flush()
+      //writer.close()
   }
 
   def getPlaygroundFromFile(fileName: String) : Playground = {
