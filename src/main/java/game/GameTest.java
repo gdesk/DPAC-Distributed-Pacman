@@ -2,15 +2,14 @@ package game;
 
 import client.model.Playground;
 import client.model.PlaygroundImpl$;
+import client.model.controller.UserInputController;
 import client.model.gameElement.*;
 import client.model.utils.Dimension;
 import client.model.utils.PointImpl;
-import client.model.controller.UserInputController;
 import client.view.*;
 import scala.collection.mutable.ListBuffer;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +26,7 @@ public class GameTest {
         Playground currentPlayground = createPlayground(); // TODO: Poi sarà nel model o nel client.model.controller, verrà passato da un metodo (arriva dal server)
         PlaygroundPanel playgroundView = initializePlaygroundView( currentPlayground , null /*model.getCharacterList()*/);
         view = MainFrame.getInstance();
-        view.setPlayground(playgroundView);
+        //view.setPlayground(playgroundView);
 
         UserInputController keyboardController = new UserInputController(playgroundView);
         playgroundView.addKeyListener(keyboardController);

@@ -12,9 +12,10 @@ import java.awt.*;
 public class MainFrame extends JFrame {
 
     public static final Dimension DIMENSION = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
+    //public static final Controller controller = Controller.getInstance();
     private static MainFrame SINGLETON = null;
 
-    public static MainFrame getInstance(){
+    public static MainFrame getInstance(){  //TODO passare il controller
         if(SINGLETON == null){
             SINGLETON = new MainFrame();
         }
@@ -26,13 +27,14 @@ public class MainFrame extends JFrame {
 
         setSize(DIMENSION);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setContentPane(new LoginPanel());
         setResizable(false);
-
-    }
-
-    public void setPlayground(final PlaygroundPanel playground){
-        setContentPane(new GameStartPanel(playground));
         setVisible(true);
     }
+
+    /*public void setPlayground(final PlaygroundPanel playground){
+        setContentPane(new GameStartPanel(playground));
+        setVisible(true);
+    }*/
 
 }
