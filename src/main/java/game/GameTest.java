@@ -10,14 +10,13 @@ import client.view.*;
 import scala.collection.mutable.ListBuffer;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Manuel Bottax on 04/07/2017.
  */
 public class GameTest {
-
+/*
     private MainFrame view ;
     //private Game model;
     //private GameController client.model.controller;
@@ -25,7 +24,7 @@ public class GameTest {
     public GameTest(){
 
         Playground currentPlayground = createPlayground(); // TODO: Poi sarà nel model o nel client.model.controller, verrà passato da un metodo (arriva dal server)
-        PlaygroundPanel playgroundView = initializePlaygroundView( currentPlayground , null /*model.getCharacterList()*/);
+        PlaygroundPanel playgroundView = initializePlaygroundView( currentPlayground , null); //model.getCharacterList()
         view = MainFrame.getInstance();
         view.setPlayground(playgroundView);
 
@@ -54,10 +53,10 @@ public class GameTest {
         view.renderCharacter( 45, 17,"pacman" , "left");
 
         // TODO: merge with client.model.character.gameElement.character-model part in order to use this
-        /*
-        for(Character ch : characterList) {
-            client.view.renderCharacter((int) ch.position().x(), (int) ch.position().y(), ch.name() /*"pacman"*/ /*, ch.direction()/*"up"*//*);
-        } */
+
+       // for(Character ch : characterList) {
+         //   client.view.renderCharacter((int) ch.position().x(), (int) ch.position().y(), ch.name() /*"pacman"*/ /*, ch.direction()/*"up"*//*);
+        //}
 
         return (PlaygroundPanel)view;
     }
@@ -128,6 +127,6 @@ public class GameTest {
 
         return playground;
     }
-
+*/
 }
 

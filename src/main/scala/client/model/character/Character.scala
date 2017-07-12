@@ -118,7 +118,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     *
     * @param direction - client.model.character.gameElement.character's direction
     */
-  override def go(direction: Direction): Unit = {
+  override def go(direction: Direction) = {
     val point: Option[Point[Int, Int]] = move(direction)
     if(point nonEmpty) {
       setPosition(point get)
@@ -134,7 +134,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     * @param direction the client.model.character.gameElement.character's direction during the movement
     * @return the new client.model.character.gameElement.character's position after the movement
     */
-  private def move(direction: Direction): Option[Point[Int, Int]] = {
+  private def move(direction: Direction) = {
     val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${pos x}, ${pos y},${direction getDirection}, X, Y).")
     if (solveInfo isSuccess) {
       val x = Integer.valueOf(solveInfo.getTerm("X").toString)
@@ -148,12 +148,12 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     *
     * @return item's position.
     */
-  override def position: Point[Int, Int] = pos
+  override def position = pos
 
    /**
      * setter client.model.character.gameElement.character's position
      *
      * @param point a point of client.model.character.gameElement.character within the game map
      **/
-   override def setPosition(point: Point[Int, Int]): Unit = pos = point
+   override def setPosition(point: Point[Int, Int]) = pos = point
  }

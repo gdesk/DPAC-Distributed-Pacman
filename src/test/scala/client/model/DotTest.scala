@@ -1,6 +1,6 @@
-package client
+package client.model
 
-import client.model.character.gameElement.VirtualDot
+import client.model.gameElement.Dot
 import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 
@@ -10,13 +10,13 @@ import org.scalatest.FunSuite
 
 
 class DotTest extends FunSuite {
-
+/*
   test("A New Dot Position is correctly available") {
-    val d: VirtualDot = VirtualDot(PointImpl(5,6))
+    val d: Dot = Dot(PointImpl(5,6))
 
     assert(d.position.x == 5 && d.position.y == 6)
   }
-
+*/
 }
 
 

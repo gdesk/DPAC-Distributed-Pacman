@@ -18,7 +18,7 @@ case class BaseEatObjectStrategy() extends EatObjectStrategy {
   override def eat(eatenObjectFamily: String) = eatenObjectFamily match {
     case "pill" =>
       //val pacmanName: String = CharactersNames.Pacman.getName
-      game.characters() foreach(c => c.isInstanceOf[Pacman] match {
+      game.characters foreach(c => c.isInstanceOf[Pacman] match {
         case true => c.isKillable = false
         case _ => c.isKillable = true
       })
@@ -28,7 +28,7 @@ case class BaseEatObjectStrategy() extends EatObjectStrategy {
           while(System.currentTimeMillis() < time + BaseEatObjectStrategy.secondsToWait) {
             //non faccio nulla
           }
-          game.characters() foreach(c => c.isInstanceOf[Pacman] match {
+          game.characters foreach(c => c.isInstanceOf[Pacman] match {
             case true => c.isKillable = true
             case _ => c.isKillable = false
           })

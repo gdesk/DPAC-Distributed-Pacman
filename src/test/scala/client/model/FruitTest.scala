@@ -1,6 +1,5 @@
-package client
+package client.model
 
-import client.model.character.gameElement.{VirtualFruit, Fruits}
 import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 
@@ -8,7 +7,7 @@ import org.scalatest.FunSuite
   * Created by ManuBottax on 26/06/2017.
   */
 class FruitTest extends FunSuite{
-
+/*
   test("default fruit is a CHERRY "){
 
     val fruit: VirtualFruit = VirtualFruit(PointImpl(1,1))
@@ -24,5 +23,5 @@ class FruitTest extends FunSuite{
 
     assert (fruit1.fruitTypes != fruit2.fruitTypes)
   }
-
+*/
 }
