@@ -15,60 +15,37 @@ import java.util.List;
 public class HomePanel extends JPanel {
 
     private final static Color BACKGROUND_COLOR = Color.WHITE;
-    private final Dimension MainFrameDimension = MainFrame.DIMENSION;
     private final List<MatchResult> matches;
-
-
+    
     public HomePanel(final String username){
 
-        this.matches = FakeController.getmatches(); //controller.getMatches(username);
+        this.matches = FakeController.getmatches(); //TODO controller.getMatches(username);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        final JButton startGame = new JButton("START GAME");
-        final JButton exit = new JButton("EXIT");
+        final JButton startGame = createButton("START GAME");
+        final JButton exit = createButton("EXIT");
 
-        JPanel north = new JPanel();
+        JPanel north = createColorPanel();
         north.setBorder(BorderFactory.createTitledBorder("Hi "+username));
         north.setLayout(new BorderLayout());
-        north.setBackground(BACKGROUND_COLOR);
 
-        JPanel buttonPanel = new JPanel(new BorderLayout());
-        buttonPanel.setBackground(BACKGROUND_COLOR);
+        JPanel buttonPanel = createColorPanel();
+        buttonPanel.setLayout(new BorderLayout());
 
-        JPanel northCenter = new JPanel();
-        northCenter.setBackground(BACKGROUND_COLOR);
-        startGame.setBackground(Color.black);
-        startGame.setOpaque(true);
-        startGame.setBorderPainted(false);
-        startGame.setForeground(BACKGROUND_COLOR);
-        startGame.setFont(new Font(getFont().getName(), Font.BOLD, 20));
+        JPanel northCenter = createColorPanel();
         northCenter.add(startGame);
         buttonPanel.add(northCenter, BorderLayout.CENTER);
 
-        JPanel northEast = new JPanel();
-        northEast.setBackground(BACKGROUND_COLOR);
-        exit.setBackground(Color.BLACK);
-        exit.setOpaque(true);
-        exit.setForeground(BACKGROUND_COLOR);
-        exit.setBorderPainted(false);
-        exit.setFont(new Font(getFont().getName(), Font.BOLD, 20));
+        JPanel northEast = createColorPanel();
         northEast.add(exit);
         buttonPanel.add(northEast, BorderLayout.EAST);
         north.add(buttonPanel, BorderLayout.NORTH);
 
-        JPanel gifPanel = new JPanel();
-        gifPanel.setBackground(BACKGROUND_COLOR);
         JLabel label = new JLabel(new ImageIcon(Utils.getGif("whiteGhosts")));
         north.add(label, BorderLayout.CENTER);
         add(north);
 
         JTable table = createMatchTable(matches);
-        table.setFont(new Font(table.getFont().getName(), Font.PLAIN, 15));
-        table.setRowHeight(30);
-        table.setGridColor(Color.BLACK);
-        table.setShowGrid(false);
-        table.setShowHorizontalLines(true);
-        table.getTableHeader().setFont(new Font(table.getFont().getName(), Font.BOLD, 25));
         JScrollPane scrollPane = new JScrollPane(table);
         table.setFillsViewportHeight(true);
         add(scrollPane);
@@ -95,6 +72,30 @@ public class HomePanel extends JPanel {
             xTableIndex = xTableIndex+1;
         });
 
-        return new JTable(data, columnNames);
+        JTable table = new JTable(data, columnNames);
+        table.setFont(new Font(table.getFont().getName(), Font.PLAIN, 15));
+        table.setRowHeight(30);
+        table.setGridColor(Color.BLACK);
+        table.setShowGrid(false);
+        table.setShowHorizontalLines(true);
+        table.getTableHeader().setFont(new Font(table.getFont().getName(), Font.BOLD, 25));
+
+        return table;
+    }
+
+    private JButton createButton(final String name){
+        JButton button = new JButton(name);
+        button.setBackground(Color.BLACK);
+        button.setOpaque(true);
+        button.setForeground(BACKGROUND_COLOR);
+        button.setBorderPainted(false);
+        button.setFont(new Font(getFont().getName(), Font.BOLD, 20));
+        return button;
+    }
+
+    private JPanel createColorPanel(){
+        JPanel panel = new JPanel();
+        panel.setBackground(BACKGROUND_COLOR);
+        return panel;
     }
 }
