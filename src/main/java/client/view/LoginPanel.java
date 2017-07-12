@@ -84,9 +84,8 @@ public class LoginPanel extends JPanel {
         });
 
         registration.addActionListener(e->{
-            RegistrationPanel p = new RegistrationPanel(MainFrame.getInstance());
-            p.setVisible(true);
-           // MainFrame.getInstance().setContentPane(new RegistrationPanel());
+            RegistrationPanel registrationPanel = new RegistrationPanel(MainFrame.getInstance());
+            registrationPanel.setVisible(true);
         });
 
         add(east, BorderLayout.EAST);

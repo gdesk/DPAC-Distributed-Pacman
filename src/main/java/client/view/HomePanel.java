@@ -16,7 +16,7 @@ public class HomePanel extends JPanel {
 
     private final static Color BACKGROUND_COLOR = Color.WHITE;
     private final List<MatchResult> matches;
-    
+
     public HomePanel(final String username){
 
         this.matches = FakeController.getmatches(); //TODO controller.getMatches(username);
@@ -51,10 +51,15 @@ public class HomePanel extends JPanel {
         add(scrollPane);
 
         startGame.addActionListener(e->{
-         //  MainFrame.getInstance().setContentPane(new );
+            //  MainFrame.getInstance().setContentPane(new );
+
+            CreateMatch createMatch = new CreateMatch(MainFrame.getInstance());
+            createMatch.setVisible(true);
+
         });
 
         exit.addActionListener(e->{
+            //controller.exit(username)
             MainFrame.getInstance().setContentPane(new LoginPanel());
         });
     }
