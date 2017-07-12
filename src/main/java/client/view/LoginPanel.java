@@ -1,7 +1,6 @@
 package client.view;
 
 import client.model.MatchResult;
-import client.view.utils.RegistrationPanel;
 import controller.FakeController;
 
 import javax.swing.*;

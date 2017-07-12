@@ -1,4 +1,4 @@
-package client.view.utils;
+package client.view;
 
 import client.view.HomePanel;
 import client.view.MainFrame;
@@ -57,7 +57,7 @@ public class RegistrationPanel extends JDialog {
             registration.addActionListener(e -> {
                 //RegistrationResult registrationResult = controller.registration(name, surname, email, username, password);
 
-                if (name.getText().equals("a")) {            //if(!registrationResult.isCorrect)
+                if (username.getText().equals("")) {            //if(!registrationResult.isCorrect)
                     errLabel.setText("Invalid Username");   //registrationResult.getMessageError()
                     revalidate();
                     repaint();
