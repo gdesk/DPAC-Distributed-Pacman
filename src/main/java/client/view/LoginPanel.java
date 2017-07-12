@@ -1,11 +1,7 @@
 package client.view;
 
-import client.model.MatchResult;
-import controller.FakeController;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 /**
  * Panel that allows you to login and register a user
@@ -48,7 +44,6 @@ public class LoginPanel extends JPanel {
 
         gbc.gridx = 1;
         gbc.ipady = 0;
-        east.add(userInput);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -68,10 +63,23 @@ public class LoginPanel extends JPanel {
         gbc.gridy = 3;
         east.add(registration, gbc);
 
+        east.add(userInput);
+
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        final JLabel userErr = new JLabel("Wrong credential");
+        userErr.setVisible(false);
+        userErr.setForeground(Color.RED);
+        east.add(userErr, gbc);
+
         login.addActionListener(e->{
-            //controller.login();
-            List<MatchResult> matches = FakeController.getmatches(); //controller.getMathces(username); --> Return a List of matches
-            MainFrame.getInstance().setContentPane(new HomePanel(userInput.getText()));
+            //boolean loginCorrect = controller.login();
+            //if(!loginCorrect){
+            if(userInput.getText().equals("")){
+                userErr.setVisible(true);
+            }else {
+                MainFrame.getInstance().setContentPane(new HomePanel(userInput.getText()));
+            }
 
         });
 

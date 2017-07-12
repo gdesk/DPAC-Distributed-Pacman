@@ -1,8 +1,5 @@
 package client.view;
 
-import client.view.HomePanel;
-import client.view.MainFrame;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -34,9 +31,10 @@ public class RegistrationPanel extends JDialog {
             final JTextField username = new JTextField(lenghtTextField);
             final JPasswordField password = new JPasswordField(lenghtTextField);
             final JButton registration = new JButton("Registration");
-            final JLabel errLabel = new JLabel(" ");
+            final JLabel errLabel = new JLabel("Data error");
             errLabel.setForeground(Color.RED);
             errLabel.setFont(new Font(errLabel.getFont().getFontName(), Font.BOLD, 15));
+            errLabel.setVisible(false);
 
             infoPanel.setBackground(BACKGROUND_COLOR);
             gbc.ipady = 5;
@@ -58,7 +56,7 @@ public class RegistrationPanel extends JDialog {
                 //RegistrationResult registrationResult = controller.registration(name, surname, email, username, password);
 
                 if (username.getText().equals("")) {            //if(!registrationResult.isCorrect)
-                    errLabel.setText("Invalid Username");   //registrationResult.getMessageError()
+                    errLabel.setVisible(true);   //registrationResult.getMessageError()
                     revalidate();
                     repaint();
                 } else {
@@ -66,7 +64,6 @@ public class RegistrationPanel extends JDialog {
                     MainFrame.getInstance().setContentPane(new HomePanel(username.getText()));
                     dispose();
                 }
-
             });
 
             getContentPane().add(infoPanel);

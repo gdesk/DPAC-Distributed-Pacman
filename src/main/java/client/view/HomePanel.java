@@ -21,19 +21,39 @@ public class HomePanel extends JPanel {
 
     public HomePanel(final String username){
 
-        this.matches = FakeController.getmatches();//.getMatches(username);
+        this.matches = FakeController.getmatches(); //controller.getMatches(username);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         final JButton startGame = new JButton("START GAME");
+        final JButton exit = new JButton("EXIT");
 
         JPanel north = new JPanel();
         north.setBorder(BorderFactory.createTitledBorder("Hi "+username));
         north.setLayout(new BorderLayout());
         north.setBackground(BACKGROUND_COLOR);
 
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.setBackground(BACKGROUND_COLOR);
-        buttonPanel.add(startGame);
+
+        JPanel northCenter = new JPanel();
+        northCenter.setBackground(BACKGROUND_COLOR);
+        startGame.setBackground(Color.black);
+        startGame.setOpaque(true);
+        startGame.setBorderPainted(false);
+        startGame.setForeground(BACKGROUND_COLOR);
+        startGame.setFont(new Font(getFont().getName(), Font.BOLD, 20));
+        northCenter.add(startGame);
+        buttonPanel.add(northCenter, BorderLayout.CENTER);
+
+        JPanel northEast = new JPanel();
+        northEast.setBackground(BACKGROUND_COLOR);
+        exit.setBackground(Color.BLACK);
+        exit.setOpaque(true);
+        exit.setForeground(BACKGROUND_COLOR);
+        exit.setBorderPainted(false);
+        exit.setFont(new Font(getFont().getName(), Font.BOLD, 20));
+        northEast.add(exit);
+        buttonPanel.add(northEast, BorderLayout.EAST);
         north.add(buttonPanel, BorderLayout.NORTH);
 
         JPanel gifPanel = new JPanel();
@@ -55,6 +75,10 @@ public class HomePanel extends JPanel {
 
         startGame.addActionListener(e->{
          //  MainFrame.getInstance().setContentPane(new );
+        });
+
+        exit.addActionListener(e->{
+            MainFrame.getInstance().setContentPane(new LoginPanel());
         });
     }
 
