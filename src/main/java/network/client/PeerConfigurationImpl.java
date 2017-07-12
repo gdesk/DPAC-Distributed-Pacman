@@ -11,12 +11,11 @@ import java.util.Set;
  * as a server, instead, the other one as clients
  */
 
-public class PeerHandlerImpl implements PeerHandler{
+public class PeerConfigurationImpl implements PeerConfiguration {
 
     final private Set<Peer> peers;
 
-
-    public PeerHandlerImpl(final Set<Peer> peers){
+    public PeerConfigurationImpl(final Set<Peer> peers){
         this.peers = peers;
 
     }
