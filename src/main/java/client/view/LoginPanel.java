@@ -8,27 +8,29 @@ import java.awt.*;
 import java.util.List;
 
 /**
+ * Panel that allows you to login and register a user
  * Created by chiaravarini on 11/07/17.
  */
 public class LoginPanel extends JPanel {
 
     private final static Color BACKGROUND_COLOR = Color.black;
-    private final static int JTEXTFIELD_LENGHT = 20;
+    private final static int JTEXTEFIELD_COLUMNS = 20;
 
-    private final JTextField userInput = new JTextField(JTEXTFIELD_LENGHT);
-    private final JTextField passwordInput = new JTextField(JTEXTFIELD_LENGHT);
-    private final JButton login = new JButton("Login");
-    private final JButton registration = new JButton("<html><u>registration<u><html>");
+
 
     public LoginPanel() {
 
         setLayout(new BorderLayout());
         setBackground(BACKGROUND_COLOR);
 
+        final JTextField userInput = new JTextField(JTEXTEFIELD_COLUMNS);
+        final JTextField passwordInput = new JTextField(JTEXTEFIELD_COLUMNS);
+        final JButton login = new JButton("Login");
+        final JButton registration = new JButton("<html><u>registration<u><html>");
+
         //TODO resize gif
+
         JLabel label = new JLabel(new ImageIcon(Utils.getGif("login")));
-
-
         add(label, BorderLayout.CENTER);
 
         JPanel east = new JPanel(new GridBagLayout());
@@ -37,7 +39,7 @@ public class LoginPanel extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipadx = JTEXTFIELD_LENGHT;
+        gbc.ipadx = JTEXTEFIELD_COLUMNS;
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.fill = GridBagConstraints.NONE;
         JLabel username = new JLabel("Username");
@@ -57,7 +59,7 @@ public class LoginPanel extends JPanel {
         gbc.gridx = 1;
         east.add(passwordInput, gbc);
 
-        gbc.ipady = JTEXTFIELD_LENGHT/2;
+        gbc.ipady = JTEXTEFIELD_COLUMNS/2;
         gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -69,7 +71,7 @@ public class LoginPanel extends JPanel {
         login.addActionListener(e->{
             //controller.login();
             List<MatchResult> matches = FakeController.getmatches(); //controller.getMathces(username); --> Return a List of matches
-            MainFrame.getInstance().setContentPane(new HomePanel(matches));
+            MainFrame.getInstance().setContentPane(new HomePanel(userInput.getText(), matches));
 
         });
 

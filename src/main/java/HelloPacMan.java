@@ -5,7 +5,6 @@ import client.view.MainFrame;
  */
 public class HelloPacMan {
     public static void main(String[] args) {
-        System.out.println("Hello World from a distributed Pacman");
-        MainFrame.getInstance();
+        MainFrame.getInstance();   //TODO passare rif controller
     }
 }
