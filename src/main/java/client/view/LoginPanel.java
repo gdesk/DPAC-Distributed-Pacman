@@ -1,6 +1,7 @@
 package client.view;
 
 import client.model.MatchResult;
+import client.view.utils.RegistrationPanel;
 import controller.FakeController;
 
 import javax.swing.*;
@@ -71,12 +72,14 @@ public class LoginPanel extends JPanel {
         login.addActionListener(e->{
             //controller.login();
             List<MatchResult> matches = FakeController.getmatches(); //controller.getMathces(username); --> Return a List of matches
-            MainFrame.getInstance().setContentPane(new HomePanel(userInput.getText(), matches));
+            MainFrame.getInstance().setContentPane(new HomePanel(userInput.getText()));
 
         });
 
         registration.addActionListener(e->{
-            //controller.registration();
+            RegistrationPanel p = new RegistrationPanel(MainFrame.getInstance());
+            p.setVisible(true);
+           // MainFrame.getInstance().setContentPane(new RegistrationPanel());
         });
 
         add(east, BorderLayout.EAST);

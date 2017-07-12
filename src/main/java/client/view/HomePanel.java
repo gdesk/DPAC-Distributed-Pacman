@@ -1,6 +1,7 @@
 package client.view;
 
 import client.model.MatchResult;
+import controller.FakeController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,10 +16,12 @@ public class HomePanel extends JPanel {
 
     private final static Color BACKGROUND_COLOR = Color.WHITE;
     private final Dimension MainFrameDimension = MainFrame.DIMENSION;
+    private final List<MatchResult> matches;
 
 
-    public HomePanel(final String username, final List<MatchResult> results){
+    public HomePanel(final String username){
 
+        this.matches = FakeController.getmatches();//.getMatches(username);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         final JButton startGame = new JButton("START GAME");
@@ -39,7 +42,7 @@ public class HomePanel extends JPanel {
         north.add(label, BorderLayout.CENTER);
         add(north);
 
-        JTable table = createMatchTable(results);
+        JTable table = createMatchTable(matches);
         table.setFont(new Font(table.getFont().getName(), Font.PLAIN, 15));
         table.setRowHeight(30);
         table.setGridColor(Color.BLACK);
