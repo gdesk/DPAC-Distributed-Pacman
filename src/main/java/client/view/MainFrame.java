@@ -32,11 +32,6 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
-    /*public void setPlayground(final PlaygroundPanel playground){
-        setContentPane(new GameStartPanel(playground));
-        setVisible(true);
-    }*/
-
     @Override
     public void setContentPane(Container contentPane) {
         super.setContentPane(contentPane);

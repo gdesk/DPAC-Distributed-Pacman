@@ -42,6 +42,12 @@ object Utils {
     list.asJava
   }
 
+  def transformInString (array: Array[Char]): String = {
+    var res = ""
+    array.toSeq.foreach(c=> res += c)
+    res
+  }
+
   /* def playSound(sound: String):Unit = {
     val clip = AudioSystem.getClip
     clip.open(AudioSystem.getAudioInputStream(getResource(sound)))

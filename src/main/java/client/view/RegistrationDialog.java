@@ -1,5 +1,7 @@
 package client.view;
 
+import controller.FakeController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -9,15 +11,16 @@ import java.awt.event.WindowEvent;
  * Panel used to register a new user
  * Created by chiaravarini on 12/07/17.
  */
-public class RegistrationPanel extends JDialog {
+public class RegistrationDialog extends JDialog {
 
     private static final Color BACKGROUND_COLOR = new Color(67, 90, 108);
-    private final int lenghtTextField = 30;
 
+    private final int lenghtTextField = 30;
     private final JPanel infoPanel = new JPanel(new GridBagLayout());
     private final GridBagConstraints gbc = new GridBagConstraints();
+    private final FakeController controller = new FakeController();
 
-    public RegistrationPanel(final JFrame frame){
+    public RegistrationDialog(final JFrame frame){
         super(frame, "Registration", true);
         if (frame != null) {
 
@@ -53,9 +56,10 @@ public class RegistrationPanel extends JDialog {
             infoPanel.add(registration, gbc);
 
             registration.addActionListener(e -> {
-                //RegistrationResult registrationResult = controller.registration(name, surname, email, username, password);
+                boolean registrationResult = controller.registration(name.getText(), surname.getText(), email.getText(),
+                        username.getText(), Utils.transformInString(password.getPassword()));
 
-                if (username.getText().equals("")) {            //if(!registrationResult.isCorrect)
+                if(!registrationResult){           //!registrationResult.isCorrect
                     errLabel.setVisible(true);   //registrationResult.getMessageError()
                     revalidate();
                     repaint();

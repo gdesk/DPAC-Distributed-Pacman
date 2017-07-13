@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class FakeController {
 
-    public static List<MatchResult>  getmatches(){
+    public List<MatchResult>  getmatches(){
         List<MatchResult> r = new ArrayList<>();
         r.add(new MatchResultImpl(true, 210));
         r.add(new MatchResultImpl(false, 410));
@@ -36,5 +36,19 @@ public class FakeController {
         r.add(new MatchResultImpl(true, 50));
         r.add(new MatchResultImpl(true, 50));
         return  r;
+    }
+
+    public boolean login(String user, String pass){
+        return true;
+
+    }
+
+    public void exit(String username){
+
+    }
+
+    public boolean registration(String n, String s, String e, String u, String p){
+
+        return  true; //RegistrationResult
     }
 }

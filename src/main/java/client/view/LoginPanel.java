@@ -1,5 +1,7 @@
 package client.view;
 
+import controller.FakeController;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -13,8 +15,7 @@ public class LoginPanel extends JPanel {
     private final static Color BACKGROUND_COLOR = Color.black;
     private final static int JTEXTEFIELD_COLUMNS = 20;
     private final static int TOP_BORDER_PADDING = 30;
-
-
+    private final FakeController controller = new FakeController();
 
     public LoginPanel() {
 
@@ -22,7 +23,7 @@ public class LoginPanel extends JPanel {
         setBackground(BACKGROUND_COLOR);
 
         final JTextField userInput = new JTextField(JTEXTEFIELD_COLUMNS);
-        final JTextField passwordInput = new JTextField(JTEXTEFIELD_COLUMNS);
+        final JPasswordField passwordInput = new JPasswordField(JTEXTEFIELD_COLUMNS);
         final JButton login = new JButton("Login");
         final JButton registration = new JButton("<html><u>registration<u><html>");
 
@@ -77,9 +78,9 @@ public class LoginPanel extends JPanel {
         east.add(userErr, gbc);
 
         login.addActionListener(e->{
-            //boolean loginCorrect = controller.login();
-            //if(!loginCorrect){
-            if(userInput.getText().equals("")){
+            boolean loginCorrect = controller.login(userInput.getText(), Utils.transformInString(passwordInput.getPassword()));
+
+            if(!loginCorrect){
                 userErr.setVisible(true);
             }else {
                 MainFrame.getInstance().setContentPane(new HomePanel(userInput.getText()));
@@ -88,7 +89,7 @@ public class LoginPanel extends JPanel {
         });
 
         registration.addActionListener(e->{
-            RegistrationPanel registrationPanel = new RegistrationPanel(MainFrame.getInstance());
+            RegistrationDialog registrationPanel = new RegistrationDialog(MainFrame.getInstance());
             registrationPanel.setVisible(true);
         });
 
