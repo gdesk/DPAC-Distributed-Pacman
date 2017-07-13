@@ -1,6 +1,7 @@
 package client.view;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
@@ -11,6 +12,7 @@ public class LoginPanel extends JPanel {
 
     private final static Color BACKGROUND_COLOR = Color.black;
     private final static int JTEXTEFIELD_COLUMNS = 20;
+    private final static int TOP_BORDER_PADDING = 30;
 
 
 
@@ -25,8 +27,10 @@ public class LoginPanel extends JPanel {
         final JButton registration = new JButton("<html><u>registration<u><html>");
 
         //TODO resize gif
-
-        JLabel label = new JLabel(new ImageIcon(Utils.getGif("login")));
+        JLabel title = new JLabel(new ImageIcon(Utils.getImage("gameTitle")));
+        title.setBorder(new EmptyBorder(TOP_BORDER_PADDING,0,0,0));
+        add(title, BorderLayout.NORTH);
+        JLabel label = new JLabel(new ImageIcon(Utils.getGif("led")));
         add(label, BorderLayout.CENTER);
 
         JPanel east = new JPanel(new GridBagLayout());
