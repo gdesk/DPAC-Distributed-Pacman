@@ -1,5 +1,6 @@
-package client.view;
+package client.view.playground;
 
+import client.view.CharacterView;
 import client.view.utils.BlocksImages;
 import client.view.utils.FruitsImages;
 

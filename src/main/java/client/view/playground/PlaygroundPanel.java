@@ -1,4 +1,4 @@
-package client.view;
+package client.view.playground;
 
 import client.model.gameElement.*;
 import client.model.utils.Point;

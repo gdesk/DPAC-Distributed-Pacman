@@ -4,6 +4,9 @@ import client.model.Playground;
 import client.model.controller.UserInputController;
 import client.utils.IOUtils;
 import client.view.*;
+import client.view.playground.PlaygroundBuilderImpl;
+import client.view.playground.PlaygroundPanel;
+import client.view.playground.PlaygroundView;
 
 import java.awt.*;
 import java.util.List;

@@ -1,5 +1,7 @@
 package client.view;
 
+import client.view.playground.PlaygroundPanel;
+
 import javax.swing.*;
 import java.awt.*;
 

@@ -1,4 +1,6 @@
-package client.view;
+package client.view.playground;
+
+import client.view.MainFrame;
 
 import javax.swing.*;
 
@@ -8,7 +10,7 @@ import javax.swing.*;
 public class MicroMapPanel extends JPanel {
 
     public MicroMapPanel(){
-        setSize((int)MainFrame.DIMENSION.getWidth()/10, (int)MainFrame.DIMENSION.getHeight()/10);
+        setSize((int) MainFrame.DIMENSION.getWidth()/10, (int)MainFrame.DIMENSION.getHeight()/10);
     }
 
 }

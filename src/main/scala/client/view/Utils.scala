@@ -7,6 +7,7 @@ import javax.sound.sampled.AudioSystem
 import javax.swing.ImageIcon
 
 import client.view.utils.ImagesResolutions
+import Res._
 
 /**
   * Created by chiaravarini on 01/07/17.
@@ -14,11 +15,7 @@ import client.view.utils.ImagesResolutions
 object Utils {
 
   // private var mediaPlayer: MediaPlayer = null
-  private val IMAGES_BASE_PATH = "/images/"
-  private val IMAGES_EXTENSION = ".png"
 
-  private val GIF_BASE_PATH = "/gif/"
-  private val GIF_EXTENSION = ".gif"
 
 
   def getResource(path: String): URL = Utils.getClass.getResource(path)   //TODO lanciare eccezione nel caso in cui non trovi la risorsa!

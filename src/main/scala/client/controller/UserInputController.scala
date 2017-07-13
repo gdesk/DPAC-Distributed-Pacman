@@ -2,7 +2,8 @@ package client.model.controller
 
 import java.awt.event.{KeyEvent, KeyListener}
 
-import client.view.{CharacterFactory, PlaygroundPanel}
+import client.view.CharacterFactory
+import client.view.playground.PlaygroundPanel
 
 
 /**

@@ -41,7 +41,7 @@ public class HomePanel extends JPanel {
         buttonPanel.add(northEast, BorderLayout.EAST);
         north.add(buttonPanel, BorderLayout.NORTH);
 
-        JLabel label = new JLabel(new ImageIcon(Utils.getGif("whiteGhosts")));
+        JLabel label = new JLabel(new ImageIcon(Utils.getGif(Res.HOME_IMAGE())));
         north.add(label, BorderLayout.CENTER);
         add(north);
 

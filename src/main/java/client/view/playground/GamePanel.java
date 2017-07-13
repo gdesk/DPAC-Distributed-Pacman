@@ -1,4 +1,4 @@
-package client.view;
+package client.view.playground;
 
 import javax.swing.*;
 import java.awt.*;
