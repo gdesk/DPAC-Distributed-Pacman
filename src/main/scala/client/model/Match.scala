@@ -1,8 +1,8 @@
 package client.model
 
-import client.model.character.{BaseEatObjectStrategy, Character, Pacman, BasePacman}
+import client.model.character.{BaseEatObjectStrategy, BasePacman, Character, Pacman}
 
-import scala.collection.mutable.Map
+import scala.collection.mutable.{ListBuffer, Map}
 
 /**
   * Represent the current match status, holding some information about the game.
@@ -64,9 +64,10 @@ trait Match {
     * Adds a dead characters to the list.
     *
     * @param deadCharacters - the dead characters.
+    * @throws CharacterDoesNotExistException when the character to add doesn't exist.
     * @return the user's id of the player that was using that client.model.character.gameElement.character.
     */
-  def addDeadCharacters(deadCharacters: Character[Int, Int]): String
+  def addDeadCharacters(deadCharacters: Character[Int, Int]): Unit
 
 }
 
@@ -77,11 +78,11 @@ trait Match {
   */
 case class MatchImpl private() extends Match {
 
-  private var _deadCharacters: List[Character[Int, Int]] = List.empty
+  private var _deadCharacters: ListBuffer[Character[Int, Int]] = ListBuffer empty
   private var mapCharacterUser: Map[Character[Int, Int], String] = Map empty
 
   override var playground: Playground = null
-  override var myCharacter: Character[Int, Int] = BasePacman("pc", BaseEatObjectStrategy())
+  override var myCharacter: Character[Int, Int] = null
 
   /**
     * Adds all match's players, excluding the main one.
@@ -102,18 +103,20 @@ case class MatchImpl private() extends Match {
     *
     * @return the list of dead characters.
     */
-  override def deadCharacters = _deadCharacters
+  override def deadCharacters = _deadCharacters toList
 
   /**
     * Sets the list of dead characters.
     *
-    * @param deadCharacters - the list of dead characters.
+    * @param deadCharacter - the list of dead characters.
+    * @throws CharacterDoesNotExistException when the character to add doesn't exist.
     */
-  override def addDeadCharacters(deadCharacters: Character[Int, Int]) = {
-    deadCharacters :: _deadCharacters
-    val character = mapCharacterUser get deadCharacters
-    mapCharacterUser -=  deadCharacters
-    character get
+  override def addDeadCharacters(deadCharacter: Character[Int, Int]) = {
+    if(!(mapCharacterUser.contains(deadCharacter)) && !(myCharacter equals deadCharacter)) throw new CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
+    _deadCharacters += deadCharacter
+    if(!(myCharacter equals deadCharacter)) {
+      mapCharacterUser -=  deadCharacter
+    }
   }
 }
 
@@ -131,3 +134,5 @@ object MatchImpl {
     _instance
   }
 }
+
+case class CharacterDoesNotExistException(private val message: String = "") extends Exception(message)

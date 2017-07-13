@@ -18,7 +18,7 @@ case class GalaxianShip(override val id: String, override val position: Point[In
     *
     * @return object's family
     */
-  override def belonginFamily: String = "dot"
+  override def belonginFamily: String = "galaxian ship"
 }
 
 object GalaxianShip {

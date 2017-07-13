@@ -37,6 +37,7 @@ trait Playground {
   /**
     * Sets the Map which contains all the elements of the current match.
     *
+    * @throws AlredyUsedPositionException when the position is already occupied by another object.
     * @param elementsMap - the map with all match's elements.
     */
   def ground_=(elementsMap: List[GameItem]): Unit
@@ -86,6 +87,15 @@ trait Playground {
     * @return the object found at that position if it exist.
     */
   def elementAtPosition(position: Point[Int, Int]): Option[GameItem]
+
+  /**
+    * Checks if a given position is inside the playground.
+    *
+    * @param position - the position to check.
+    * @throws OutOfPlaygroundBoundAccessException when the position is out of the ground.
+    * @return true if the position is inside the playground, false otherwise.
+    */
+  def checkPosition(position: Point[Int, Int]): Unit
 }
 
 
@@ -114,6 +124,7 @@ case class PlaygroundImpl private() extends Playground{
   /**
     * Sets the Map which contains all the elements of the current match.
     *
+    * @throws AlredyUsedPositionException when the position is already occupied by another object.
     * @param elementsMap - the map with all match's elements.
     */
   override def ground_=(elementsMap: List[GameItem]) = {
@@ -184,54 +195,16 @@ case class PlaygroundImpl private() extends Playground{
     * Checks if item's position is inside the playground and if is empty.
     *
     * @param item - the item to which the position must be controlled.
+    * @throws AlredyUsedPositionException when the position is already occupied by another object.
     */
   private def checkItemPosition(item: GameItem) = {
-    checkPosition(item.position) match {
-      case false =>
-        throw new OutOfPlaygroundBoundAccessException("Position ("+ item.position.x + "," + item.position.y + ") is out of playground!")
-      case true =>
-        hawManyItemInPosition(item position) match {
-          case x if(x>1) =>
-            throw new AlredyUsedPositionException("Position ("+ item.position.x + "," + item.position.y + ") already occupied by another item!")
-          case _ =>
-        }
-        /*
-        val option: Option[GameItem] = elementAtPosition(item position)
-        ((option isEmpty) || (option.get equals item)) match {
-          case true =>
-            val entry: (Point[Int,Int], GameItem) = (item.position, item)
-            this.ground += entry
-          case false =>
-            throw new AlredyUsedPositionException("Position ("+ item.position.x + "," + item.position.y + ") already occupied by another item!")
-        }
-        */
-    }
-    /*
-    // se aggiungo fuori dalla posizione mi deve dare errore
-    if(!checkPosition(item.position)) {
-      //println("Position ("+ item.position.x + "," + item.position.y + ") is out of playground!")
-      throw new OutOfPlaygroundBoundAccessException("Position ("+ item.position.x + "," + item.position.y + ") is out of playground!")
-    } else {
-      // controllo se esiste già qualcosa in quella posizione e nel caso do errore
-      val option: Option[GameItem] = elementAtPosition(item position)
-      if((option.isEmpty) || (option.get equals item)) {
-        val entry: (Point[Int,Int], GameItem) = (item.position, item)
-        this.ground += entry
-      } else {
-        //println("Position already used, cannot add block !")
+    checkPosition(item.position)
+    hawManyItemInPosition(item position) match {
+      case x if(x>1) =>
         throw new AlredyUsedPositionException("Position ("+ item.position.x + "," + item.position.y + ") already occupied by another item!")
-      }
+      case _ =>
     }
-    */
   }
-
-  /**
-    * Checks if a given position is inside the playground.
-    *
-    * @param position - the position to check.
-    * @return true if the position is inside the playground, false otherwise.
-    */
-  private def checkPosition(position: Point[Int, Int]): Boolean = position.x < dimension.x && position.y < dimension.y && position.x >= 0 && position.y >= 0
 
   /**
     * Computes how many items are in the same position.
@@ -264,11 +237,23 @@ case class PlaygroundImpl private() extends Playground{
     * @return the object found at that position if it exist.
     */
   override def elementAtPosition(position: Point[Int,Int]) = {
-    if(checkPosition(position)) {
-      _ground find (e => e.position equals position)
-    } else {
-      throw new OutOfPlaygroundBoundAccessException("Position ("+ position.x + "," + position.y + ") is out of playground!")    }
+    checkPosition(position)
+    _ground find (e => e.position equals position)
   }
+
+  /**
+    * Checks if a given position is inside the playground.
+    *
+    * @param position - the position to check.
+    * @throws OutOfPlaygroundBoundAccessException when the position is out of the ground.
+    * @return true if the position is inside the playground, false otherwise.
+    */
+  override def checkPosition(position: Point[Int, Int]) = {
+    if(!(position.x < dimension.x && position.y < dimension.y && position.x >= 0 && position.y >= 0)) {
+      throw new OutOfPlaygroundBoundAccessException("Position ("+ position.x + "," + position.y + ") is out of playground!")
+    }
+  }
+
 }
 
 object PlaygroundImpl {

@@ -18,7 +18,7 @@ case class Bell(override val id: String, override val position: Point[Int, Int])
     *
     * @return object's family
     */
-  override def belonginFamily: String = "dot"
+  override def belonginFamily: String = "bell"
 }
 
 object Bell {

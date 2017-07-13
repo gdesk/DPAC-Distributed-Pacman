@@ -27,6 +27,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
   private val game: Match = MatchImpl instance()
 
   setPosition(InitializedInfoImpl.getStartPosition("pacman"))
+
   override val lives = LivesImpl(InitializedInfoImpl.getCharacterLives("pacman"))
 
   /**
@@ -60,38 +61,31 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
   /**
     * Manage the the strategy of game, that is based on who the killer is and who the killable
     */
-  override def checkAllPositions() = {
-    var ghosts: String = "["
-    (game characters) filter (c => !(c.isInstanceOf[Pacman])) foreach(e =>
-      ghosts = ghosts + "ghost(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.name + "),"
-    )
-    ghosts = ghosts substring (0,(ghosts size)-2)
-    ghosts = ghosts + "]"
-
+  override def checkAllPositions = {
+    val ghosts = super.prologGhostsList
     isKillable match {
       case true =>
-        (game characters) filter (c => !(c.isInstanceOf[Pacman])) foreach (g => g.checkAllPositions())
-        /*val solveInfo = PrologConfig.getPrologEngine().solve(s"eat_pacman(pacman(${position x},${position y},${lives remainingLives},${score toString}), ${ghosts}, NL, GS, CG).")
-        lives remainingLives = valueOf(solveInfo getTerm ("NL") toString)
-        if((lives remainingLives) == 0) isAlive = false
-        val assassinGhost = ((game characters) find (c => c.name equals (solveInfo getTerm ("CG") toString)) get)
-        assassinGhost score = valueOf(solveInfo getTerm ("GS") toString)*/
+        (game characters) filter (c => !(c.isInstanceOf[Pacman])) foreach (g => g.checkAllPositions)
       case false =>
         val numberOfGhostAlreadyEaten: Int = (game deadCharacters) size
         val solveInfo = PrologConfig.getPrologEngine().solve(s"ghost_defeat(pacman(${position x},${position y},${lives remainingLives},${score toString}), ${ghosts}, ${numberOfGhostAlreadyEaten}, PS, EG).")
         score = valueOf(solveInfo getTerm ("PS") toString)
         val eatenGhost: List[String] = ScalaProlog.prologToScalaList(solveInfo getTerm ("EG") toString)
         if(!(eatenGhost isEmpty)) {
-          var ghost: BaseGhost = null
           eatenGhost foreach { g =>
-            ghost = ((game characters) find (c => c.name equals g) get).asInstanceOf[BaseGhost]
+            val gh = game.characters find (c => c.name equals g)
+            val ghost: Ghost = gh isEmpty match {
+              case true =>
+                game.myCharacter.asInstanceOf[Ghost]
+              case false =>
+                gh.get.asInstanceOf[Ghost]
+            }
             game addDeadCharacters ghost
             ghost.lives decrement;
-            if(ghost.lives.remainingLives.equals(0)) {ghost isAlive = false}
+            if(ghost.lives.remainingLives equals 0) {ghost isAlive = false}
           }
         }
     }
-
   }
 
   /**

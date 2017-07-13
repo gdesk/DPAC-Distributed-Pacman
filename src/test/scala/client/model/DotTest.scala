@@ -10,13 +10,22 @@ import org.scalatest.FunSuite
 
 
 class DotTest extends FunSuite {
-/*
-  test("A New Dot Position is correctly available") {
-    val d: Dot = Dot(PointImpl(5,6))
 
-    assert(d.position.x == 5 && d.position.y == 6)
+  val dot = Dot("Dot", PointImpl(0,3))
+
+  test("score"){
+    assert(dot.score equals 10)
   }
-*/
+
+  test("name"){
+    assert(dot.id equals "Dot")
+  }
+
+  test("position"){
+    assert(dot.position equals PointImpl(0,3))
+  }
+
+  test("belonginFamily"){
+    assert(dot.belonginFamily equals "dot")
+  }
 }
-
-
