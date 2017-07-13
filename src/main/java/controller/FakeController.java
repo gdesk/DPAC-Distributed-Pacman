@@ -2,14 +2,26 @@ package controller;
 
 import client.model.MatchResult;
 import client.model.MatchResultImpl;
+import client.model.Playground;
+import client.utils.IOUtils;
+import client.view.CharacterFactory;
+import client.view.CreateTeamDialog;
+import client.view.Utils;
+import client.view.playground.PlaygroundBuilderImpl;
+import client.view.playground.PlaygroundPanel;
+import client.view.playground.PlaygroundView;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by chiaravarini on 10/07/17.
  */
 public class FakeController {
+
+    private CreateTeamDialog ct;
 
     public List<MatchResult>  getmatches(){
         List<MatchResult> r = new ArrayList<>();
@@ -51,4 +63,36 @@ public class FakeController {
 
         return  true; //RegistrationResult
     }
+
+    public List<String> getTeamRange(){
+        return new ArrayList<String>(Arrays.asList("3-5", "5-10", "10-15"));
+    }
+
+
+    public PlaygroundPanel initializePlaygroundView (List<Character> characterList) {
+        IOUtils.saveLog("playground created !");
+        Playground playground = IOUtils.getPlaygroundFromFile("default.dpac");
+
+
+        PlaygroundView view = new PlaygroundBuilderImpl()
+                .setColumns(playground.dimension().x())
+                .setRows(playground.dimension().y())
+                .setBackground(Color.black)
+                .createPlayground();
+
+        view.renderBlockList(Utils.getJavaList(playground.blocks()));
+        view.renderEatableList(Utils.getJavaList(playground.eatables()));
+
+        view.renderCharacter( 45, 17, new CharacterFactory().createPacman() , "left");
+
+        IOUtils.saveLog("playground initialized !");
+
+        return (PlaygroundPanel)view;
+    }
+
+    public void sendRequest(String username){
+
+    }
+
+
 }

@@ -1,14 +1,13 @@
 package client.view;
 
-import client.model.Playground;
 import client.model.controller.UserInputController;
-import client.utils.IOUtils;
-import client.view.playground.PlaygroundBuilderImpl;
 import client.view.playground.PlaygroundPanel;
-import client.view.playground.PlaygroundView;
+import client.view.utils.ImagesUtils;
+import controller.FakeController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +15,11 @@ import java.util.List;
  */
 public class CreateTeamDialog extends JDialog {
 
+    private final FakeController controller = new FakeController();
+    private final PlayersPanel playerPanel = new PlayersPanel();
+    private int width = 1;
 
+    private  int numPlayer  = 1;
     public CreateTeamDialog(final JFrame frame){
 
         super(frame, "Create Team", true);
@@ -27,49 +30,98 @@ public class CreateTeamDialog extends JDialog {
 
             Dimension frameDim = frame.getSize();
             setMinimumSize(new Dimension((int) frameDim.getWidth() / 2, (int) frameDim.getHeight() / 2));
+            width = (int) frameDim.getWidth() / 2;
             setLocationRelativeTo(null);
 
+            JPanel buttonPanel = new JPanel();
             JButton starGame = new JButton("START");
             starGame.addActionListener(e->{
-                PlaygroundPanel playgroundView = initializePlaygroundView( null );//model.getCharacterList());
+                PlaygroundPanel playgroundView = controller.initializePlaygroundView( null );//model.getCharacterList());
                 MainFrame.getInstance().setContentPane(playgroundView);
 
                 UserInputController keyboardController = new UserInputController(playgroundView);
                 playgroundView.addKeyListener(keyboardController);
                 dispose();
-
             });
 
-            JPanel numberPlayerPanel = new JPanel();
-            String[] ranges = { "3-10", "10-15", "15-20" }; //TODO controller.getTeamRange()
-            JComboBox comboRange = new JComboBox(ranges);
-            numberPlayerPanel.add(comboRange);
-            p.add(numberPlayerPanel);
-            p.add(starGame);
+            JButton addFiends = new JButton("+ ADD FRIENDS");
+            addFiends.addActionListener(e->{
+                AddFriendsDialog friendsDialog =  new AddFriendsDialog(this);
+                friendsDialog.setVisible(true);
+            });
+            buttonPanel.add(starGame);
+            buttonPanel.add(addFiends);
 
+            JPanel numberPlayerPanel = new JPanel();
+            List<String> ranges = controller.getTeamRange();
+            JComboBox comboRange = new JComboBox(ranges.toArray());
+
+            comboRange.addActionListener(e->{
+                switch((String)comboRange.getSelectedItem()){
+                    case "3-5": numPlayer = 5; break;
+                    case "5-10": numPlayer = 10; break;
+                    case "10-15": numPlayer = 15; break;
+                    case "15-20": numPlayer = 20; break;
+                }
+
+                playerPanel.init(numPlayer);
+            });
+
+            numberPlayerPanel.add(comboRange);
+            numberPlayerPanel.add(new JLabel("Select the number of players"));
+            p.add(numberPlayerPanel);
+            playerPanel.init(5);
+            p.add(playerPanel);
+            p.add(buttonPanel);
             add(p);
         }
     }
 
-    private PlaygroundPanel initializePlaygroundView ( List<Character> characterList) {
-        IOUtils.saveLog("playground created !");
-        Playground playground = IOUtils.getPlaygroundFromFile("default.dpac");
+    synchronized public void update(Boolean response){   //TODO passare il nome del player?
+        if(response){
+            playerPanel.markOK();
+        } else {
+            playerPanel.markNO();
+        }
+    }
 
+    private class PlayersPanel extends JPanel{
 
-        PlaygroundView view = new PlaygroundBuilderImpl()
-                .setColumns(playground.dimension().x())
-                .setRows(playground.dimension().y())
-                .setBackground(Color.black)
-                .createPlayground();
+        private int index = 0;
+        private int imgDim = 20;
+        private int numPlayer = 1;
+        private List<JLabel> icons = new ArrayList<>();
 
-        view.renderBlockList(Utils.getJavaList(playground.blocks()));
-        view.renderEatableList(Utils.getJavaList(playground.eatables()));
+        private synchronized void init(final int numPlayers ){
+            this.index = 0;
+            this.numPlayer = numPlayers;
+            icons.clear();
+            removeAll();
+            for(int i = 0; i<numPlayers; i++) {
+                JLabel l = new JLabel();
+                imgDim = width / (numPlayers+1);
+                l.setIcon(new ImageIcon(ImagesUtils.getScaledImage(Utils.getImage(Res.PLAYER_BUTTON()), imgDim, imgDim)));
+                icons.add(l);
+                add(l);
+            }
+            revalidate();
+            repaint();
+        }
 
-        view.renderCharacter( 45, 17, new CharacterFactory().createPacman() , "left");
+        private synchronized void markOK(){
+            System.out.println(index);
+            icons.get(index).setIcon(new ImageIcon(ImagesUtils.getScaledImage(Utils.getImage(Res.PLAYER_OK()), imgDim, imgDim)));
+            index = index+1%numPlayer;
+            revalidate();
+            repaint();
+        }
 
-        IOUtils.saveLog("playground initialized !");
-
-        return (PlaygroundPanel)view;
+        private synchronized void markNO(){
+            icons.get(index).setIcon(new ImageIcon(ImagesUtils.getScaledImage(Utils.getImage(Res.PLAYER_NO()), imgDim, imgDim)));
+            index = index+1%numPlayer;
+            revalidate();
+            repaint();
+        }
     }
 
 }

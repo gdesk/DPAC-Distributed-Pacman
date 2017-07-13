@@ -55,7 +55,6 @@ public class HomePanel extends JPanel {
 
             CreateTeamDialog createMatch = new CreateTeamDialog(MainFrame.getInstance());
             createMatch.setVisible(true);
-
         });
 
         exit.addActionListener(e->{
