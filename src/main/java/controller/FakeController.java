@@ -4,9 +4,7 @@ import client.model.MatchResult;
 import client.model.MatchResultImpl;
 import client.model.Playground;
 import client.utils.IOUtils;
-import client.view.CharacterFactory;
-import client.view.CreateTeamDialog;
-import client.view.Utils;
+import client.view.*;
 import client.view.playground.PlaygroundBuilderImpl;
 import client.view.playground.PlaygroundPanel;
 import client.view.playground.PlaygroundView;
@@ -92,6 +90,39 @@ public class FakeController {
 
     public void sendRequest(String username){
 
+    }
+
+    public List<Image>getAllCharactersImages(){
+        return  new ArrayList<Image>(Arrays.asList(new PacmanView().getCharacterRight(),
+                new RedGhostView().getCharacterRight(),
+                new BlueGhostView().getCharacterRight(),
+                new PinkGhostView().getCharacterRight(),
+                new YellowGhostView().getCharacterRight(),
+                new RedGhostView().getCharacterRight(),
+                new BlueGhostView().getCharacterRight(),
+                new PinkGhostView().getCharacterRight(),
+                new YellowGhostView().getCharacterRight(),
+                new RedGhostView().getCharacterRight(),
+                new BlueGhostView().getCharacterRight(),
+                new PinkGhostView().getCharacterRight(),
+                new YellowGhostView().getCharacterRight(),
+                new RedGhostView().getCharacterRight(),
+                new BlueGhostView().getCharacterRight(),
+                new PinkGhostView().getCharacterRight(),
+                new YellowGhostView().getCharacterRight()));
+    }
+
+    public List<Image>getAllPlaygroundsImages(){
+        return  new ArrayList<Image>(Arrays.asList(
+                Utils.getImage("/mazes/arancione"),
+                Utils.getImage("/mazes/blu"),
+                Utils.getImage("/mazes/rosa"),
+                Utils.getImage("/mazes/rosso"),
+                Utils.getImage("/mazes/rossoGiallo"),
+                Utils.getImage("/mazes/verde"),
+                Utils.getImage("/mazes/viola"),
+                Utils.getImage("/mazes/viola2"),
+                Utils.getImage("/mazes/arancione")));
     }
 
 

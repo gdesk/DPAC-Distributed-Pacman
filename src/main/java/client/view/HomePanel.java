@@ -63,7 +63,6 @@ public class HomePanel extends JPanel {
         });
     }
 
-
     private int xTableIndex = 0;
     private JTable createMatchTable(final List<MatchResult> results){
         String[] columnNames = {"Result", "Date", "Score"};

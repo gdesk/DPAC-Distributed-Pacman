@@ -1,7 +1,5 @@
 package client.view;
 
-import client.model.controller.UserInputController;
-import client.view.playground.PlaygroundPanel;
 import client.view.utils.ImagesUtils;
 import controller.FakeController;
 
@@ -11,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Panel used to create a new play team
  * Created by chiaravarini on 12/07/17.
  */
 public class CreateTeamDialog extends JDialog {
@@ -36,12 +35,8 @@ public class CreateTeamDialog extends JDialog {
             JPanel buttonPanel = new JPanel();
             JButton starGame = new JButton("START");
             starGame.addActionListener(e->{
-                PlaygroundPanel playgroundView = controller.initializePlaygroundView( null );//model.getCharacterList());
-                MainFrame.getInstance().setContentPane(playgroundView);
-
-                UserInputController keyboardController = new UserInputController(playgroundView);
-                playgroundView.addKeyListener(keyboardController);
                 dispose();
+                frame.setContentPane(new SelectCharacterPanel());
             });
 
             JButton addFiends = new JButton("+ ADD FRIENDS");

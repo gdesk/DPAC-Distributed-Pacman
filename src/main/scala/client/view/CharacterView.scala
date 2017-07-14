@@ -52,10 +52,10 @@ class CharacterViewImpl(val characterPath: String) extends CharacterView {
 
 }
 
-class RedGhostView extends CharacterViewImpl("ghost/red")
-class BlueGhostView extends CharacterViewImpl("ghost/blue")
-class PinkGhostView extends CharacterViewImpl("ghost/pink")
-class YellowGhostView extends CharacterViewImpl("ghost/yellow")
+class RedGhostView extends CharacterViewImpl("ghosts/red")
+class BlueGhostView extends CharacterViewImpl("ghosts/blue")
+class PinkGhostView extends CharacterViewImpl("ghosts/pink")
+class YellowGhostView extends CharacterViewImpl("ghosts/yellow")
 class PacmanView extends CharacterViewImpl("pacman")
 
 class CharacterFactory(){

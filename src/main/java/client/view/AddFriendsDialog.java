@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+ * Panel used to invite a player to your match
  * Created by chiaravarini on 13/07/17.
  */
 public class AddFriendsDialog extends JDialog {
