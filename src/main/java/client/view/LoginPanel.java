@@ -28,6 +28,7 @@ public class LoginPanel extends JPanel {
         final JButton registration = new JButton("<html><u>registration<u><html>");
 
         //TODO resize gif
+
         JLabel title = new JLabel(new ImageIcon(Utils.getImage(Res.TITLE_IMAGE())));
         title.setBorder(new EmptyBorder(TOP_BORDER_PADDING,0,0,0));
         add(title, BorderLayout.NORTH);

@@ -13,8 +13,9 @@ public class AddFriendsDialog extends JDialog {
     private final JTextField username = new JTextField(20);
     private final JButton send = new JButton("Send Request");
     private final JButton cancel = new JButton("Cancel");
-
     private final FakeController controller = new FakeController();
+
+    private int friendsAdded = 0;
 
     public AddFriendsDialog(final JDialog parent){
         super(parent, "Add Friend", true);
@@ -25,7 +26,7 @@ public class AddFriendsDialog extends JDialog {
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 
         JPanel textFieldPanel = new JPanel();
-        textFieldPanel.add(new JLabel("insert friend username"));
+        textFieldPanel.add(new JLabel("Insert friend username"));
         textFieldPanel.add(username);
 
         p.add(textFieldPanel);
@@ -33,12 +34,20 @@ public class AddFriendsDialog extends JDialog {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(cancel);
         buttonPanel.add(send);
-        
         p.add(buttonPanel);
-        add(p);
 
+        JLabel friendsAddedCounter = new JLabel("Firends added: 0");
+        JPanel friendsAddedPanel = new JPanel();
+        friendsAddedPanel.add(friendsAddedCounter);
+        p.add(friendsAddedPanel);
+
+        add(p);
+        pack();
         cancel.addActionListener(e->dispose());
         send.addActionListener(e->{
+            friendsAdded++;
+            username.setText("");
+            friendsAddedCounter.setText("Firends added: "+friendsAdded);
             controller.sendRequest(username.getText());
         });
     }
