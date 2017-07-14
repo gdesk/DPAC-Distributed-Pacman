@@ -125,5 +125,9 @@ public class FakeController {
                 Utils.getImage("/mazes/arancione")));
     }
 
+    public String getUsername(){
+        return "CHIA";
+    }
+
 
 }
