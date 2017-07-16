@@ -17,6 +17,7 @@ public class AddFriendsDialog extends JDialog {
     private final FakeController controller = new FakeController();
 
     private int friendsAdded = 0;
+    private final static Color BACKGROUND_COLOR = Color.WHITE;
 
     public AddFriendsDialog(final JDialog parent){
         super(parent, "Add Friend", true);
@@ -26,19 +27,19 @@ public class AddFriendsDialog extends JDialog {
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 
-        JPanel textFieldPanel = new JPanel();
+        JPanel textFieldPanel = createColorPanel();
         textFieldPanel.add(new JLabel("Insert friend username"));
         textFieldPanel.add(username);
 
         p.add(textFieldPanel);
 
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = createColorPanel();
         buttonPanel.add(cancel);
         buttonPanel.add(send);
         p.add(buttonPanel);
 
         JLabel friendsAddedCounter = new JLabel("Firends added: 0");
-        JPanel friendsAddedPanel = new JPanel();
+        JPanel friendsAddedPanel = createColorPanel();
         friendsAddedPanel.add(friendsAddedCounter);
         p.add(friendsAddedPanel);
 
@@ -51,5 +52,12 @@ public class AddFriendsDialog extends JDialog {
             friendsAddedCounter.setText("Firends added: "+friendsAdded);
             controller.sendRequest(username.getText());
         });
+    }
+
+
+    private JPanel createColorPanel(){
+        JPanel panel = new JPanel();
+        panel.setBackground(BACKGROUND_COLOR);
+        return panel;
     }
 }

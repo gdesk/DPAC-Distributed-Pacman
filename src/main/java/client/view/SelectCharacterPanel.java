@@ -25,11 +25,13 @@ public class SelectCharacterPanel extends JPanel {
         setLayout(new BorderLayout());
 
         JPanel buttonPanel = createColorPanel();
+        buttonPanel.setBackground(Color.black);
         JButton doneButton = createButton("DONE");
         JButton exitButton = createButton("EXIT");
         buttonPanel.add(exitButton);
         buttonPanel.add(doneButton);
         JPanel north = createColorPanel();
+        north.setBackground(Color.black);
         north.setLayout(new BorderLayout());
         north.add(buttonPanel, BorderLayout.EAST);
 
@@ -45,8 +47,10 @@ public class SelectCharacterPanel extends JPanel {
 
         center.add(createSectionTitle("Select one Character"));
         center.add(characterScroll);
+        center.setBackground(Color.black);
 
         JPanel south = createColorPanel();
+        south.setBackground(Color.black);
         south.setLayout(new BoxLayout(south, BoxLayout.Y_AXIS));
 
         JPanel playgroundPanel = createColorPanel();
@@ -91,6 +95,7 @@ public class SelectCharacterPanel extends JPanel {
 
     private JLabel createSectionTitle(final String nameTitle){
         JLabel title = new JLabel(nameTitle);
+        title.setForeground(Color.WHITE);
         title.setFont(new Font(title.getFont().getName(),Font.PLAIN, TITLE_SIZE));
         return title;
     }
@@ -103,9 +108,9 @@ public class SelectCharacterPanel extends JPanel {
 
     private JButton createButton(final String name){
         JButton button = new JButton(name);
-        button.setBackground(Color.BLACK);
+      //  button.setBackground(Color.BLACK);
         button.setOpaque(true);
-        button.setForeground(BACKGROUND_COLOR);
+      //  button.setForeground(BACKGROUND_COLOR);
         button.setBorderPainted(false);
         button.setFont(new Font(getFont().getName(), Font.BOLD, 20));
         return button;

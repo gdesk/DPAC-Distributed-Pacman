@@ -17,13 +17,14 @@ public class CreateTeamDialog extends JDialog {
     private final FakeController controller = new FakeController();
     private final PlayersPanel playerPanel = new PlayersPanel();
     private int width = 1;
+    private final static Color BACKGROUND_COLOR = Color.WHITE;
 
     private  int numPlayer  = 1;
     public CreateTeamDialog(final JFrame frame){
 
         super(frame, "Create Team", true);
 
-        JPanel p = new JPanel();
+        JPanel p = createColorPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         if (frame != null) {
 
@@ -32,7 +33,8 @@ public class CreateTeamDialog extends JDialog {
             width = (int) frameDim.getWidth() / 2;
             setLocationRelativeTo(null);
 
-            JPanel buttonPanel = new JPanel();
+            JPanel buttonPanel = createColorPanel();
+            buttonPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
             JButton starGame = new JButton("START");
             starGame.addActionListener(e->{
                 dispose();
@@ -47,7 +49,8 @@ public class CreateTeamDialog extends JDialog {
             buttonPanel.add(starGame);
             buttonPanel.add(addFiends);
 
-            JPanel numberPlayerPanel = new JPanel();
+            JPanel numberPlayerPanel = createColorPanel();
+            numberPlayerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
             List<String> ranges = controller.getTeamRange();
             JComboBox comboRange = new JComboBox(ranges.toArray());
 
@@ -87,6 +90,10 @@ public class CreateTeamDialog extends JDialog {
         private int numPlayer = 1;
         private List<JLabel> icons = new ArrayList<>();
 
+        public PlayersPanel(){
+            setBackground(Color.WHITE);
+        }
+
         private synchronized void init(final int numPlayers ){
             this.index = 0;
             this.numPlayer = numPlayers;
@@ -117,6 +124,12 @@ public class CreateTeamDialog extends JDialog {
             revalidate();
             repaint();
         }
+    }
+
+    private JPanel createColorPanel(){
+        JPanel panel = new JPanel();
+        panel.setBackground(BACKGROUND_COLOR);
+        return panel;
     }
 
 }
