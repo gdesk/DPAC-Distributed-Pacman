@@ -6,15 +6,16 @@ import controller.FakeController;
 import javax.swing.*;
 import java.awt.*;
 
+import static client.view.utils.JComponentsUtils.*;
+
 /**
  * Created by chiaravarini on 14/07/17.
  */
 public class SelectCharacterPanel extends JPanel {
 
-    private final static Color BACKGROUND_COLOR = Color.WHITE;
     private final Dimension CHARACTER_IMAGE_DIMENSION = new Dimension(100,100);
     private final Dimension PLAYGROUND_IMAGE_DIMENSION = new Dimension(350,350);
-    private final int TITLE_SIZE = 20;
+
     private final FakeController controller = new FakeController();
 
     private String characterChoosed = "";
@@ -24,18 +25,16 @@ public class SelectCharacterPanel extends JPanel {
 
         setLayout(new BorderLayout());
 
-        JPanel buttonPanel = createColorPanel();
-        buttonPanel.setBackground(Color.black);
+        JPanel buttonPanel = createBlackPanel();
         JButton doneButton = createButton("DONE");
         JButton exitButton = createButton("EXIT");
         buttonPanel.add(exitButton);
         buttonPanel.add(doneButton);
-        JPanel north = createColorPanel();
-        north.setBackground(Color.black);
+        JPanel north = createBlackPanel();
         north.setLayout(new BorderLayout());
         north.add(buttonPanel, BorderLayout.EAST);
 
-        JPanel center = createColorPanel();
+        JPanel center = createBlackPanel();
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 
         JPanel characterPanel = createColorPanel();
@@ -47,10 +46,8 @@ public class SelectCharacterPanel extends JPanel {
 
         center.add(createSectionTitle("Select one Character"));
         center.add(characterScroll);
-        center.setBackground(Color.black);
 
-        JPanel south = createColorPanel();
-        south.setBackground(Color.black);
+        JPanel south = createBlackPanel();
         south.setLayout(new BoxLayout(south, BoxLayout.Y_AXIS));
 
         JPanel playgroundPanel = createColorPanel();
@@ -96,7 +93,7 @@ public class SelectCharacterPanel extends JPanel {
     private JLabel createSectionTitle(final String nameTitle){
         JLabel title = new JLabel(nameTitle);
         title.setForeground(Color.WHITE);
-        title.setFont(new Font(title.getFont().getName(),Font.PLAIN, TITLE_SIZE));
+        title.setFont(new Font(title.getFont().getName(),Font.PLAIN, FONT_SIZE));
         return title;
     }
 
@@ -108,9 +105,7 @@ public class SelectCharacterPanel extends JPanel {
 
     private JButton createButton(final String name){
         JButton button = new JButton(name);
-      //  button.setBackground(Color.BLACK);
         button.setOpaque(true);
-      //  button.setForeground(BACKGROUND_COLOR);
         button.setBorderPainted(false);
         button.setFont(new Font(getFont().getName(), Font.BOLD, 20));
         return button;

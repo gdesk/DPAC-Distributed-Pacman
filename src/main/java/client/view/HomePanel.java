@@ -8,13 +8,14 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import static client.view.utils.JComponentsUtils.*;
+
 /**
  * Home panel where user data is displayed and where you can start a new game
  * Created by chiaravarini on 11/07/17.
  */
 public class HomePanel extends JPanel {
 
-    private final static Color BACKGROUND_COLOR = Color.WHITE;
     private final List<MatchResult> matches;
     private final FakeController controller = new FakeController();
 
@@ -23,21 +24,21 @@ public class HomePanel extends JPanel {
         this.matches = controller.getmatches();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        final JButton startGame = createButton("START GAME");
-        final JButton exit = createButton("EXIT");
+        final JButton startGame = createBlackButton("START GAME");
+        final JButton exit = createBlackButton("EXIT");
 
-        JPanel north = createColorPanel();
+        JPanel north = createWhitePanel();
         north.setBorder(BorderFactory.createTitledBorder("Hi "+username));
         north.setLayout(new BorderLayout());
 
-        JPanel buttonPanel = createColorPanel();
+        JPanel buttonPanel = createWhitePanel();
         buttonPanel.setLayout(new BorderLayout());
 
-        JPanel northCenter = createColorPanel();
+        JPanel northCenter = createWhitePanel();
         northCenter.add(startGame);
         buttonPanel.add(northCenter, BorderLayout.CENTER);
 
-        JPanel northEast = createColorPanel();
+        JPanel northEast = createWhitePanel();
         northEast.add(exit);
         buttonPanel.add(northEast, BorderLayout.EAST);
         north.add(buttonPanel, BorderLayout.NORTH);
@@ -64,41 +65,25 @@ public class HomePanel extends JPanel {
     }
 
     private int xTableIndex = 0;
-    private JTable createMatchTable(final List<MatchResult> results){
+    private JTable createMatchTable(final List<MatchResult> results) {
         String[] columnNames = {"Result", "Date", "Score"};
         Object[][] data = new Object[results.size()][columnNames.length];
-        results.forEach(res ->{
+        results.forEach(res -> {
             data[xTableIndex][0] = res.result() ? "VICTORY" : "DEFEAT";
             SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
             data[xTableIndex][1] = format1.format(res.date().getTime());
-            data[xTableIndex][2] = "Score: "+res.score();
-            xTableIndex = xTableIndex+1;
+            data[xTableIndex][2] = "Score: " + res.score();
+            xTableIndex = xTableIndex + 1;
         });
 
         JTable table = new JTable(data, columnNames);
         table.setFont(new Font(table.getFont().getName(), Font.PLAIN, 15));
         table.setRowHeight(30);
-        table.setGridColor(Color.BLACK);
+        table.setGridColor(LOGIN_COLOR);
         table.setShowGrid(false);
         table.setShowHorizontalLines(true);
         table.getTableHeader().setFont(new Font(table.getFont().getName(), Font.BOLD, 25));
 
         return table;
-    }
-
-    private JButton createButton(final String name){
-        JButton button = new JButton(name);
-        button.setBackground(Color.BLACK);
-        button.setOpaque(true);
-        button.setForeground(BACKGROUND_COLOR);
-        button.setBorderPainted(false);
-        button.setFont(new Font(getFont().getName(), Font.BOLD, 20));
-        return button;
-    }
-
-    private JPanel createColorPanel(){
-        JPanel panel = new JPanel();
-        panel.setBackground(BACKGROUND_COLOR);
-        return panel;
     }
 }

@@ -6,13 +6,14 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+import static client.view.utils.JComponentsUtils.LOGIN_COLOR;
+
 /**
  * Panel that allows you to login and register a user
  * Created by chiaravarini on 11/07/17.
  */
 public class LoginPanel extends JPanel {
 
-    private final static Color BACKGROUND_COLOR = Color.black;
     private final static int JTEXTEFIELD_COLUMNS = 20;
     private final static int TOP_BORDER_PADDING = 30;
     private final FakeController controller = new FakeController();
@@ -20,7 +21,7 @@ public class LoginPanel extends JPanel {
     public LoginPanel() {
 
         setLayout(new BorderLayout());
-        setBackground(BACKGROUND_COLOR);
+        setBackground(LOGIN_COLOR);
 
         final JTextField userInput = new JTextField(JTEXTEFIELD_COLUMNS);
         final JPasswordField passwordInput = new JPasswordField(JTEXTEFIELD_COLUMNS);
@@ -36,7 +37,7 @@ public class LoginPanel extends JPanel {
         add(label, BorderLayout.CENTER);
 
         JPanel east = new JPanel(new GridBagLayout());
-        east.setBackground(BACKGROUND_COLOR);
+        east.setBackground(LOGIN_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.gridx = 0;

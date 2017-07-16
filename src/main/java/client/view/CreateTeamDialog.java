@@ -8,6 +8,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static client.view.utils.JComponentsUtils.BACKGROUND_COLOR;
+import static client.view.utils.JComponentsUtils.createWhitePanel;
+
 /**
  * Panel used to create a new play team
  * Created by chiaravarini on 12/07/17.
@@ -17,14 +20,13 @@ public class CreateTeamDialog extends JDialog {
     private final FakeController controller = new FakeController();
     private final PlayersPanel playerPanel = new PlayersPanel();
     private int width = 1;
-    private final static Color BACKGROUND_COLOR = Color.WHITE;
 
     private  int numPlayer  = 1;
     public CreateTeamDialog(final JFrame frame){
 
         super(frame, "Create Team", true);
 
-        JPanel p = createColorPanel();
+        JPanel p = createWhitePanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         if (frame != null) {
 
@@ -33,7 +35,7 @@ public class CreateTeamDialog extends JDialog {
             width = (int) frameDim.getWidth() / 2;
             setLocationRelativeTo(null);
 
-            JPanel buttonPanel = createColorPanel();
+            JPanel buttonPanel = createWhitePanel();
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
             JButton starGame = new JButton("START");
             starGame.addActionListener(e->{
@@ -49,7 +51,7 @@ public class CreateTeamDialog extends JDialog {
             buttonPanel.add(starGame);
             buttonPanel.add(addFiends);
 
-            JPanel numberPlayerPanel = createColorPanel();
+            JPanel numberPlayerPanel = createWhitePanel();
             numberPlayerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
             List<String> ranges = controller.getTeamRange();
             JComboBox comboRange = new JComboBox(ranges.toArray());
@@ -91,7 +93,7 @@ public class CreateTeamDialog extends JDialog {
         private List<JLabel> icons = new ArrayList<>();
 
         public PlayersPanel(){
-            setBackground(Color.WHITE);
+            setBackground(BACKGROUND_COLOR);
         }
 
         private synchronized void init(final int numPlayers ){
@@ -125,12 +127,5 @@ public class CreateTeamDialog extends JDialog {
             repaint();
         }
     }
-
-    private JPanel createColorPanel(){
-        JPanel panel = new JPanel();
-        panel.setBackground(BACKGROUND_COLOR);
-        return panel;
-    }
-
 }
 
