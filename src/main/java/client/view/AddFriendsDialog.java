@@ -5,6 +5,7 @@ import controller.FakeController;
 import javax.swing.*;
 import java.awt.*;
 
+import static client.view.utils.JComponentsUtils.FONT_SIZE;
 import static client.view.utils.JComponentsUtils.createWhitePanel;
 
 /**
@@ -13,7 +14,7 @@ import static client.view.utils.JComponentsUtils.createWhitePanel;
  */
 public class AddFriendsDialog extends JDialog {
 
-    private final JTextField username = new JTextField(20);
+    private final JTextField username = new JTextField(FONT_SIZE);
     private final JButton send = new JButton("Send Request");
     private final JButton cancel = new JButton("Cancel");
     private final FakeController controller = new FakeController();

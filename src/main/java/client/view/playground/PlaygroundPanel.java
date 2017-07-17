@@ -19,6 +19,7 @@ import static client.view.utils.BlocksImages.*;
 public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundView {
 
     public PlaygroundPanel(PlaygroundSettings playgroundsettings){
+
         super(playgroundsettings);
     }
 

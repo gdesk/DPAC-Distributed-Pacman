@@ -13,6 +13,7 @@ object Res {
   val TITLE_IMAGE = "gameTitle"
   val LOGIN_IMAGE = "led"
   val HOME_IMAGE = "whiteGhosts"
+  val LOADING_GIF = "loading"
 
   val PLAYER_BUTTON = "playerButton/empty"
   val PLAYER_OK = "playerButton/ok"

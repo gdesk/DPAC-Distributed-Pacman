@@ -13,8 +13,8 @@ import static client.view.utils.JComponentsUtils.*;
  */
 public class SelectCharacterPanel extends JPanel {
 
-    private final Dimension CHARACTER_IMAGE_DIMENSION = new Dimension(100,100);
-    private final Dimension PLAYGROUND_IMAGE_DIMENSION = new Dimension(350,350);
+    private final Dimension CHARACTER_IMAGE_DIMENSION = calculatedImageCharDimension(10);//new Dimension(100,100);
+    private final Dimension PLAYGROUND_IMAGE_DIMENSION = calculatedImageCharDimension(2.2);
 
     private final FakeController controller = new FakeController();
 
@@ -71,7 +71,7 @@ public class SelectCharacterPanel extends JPanel {
 
         doneButton.addActionListener(e->{
             //controller.
-            //MainFrame.getInstance().setContentPane(new LoadingPanel());
+            MainFrame.getInstance().setContentPane(new LoadingPanel());
         });
     }
 
@@ -82,7 +82,9 @@ public class SelectCharacterPanel extends JPanel {
         JButton imageButton = new JButton();
         imageButton.setBorder(BorderFactory.createLineBorder(Color.black));
         imageButton.addActionListener(e->{
-            //selectImage();
+            if(dim.equals(CHARACTER_IMAGE_DIMENSION)){
+                System.out.println(((ImageIcon)imageButton.getIcon()).getDescription()) ;
+            }
         });
         ImageIcon icon = new ImageIcon(ImagesUtils.getScaledImage(image, (int)dim.getWidth(), (int)dim.getHeight()));
         imageButton.setIcon(icon);
@@ -109,6 +111,16 @@ public class SelectCharacterPanel extends JPanel {
         button.setBorderPainted(false);
         button.setFont(new Font(getFont().getName(), Font.BOLD, 20));
         return button;
+    }
+
+    private Dimension calculatedImageCharDimension(final double divider){
+
+        Dimension frameDimension = MainFrame.getInstance().getSize();
+        if(frameDimension.getWidth()<frameDimension.getHeight()){
+            return new Dimension((int)(frameDimension.getWidth()/divider), (int)(frameDimension.getWidth()/divider));
+        } else {
+            return new Dimension((int)(frameDimension.getHeight()/divider), (int)(frameDimension.getHeight()/divider));
+        }
     }
 }
 

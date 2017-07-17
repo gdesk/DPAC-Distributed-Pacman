@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+ * Class for creation of standard view components
  * Created by chiaravarini on 16/07/17.
  */
 public class JComponentsUtils {

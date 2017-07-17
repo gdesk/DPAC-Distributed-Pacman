@@ -29,14 +29,10 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     public BasePlaygroundPanel(PlaygroundSettings playgroundSetting){
 
         settings = playgroundSetting;
-
         setLayout(new GridBagLayout());
         setBackground(settings.getBackgroundColor());
         cells = new JLabel[settings.getColumns()][settings.getRows()];
 
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
         for (int i = 0; i < settings.getColumns(); ++i) {
             for (int j = 0; j < settings.getRows(); ++j) {
                 cells[i][j] = new JLabel();
@@ -44,9 +40,6 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
                 cells[i][j].setMaximumSize(settings.getCellDim());
                 cells[i][j].setMinimumSize(settings.getCellDim());
                 cells[i][j].setPreferredSize(settings.getCellDim());
-
-                gbc.gridx = i;
-                gbc.gridy = j;
             }
         }
 

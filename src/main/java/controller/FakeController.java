@@ -130,4 +130,10 @@ public class FakeController {
     }
 
 
+   /* PlaygroundPanel playgroundView = controller.initializePlaygroundView( null );//model.getCharacterList());
+            MainFrame.getInstance().setContentPane(playgroundView);
+
+    client.model.controller.UserInputController keyboardController = new client.model.controller.UserInputController(playgroundView);
+            playgroundView.addKeyListener(keyboardController);*/
+
 }
