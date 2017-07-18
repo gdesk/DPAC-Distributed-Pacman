@@ -102,10 +102,10 @@ class BaseGhostTest extends FunSuite {
     greeenGhost setPosition PointImpl(0,1)
     val yellowGhost = BaseGhost("Yellow")
     yellowGhost setPosition PointImpl(0,2)
-    var usersAndCharacters: Map[Character[Int,Int], String] = HashMap((pacman, "Giuls"),
-                                                                      (blueGhost, "Giuls"),
-                                                                      (greeenGhost, "Manu"),
-                                                                      (yellowGhost, "Fede"))
+    var usersAndCharacters: Map[Character, String] = HashMap((pacman, "Giuls"),
+                                                             (blueGhost, "Giuls"),
+                                                             (greeenGhost, "Manu"),
+                                                             (yellowGhost, "Fede"))
     gameMatch addPlayers usersAndCharacters
     gameMatch myCharacter = ghost
     ghost setPosition PointImpl(0,0)

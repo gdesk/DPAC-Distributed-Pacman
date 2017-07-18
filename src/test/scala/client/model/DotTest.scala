@@ -24,8 +24,4 @@ class DotTest extends FunSuite {
   test("position"){
     assert(dot.position equals PointImpl(0,3))
   }
-
-  test("belonginFamily"){
-    assert(dot.belonginFamily equals "dot")
-  }
 }

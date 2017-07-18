@@ -13,7 +13,7 @@ import client.model.utils.{Point, ScalaProlog}
   * @author Margherita Pecorelli
   * @author Giulia Lucchi
   */
-trait Pacman extends Character[Int, Int] {
+trait Pacman extends Character {
   /**
     * This method checks if Pacman can eat some {@Eatable} object
     */
@@ -36,9 +36,9 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
   override def eatObject = {
     var eatables: String = "["
     playground.eatables foreach(e =>
-      eatables = eatables + "eatable_object(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.belonginFamily + "," + e.id + "),"
+      eatables = eatables + "eatable_object(" + e.position.x + "," + e.position.y + "," + e.score + "," + "," + e.id + "),"
     )
-    eatables = eatables substring (0,(eatables size)-2)
+    eatables = eatables substring (0,(eatables size)-1)
     eatables = eatables + "]"
 
     val solveInfo = PrologConfig.getPrologEngine().solve(s"eat_object(pacman(${position x},${position y},${lives remainingLives},${score toString}), ${eatables}, NS, L, N).")
@@ -50,12 +50,10 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
       //val eatenObject: Eatable =
       playground.removeEatable(eatenObj.head) //eatenObject
       score = valueOf(solveInfo getTerm ("NS") toString)
-      val eatenObjectFamily = (solveInfo getTerm("N") toString)
-      strategy.eat(eatenObjectFamily)
-      //Option.apply(eatenObject)
-    } /*else {
-      Option.empty
-    }*/
+      val eatenObjectName = (solveInfo getTerm("N") toString)
+      val eatenObject = playground.eatables find (_.id equals eatenObjectName) get;
+      strategy.eat(eatenObject)
+    }
   }
 
   /**

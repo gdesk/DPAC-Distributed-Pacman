@@ -11,7 +11,7 @@ import client.model.utils.{PointImpl, ScalaProlog}
   * @author Giulia Lucchi
   * @author Margherita Pecorelli
   */
-trait Ghost extends Character[Int, Int]
+trait Ghost extends Character
 
 case class BaseGhost(override val name: String) extends CharacterImpl(false) with Ghost {
 
@@ -36,7 +36,7 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
     */
   override def checkAllPositions() = {
     val ghosts = super.prologGhostsList
-    val pac: List[Character[Int, Int]] = game.characters filter (c => (c.isInstanceOf[Pacman]))
+    val pac: List[Character] = game.characters filter (c => (c.isInstanceOf[Pacman]))
     val pacman = pac isEmpty match {
       case true =>
         game.myCharacter.asInstanceOf[Pacman]

@@ -13,12 +13,6 @@ case class GalaxianShip(override val id: String, override val position: Point[In
     */
   override def score: Int = GalaxianShip.score
 
-  /**
-    * Returns the family to which the eatable object belongs
-    *
-    * @return object's family
-    */
-  override def belonginFamily: String = "galaxian ship"
 }
 
 object GalaxianShip {

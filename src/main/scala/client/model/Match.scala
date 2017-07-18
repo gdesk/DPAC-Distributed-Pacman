@@ -30,35 +30,35 @@ trait Match {
     *
     * @return - the character of the main user.
     */
-  def myCharacter: Character[Int, Int]
+  def myCharacter: Character
 
   /**
     * Sets the character of the main user.
     *
     * @param character - the character of the main user.
     */
-  def myCharacter_=(character: Character[Int, Int]): Unit
+  def myCharacter_=(character: Character): Unit
 
   /**
     * Adds all match's players, excluding the main one.
     *
     * @param players - the characters and users Map.
     */
-  def addPlayers(players: Map[Character[Int, Int], String]): Unit
+  def addPlayers(players: Map[Character, String]): Unit
 
   /**
     * Returns the list of all characters who participate at the match.
     *
     * @return the list of all characters.
     */
-  def characters: List[Character[Int, Int]]
+  def characters: List[Character]
 
   /**
     * Returns the list of dead characters.
     *
     * @return the list of dead characters.
     */
-  def deadCharacters: List[Character[Int, Int]]
+  def deadCharacters: List[Character]
 
   /**
     * Adds a dead characters to the list.
@@ -67,7 +67,7 @@ trait Match {
     * @throws CharacterDoesNotExistException when the character to add doesn't exist.
     * @return the user's id of the player that was using that client.model.character.gameElement.character.
     */
-  def addDeadCharacters(deadCharacters: Character[Int, Int]): Unit
+  def addDeadCharacters(deadCharacters: Character): Unit
 
 }
 
@@ -78,18 +78,18 @@ trait Match {
   */
 case class MatchImpl private() extends Match {
 
-  private var _deadCharacters: ListBuffer[Character[Int, Int]] = ListBuffer empty
-  private var mapCharacterUser: Map[Character[Int, Int], String] = Map empty
+  private var _deadCharacters: ListBuffer[Character] = ListBuffer empty
+  private var mapCharacterUser: Map[Character, String] = Map empty
 
   override var playground: Playground = null
-  override var myCharacter: Character[Int, Int] = null
+  override var myCharacter: Character = null
 
   /**
     * Adds all match's players, excluding the main one.
     *
     * @param players - the characters and users Map.
     */
-  override def addPlayers(players: Map[Character[Int, Int], String]) = mapCharacterUser = players
+  override def addPlayers(players: Map[Character, String]) = mapCharacterUser = players
 
   /**
     * Returns the list of all characters who participate at the match.
@@ -111,7 +111,7 @@ case class MatchImpl private() extends Match {
     * @param deadCharacter - the list of dead characters.
     * @throws CharacterDoesNotExistException when the character to add doesn't exist.
     */
-  override def addDeadCharacters(deadCharacter: Character[Int, Int]) = {
+  override def addDeadCharacters(deadCharacter: Character) = {
     if(!(mapCharacterUser.contains(deadCharacter)) && !(myCharacter equals deadCharacter)) throw new CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
     _deadCharacters += deadCharacter
     if(!(myCharacter equals deadCharacter)) {

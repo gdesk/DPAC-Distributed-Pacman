@@ -10,7 +10,7 @@ import org.scalatest.FunSuite
   * @author Giulia Lucchi
   * @author Margherita Pecorelli
   */
-class CharacterImplTest(character: Character[Int, Int]) extends FunSuite {
+class CharacterImplTest(character: Character) extends FunSuite {
 
     test("lives") {
       assert(character.lives.remainingLives equals (InitializedInfoImpl.getCharacterLives(character.isInstanceOf[Pacman] match {

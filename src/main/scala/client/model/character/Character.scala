@@ -10,7 +10,7 @@ import client.model.utils.{Point, PointImpl}
   * @author Giulia Lucchi
   * @author Margherita Pecorelli
   */
-trait Character[X,Y] extends GameItem{
+trait Character extends GameItem{
   /**
     * Manages the client.model.character.gameElement.character's movement and consequently the contact with other item of the game.
     *
@@ -29,7 +29,7 @@ trait Character[X,Y] extends GameItem{
     * @param point    a point of client.model.character.gameElement.character within the game map.
     * @throws OutOfPlaygroundBoundAccessException when the position is out of the ground.
     * */
-  def setPosition(point: Point[X,Y]): Unit
+  def setPosition(point: Point[Int,Int]): Unit
 
   /**
     * getter of client.model.character.gameElement.character's direction
@@ -106,7 +106,7 @@ trait Character[X,Y] extends GameItem{
   def score_=(score: Int): Unit
 }
 
-abstract class CharacterImpl(override var isKillable: Boolean) extends Character[Int, Int] {
+abstract class CharacterImpl(override var isKillable: Boolean) extends Character {
 
   private var pos: Point[Int, Int] = PointImpl(0,0)
   private val playground: Playground = PlaygroundImpl instance()

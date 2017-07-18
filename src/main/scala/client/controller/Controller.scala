@@ -20,7 +20,7 @@ trait Controller {
     * @param playgroundDimention - the playground's dimension.
     * @param ground - the ground chosen.
     */
-  def startMatch(players: Map[Character[Int, Int], String], character: Character[Int, Int], playgroundDimention: Dimension, ground: List[GameItem]): Unit
+  def startMatch(players: Map[Character, String], character: Character, playgroundDimention: Dimension, ground: List[GameItem]): Unit
 
   /**
     * Method called when the user moves his character. This method calls the method in the model.

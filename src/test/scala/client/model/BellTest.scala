@@ -22,8 +22,4 @@ class BellTest extends FunSuite {
   test("position"){
     assert(bell.position equals PointImpl(0,1))
   }
-
-  test("belonginFamily"){
-    assert(bell.belonginFamily equals "bell")
-  }
 }

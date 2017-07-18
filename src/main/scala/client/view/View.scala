@@ -10,13 +10,13 @@ import client.model.gameElement.Eatable
 trait View {
 
   //controller notifica la view quando un personaggio muore (per cancellarne l'immagine)
-  def deathOfACharacter(character: Character[Int, Int]): Unit
+  def deathOfACharacter(character: Character): Unit
 
   //controller notifica la view quando un eatable viene mangiato (per cancellarne l'immagine)
   def eatenObject(eaten: Eatable): Unit
 
   //controller notifica la view quando pacman muore -> fine del gioco PER TUTTI
-  def pacmanDeath(character: Character[Int, Int]): Unit
+  def pacmanDeath(character: Character): Unit
 
   //controller notifica la view sulle vite rimanenti del MAIN CHARACTER
   def remainingLives(lives: Int): Unit
@@ -25,7 +25,7 @@ trait View {
   def score(score: Int): Unit
 
   //controller notifica la view quando i ghosts diventano killable e pacman diventa il predatore (un personaggio alla vola)
-  def setKillableOrNot(character: Character[Int, Int], isKillable: Boolean)
+  def setKillableOrNot(character: Character, isKillable: Boolean)
 
   //controller notifica la view quando il MAIN CHARACTER si sta muovendo (ovvero quando l'utente preme una delle frecce)
   def setMainCharacterDirection(direction: Direction)

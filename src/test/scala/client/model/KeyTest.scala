@@ -22,8 +22,4 @@ class KeyTest extends FunSuite {
   test("position"){
     assert(key.position equals PointImpl(1,1))
   }
-
-  test("belonginFamily"){
-    assert(key.belonginFamily equals "key")
-  }
 }

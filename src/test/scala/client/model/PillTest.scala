@@ -22,8 +22,4 @@ class PillTest extends FunSuite {
   test("position"){
     assert(pill.position equals PointImpl(1,3))
   }
-
-  test("belonginFamily"){
-    assert(pill.belonginFamily equals "pill")
-  }
 }

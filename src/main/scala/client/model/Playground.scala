@@ -1,9 +1,12 @@
 package client.model
 
-import client.model.gameElement.{Block, Eatable, GameItem}
-import client.model.utils.{Dimension, Point, PointImpl}
+import java.io.FileInputStream
 
-import scala.collection.mutable.{HashMap, ListBuffer, Map}
+import alice.tuprolog.Theory
+import client.model.gameElement.{Block, Eatable, GameItem}
+import client.model.utils.{Dimension, Point, PointImpl, ScalaProlog}
+
+import scala.collection.mutable.ListBuffer
 
 /**
   * The game's playground. It contains all the elements in the game platform (except characters).
@@ -106,6 +109,8 @@ trait Playground {
   */
 case class PlaygroundImpl private() extends Playground{
 
+  private var engine = ScalaProlog.mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/dpac-prolog.pl")))
+
   private var _blocks: ListBuffer[Block] = ListBuffer empty
   private var _eatables: ListBuffer[Eatable] = ListBuffer empty
   private var _eatenObjects: ListBuffer[Eatable] = ListBuffer empty
@@ -135,6 +140,11 @@ case class PlaygroundImpl private() extends Playground{
     _streetPositions clear;
     elementsMap foreach (e => _ground += e)
     _ground.foreach(p => checkItemPosition(p))
+
+    //streetPositions
+    //var theory = ""
+    //_streetPositions foreach (s => theory = theory + "street(" + s.x + "," + s.y + ").")
+    //engine = modifyPrologEngine(theory)
   }
 
   /**

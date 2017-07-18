@@ -5,7 +5,7 @@ import client.model.utils.Point
 /**
   * Created by margherita on 10/07/17.
   */
-case class Pill(override val id: String, override val position: Point[Int, Int]) extends Eatable{
+case class Pill(override val id: String, override val position: Point[Int, Int]) extends Eatable {
   /**
     * Returns the value that is given as score when Pacman eat that item.
     *
@@ -13,12 +13,6 @@ case class Pill(override val id: String, override val position: Point[Int, Int])
     */
   override def score: Int = Pill.score
 
-  /**
-    * Returns the family to which the eatable object belongs
-    *
-    * @return object's family
-    */
-  override def belonginFamily: String = "pill"
 }
 
 object Pill {

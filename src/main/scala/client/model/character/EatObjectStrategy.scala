@@ -1,6 +1,7 @@
 package client.model.character
 
 import client.model._
+import client.model.gameElement.Eatable
 
 /**
   * Rapresents the strategy to use when {@Pacman} eats an object
@@ -12,8 +13,8 @@ trait EatObjectStrategy {
   /**
     * It's the method that deals with the strategy to use when Pacman eats an object.
     *
-    * @param eatenObjectFamily - the string that represents the family which the eatable object belongs to.
+    * @param eatenObject - the Eatable eaten.
     */
-  def eat(eatenObjectFamily: String):Unit
+  def eat(eatenObject: Eatable): Unit
 
 }

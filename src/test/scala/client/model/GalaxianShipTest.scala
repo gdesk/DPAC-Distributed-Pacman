@@ -22,8 +22,4 @@ class GalaxianShipTest extends FunSuite {
   test("position"){
     assert(galaxianShip.position equals PointImpl(0,4))
   }
-
-  test("belonginFamily"){
-    assert(galaxianShip.belonginFamily equals "galaxian ship")
-  }
 }

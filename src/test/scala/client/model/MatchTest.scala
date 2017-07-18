@@ -1,6 +1,7 @@
 package client.model
 
-import client.model.character.{BaseEatObjectStrategy, BaseGhost, BasePacman, Character}
+import client.model.character.{BaseEatObjectStrategy, BaseGhost, BasePacman}
+import client.model.character.Character
 import client.model.gameElement._
 import client.model.utils.{Dimension, PointImpl}
 import org.scalatest.FunSuite
@@ -56,10 +57,10 @@ class MatchTest extends FunSuite {
 
   test("addPlayers and characters") {
     assert(gameMatch.characters isEmpty)
-    var usersAndCharacters: Map[Character[Int,Int], String] = HashMap((pacman, "Marghe"),
-                                                                      (blueGhost, "Giuls"),
-                                                                      (greeenGhost, "Manu"),
-                                                                      (yellowGhost, "Fede"))
+    var usersAndCharacters: Map[Character, String] = HashMap((pacman, "Marghe"),
+                                                             (blueGhost, "Giuls"),
+                                                             (greeenGhost, "Manu"),
+                                                             (yellowGhost, "Fede"))
     gameMatch addPlayers usersAndCharacters
     assert(gameMatch.characters.size equals 4)
     assert(gameMatch.characters contains BasePacman("Pacman", BaseEatObjectStrategy()))
