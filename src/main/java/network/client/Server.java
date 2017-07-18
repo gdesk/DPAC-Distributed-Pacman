@@ -1,13 +1,7 @@
-package network.client;
-
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-
-/**
+package network.client; /**
  * Created by Federica on 16/07/17.
  */
-public class Server implements Hello {
+/*public class Server implements Hello {
 
     public Server() {
 
@@ -36,4 +30,4 @@ public class Server implements Hello {
             e.printStackTrace();
         }
     }
-}
+}*/
