@@ -1,6 +1,5 @@
-package client.model.character
+package client.model.utils
 
-import client.model._
 import client.model.gameElement.Eatable
 
 /**

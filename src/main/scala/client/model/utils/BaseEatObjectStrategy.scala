@@ -1,9 +1,9 @@
-package client.model.character
+package client.model.utils
 
 import java.util.{Observable, Observer}
 
+import client.model.character.Pacman
 import client.model.gameElement.{Eatable, Pill}
-import client.model.utils.Timer
 import client.model.{Match, MatchImpl, Playground, PlaygroundImpl}
 
 /**
@@ -13,7 +13,7 @@ case class BaseEatObjectStrategy() extends EatObjectStrategy with Observer{
 
   private val playground: Playground = PlaygroundImpl instance()
   private val game: Match = MatchImpl instance()
-  private val timer: Timer = Timer(this)
+  private val timer: Timer = TimerImpl(this)
 
   /**
     * It's the method that deals with the strategy to use when Pacman eats an object.

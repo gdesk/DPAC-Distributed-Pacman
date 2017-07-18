@@ -4,7 +4,7 @@ import java.lang.Integer.valueOf
 
 import client.model._
 import client.model.gameElement.Eatable
-import client.model.utils.{Point, ScalaProlog}
+import client.model.utils.{EatObjectStrategy, LivesImpl, Point, ScalaProlog}
 
 
 /**

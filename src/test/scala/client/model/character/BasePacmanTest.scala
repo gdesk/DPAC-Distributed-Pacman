@@ -2,7 +2,7 @@ package client.model.character
 
 import client.model.{MatchImpl, PlaygroundImpl}
 import org.scalatest.FunSuite
-import client.model.utils.{Dimension, PointImpl}
+import client.model.utils.{BaseEatObjectStrategy, Dimension, PointImpl}
 
 import scala.collection.mutable.{HashMap, Map}
 

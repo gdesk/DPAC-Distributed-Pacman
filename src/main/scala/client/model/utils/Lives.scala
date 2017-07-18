@@ -1,4 +1,4 @@
-package client.model.character
+package client.model.utils
 
 /**
   * Created by Giulia Lucchi on 28/06/2017.
