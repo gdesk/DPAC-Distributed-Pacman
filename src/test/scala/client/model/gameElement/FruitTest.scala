@@ -1,6 +1,5 @@
-package client.model
+package client.model.gameElement
 
-import client.model.gameElement.{Cherry, Grapes, Orange, Strawberry, _}
 import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 

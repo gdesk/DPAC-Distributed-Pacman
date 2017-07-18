@@ -69,7 +69,7 @@ public class GameTest {
 
         IOUtils.saveLog("playground created !");
         return IOUtils.getPlaygroundFromFile("default.dpac");
-        /*
+
         Playground playground = PlaygroundImpl$.MODULE$.instance();
         playground.dimension_$eq(Dimension.apply(60, 30));
 
@@ -138,4 +138,3 @@ public class GameTest {
     }
 */
 }
-

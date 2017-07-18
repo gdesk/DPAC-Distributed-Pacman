@@ -1,6 +1,5 @@
-package client.model
+package client.model.gameElement
 
-import client.model.gameElement.GalaxianShip
 import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 

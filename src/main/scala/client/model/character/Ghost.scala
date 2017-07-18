@@ -3,7 +3,7 @@ package client.model.character
 import java.lang.Integer.valueOf
 
 import client.model._
-import client.model.utils.{PointImpl, ScalaProlog}
+import client.model.utils.{LivesImpl, PointImpl, ScalaProlog}
 
 /**
   * Ghost in one of Characters.

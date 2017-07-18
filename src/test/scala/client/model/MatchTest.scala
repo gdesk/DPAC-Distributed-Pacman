@@ -1,9 +1,9 @@
 package client.model
 
-import client.model.character.{BaseEatObjectStrategy, BaseGhost, BasePacman}
+import client.model.character.{BaseGhost, BasePacman}
 import client.model.character.Character
 import client.model.gameElement._
-import client.model.utils.{Dimension, PointImpl}
+import client.model.utils.{BaseEatObjectStrategy, Dimension, PointImpl}
 import org.scalatest.FunSuite
 
 import scala.collection.mutable.HashMap

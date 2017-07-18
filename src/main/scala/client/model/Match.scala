@@ -1,6 +1,6 @@
 package client.model
 
-import client.model.character.{BaseEatObjectStrategy, BasePacman, Character, Pacman}
+import client.model.character.{BasePacman, Character, Pacman}
 
 import scala.collection.mutable.{ListBuffer, Map}
 

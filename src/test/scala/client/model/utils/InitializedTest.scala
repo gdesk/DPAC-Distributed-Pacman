@@ -1,4 +1,4 @@
-package client.model
+package client.model.utils
 
 import client.model.character.InitializedInfoImpl
 import client.model.utils.Point
@@ -8,10 +8,10 @@ import client.model.utils.Point
   *
   *  Testing of initialized information from logical part made of prolog.
   */
-object InitializedTest extends App{
-/*
+object InitializedTest extends App {
+
   /* Verify the extraction of pacman's start position from prolog*/
-  var pacmanStartPosition : Point[Int,Int] = InitializedInfoImpl.getStartPosition()
+  var pacmanStartPosition : Point[Int,Int] = InitializedInfoImpl.getStartPosition("pacman")
   var x: Int = 30
   var y: Int = 30
   assert( pacmanStartPosition.x equals x)
@@ -24,5 +24,5 @@ object InitializedTest extends App{
   /*Verify the extraction ghost's number lives*/
   var ghostLives = InitializedInfoImpl.getCharacterLives("ghost")
   assert(ghostLives == 1)
-*/
+
 }
