@@ -13,12 +13,12 @@ case class ToClientCommunicationImpl() extends ToClientCommunication {
   val system = ActorSystem("ClientSystem")
 
   val accessManager = system actorOf(Props[AccessManager], "accessManager")
-  val gameManager = system.actorOf(Props[AccessManager], "gameManager")
-  val imagesManager = system.actorOf(Props[ImagesManager], "imagesManager")
-  val teamManager = system.actorOf(Props[TeamManager], "teamManager")
-  val toP2PCommunication = system.actorOf(Props[ToP2PCommunication], "toP2PCommunication")
-  val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
-  val userManager = system.actorOf(Props[UserManager], "userManager")
+  //val gameManager = system.actorOf(Props[AccessManager], "gameManager")
+  //val imagesManager = system.actorOf(Props[ImagesManager], "imagesManager")
+  //val teamManager = system.actorOf(Props[TeamManager], "teamManager")
+  //val toP2PCommunication = system.actorOf(Props[ToP2PCommunication], "toP2PCommunication")
+  //val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
+  //val userManager = system.actorOf(Props[UserManager], "userManager")
 
 
 
