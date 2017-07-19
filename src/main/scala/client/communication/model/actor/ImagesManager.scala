@@ -1,4 +1,4 @@
-package client.communication.actor
+package client.communication.model.actor
 
 /**
   * @author Giulia Lucchi
