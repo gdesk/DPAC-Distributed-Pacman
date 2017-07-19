@@ -9,7 +9,6 @@ import client.model.utils.{Point, PointImpl, ScalaProlog}
   * Extraction of starting information of the game
   *
   * @author Giulia Lucchi
-  * @author Marghertia Pecorelli
   */
 trait InitializedInfo{
   /**

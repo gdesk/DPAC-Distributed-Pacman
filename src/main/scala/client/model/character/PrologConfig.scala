@@ -10,7 +10,7 @@ import client.model.utils.ScalaProlog
   */
 object PrologConfig {
 
-  private val FILE_NAME = "src/main/scala/client/client.model.character.gameElement.character/prolog.pl"
+  private val FILE_NAME = "src/main/prolog/dpac-prolog.pl"
   private val theory: Theory =  new Theory(new FileInputStream(FILE_NAME))
 
   val ENGINE = ScalaProlog.mkPrologEngine(theory)

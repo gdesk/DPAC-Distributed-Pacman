@@ -1,10 +1,8 @@
-package client
+package client.model
 
 import java.util.Calendar
 
 import client.model.{MatchResult, MatchResultImpl}
-import client.model.character.gameElement.VirtualDot
-import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 
 /**

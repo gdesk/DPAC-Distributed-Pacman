@@ -73,8 +73,8 @@ object IOUtils {
     //val character: List[Character[Int,Int]] = parseCharacter(playgroundFile)
 
     playground.dimension = parseDimension(playgroundFile)
-    playground.blocks_=(block)
-    playground.eatables_=(eatable)
+  //  playground.blocks_=(block)
+  //  playground.eatables_=(eatable)
 
     println("Created a Playground of dimension [ " + playground.dimension.x + " | " + playground.dimension.y
       + " ] with " + block.size + " blocks and " + eatable.size + " eatable elements")

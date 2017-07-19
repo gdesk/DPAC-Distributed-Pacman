@@ -1,8 +1,8 @@
 package client.model
 
-import client.model.character.Character
+import client.model.character.{BasePacman, Character, Pacman}
 
-import scala.collection.mutable.HashMap
+import scala.collection.mutable.{ListBuffer, Map}
 
 /**
   * Represent the current match status, holding some information about the game.
@@ -16,7 +16,7 @@ trait Match {
     *
     * @return a list of Point representing the coordinates of the steet.
     */
-  def playground(): Playground
+  def playground: Playground
 
   /**
     * Sets the playground of the current match with the list of the coordinates of the steet.
@@ -26,58 +26,97 @@ trait Match {
   def playground_=(playground: Playground): Unit
 
   /**
+    * Returns the character of the main user.
+    *
+    * @return - the character of the main user.
+    */
+  def myCharacter: Character
+
+  /**
+    * Sets the character of the main user.
+    *
+    * @param character - the character of the main user.
+    */
+  def myCharacter_=(character: Character): Unit
+
+  /**
+    * Adds all match's players, excluding the main one.
+    *
+    * @param players - the characters and users Map.
+    */
+  def addPlayers(players: Map[Character, String]): Unit
+
+  /**
     * Returns the list of all characters who participate at the match.
     *
     * @return the list of all characters.
     */
-  def characters(): List[Character[Int, Int]]
+  def characters: List[Character]
 
   /**
     * Returns the list of dead characters.
     *
     * @return the list of dead characters.
     */
-  def deadCharacters(): List[Character[Int, Int]]
+  def deadCharacters: List[Character]
 
   /**
-    * Add a dead characters to the list.
+    * Adds a dead characters to the list.
     *
     * @param deadCharacters - the dead characters.
+    * @throws CharacterDoesNotExistException when the character to add doesn't exist.
     * @return the user's id of the player that was using that client.model.character.gameElement.character.
     */
-  def addDeadCharacters(deadCharacters: Character[Int, Int]): String
+  def addDeadCharacters(deadCharacters: Character): Unit
 
 }
 
+/**
+  *
+  *
+  *
+  */
 case class MatchImpl private() extends Match {
 
-  private var deadChars: List[Character[Int, Int]] = List.empty
-  private val mapCharacterUser: HashMap[Character[Int, Int], String] = HashMap[Character[Int, Int], String]()
+  private var _deadCharacters: ListBuffer[Character] = ListBuffer empty
+  private var mapCharacterUser: Map[Character, String] = Map empty
 
   override var playground: Playground = null
+  override var myCharacter: Character = null
+
+  /**
+    * Adds all match's players, excluding the main one.
+    *
+    * @param players - the characters and users Map.
+    */
+  override def addPlayers(players: Map[Character, String]) = mapCharacterUser = players
 
   /**
     * Returns the list of all characters who participate at the match.
     *
     * @return the list of all characters.
     */
-  override def characters(): List[Character[Int, Int]] = (mapCharacterUser keySet) toList
+  override def characters = (mapCharacterUser keySet) toList
 
   /**
     * Returns the list of dead characters.
     *
     * @return the list of dead characters.
     */
-  override def deadCharacters(): List[Character[Int, Int]] = deadChars
+  override def deadCharacters = _deadCharacters toList
 
   /**
     * Sets the list of dead characters.
     *
-    * @param deadCharacters - the list of dead characters.
+    * @param deadCharacter - the list of dead characters.
+    * @throws CharacterDoesNotExistException when the character to add doesn't exist.
     */
-  override def addDeadCharacters(deadCharacters: Character[Int, Int]) = {
-    deadCharacters :: deadChars
-    (mapCharacterUser remove  deadCharacters) get
+  override def addDeadCharacters(deadCharacter: Character) = {
+    if(!(mapCharacterUser.contains(deadCharacter)) && !(myCharacter equals deadCharacter)) throw new CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
+    _deadCharacters += deadCharacter
+    if(!(myCharacter equals deadCharacter)) {
+      mapCharacterUser -=  deadCharacter
+    }
   }
 }
 
@@ -90,8 +129,10 @@ object MatchImpl {
     *
     * @return the only MatchImpl's instance.
     */
-  def instance(): Match = {
+  def instance(): MatchImpl = {
     if(_instance == null) _instance = MatchImpl()
     _instance
   }
 }
+
+case class CharacterDoesNotExistException(private val message: String = "") extends Exception(message)
