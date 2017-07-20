@@ -104,7 +104,7 @@ override def chooseCharacter(character: Character): Boolean = ???
     *
     * @return Playground chosen in current match
     */
-  override def playgroundChoosen(): String = ???
+  override def playgroundChosen(): String = ???
 
   /**
     * Send to server the match just ended.
@@ -112,7 +112,7 @@ override def chooseCharacter(character: Character): Boolean = ???
     * @param result The MatchResult with date and score of the ended match
     * @param user   id of characters.
     */
-  override def MatchResul(result: MatchResult, user: String): Unit = ???
+  override def MatchResult(result: MatchResult, user: String): Unit = ???
 
 
 }
