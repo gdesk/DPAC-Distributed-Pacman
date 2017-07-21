@@ -1,10 +1,12 @@
 package client.model
 
+
 import java.io.FileInputStream
 
 import alice.tuprolog.Theory
 import client.model.gameElement.{Block, Eatable, GameItem}
 import client.model.utils.{Dimension, Point, PointImpl, ScalaProlog}
+import client.utils.PrologUtility._
 
 import scala.collection.mutable.ListBuffer
 
@@ -107,6 +109,9 @@ trait Playground {
   *
   * @constructor create an empty playground.
   */
+
+
+
 case class PlaygroundImpl private() extends Playground{
 
   private var engine = ScalaProlog.mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/dpac-prolog.pl")))
@@ -141,10 +146,11 @@ case class PlaygroundImpl private() extends Playground{
     elementsMap foreach (e => _ground += e)
     _ground.foreach(p => checkItemPosition(p))
 
+    //---Fede
     //streetPositions
-    //var theory = ""
-    //_streetPositions foreach (s => theory = theory + "street(" + s.x + "," + s.y + ").")
-    //engine = modifyPrologEngine(theory)
+    var theory = ""
+    _streetPositions foreach (s => theory = theory + "street(" + s.x + "," + s.y + ").")
+    engine = modifyPrologEngine(theory)
   }
 
   /**

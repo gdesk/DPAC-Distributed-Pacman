@@ -73,6 +73,8 @@ object IOUtils {
     //val character: List[Character[Int,Int]] = parseCharacter(playgroundFile)
 
     playground.dimension = parseDimension(playgroundFile)
+    var groundList: List[GameItem] = block ::: eatable
+    playground.ground_=(groundList)
   //  playground.blocks_=(block)
   //  playground.eatables_=(eatable)
 
