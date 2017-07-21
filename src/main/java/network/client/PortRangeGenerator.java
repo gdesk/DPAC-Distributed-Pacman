@@ -1,3 +1,5 @@
+//TODO this class has to be moved from client TO SERVER
+
 package network.client;
 /**
  * Created by Federica on 20/07/17.

@@ -1,4 +1,6 @@
-package network.client;
+package network.client.working;
+
+import network.client.PortRangeGenerator;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
