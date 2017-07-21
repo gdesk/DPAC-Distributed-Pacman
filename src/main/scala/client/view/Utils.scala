@@ -47,6 +47,10 @@ object Utils {
     res
   }
 
+  def getScalaMap[A,B](map: java.util.Map[A,B]): scala.collection.mutable.Map[A,B] = {
+    import scala.collection.JavaConverters._
+    map.asScala
+  }
   /* def playSound(sound: String):Unit = {
     val clip = AudioSystem.getClip
     clip.open(AudioSystem.getAudioInputStream(getResource(sound)))

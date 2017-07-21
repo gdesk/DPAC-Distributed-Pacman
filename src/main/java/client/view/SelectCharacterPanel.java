@@ -39,8 +39,8 @@ public class SelectCharacterPanel extends JPanel {
 
         JPanel characterPanel = createColorPanel();
         characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.X_AXIS));
-        controller.getAllCharactersImages().forEach(img-> {
-            characterPanel.add(createImagePanel(img, CHARACTER_IMAGE_DIMENSION));
+        controller.getAllCharactersImagesJava().forEach((img, nameImage)-> {
+            characterPanel.add(createImagePanel(img, nameImage, CHARACTER_IMAGE_DIMENSION));
         });
         JScrollPane characterScroll = new JScrollPane(characterPanel);
 
@@ -53,8 +53,8 @@ public class SelectCharacterPanel extends JPanel {
         JPanel playgroundPanel = createColorPanel();
         playgroundPanel.setLayout(new BoxLayout(playgroundPanel, BoxLayout.X_AXIS));
 
-        controller.getAllPlaygroundsImages().forEach( img -> {
-            playgroundPanel.add(createImagePanel(img,PLAYGROUND_IMAGE_DIMENSION));
+        controller.getAllPlaygroundsImages().forEach( (img,nameImage) -> {
+            playgroundPanel.add(createImagePanel(img, nameImage, PLAYGROUND_IMAGE_DIMENSION));
         });
         JScrollPane playgroundScroll = new JScrollPane(playgroundPanel);
 
@@ -70,23 +70,24 @@ public class SelectCharacterPanel extends JPanel {
         });
 
         doneButton.addActionListener(e->{
-            //controller.
+            // controller.startGame();
             MainFrame.getInstance().setContentPane(new LoadingPanel());
         });
     }
 
-    private JPanel createImagePanel(final Image image, final Dimension dim){
+    private JPanel createImagePanel(final Image image, final String str, final Dimension dim){
         JPanel iconPanel = createColorPanel();
         int iconPadding = (int)dim.getWidth()/5;
         iconPanel.setBorder(BorderFactory.createEmptyBorder(iconPadding,iconPadding,iconPadding,iconPadding));
         JButton imageButton = new JButton();
         imageButton.setBorder(BorderFactory.createLineBorder(Color.black));
         imageButton.addActionListener(e->{
-            if(dim.equals(CHARACTER_IMAGE_DIMENSION)){
-                System.out.println(((ImageIcon)imageButton.getIcon()).getDescription()) ;
-            }
+
+            System.out.println(((ImageIcon)imageButton.getIcon()).getDescription()) ;
+
         });
         ImageIcon icon = new ImageIcon(ImagesUtils.getScaledImage(image, (int)dim.getWidth(), (int)dim.getHeight()));
+        icon.setDescription(str);
         imageButton.setIcon(icon);
         iconPanel.add(imageButton);
         return iconPanel;

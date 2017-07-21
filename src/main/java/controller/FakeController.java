@@ -1,23 +1,31 @@
 package controller;
 
+import client.controller.Controller;
+import client.model.Direction;
 import client.model.MatchResult;
 import client.model.MatchResultImpl;
 import client.model.Playground;
+import client.model.character.Character;
+import client.model.gameElement.GameItem;
+import client.model.utils.Dimension;
+import client.model.utils.Point;
 import client.utils.IOUtils;
 import client.view.*;
 import client.view.playground.PlaygroundBuilderImpl;
 import client.view.playground.PlaygroundPanel;
 import client.view.playground.PlaygroundView;
+import scala.collection.mutable.Map;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by chiaravarini on 10/07/17.
  */
-public class FakeController {
+public class FakeController implements Controller{
 
     private CreateTeamDialog ct;
 
@@ -92,43 +100,62 @@ public class FakeController {
 
     }
 
-    public List<Image>getAllCharactersImages(){
-        return  new ArrayList<Image>(Arrays.asList(new PacmanView().getCharacterRight(),
-                new RedGhostView().getCharacterRight(),
-                new BlueGhostView().getCharacterRight(),
-                new PinkGhostView().getCharacterRight(),
-                new YellowGhostView().getCharacterRight(),
-                new RedGhostView().getCharacterRight(),
-                new BlueGhostView().getCharacterRight(),
-                new PinkGhostView().getCharacterRight(),
-                new YellowGhostView().getCharacterRight(),
-                new RedGhostView().getCharacterRight(),
-                new BlueGhostView().getCharacterRight(),
-                new PinkGhostView().getCharacterRight(),
-                new YellowGhostView().getCharacterRight(),
-                new RedGhostView().getCharacterRight(),
-                new BlueGhostView().getCharacterRight(),
-                new PinkGhostView().getCharacterRight(),
-                new YellowGhostView().getCharacterRight()));
+    public java.util.Map<Image,String> getAllCharactersImagesJava(){
+
+        HashMap<Image,String> map = new HashMap<>();
+        map.put((new PacmanView().getCharacterRight()),"PACMAN");
+        map.put((new RedGhostView().getCharacterRight()), "RED");
+        map.put((new BlueGhostView().getCharacterRight()), "BLUE");
+        map.put((new PinkGhostView().getCharacterRight()), "PINK");
+        map.put((new YellowGhostView().getCharacterRight()), "YELLOW");
+        map.put((new RedGhostView().getCharacterRight()), "RED");
+        map.put((new BlueGhostView().getCharacterRight()), "BLUE");
+        map.put((new PinkGhostView().getCharacterRight()), "PINK");
+        map.put((new YellowGhostView().getCharacterRight()), "YELLOW");
+        map.put((new RedGhostView().getCharacterRight()), "RED");
+        map.put((new BlueGhostView().getCharacterRight()), "BLUE");
+        map.put((new PinkGhostView().getCharacterRight()), "PINK");
+        map.put((new YellowGhostView().getCharacterRight()), "YELLOW");
+        return map;
     }
 
-    public List<Image>getAllPlaygroundsImages(){
-        return  new ArrayList<Image>(Arrays.asList(
-                Utils.getImage("/mazes/arancione"),
-                Utils.getImage("/mazes/blu"),
-                Utils.getImage("/mazes/rosa"),
-                Utils.getImage("/mazes/rosso"),
-                Utils.getImage("/mazes/rossoGiallo"),
-                Utils.getImage("/mazes/verde"),
-                Utils.getImage("/mazes/viola"),
-                Utils.getImage("/mazes/viola2"),
-                Utils.getImage("/mazes/arancione")));
+    public Map<Image,String> getAllCharactersImages(){return null;}
+
+    public java.util.Map<Image,String> getAllPlaygroundsImages(){
+        HashMap<Image,String> map = new HashMap<>();
+        map.put(Utils.getImage("/mazes/arancione"), "ARANCIONE");
+        map.put(Utils.getImage("/mazes/blu"), "BLU");
+        map.put(Utils.getImage("/mazes/rosa"), "ROSA");
+        map.put(Utils.getImage("/mazes/rosso"), "ROSSO");
+        map.put(Utils.getImage("/mazes/rossoGiallo"), "GIALLO");
+        map.put(Utils.getImage("/mazes/verde"), "VERDE");
+        map.put(Utils.getImage("/mazes/viola"), "VIOLA");
+        map.put(Utils.getImage("/mazes/viola2"), "VIOLA2");
+        map.put(Utils.getImage("/mazes/arancione"), "ARANCIONE");
+        return map;
     }
 
     public String getUsername(){
         return "CHIA";
     }
 
+    @Override
+    public void startMatch(Map<Character, String> players, Character character, Dimension playgroundDimention, scala.collection.immutable.List<GameItem> ground) {
+
+    }
+
+    @Override
+    public Point<Object, Object> move(Direction direction) {
+        return null;
+    }
+
+    public void startGame(){
+        PlaygroundPanel playgroundView = initializePlaygroundView( null );//model.getCharacterList());
+        MainFrame.getInstance().setContentPane(playgroundView);
+
+        /*client.model.controller.UserInputController keyboardController = new client.model.controller.UserInputController(playgroundView);
+        playgroundView.addKeyListener(keyboardController);*/
+    }
 
    /* PlaygroundPanel playgroundView = controller.initializePlaygroundView( null );//model.getCharacterList());
             MainFrame.getInstance().setContentPane(playgroundView);
