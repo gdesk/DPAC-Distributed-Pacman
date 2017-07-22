@@ -1,4 +1,4 @@
-package client.model.controller
+package client.controller
 
 import java.awt.event.{KeyEvent, KeyListener}
 

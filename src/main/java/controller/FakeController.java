@@ -1,7 +1,7 @@
 package controller;
 
-import client.model.controller.UserInputController;
 import client.controller.Controller;
+import client.controller.UserInputController;
 import client.model.Direction;
 import client.model.MatchResult;
 import client.model.MatchResultImpl;
@@ -12,16 +12,21 @@ import client.model.utils.Dimension;
 import client.model.utils.Point;
 import client.utils.IOUtils;
 import client.view.*;
+import client.view.playground.GamePanel;
 import client.view.playground.PlaygroundBuilderImpl;
 import client.view.playground.PlaygroundPanel;
 import client.view.playground.PlaygroundView;
 import scala.collection.mutable.Map;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import static client.view.utils.JComponentsUtils.BACKGROUND_COLOR;
+import static client.view.utils.JComponentsUtils.FONT_SIZE;
 
 /**
  * Created by chiaravarini on 10/07/17.
@@ -76,11 +81,9 @@ public class FakeController implements Controller{
     }
 
 
-    public PlaygroundPanel initializePlaygroundView (List<Character> characterList) {
+    public PlaygroundPanel initializePlaygroundView (String nameFile, List<Character> characterList) {
 
-        IOUtils.saveLog("playground created !");
-
-        Playground playground = IOUtils.getPlaygroundFromFile("default.dpac");
+        Playground playground = IOUtils.getPlaygroundFromFile(nameFile);
 
         PlaygroundView view = new PlaygroundBuilderImpl()
                 .setColumns(playground.dimension().x())
@@ -91,9 +94,8 @@ public class FakeController implements Controller{
         view.renderBlockList(Utils.getJavaList(playground.blocks()));
         view.renderEatableList(Utils.getJavaList(playground.eatables()));
 
-        view.renderCharacter( 45, 17, new CharacterFactory().createPacman() , "left");
+        //view.renderCharacter( 45, 17, new CharacterFactory().createPacman() , "left");
 
-        IOUtils.saveLog("playground initialized !");
         return (PlaygroundPanel)view;
     }
 
@@ -154,13 +156,55 @@ public class FakeController implements Controller{
         //dovrà chiamare un metodo del model che gli restituisce tutti i dati della partita x inizializzare il playground
         // e i personaggi del gioco
 
-        PlaygroundPanel playgroundView = initializePlaygroundView( null );//model.getCharacterList());
+        PlaygroundPanel playgroundView = initializePlaygroundView("default.dpac", null );//model.getCharacterList());
+        GamePanel gp = new GamePanel();
+        gp.addPlayground(playgroundView);
         MainFrame.getInstance().setContentPane(playgroundView);
 
-       UserInputController keyboardController = new UserInputController(playgroundView);
-        playgroundView.addKeyListener(keyboardController);
+        playgroundView.renderCharacter(30, 30, new CharacterFactory().createPacman(), "left");
 
+        UserInputController keyboardController = new UserInputController(playgroundView);
+        playgroundView.addKeyListener(keyboardController);
+        defeat();
     }
+
+    public void victory(){
+        showResult1("VICTORY!");
+    }
+
+    public void defeat(){
+        showResult1("DEFEAT...");
+    }
+
+    private void showResult(final String result){
+        if(MainFrame.getInstance().getContentPane() instanceof GamePanel) {
+            ((GamePanel)MainFrame.getInstance().getContentPane()).showResult(result);
+        }
+    }
+
+    private void showResult1(final String result){
+        JLayeredPane p = new JLayeredPane();
+        p.add(MainFrame.getInstance().getContentPane(), 0);
+
+        JPanel victoryPanel = new JPanel(new GridBagLayout());
+        victoryPanel.setBounds(0, 0,(int) MainFrame.DIMENSION.getWidth(), (int) MainFrame.DIMENSION.getHeight());
+        victoryPanel.setBackground(new Color(0,0,0,0));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        JLabel l = new JLabel(result);
+        l.setForeground(BACKGROUND_COLOR);
+        l.setFont(new Font(l.getFont().getName(), Font.BOLD, FONT_SIZE*3));
+
+        victoryPanel.add(l, gbc);
+        p.add(victoryPanel, 1);
+
+        MainFrame.getInstance().setContentPane(p);
+    }
+
+
 
 
 }
