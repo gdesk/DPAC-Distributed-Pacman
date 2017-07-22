@@ -16,7 +16,7 @@ class UserInputController (val controller: Controller) extends KeyListener{
     e.getKeyCode match {
       case KeyEvent.VK_LEFT => {
         controller.move(Direction.LEFT)
-
+println("left")
         //view.removeCharacter(currentX,currentY)
         //currentX = currentX - 1
         //view.renderCharacter(currentX,currentY,"pacman","left")

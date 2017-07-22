@@ -1,5 +1,6 @@
 package client.view.playground;
 
+import client.model.Direction;
 import client.view.*;
 import client.view.utils.BlocksImages;
 import client.view.utils.FruitsImages;
@@ -102,22 +103,22 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
      * @param y Vertical position on grid
      * @param direction Character's direction
      */
-    public void renderCharacter(int x, int y, CharacterView characterView, String direction){
+    public void renderCharacter(int x, int y, CharacterView characterView, Direction direction){
 
 
         if (characterView != null) {
             ImageIcon img = getImageIcon(characterView.getCharacterLeft());
             switch(direction){
-                case "up" :
+                case UP :
                     img = getImageIcon(characterView.getCharacterUp());
                     break;
-                case "down" :
+                case DOWN :
                     img = getImageIcon(characterView.getCharacterDown());
                     break;
-                case "right" :
+                case RIGHT:
                     img = getImageIcon(characterView.getCharacterRight());
                     break;
-                case "left" :
+                case LEFT :
                     img = getImageIcon(characterView.getCharacterLeft());
                     break;
             }

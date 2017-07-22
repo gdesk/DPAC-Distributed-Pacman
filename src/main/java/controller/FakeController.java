@@ -18,15 +18,11 @@ import client.view.playground.PlaygroundPanel;
 import client.view.playground.PlaygroundView;
 import scala.collection.mutable.Map;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
-import static client.view.utils.JComponentsUtils.BACKGROUND_COLOR;
-import static client.view.utils.JComponentsUtils.FONT_SIZE;
 
 /**
  * Created by chiaravarini on 10/07/17.
@@ -157,23 +153,21 @@ public class FakeController implements Controller{
         // e i personaggi del gioco
 
         PlaygroundPanel playgroundView = initializePlaygroundView("default.dpac", null );//model.getCharacterList());
-        GamePanel gp = new GamePanel();
-        gp.addPlayground(playgroundView);
         MainFrame.getInstance().setContentPane(playgroundView);
+        GamePanel gp = new GamePanel(playgroundView);
 
-        playgroundView.renderCharacter(30, 30, new CharacterFactory().createPacman(), "left");
+        MainFrame.getInstance().setContentPane(gp);
 
-        UserInputController keyboardController = new UserInputController(playgroundView);
+        UserInputController keyboardController = new UserInputController(gp);
         playgroundView.addKeyListener(keyboardController);
-        defeat();
     }
 
     public void victory(){
-        showResult1("VICTORY!");
+        showResult("VICTORY!");
     }
 
     public void defeat(){
-        showResult1("DEFEAT...");
+        showResult("DEFEAT...");
     }
 
     private void showResult(final String result){
@@ -181,30 +175,4 @@ public class FakeController implements Controller{
             ((GamePanel)MainFrame.getInstance().getContentPane()).showResult(result);
         }
     }
-
-    private void showResult1(final String result){
-        JLayeredPane p = new JLayeredPane();
-        p.add(MainFrame.getInstance().getContentPane(), 0);
-
-        JPanel victoryPanel = new JPanel(new GridBagLayout());
-        victoryPanel.setBounds(0, 0,(int) MainFrame.DIMENSION.getWidth(), (int) MainFrame.DIMENSION.getHeight());
-        victoryPanel.setBackground(new Color(0,0,0,0));
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-
-        JLabel l = new JLabel(result);
-        l.setForeground(BACKGROUND_COLOR);
-        l.setFont(new Font(l.getFont().getName(), Font.BOLD, FONT_SIZE*3));
-
-        victoryPanel.add(l, gbc);
-        p.add(victoryPanel, 1);
-
-        MainFrame.getInstance().setContentPane(p);
-    }
-
-
-
-
 }

@@ -1,5 +1,6 @@
 package client.view.playground;
 
+import client.model.Direction;
 import client.view.CharacterView;
 import client.view.utils.BlocksImages;
 import client.view.utils.FruitsImages;
@@ -7,7 +8,7 @@ import client.view.utils.FruitsImages;
 /**
  * Created by Manuel Bottax on 04/07/2017.
  */
-public interface BasePlaygroundView {
+public interface BasePlaygroundView{
 
     /**
      * Shows a labyrinth block in the specified position
@@ -46,7 +47,7 @@ public interface BasePlaygroundView {
      * @param characterView Chracter's name
      * @param direction Character's direction
      */
-    void renderCharacter(int x, int y, CharacterView characterView, String direction);
+    void renderCharacter(int x, int y, CharacterView characterView, Direction direction);
 
 
     /**
