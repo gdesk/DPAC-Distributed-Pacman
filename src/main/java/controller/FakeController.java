@@ -1,5 +1,6 @@
 package controller;
 
+import client.model.controller.UserInputController;
 import client.controller.Controller;
 import client.model.Direction;
 import client.model.MatchResult;
@@ -76,9 +77,10 @@ public class FakeController implements Controller{
 
 
     public PlaygroundPanel initializePlaygroundView (List<Character> characterList) {
-        IOUtils.saveLog("playground created !");
-        Playground playground = IOUtils.getPlaygroundFromFile("default.dpac");
 
+        IOUtils.saveLog("playground created !");
+
+        Playground playground = IOUtils.getPlaygroundFromFile("default.dpac");
 
         PlaygroundView view = new PlaygroundBuilderImpl()
                 .setColumns(playground.dimension().x())
@@ -92,7 +94,6 @@ public class FakeController implements Controller{
         view.renderCharacter( 45, 17, new CharacterFactory().createPacman() , "left");
 
         IOUtils.saveLog("playground initialized !");
-
         return (PlaygroundPanel)view;
     }
 
@@ -150,17 +151,16 @@ public class FakeController implements Controller{
     }
 
     public void startGame(){
+        //dovrà chiamare un metodo del model che gli restituisce tutti i dati della partita x inizializzare il playground
+        // e i personaggi del gioco
+
         PlaygroundPanel playgroundView = initializePlaygroundView( null );//model.getCharacterList());
         MainFrame.getInstance().setContentPane(playgroundView);
 
-        /*client.model.controller.UserInputController keyboardController = new client.model.controller.UserInputController(playgroundView);
-        playgroundView.addKeyListener(keyboardController);*/
+       UserInputController keyboardController = new UserInputController(playgroundView);
+        playgroundView.addKeyListener(keyboardController);
+
     }
 
-   /* PlaygroundPanel playgroundView = controller.initializePlaygroundView( null );//model.getCharacterList());
-            MainFrame.getInstance().setContentPane(playgroundView);
-
-    client.model.controller.UserInputController keyboardController = new client.model.controller.UserInputController(playgroundView);
-            playgroundView.addKeyListener(keyboardController);*/
 
 }

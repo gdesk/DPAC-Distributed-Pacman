@@ -265,7 +265,8 @@ case class PlaygroundImpl private() extends Playground{
     * @return true if the position is inside the playground, false otherwise.
     */
   override def checkPosition(position: Point[Int, Int]) = {
-    if(!(position.x < dimension.x && position.y < dimension.y && position.x >= 0 && position.y >= 0)) {
+
+    if(!(position.x <= dimension.x && position.y <= dimension.y && position.x >= 0 && position.y >= 0)) {
       throw new OutOfPlaygroundBoundAccessException("Position ("+ position.x + "," + position.y + ") is out of playground!")
     }
   }

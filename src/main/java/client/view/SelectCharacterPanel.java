@@ -70,8 +70,8 @@ public class SelectCharacterPanel extends JPanel {
         });
 
         doneButton.addActionListener(e->{
-            // controller.startGame();
             MainFrame.getInstance().setContentPane(new LoadingPanel());
+            controller.startGame();
         });
     }
 
