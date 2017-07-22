@@ -1,6 +1,6 @@
 package client.communication.model.actor
 
-import akka.actor.Actor
+import akka.actor.UntypedAbstractActor
 
 import scala.util.parsing.json.JSONObject
 
@@ -9,11 +9,11 @@ import scala.util.parsing.json.JSONObject
   *
   * @author Giulia Lucchi
   */
-class AccessManager extends Actor {
-  override def receive = {
-    case JSONObject(message) => {
-      println("ciaociaociao")
-      context.actorSelection("user/toServerCommunication")! message.asInstanceOf[JSONObject]
+class AccessManager extends UntypedAbstractActor {
+  override def onReceive(message: Any): Unit = message match{
+    case msg : JSONObject => {
+      val receiver =  context.system actorSelection "user/toServerCommunication"
+      receiver ! msg.asInstanceOf[JSONObject]
     }
   }
 }

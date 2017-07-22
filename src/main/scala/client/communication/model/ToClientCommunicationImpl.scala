@@ -14,6 +14,7 @@ import scala.util.parsing.json.JSONObject
   * Created by lucch on 19/07/2017.
   */
 case class ToClientCommunicationImpl() extends ToClientCommunication {
+
   val system = ActorSystem("ClientSystem")
 
   val accessManager = system actorOf(Props[AccessManager], "accessManager")
@@ -21,7 +22,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication {
   //val imagesManager = system.actorOf(Props[ImagesManager], "imagesManager")
   //val teamManager = system.actorOf(Props[TeamManager], "teamManager")
   //val toP2PCommunication = system.actorOf(Props[ToP2PCommunication], "toP2PCommunication")
-  //val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
+  val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
   //val userManager = system.actorOf(Props[UserManager], "userManager")
   /**
     * Send the message to actor AccessManager with the registration's data and
@@ -36,12 +37,11 @@ case class ToClientCommunicationImpl() extends ToClientCommunication {
     *         false otherwise
     */
   override def registration(name: String, username: String, email: String, password: String, confirmPassword: String): Boolean = {
-    println("entra registrazione")
     if (!(password equals(confirmPassword))){
-      println("pass sbagliata")
+      println("PASSWORD SBAGLIATA.")
       false
     }
-    val message = JSONObject(Map[String, Any](
+    val message = JSONObject(Map[String, String](
       "name" -> name,
       "username" -> username,
       "email" -> email,

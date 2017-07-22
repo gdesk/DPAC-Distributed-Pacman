@@ -9,4 +9,5 @@ object provaMain extends App {
 
 
   comm.registration("ciao", "pippo", "email", "la", "la")
+  //comm.registration("ciao", "pippo", "email", "la", "lala")
 }
