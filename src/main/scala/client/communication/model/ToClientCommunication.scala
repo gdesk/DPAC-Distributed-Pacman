@@ -32,12 +32,14 @@ trait ToClientCommunication {
     * receive from sever the response with also the MatchResult
     * @param username
     * @param Password
-    * @return list of MatchResult with data, result and score. If it's empty, the registration ended not good. se è none-> registrazione no a buon fine
+    * @return list of MatchResult with data, result and score.
+    *         If it's 'None', the registration ended not good.
+    *         If it's Option.empty, this is the first login
     */
   def login(username: String, Password: String): Option[List[MatchResult]]
 
   /**
-    *  NON HO BEN CAPITO COME FARLO.
+    *  Send to server the list of range to play the match.
     *
     * @return list of range to players' game
     */
@@ -53,12 +55,14 @@ trait ToClientCommunication {
     * Receives from server the characters playing in the current match
     * NON SONO RICHIAMATI DAL CONTROLLER
     *
-    * @return list of current match's characters tutti i nomi dei personggi e per ogni persaggio una mappa con direzione e immagine associate
+    * @return list of current match's characters.
+    *         The Map has the name of character as key and, as value, a Map with direction and Image.
     */
   def getTeamCharacter: Map[String, Map[Direction, Image]]
 
   /**
-    * Send to server the character chosen
+    * Send to server the character chosen. It's recall when the player choose him character.
+    *
     * @param character character chosen from single player
     *
     * @return true  if character has been already chosen
@@ -74,19 +78,13 @@ trait ToClientCommunication {
   def getPlaygrounds: List[File]
 
   /**
-    * Send to server the playground chosen
+    * Send to server the playground chosen. It's recall when the player choose the playground of current match.
     *
     * @param playground position of playground's in the file list.
     *
     */
   def choosePlayground(playground: Int): Unit
 
-  /**
-    * Receives from server playgrond's string, corresponding to chosen playground.
-    * SONO  SERVE AL CONTROLLER
-    * @return Playground chosen in current match
-    */
-  def playgroundChosen(): String
 
   /**
     * Send to server the match just ended.
@@ -103,5 +101,18 @@ trait ToClientCommunication {
     */
   def addObserver(observer: Observer): Unit
 
-  //getAllMatchesResult però inserire anche nel login
+  /**
+    * Receives from server playgrond's string, corresponding to chosen playground.
+    * SONO  SERVE AL CONTROLLER
+    * @return Playground chosen in current match
+    */
+  def playgroundChosen(): String
+
+  /**
+    * Receives from server all the played matches of selected username
+    *
+    * @param username username of player
+    * @return list of all match with its result
+    */
+  def getAllMatchesResults(username: String): List[MatchResult]
 }

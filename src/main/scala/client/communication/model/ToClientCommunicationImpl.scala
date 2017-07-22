@@ -1,8 +1,12 @@
 package client.communication.model
 
+import java.awt.Image
+import java.io.File
+import java.util.Observer
+
 import akka.actor.{ActorSystem, Props}
 import client.communication.model.actor._
-import client.model.MatchResult
+import client.model.{Direction, MatchResult}
 
 import scala.util.parsing.json.JSONObject
 
@@ -19,9 +23,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication {
   //val toP2PCommunication = system.actorOf(Props[ToP2PCommunication], "toP2PCommunication")
   //val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
   //val userManager = system.actorOf(Props[UserManager], "userManager")
-
-
-
   /**
     * Send the message to actor AccessManager with the registration's data and
     * receive from server the response.
@@ -57,54 +58,58 @@ case class ToClientCommunicationImpl() extends ToClientCommunication {
     *
     * @param username
     * @param Password
-    * @return list of MatchResult with data, result and score. If it's empty, the registration ended not good.
+    * @return list of MatchResult with data, result and score.
+    *         If it's 'None', the registration ended not good.
+    *         If it's Option.empty, this is the first login
     */
-  override def login(username: String, Password: String): List[MatchResult] = ???
+  override def login(username: String, Password: String): Option[List[MatchResult]] = {null}
+
+  /**
+    * Send to server the list of range to play the match.
+    *
+    * @return list of range to players' game
+    */
+override def getRanges: List[Range] = {null}
 
   /**
     * Receives from server the available character.
     *
     * @return list of all character to choose in team's creation.
     */
-override def getCharactersToChoose: List[Character] = ???
+override def getCharactersToChoose: Map[String, Image] = {null}
 
   /**
     * Receives from server the characters playing in the current match
+    * NON SONO RICHIAMATI DAL CONTROLLER
     *
-    * @return list of current match's characters
+    * @return list of current match's characters.
+    *         The Map has the name of character as key and, as value, a Map with direction and Image.
     */
-override def getTeamCharacter: List[Character] = ???
+override def getTeamCharacter: Map[String, Map[Direction, Image]] = {null}
 
   /**
-    * Send to server the character chosen
+    * Send to server the character chosen. It's recall when the player choose him character.
     *
     * @param character character chosen from single player
     * @return true  if character has been already chosen
     *         false otherwise
     */
-override def chooseCharacter(character: Character): Boolean = ???
+override def chooseCharacter(character: Character): Boolean = {true}
 
   /**
     * Receives from server the List of available playgrounds.
     *
     * @return list of available playgrounds
     */
-  override def getPlaygrounds: List[String] = ???
+  override def getPlaygrounds: List[File] = {null}
 
   /**
-    * Send to server the playground chosen
+    * Send to server the playground chosen. It's recall when the player choose the playground of current match.
     *
-    * @param playground playground chosen for the current match.
+    * @param playground position of playground's in the file list.
     *
     */
-  override def choosePlayground(playground: String): Unit = ???
-
-  /**
-    * Receives from server playgrond's string, corresponding to chosen playground.
-    *
-    * @return Playground chosen in current match
-    */
-  override def playgroundChosen(): String = ???
+  override def choosePlayground(playground: Int): Unit = {}
 
   /**
     * Send to server the match just ended.
@@ -112,8 +117,29 @@ override def chooseCharacter(character: Character): Boolean = ???
     * @param result The MatchResult with date and score of the ended match
     * @param user   id of characters.
     */
-  override def MatchResult(result: MatchResult, user: String): Unit = ???
+  override def MatchResult(result: MatchResult, user: String): Unit = {}
 
+  /**
+    * Adds the observer.
+    *
+    * @param observer observer to add.
+    */
+  override def addObserver(observer: Observer): Unit = {}
 
+  /**
+    * Receives from server playgrond's string, corresponding to chosen playground.
+    * SONO  SERVE AL CONTROLLER
+    *
+    * @return Playground chosen in current match
+    */
+  override def playgroundChosen(): String = {""}
+
+  /**
+    * Receives from server all the played matches of selected username
+    *
+    * @param username username of player
+    * @return list of all match with its result
+    */
+  override def getAllMatchesResults(username: String): List[MatchResult] = {null}
 }
 
