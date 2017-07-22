@@ -17,16 +17,19 @@ public class SelectCharacterPanel extends JPanel {
     private final Dimension PLAYGROUND_IMAGE_DIMENSION = calculatedImageCharDimension(2.2);
 
     private final FakeController controller = new FakeController();
+    private final JButton doneButton = createButton("DONE");;
 
-    private String characterChoosed = "";
-    private String playgroundChoosed = "";
+    private JButton characterChoosed = new JButton();
+    private boolean isCharacterChoosed = false;
+    private JButton playgroundChoosed = new JButton();;
+    private boolean isPlaygroundChoosed = false;
 
     public SelectCharacterPanel(){
 
         setLayout(new BorderLayout());
 
         JPanel buttonPanel = createBlackPanel();
-        JButton doneButton = createButton("DONE");
+        doneButton.setEnabled(false);
         JButton exitButton = createButton("EXIT");
         buttonPanel.add(exitButton);
         buttonPanel.add(doneButton);
@@ -71,6 +74,9 @@ public class SelectCharacterPanel extends JPanel {
 
         doneButton.addActionListener(e->{
             MainFrame.getInstance().setContentPane(new LoadingPanel());
+            //invia il nome del personaggio e il playground
+            //((ImageIcon)characterChoosed.getIcon()).getDescription();
+            //((ImageIcon)playgroundChoosed.getIcon()).getDescription();
             controller.startGame();
         });
     }
@@ -82,10 +88,19 @@ public class SelectCharacterPanel extends JPanel {
         JButton imageButton = new JButton();
         imageButton.setBorder(BorderFactory.createLineBorder(Color.black));
         imageButton.addActionListener(e->{
-
-            System.out.println(((ImageIcon)imageButton.getIcon()).getDescription()) ;
-
+            imageButton.setEnabled(false);
+            if(imageButton.getIcon().getIconWidth() == CHARACTER_IMAGE_DIMENSION.getWidth()){
+                this.characterChoosed.setEnabled(true);
+                this.characterChoosed = imageButton;
+                this.isCharacterChoosed = true;
+            } else {
+                this.playgroundChoosed.setEnabled(true);
+                this.playgroundChoosed = imageButton;
+                this.isPlaygroundChoosed = true;
+            }
+            checkDone();
         });
+
         ImageIcon icon = new ImageIcon(ImagesUtils.getScaledImage(image, (int)dim.getWidth(), (int)dim.getHeight()));
         icon.setDescription(str);
         imageButton.setIcon(icon);
@@ -110,7 +125,7 @@ public class SelectCharacterPanel extends JPanel {
         JButton button = new JButton(name);
         button.setOpaque(true);
         button.setBorderPainted(false);
-        button.setFont(new Font(getFont().getName(), Font.BOLD, 20));
+        button.setFont(new Font(getFont().getName(), Font.BOLD, FONT_SIZE));
         return button;
     }
 
@@ -123,12 +138,10 @@ public class SelectCharacterPanel extends JPanel {
             return new Dimension((int)(frameDimension.getHeight()/divider), (int)(frameDimension.getHeight()/divider));
         }
     }
+
+    private void checkDone(){
+        if(isCharacterChoosed && isPlaygroundChoosed){
+            doneButton.setEnabled(true);
+        }
+    }
 }
-
-
-
-       /* PlaygroundPanel playgroundView = controller.initializePlaygroundView( null );//model.getCharacterList());
-        MainFrame.getInstance().setContentPane(playgroundView);
-
-        UserInputController keyboardController = new UserInputController(playgroundView);
-        playgroundView.addKeyListener(keyboardController);*/
