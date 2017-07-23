@@ -3,17 +3,19 @@ package client.communication.model
 import java.awt.Image
 import java.io.File
 import java.util.Observer
+import java.util.concurrent.TimeUnit
 
-import akka.actor.{ActorSystem, Props}
+import akka.actor.{ActorSystem, Inbox, Props}
 import client.communication.model.actor._
 import client.model.{Direction, MatchResult}
 
+import scala.concurrent.duration.Duration
 import scala.util.parsing.json.JSONObject
 
 /**
   * Created by lucch on 19/07/2017.
   */
-case class ToClientCommunicationImpl() extends ToClientCommunication {
+case class ToClientCommunicationImpl() extends ToClientCommunication{
 
   val system = ActorSystem("ClientSystem")
 
@@ -24,6 +26,8 @@ case class ToClientCommunicationImpl() extends ToClientCommunication {
   //val toP2PCommunication = system.actorOf(Props[ToP2PCommunication], "toP2PCommunication")
   val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
   //val userManager = system.actorOf(Props[UserManager], "userManager")
+  implicit val inbox = Inbox.create(system)
+
   /**
     * Send the message to actor AccessManager with the registration's data and
     * receive from server the response.
@@ -41,15 +45,15 @@ case class ToClientCommunicationImpl() extends ToClientCommunication {
       println("PASSWORD SBAGLIATA.")
       false
     }
-    val message = JSONObject(Map[String, String](
-      "name" -> name,
-      "username" -> username,
-      "email" -> email,
-      "password" -> password
-    ))
+      val message = JSONObject(Map[String, String](
+        "name" -> name,
+        "username" -> username,
+        "email" -> email,
+        "password" -> password
+      ))
 
-    accessManager ! message
-    true
+    inbox.send(accessManager, message)
+    inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[Boolean]
   }
 
   /**

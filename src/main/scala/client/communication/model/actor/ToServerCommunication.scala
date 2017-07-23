@@ -19,9 +19,12 @@ class ToServerCommunication extends UntypedAbstractActor {
   val server: ActorSelection = system.actorSelection("akka.tcp://MyServerSystem@127.0.0.1:2552/user/myServerActor")
 
   override def onReceive(message: Any): Unit = message match {
-    case msg : JSONObject => {
+    case msg: JSONObject => {
       server ! msg
-      println("ciao toserverCommunication")
+    }
+    case msg: Boolean => {
+      val receiver = context.system actorSelection "user/accessManager"
+      receiver! msg.asInstanceOf[Boolean]
     }
   }
 }

@@ -8,6 +8,6 @@ object provaMain extends App {
   var comm: ToClientCommunication = ToClientCommunicationImpl();
 
 
-  comm.registration("ciao", "pippo", "email", "la", "la")
+ println("MAIN" + comm.registration("ciao", "pippo", "email", "la", "la"))
   //comm.registration("ciao", "pippo", "email", "la", "lala")
 }
