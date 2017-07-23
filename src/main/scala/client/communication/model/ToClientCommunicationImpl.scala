@@ -41,11 +41,15 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     *         false otherwise
     */
   override def registration(name: String, username: String, email: String, password: String, confirmPassword: String): Boolean = {
+
+
+
     if (!(password equals(confirmPassword))){
       println("PASSWORD SBAGLIATA.")
       false
     }
       val message = JSONObject(Map[String, String](
+        "object" -> "user",
         "name" -> name,
         "username" -> username,
         "email" -> email,
@@ -54,6 +58,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
     inbox.send(accessManager, message)
     inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[Boolean]
+
   }
 
   /**
