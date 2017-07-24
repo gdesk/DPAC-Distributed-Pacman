@@ -33,13 +33,13 @@ trait ClientIncomingMessageHandler {
   def updateDead(character: Character): Unit
 
   /**
-    * this method updates the current score (dead or alive) for this peer
+    * this method updates the current score for this peer
     * @param character
     */
   def updateScore (character: Character): Unit
 
   /**
-    * this method updates the current position (dead or alive) for this peer
+    * this method updates the current position for this peer
     * @param character
     */
   def updatePosition(character: Character): Unit

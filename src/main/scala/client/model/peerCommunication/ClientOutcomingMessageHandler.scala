@@ -46,4 +46,12 @@ trait ClientOutcomingMessageHandler {
     */
   def notifyPosition(observer: Observer, arg: scala.Any): Unit
 
+  /**
+    * method to notify controller and other peers
+    * about the current state (dead or alive) of this peer
+    * @param observer
+    * @param arg
+    */
+  def notifyDeath(observer: Observer, arg: scala.Any): Unit
+
 }
