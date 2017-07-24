@@ -3,6 +3,7 @@ package client.view.playground;
 import client.model.Direction;
 import client.view.MainFrame;
 import client.view.PacmanView;
+import client.view.utils.ImagesUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,17 +20,20 @@ public class GamePanel extends JLayeredPane {
     private int currentX = 20;
     private int currentY = 20; //TODO CAMBIA
 
+    private final JLabel score = new JLabel("Score: 0");
+
 
     public GamePanel(final Container playground) {
 
         this.playground = (PlaygroundView) playground;
         this.add(playground, 0);  //TODO CAMBIAAA!!!!
         addMicroMap();
+        addScorePanel();
+        addLivesPanel(3);
     }
 
     public void addMicroMap(){
-        JPanel microMap = new JPanel();
-        microMap.setBounds((int) MainFrame.DIMENSION.getWidth()-200, (int) MainFrame.DIMENSION.getHeight()-200,200,200);
+        JPanel microMap = new MicroMapPanel();
         add(microMap, 1);
     }
 
@@ -58,6 +62,8 @@ public class GamePanel extends JLayeredPane {
             playground.renderCharacter(currentX, currentY, new PacmanView(), dir);
         }
         addMicroMap();
+        addScorePanel();
+        addLivesPanel(currentX%10);
     }
 
     private void updatePosition(final Direction dir){
@@ -67,6 +73,38 @@ public class GamePanel extends JLayeredPane {
             case LEFT: currentX = currentX-1; break;
             case RIGHT: currentX = currentX+1; break;
         }
+    }
+
+    private void addScorePanel(){
+        score.setForeground(BACKGROUND_COLOR);
+        score.setBackground(new Color(0,0,0,0));
+        score.setFont(new Font(score.getFont().getName(), Font.BOLD, FONT_SIZE ));
+        score.setBounds(0,0, 500,50);
+        add(score, 1);
+    }
+
+    public void addLivesPanel(final int livesNumber){
+
+        JPanel livesPanel = new JPanel();
+        livesPanel.setBackground(new Color(0,0,0,0));
+        livesPanel.setLayout(new BoxLayout(livesPanel, BoxLayout.Y_AXIS));
+
+        for (int i=0; i<livesNumber;i++){
+            JLabel pacLive = new JLabel();
+            ImageIcon icon = new ImageIcon(ImagesUtils.getScaledImage(new PacmanView().getCharacterRight(),40,40));
+            pacLive.setIcon(icon);
+            livesPanel.add(pacLive);
+        }
+
+        livesPanel.setBounds(0,50,100, (int)MainFrame.DIMENSION.getWidth());
+        add(livesPanel, 1);
+    }
+
+
+    public void aupdateScore(final int score){
+        this.score.setText("Score: "+score);
+        revalidate();
+        repaint();
     }
 
 }
