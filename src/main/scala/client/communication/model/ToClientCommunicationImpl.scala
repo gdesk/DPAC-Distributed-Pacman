@@ -184,7 +184,7 @@ override def chooseCharacter(character: Character): Boolean = {
     val message : String = "playgroundChosen"
 
     inbox.send(teamManager, message)
-    inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[String]]
+    inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[String]
   }
 
   /**
