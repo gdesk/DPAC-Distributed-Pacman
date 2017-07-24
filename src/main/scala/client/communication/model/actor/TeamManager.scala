@@ -1,11 +1,16 @@
 package client.communication.model.actor
 
-import akka.actor.Actor
+import akka.actor.UntypedAbstractActor
 
 /**
   * The actore manages the creation of team.
   * @author Giulia Lucchi
   */
-class TeamManager extends Actor {
-  override def receive: Receive = ???
+class TeamManager extends UntypedAbstractActor {
+  override def onReceive(message: Any): Unit = message match {
+    case msg : String => {
+      val receiver = context.system actorSelection "user/toServerCommunication"
+      receiver ! message.asInstanceOf[String]
+    }
+  }
 }

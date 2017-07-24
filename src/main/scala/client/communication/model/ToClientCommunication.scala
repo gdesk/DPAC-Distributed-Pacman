@@ -83,7 +83,7 @@ trait ToClientCommunication {
     * @param playground position of playground's in the file list.
     *
     */
-  def choosePlayground(playground: Int): Unit
+  def choosePlayground(playground: Int): Boolean
 
 
   /**

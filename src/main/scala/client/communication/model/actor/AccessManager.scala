@@ -14,7 +14,7 @@ class AccessManager extends UntypedAbstractActor {
   override def onReceive(message: Any): Unit = message match {
     case msg: JSONObject =>{
       println(" TO SERVER")
-      if (msg.obj("object").equals("user") && msg.obj("object").equals("login")) {
+      if (msg.obj("object").equals("newUser") && msg.obj("object").equals("login")) {
         val receiver = context.system actorSelection "user/toServerCommunication"
         receiver ! msg.asInstanceOf[JSONObject]
         //receiver ! true  //PER PROVARE FUNZIONAMENTO Inbox

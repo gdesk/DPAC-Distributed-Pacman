@@ -4,6 +4,7 @@ import java.awt.Image
 import java.io.File
 
 import akka.actor.UntypedAbstractActor
+import client.model.MatchResult
 
 import scala.util.parsing.json.JSONObject
 
@@ -38,6 +39,10 @@ class GameManager extends UntypedAbstractActor{
     case msg: List[File] =>{
       val receiver = context.system actorSelection "/system/dsl/inbox-1"
       receiver ! msg.asInstanceOf[List[File]]
+    }
+    case msg: List[MatchResult] =>{
+      val receiver = context.system actorSelection "/system/dsl/inbox-1"
+      receiver ! msg.asInstanceOf[List[MatchResult]]
     }
   }
 }
