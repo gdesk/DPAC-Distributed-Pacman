@@ -31,15 +31,15 @@ trait ToClientCommunication {
     * Send the message to actor AccessManager with the login's data and
     * receive from sever the response with also the MatchResult
     * @param username
-    * @param Password
+    * @param password
     * @return list of MatchResult with data, result and score.
-    *         If it's 'None', the registration ended not good.
+    *         If it's 'None', the login ended not good.
     *         If it's Option.empty, this is the first login
     */
-  def login(username: String, Password: String): Option[List[MatchResult]]
+  def login(username: String, password: String): Option[List[MatchResult]]
 
   /**
-    *  Send to server the list of range to play the match.
+    *  Receives to server the list of range to play the match.
     *
     * @return list of range to players' game
     */

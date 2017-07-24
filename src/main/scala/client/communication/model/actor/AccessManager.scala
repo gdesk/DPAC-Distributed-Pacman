@@ -1,6 +1,7 @@
 package client.communication.model.actor
 
 import akka.actor.UntypedAbstractActor
+import client.model.MatchResult
 
 import scala.util.parsing.json.JSONObject
 
@@ -9,22 +10,25 @@ import scala.util.parsing.json.JSONObject
   *
   * @author Giulia Lucchi
   */
-object AccessManager{
-  var reg : Option[Boolean] = None
-}
 class AccessManager extends UntypedAbstractActor {
-  override def onReceive(message: Any): Unit = message match{
-    case msg : JSONObject => {
-      if(msg.obj("object").equals("user")) {
-        println("ENTRA access manager JSON")
+  override def onReceive(message: Any): Unit = message match {
+    case msg: JSONObject =>{
+      println(" TO SERVER")
+      if (msg.obj("object").equals("user") && msg.obj("object").equals("login")) {
         val receiver = context.system actorSelection "user/toServerCommunication"
         receiver ! msg.asInstanceOf[JSONObject]
         //receiver ! true  //PER PROVARE FUNZIONAMENTO Inbox
       }
+      if (msg.obj("object").equals("matches")) {
+        var allMatches: Option[List[MatchResult]] = msg.obj("list").asInstanceOf[Option[List[MatchResult]]]
+        val receiver = context.system actorSelection "/system/dsl/inbox-1"
+        receiver ! allMatches
+      }
+
     }
     case msg: Boolean => {
       println("ENTRA access manager BOOLEAN")
-      val receiver =  context.system actorSelection "/system/dsl/inbox-1"
+      val receiver = context.system actorSelection "/system/dsl/inbox-1"
       receiver ! msg.asInstanceOf[Boolean]
     }
   }

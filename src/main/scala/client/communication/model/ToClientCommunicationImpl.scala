@@ -20,13 +20,13 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   val system = ActorSystem("ClientSystem")
 
   val accessManager = system actorOf(Props[AccessManager], "accessManager")
-  //val gameManager = system.actorOf(Props[AccessManager], "gameManager")
+  val gameManager = system.actorOf(Props[GameManager], "gameManager")
   //val imagesManager = system.actorOf(Props[ImagesManager], "imagesManager")
   //val teamManager = system.actorOf(Props[TeamManager], "teamManager")
   //val toP2PCommunication = system.actorOf(Props[ToP2PCommunication], "toP2PCommunication")
   val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
   //val userManager = system.actorOf(Props[UserManager], "userManager")
-  implicit val inbox = Inbox.create(system)
+  val inbox = Inbox.create(system)
 
   /**
     * Send the message to actor AccessManager with the registration's data and
@@ -41,20 +41,17 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     *         false otherwise
     */
   override def registration(name: String, username: String, email: String, password: String, confirmPassword: String): Boolean = {
-
-
-
     if (!(password equals(confirmPassword))){
       println("PASSWORD SBAGLIATA.")
       false
     }
-      val message = JSONObject(Map[String, String](
-        "object" -> "user",
-        "name" -> name,
-        "username" -> username,
-        "email" -> email,
-        "password" -> password
-      ))
+    val message = JSONObject(Map[String, String](
+      "object" -> "user",
+      "name" -> name,
+      "username" -> username,
+      "email" -> email,
+      "password" -> password
+    ))
 
     inbox.send(accessManager, message)
     inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[Boolean]
@@ -66,19 +63,33 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     * receive from sever the response with also the MatchResult
     *
     * @param username
-    * @param Password
+    * @param password
     * @return list of MatchResult with data, result and score.
-    *         If it's 'None', the registration ended not good.
+    *         If it's 'None', the login ended not good.
     *         If it's Option.empty, this is the first login
     */
-  override def login(username: String, Password: String): Option[List[MatchResult]] = {null}
+  override def login(username: String, password: String): Option[List[MatchResult]] = {
+    val message = JSONObject(Map[String, String](
+      "object" -> "login",
+      "username" -> username,
+      "password" -> password
+    ))
+
+    inbox.send(accessManager, message)
+    inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[Option[List[MatchResult]]]
+  }
 
   /**
-    * Send to server the list of range to play the match.
+    * Receives to server the list of range to play the match.
     *
     * @return list of range to players' game
     */
-override def getRanges: List[Range] = {null}
+override def getRanges: List[Range] = {
+  val message : String = "ranges"
+
+  inbox.send(gameManager, message)
+  inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[List[Range]]
+}
 
   /**
     * Receives from server the available character.

@@ -20,11 +20,25 @@ class ToServerCommunication extends UntypedAbstractActor {
 
   override def onReceive(message: Any): Unit = message match {
     case msg: JSONObject => {
-      server ! msg
+      if(msg.obj("object").equals("user") && msg.obj("object").equals("login")) {
+        server ! msg.asInstanceOf[JSONObject]
+      }
+      if(msg.obj("object").equals("matches")){
+        val receiver = context.system actorSelection "user/accessManager"
+        receiver! msg.asInstanceOf[JSONObject]
+      }
+      if(msg.obj("object").equals("ranges")){
+        var ranges = msg.obj("list").asInstanceOf[List[Range]]
+        val receiver = context.system actorSelection "user/gameManager"
+        receiver! ranges
+      }
     }
     case msg: Boolean => {
       val receiver = context.system actorSelection "user/accessManager"
       receiver! msg.asInstanceOf[Boolean]
+    }
+    case "ranges" =>{
+      server ! message.asInstanceOf[String]
     }
   }
 }
