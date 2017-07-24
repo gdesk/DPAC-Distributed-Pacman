@@ -95,8 +95,14 @@ override def getRanges: List[Range] = {
     * Receives from server the available character.
     *
     * @return list of all character to choose in team's creation.
+    *         String -> character's name
+    *         Image -> character's image
     */
-override def getCharactersToChoose: Map[String, Image] = {null}
+override def getCharactersToChoose: Map[String, Image] = {
+  val message : String = "characterToChoose"
+  inbox.send(gameManager, message)
+  inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[Map[String, Image]]
+}
 
   /**
     * Receives from server the characters playing in the current match
@@ -114,14 +120,25 @@ override def getTeamCharacter: Map[String, Map[Direction, Image]] = {null}
     * @return true  if character has been already chosen
     *         false otherwise
     */
-override def chooseCharacter(character: Character): Boolean = {true}
+override def chooseCharacter(character: Character): Boolean = {
+  val message = JSONObject(Map[String, Any](
+    "object" -> "chooseCharacter",
+    "character" -> character
+  ))
+  inbox.send(gameManager, message)
+  inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[Boolean]
+}
 
   /**
     * Receives from server the List of available playgrounds.
     *
     * @return list of available playgrounds
     */
-  override def getPlaygrounds: List[File] = {null}
+  override def getPlaygrounds: List[File] = {
+    val message : String = "playgrounds"
+    inbox.send(gameManager, message)
+    inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[List[File]]
+  }
 
   /**
     * Send to server the playground chosen. It's recall when the player choose the playground of current match.

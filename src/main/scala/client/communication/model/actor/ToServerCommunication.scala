@@ -1,5 +1,6 @@
 package client.communication.model.actor
 
+import java.awt.Image
 import java.io.File
 
 import akka.actor.{ActorSelection, ActorSystem, UntypedAbstractActor}
@@ -20,25 +21,36 @@ class ToServerCommunication extends UntypedAbstractActor {
 
   override def onReceive(message: Any): Unit = message match {
     case msg: JSONObject => {
-      if(msg.obj("object").equals("user") && msg.obj("object").equals("login")) {
+      if (msg.obj("object").equals("user") && msg.obj("object").equals("login") && msg.obj("object").equals("chooseCharacter")) {
         server ! msg.asInstanceOf[JSONObject]
       }
-      if(msg.obj("object").equals("matches")){
+      if (msg.obj("object").equals("matches")) {
         val receiver = context.system actorSelection "user/accessManager"
-        receiver! msg.asInstanceOf[JSONObject]
+        receiver ! msg.asInstanceOf[JSONObject]
       }
-      if(msg.obj("object").equals("ranges")){
-        var ranges = msg.obj("list").asInstanceOf[List[Range]]
+      if (msg.obj("object").equals("ranges")) {
+        val ranges = msg.obj("list").asInstanceOf[List[Range]]
         val receiver = context.system actorSelection "user/gameManager"
-        receiver! ranges
+        receiver ! ranges
+      }
+      if(msg.obj("object").equals("characterToChoose")){
+        val characterToChoose: Map[String, Image] = msg.obj("map").asInstanceOf[Map[String, Image]]
+        val receiver = context.system actorSelection "user/gameManager"
+        receiver ! characterToChoose
+      }
+      if(msg.obj("object").equals("playgrounds")){
+        val playgrounds: List[File] = msg.obj("list").asInstanceOf[List[File]]
+        val receiver = context.system actorSelection "user/gameManager"
+        receiver ! playgrounds
       }
     }
     case msg: Boolean => {
       val receiver = context.system actorSelection "user/accessManager"
-      receiver! msg.asInstanceOf[Boolean]
+      receiver ! msg.asInstanceOf[Boolean]
     }
-    case "ranges" =>{
-      server ! message.asInstanceOf[String]
+    case msg: String => {
+      server ! msg
     }
   }
+
 }

@@ -27,7 +27,6 @@ class AccessManager extends UntypedAbstractActor {
 
     }
     case msg: Boolean => {
-      println("ENTRA access manager BOOLEAN")
       val receiver = context.system actorSelection "/system/dsl/inbox-1"
       receiver ! msg.asInstanceOf[Boolean]
     }
