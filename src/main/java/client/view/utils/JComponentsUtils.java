@@ -25,6 +25,12 @@ public class JComponentsUtils {
         return panel;
     }
 
+    public static JPanel createTrasparentPanel(){
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(0,0,0,0));
+        return panel;
+    }
+
     public static JButton createBlackButton(final String name){
         JButton button = new JButton(name);
         button.setBackground(LOGIN_COLOR);

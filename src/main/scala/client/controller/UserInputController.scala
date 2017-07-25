@@ -5,12 +5,13 @@ import java.awt.event.{KeyEvent, KeyListener}
 import client.model.Direction
 import client.view.CharacterFactory
 import client.view.playground.{GamePanel, PlaygroundPanel}
+import controller.FakeController
 
 
 /**
   * Created by Manuel Bottax on 06/07/2017.
   */
-class UserInputController (val view: GamePanel)/*(val client.model.character.gameElement.character: Character) */ extends KeyListener{
+class UserInputController (val controller: FakeController)/*(val client.model.character.gameElement.character: Character) */ extends KeyListener{
 
   var currentX : Int = 45
   var currentY: Int = 15
@@ -21,7 +22,7 @@ class UserInputController (val view: GamePanel)/*(val client.model.character.gam
       case KeyEvent.VK_LEFT => {
 
         if (check(currentX - 1, currentY)) {
-          view.move(Direction.LEFT)
+          controller.move(Direction.LEFT)
          /* view.removeCharacter(currentX, currentY)
           currentX = currentX - 1
           view.renderCharacter(currentX, currentY, new CharacterFactory().createPacman, "left")*/
@@ -31,7 +32,7 @@ class UserInputController (val view: GamePanel)/*(val client.model.character.gam
 
       case KeyEvent.VK_RIGHT => {
         if (check(currentX +1, currentY)) {
-          view.move(Direction.RIGHT)
+          controller.move(Direction.RIGHT)
          /* view.removeCharacter(currentX, currentY)
           currentX = currentX + 1
           view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "right")*/
@@ -40,7 +41,7 @@ class UserInputController (val view: GamePanel)/*(val client.model.character.gam
 
       case KeyEvent.VK_UP => {
         if (check(currentX , currentY-1)) {
-          view.move(Direction.UP)/*
+          controller.move(Direction.UP)/*
           view.removeCharacter(currentX, currentY)
           currentY = currentY - 1
           view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "up")*/
@@ -49,7 +50,7 @@ class UserInputController (val view: GamePanel)/*(val client.model.character.gam
 
       case KeyEvent.VK_DOWN => {
         if (check(currentX , currentY + 1)) {
-          view.move(Direction.DOWN)/*
+          controller.move(Direction.DOWN)/*
           view.removeCharacter(currentX, currentY)
           currentY = currentY + 1
           view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "down")*/
@@ -58,7 +59,7 @@ class UserInputController (val view: GamePanel)/*(val client.model.character.gam
 
       case KeyEvent.VK_A => {
         if (check(currentX - 1, currentY)) {
-          view.move(Direction.LEFT)/*
+          controller.move(Direction.LEFT)/*
           view.removeCharacter(currentX, currentY)
           currentX = currentX - 1
           view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "left")*/
@@ -67,7 +68,7 @@ class UserInputController (val view: GamePanel)/*(val client.model.character.gam
 
       case KeyEvent.VK_D => {
         if (check(currentX + 1, currentY)) {
-          view.move(Direction.RIGHT)/*
+          controller.move(Direction.RIGHT)/*
           view.removeCharacter(currentX, currentY)
           currentX = currentX + 1
           view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "right")*/
@@ -76,7 +77,7 @@ class UserInputController (val view: GamePanel)/*(val client.model.character.gam
 
       case KeyEvent.VK_W => {
         if (check(currentX, currentY - 1)) {
-          view.move(Direction.UP)/*
+          controller.move(Direction.UP)/*
           view.removeCharacter(currentX, currentY)
           currentY = currentY - 1
           view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "up")*/
@@ -85,7 +86,7 @@ class UserInputController (val view: GamePanel)/*(val client.model.character.gam
 
       case KeyEvent.VK_S => {
         if (check(currentX, currentY - 1)) {
-          view.move(Direction.DOWN)/*
+          controller.move(Direction.DOWN)/*
           view.removeCharacter(currentX, currentY)
           currentY = currentY + 1
           view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "down")*/

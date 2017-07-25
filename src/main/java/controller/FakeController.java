@@ -10,6 +10,7 @@ import client.model.character.Character;
 import client.model.gameElement.GameItem;
 import client.model.utils.Dimension;
 import client.model.utils.Point;
+import client.model.utils.PointImpl;
 import client.utils.IOUtils;
 import client.view.*;
 import client.view.playground.GamePanel;
@@ -30,6 +31,9 @@ import java.util.List;
 public class FakeController implements Controller{
 
     private CreateTeamDialog ct;
+    private Playground playground;
+    private int currentX = 20;
+    private int currentY = 20; //TODO CAMBIA
 
     public List<MatchResult>  getmatches(){
         List<MatchResult> r = new ArrayList<>();
@@ -79,7 +83,7 @@ public class FakeController implements Controller{
 
     public PlaygroundPanel initializePlaygroundView (String nameFile, List<Character> characterList) {
 
-        Playground playground = IOUtils.getPlaygroundFromFile(nameFile);
+        playground = IOUtils.getPlaygroundFromFile(nameFile);
 
         PlaygroundView view = new PlaygroundBuilderImpl()
                 .setColumns(playground.dimension().x())
@@ -145,7 +149,19 @@ public class FakeController implements Controller{
 
     @Override
     public Point<Object, Object> move(Direction direction) {
-        return null;
+
+        if(checkPosition(direction)){
+
+            ((GamePanel)MainFrame.getInstance().getContentPane()).move(direction);
+
+            switch (direction){
+                case UP:  currentY = currentY-1;break;
+                case DOWN: currentY = currentY+1;break;
+                case LEFT: currentX = currentX-1;break;
+                case RIGHT: currentX = currentX+1;break;
+            }
+        }
+        return new PointImpl<Object, Object>(currentX,currentY); //TODO non serve
     }
 
     public void startGame(){
@@ -158,7 +174,7 @@ public class FakeController implements Controller{
 
         MainFrame.getInstance().setContentPane(gp);
 
-        UserInputController keyboardController = new UserInputController(gp);
+        UserInputController keyboardController = new UserInputController(this);
         playgroundView.addKeyListener(keyboardController);
     }
 
@@ -174,5 +190,17 @@ public class FakeController implements Controller{
         if(MainFrame.getInstance().getContentPane() instanceof GamePanel) {
             ((GamePanel)MainFrame.getInstance().getContentPane()).showResult(result);
         }
+    }
+
+    private boolean checkPosition(final Direction direction){
+        System.out.println(currentX + "   "+currentY);
+        switch (direction){
+            case UP: return (currentY-1) >= 0 && (currentY-1) < playground.dimension().y();
+            case DOWN: return (currentY+1) >= 0 && (currentY+1) < playground.dimension().y();
+            case LEFT: return (currentX-1) >= 0 && (currentX-1) < playground.dimension().x();
+            case RIGHT: return (currentX+1) >= 0 && (currentX+1) < playground.dimension().x();
+        }
+
+        return false;
     }
 }

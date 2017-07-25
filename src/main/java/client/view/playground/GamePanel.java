@@ -4,6 +4,7 @@ import client.model.Direction;
 import client.view.MainFrame;
 import client.view.PacmanView;
 import client.view.utils.ImagesUtils;
+import client.view.utils.JComponentsUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,16 +18,16 @@ import static client.view.utils.JComponentsUtils.FONT_SIZE;
 public class GamePanel extends JLayeredPane {
 
     private PlaygroundView playground;
+
     private int currentX = 20;
     private int currentY = 20; //TODO CAMBIA
 
     private final JLabel score = new JLabel("Score: 0");
 
-
     public GamePanel(final Container playground) {
 
         this.playground = (PlaygroundView) playground;
-        this.add(playground, 0);  //TODO CAMBIAAA!!!!
+        this.add(playground, 0);
         addMicroMap();
         addScorePanel();
         addLivesPanel(3);
@@ -39,9 +40,9 @@ public class GamePanel extends JLayeredPane {
 
     public void showResult(final String result) {
 
-        JPanel victoryPanel = new JPanel(new GridBagLayout());
+        JPanel victoryPanel = JComponentsUtils.createTrasparentPanel();
+        victoryPanel.setLayout(new GridBagLayout());
         victoryPanel.setBounds(0, 0, (int) MainFrame.DIMENSION.getWidth(), (int) MainFrame.DIMENSION.getHeight());
-        victoryPanel.setBackground(new Color(0, 0, 0, 0));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -77,7 +78,6 @@ public class GamePanel extends JLayeredPane {
 
     private void addScorePanel(){
         score.setForeground(BACKGROUND_COLOR);
-        score.setBackground(new Color(0,0,0,0));
         score.setFont(new Font(score.getFont().getName(), Font.BOLD, FONT_SIZE ));
         score.setBounds(0,0, 500,50);
         add(score, 1);
@@ -85,8 +85,7 @@ public class GamePanel extends JLayeredPane {
 
     public void addLivesPanel(final int livesNumber){
 
-        JPanel livesPanel = new JPanel();
-        livesPanel.setBackground(new Color(0,0,0,0));
+        JPanel livesPanel = JComponentsUtils.createTrasparentPanel();
         livesPanel.setLayout(new BoxLayout(livesPanel, BoxLayout.Y_AXIS));
 
         for (int i=0; i<livesNumber;i++){
