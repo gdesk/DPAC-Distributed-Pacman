@@ -1,4 +1,4 @@
-package network.client.testing;
+package network.client.p2pCommunication;
 
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -17,8 +17,9 @@ public class ThreadPool {
 
         Boolean isMyPeerAlive = true;
 
-        Set<String> serverIps = new HashSet<>(Arrays.asList("Loris' ip",
-                "Mother's ip"));
+        Set<String> serverIps = new HashSet<>(Arrays.asList("192.168.1.6"));
+        //Set<String> serverIps = new HashSet<>(Arrays.asList("192.168.1.2"));
+        // "Loris' ip"));
 
         int poolSize = Runtime.getRuntime().availableProcessors()+1;
 
@@ -64,4 +65,7 @@ public class ThreadPool {
 
 
     }
+
+
+
 }

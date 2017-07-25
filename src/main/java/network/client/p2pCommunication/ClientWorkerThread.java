@@ -1,6 +1,7 @@
-package network.client.testing;
+package network.client.p2pCommunication;
 
 import java.net.UnknownHostException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Set;
@@ -28,13 +29,22 @@ public class ClientWorkerThread implements Runnable {
     @Override
     public void run() {
         System.setProperty("Djava.rmi.server.hostname", ip);
-        //String host = (args.length < 1) ? null : args[0];
         String host = ip;
+
         try {
-            Registry registry = LocateRegistry.getRegistry(host);
-            PeerStateRegister stub = (PeerStateRegister) registry.lookup("Hello");
+            Registry registry = null;
+            try {
+                registry = LocateRegistry.getRegistry(host);
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
+
+            PeerStateRegister stub = (PeerStateRegister) registry.lookup("Hello from M");
+            //PeerStateRegister stub = (PeerStateRegister) registry.lookup("Hello from F");
             String response = stub.sayHello();
             System.out.println("response: " + response);
+
+
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();

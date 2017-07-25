@@ -1,4 +1,4 @@
-package network.client.testing; /**
+package network.client.p2pCommunication; /**
  * Created by Federica on 16/07/17.
  */
 
@@ -11,11 +11,11 @@ public interface PeerStateRegister extends Remote {
 
     String sayHello() throws RemoteException;
 
-    //String getPosition();
+    String getPosition();
 
-    //int getScore();
+    int getScore();
 
-    //Boolean isAlive();
+    Boolean isAlive();
 
 
 }
