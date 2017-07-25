@@ -4,7 +4,7 @@ import java.awt.Image
 import java.io.File
 
 import akka.actor.{ActorSelection, ActorSystem, UntypedAbstractActor}
-import client.model.{Direction, MatchResult}
+import client.model.MatchResult
 import com.typesafe.config.{Config, ConfigFactory}
 
 import scala.util.parsing.json.JSONObject
@@ -53,9 +53,8 @@ class ToServerCommunication extends UntypedAbstractActor {
         receiver ! playgrounds
       }
       case "teamCharacter" =>{
-        val characters: Map[String, Map[Direction,Image]] = msg.obj("map").asInstanceOf[Map[String, Map[Direction,Image]]]
-        val receiver = context.system actorSelection "/system/dsl/inbox-1"
-        receiver ! characters
+        val receiver = context.system actorSelection "user/teamManager"
+        receiver ! msg.asInstanceOf[JSONObject]
       }
       case "playgroundChosen"=>{
         val playground: String = msg.obj("playground").asInstanceOf[String]
@@ -63,13 +62,15 @@ class ToServerCommunication extends UntypedAbstractActor {
         receiver ! playground.asInstanceOf[String]
       }
     }
+    case msg: String => {
+      println("ARRIVATO .... TO SEND SERVER  " +msg)
+      server ! msg
+    }
     case msg: Boolean => {
       val receiver = context.system actorSelection "user/accessManager"
       receiver ! msg.asInstanceOf[Boolean]
     }
-    case msg: String => {
-      server ! msg
-    }
+
   }
 
 }

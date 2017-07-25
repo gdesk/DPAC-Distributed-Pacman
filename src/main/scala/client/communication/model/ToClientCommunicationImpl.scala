@@ -13,7 +13,10 @@ import scala.util.parsing.json.JSONObject
 import java.util.Observer
 
 /**
-  * Created by lucch on 19/07/2017.
+  * This class is the model of communication, used to controller. It manages the interaction with the server,
+  * through the actor paradigm.
+  *
+  * @author Giulia Lucchi
   */
 case class ToClientCommunicationImpl() extends ToClientCommunication{
 
@@ -23,6 +26,8 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   private val gameManager = system.actorOf(Props[GameManager], "gameManager")
   private val teamManager = system.actorOf(Props[TeamManager], "teamManager")
   private val imagesManager = system.actorOf(Props[ImagesManager], "imagesManager")
+  private val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
+  private val toP2PCommunication = system.actorOf(Props[ToP2PCommunication], "toP2PCommunication")
 
   private val observers: List[Observer] = null
 
