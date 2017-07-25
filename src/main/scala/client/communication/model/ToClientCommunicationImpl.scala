@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit
 import akka.actor.{ActorSystem, Inbox, Props}
 import client.communication.model.actor._
 import client.model.{Direction, MatchResult}
+import client.model.character._
 
 import scala.concurrent.duration.Duration
 import scala.util.parsing.json.JSONObject
