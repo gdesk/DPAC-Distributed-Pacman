@@ -6,5 +6,6 @@ package network.client.p2pCommunication;
 public enum PeerMessages {
 
 
-    SERVER_IS_RUNNING
+    SERVER_IS_RUNNING,
+    CLIENT_CAN_START_RUNNING
 }
