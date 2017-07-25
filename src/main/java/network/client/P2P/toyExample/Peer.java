@@ -1,4 +1,4 @@
-package network.client.p2pCommunication.toyExample;
+package network.client.P2P.toyExample;
 
 import network.client.PortRangeGenerator;
 

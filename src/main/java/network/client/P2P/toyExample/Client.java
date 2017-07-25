@@ -1,4 +1,4 @@
-package network.client.p2pCommunication.toyExample;/*import java.rmi.registry.LocateRegistry;
+package network.client.P2P.toyExample;/*import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class Client {

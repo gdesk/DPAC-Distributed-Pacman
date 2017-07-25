@@ -1,4 +1,4 @@
-package network.client.p2pCommunication.toyExample; /**
+package network.client.P2P.toyExample; /**
  * Created by Federica on 16/07/17.
  */
 /*public class Server implements Hello {

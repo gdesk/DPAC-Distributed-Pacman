@@ -1,4 +1,4 @@
-package network.client.p2pCommunication;
+package network.client.P2P.communication;
 
 /**
  * Created by Federica on 21/07/17.
