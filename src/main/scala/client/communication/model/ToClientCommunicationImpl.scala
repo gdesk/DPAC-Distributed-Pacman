@@ -21,7 +21,8 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   private val inbox = Inbox.create(system)
   private val accessManager = system actorOf(Props[AccessManager], "accessManager")
   private val gameManager = system.actorOf(Props[GameManager], "gameManager")
-  private  val teamManager = system.actorOf(Props[TeamManager], "teamManager")
+  private val teamManager = system.actorOf(Props[TeamManager], "teamManager")
+  private val imagesManager = system.actorOf(Props[ImagesManager], "imagesManager")
 
   private val observers: List[Observer] = null
 
@@ -97,7 +98,7 @@ override def getRanges: List[Range] = {
     */
 override def getCharactersToChoose: Map[String, Image] = {
   val message : String = "characterToChooseRequest"
-  inbox.send(gameManager, message)
+  inbox.send(imagesManager, message)
   inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[Map[String, Image]]
 }
 

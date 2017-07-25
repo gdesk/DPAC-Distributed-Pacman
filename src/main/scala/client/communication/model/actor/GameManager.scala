@@ -24,10 +24,7 @@ class GameManager extends UntypedAbstractActor{
       val receiver = context.system actorSelection "/system/dsl/inbox-1"
       receiver ! msg.asInstanceOf[List[Range]]
     }
-    case msg: Map[String, Image] =>{
-      val receiver = context.system actorSelection "/system/dsl/inbox-1"
-      receiver ! msg.asInstanceOf[Map[String, Image]]
-    }
+
     case msg: JSONObject => {
       val receiver = context.system actorSelection "user/toServerCommunication"
       receiver ! msg.asInstanceOf[JSONObject]
