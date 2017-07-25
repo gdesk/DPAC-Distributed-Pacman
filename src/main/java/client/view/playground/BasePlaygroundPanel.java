@@ -32,12 +32,14 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         settings = playgroundSetting;
         setLayout(new GridBagLayout());
         setBackground(settings.getBackgroundColor());
-        cells = new JLabel[settings.getColumns()][settings.getRows()];
+        cells = new JLabel[settings.getColumns()+1][settings.getRows()+1];
 
-        for (int i = 0; i < settings.getColumns(); ++i) {
-            for (int j = 0; j < settings.getRows(); ++j) {
+        for (int i = 0; i <= settings.getColumns(); ++i) {
+            for (int j = 0; j <= settings.getRows(); ++j) {
                 cells[i][j] = new JLabel();
-                //cells[i][j].setBorder(BorderFactory.createLineBorder(Color.white));
+                cells[i][j].setBorder(BorderFactory.createLineBorder(Color.white));
+                cells[i][j].setText(i + "  "+j);
+                cells[i][j].setForeground(Color.WHITE);
                 cells[i][j].setMaximumSize(settings.getCellDim());
                 cells[i][j].setMinimumSize(settings.getCellDim());
                 cells[i][j].setPreferredSize(settings.getCellDim());
@@ -66,6 +68,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
      * @param y Vertical position on grid
      */
     public void renderBlock(int x, int y, BlocksImages blocksImage){
+        System.out.println("DISEGNO BLOCCO  "+ x+ "   "+y);
         insertImage(x,y,getImageIcon(blocksImage.getImage()));
     }
 
@@ -196,8 +199,8 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     private void renderAllCells(int ColumnsIndex, int RowsIndex){
         int c = settings.getColumnsToRender();
         int r = settings.getRowsToRender();
-        for (int i = 0; i < c; i++) {
-            for (int j = 0; j < r; j++) {
+        for (int i = 0; i <= c; i++) {
+            for (int j = 0; j <= r; j++) {
                 int x = ColumnsIndex + i;
                 int y = RowsIndex + j;
                 insertSingleCell(i,y,x,j);
@@ -215,6 +218,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     }
 
     private void insertImage(int x, int y, ImageIcon img){
+
         if(checkBorder(x,y)) {
             cells[x][y].setIcon(img);
             gbc.gridx = x;
@@ -225,7 +229,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     }
 
     private boolean checkBorder(final int x, final int y){
-        if(x>=0 && y>=0 && x<settings.getColumns() && y<settings.getRows()){
+        if(x>=0 && y>=0 && x<=settings.getColumns() && y<=settings.getRows()){
             return true;
         }else {
             System.err.println("Error! Invalid position");

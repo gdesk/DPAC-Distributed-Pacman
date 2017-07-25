@@ -28,9 +28,9 @@ public class GamePanel extends JLayeredPane {
 
         this.playground = (PlaygroundView) playground;
         this.add(playground, 0);
-        addMicroMap();
+       /* addMicroMap();
         addScorePanel();
-        addLivesPanel(3);
+        addLivesPanel(3);*/
     }
 
     public void addMicroMap(){
@@ -62,9 +62,9 @@ public class GamePanel extends JLayeredPane {
             updatePosition(dir);
             playground.renderCharacter(currentX, currentY, new PacmanView(), dir);
         }
-        addMicroMap();
+        /*addMicroMap();
         addScorePanel();
-        addLivesPanel(currentX%10);
+        addLivesPanel(currentX%10);*/
     }
 
     private void updatePosition(final Direction dir){
