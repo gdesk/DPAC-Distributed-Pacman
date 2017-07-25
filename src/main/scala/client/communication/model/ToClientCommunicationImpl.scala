@@ -135,13 +135,12 @@ override def chooseCharacter(character: Character): Boolean = {
     * @param playground position of playground's in the file list.
     *
     */
-  override def choosePlayground(playground: Int): Boolean = {
+  override def choosePlayground(playground: Int): Unit = {
     val message = JSONObject(Map[String, Any](
       "object" -> "choosePlayground",
       "character" -> playground
     ))
-    inbox.send(gameManager, message)
-    inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[Boolean]
+    gameManager ! message
   }
 
   /**
