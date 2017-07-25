@@ -1,19 +1,12 @@
 package network.client.p2pCommunication;
 
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 /**
  * Created by Federica on 21/07/17.
  */
 public class ThreadPool {
 
 
-    public static void main(String[] args) throws UnknownHostException, InterruptedException {
+    /*public static void main(String[] args) throws UnknownHostException, InterruptedException {
 
         Boolean isMyPeerAlive = true;
 
@@ -38,7 +31,7 @@ public class ThreadPool {
          * creo un thread per ogni peer con cui questo peer
          * dovrà comunicare (=> n peer tot. - 1)
          */
-        for(String ip: serverIps) {
+        /*for(String ip: serverIps) {
             worker = new ClientWorkerThread(ip);
             executor.execute(worker);
 
@@ -53,7 +46,7 @@ public class ThreadPool {
 
         //}
 
-        while(isMyPeerAlive){
+        /*while(isMyPeerAlive){
             Thread.sleep(10000);
             isMyPeerAlive = false;
         }
@@ -64,7 +57,7 @@ public class ThreadPool {
 
 
 
-    }
+    }*/
 
 
 

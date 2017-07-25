@@ -1,4 +1,4 @@
-package network.client.working;
+package network.client.p2pCommunication.toyExample;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

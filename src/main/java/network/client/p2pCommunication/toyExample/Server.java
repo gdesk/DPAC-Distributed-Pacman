@@ -1,4 +1,4 @@
-package network.client.working; /**
+package network.client.p2pCommunication.toyExample; /**
  * Created by Federica on 16/07/17.
  */
 /*public class Server implements Hello {
@@ -17,7 +17,7 @@ package network.client.working; /**
 
         try {
             Server obj = new Server();
-
+Z
             Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);
 
             // Bind the remote object's stub in the registry

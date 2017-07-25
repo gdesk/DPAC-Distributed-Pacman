@@ -1,4 +1,4 @@
-package network.client.working; /**
+package network.client.p2pCommunication.toyExample; /**
  * Created by Federica on 16/07/17.
  */
 
