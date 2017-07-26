@@ -1,55 +1,61 @@
 package client.model.peerCommunication
-
-import java.util.Observer
+import java.util.{Observable, Observer}
+import javax.security.auth.Subject
 
 /**
-  * Created by Federica on 24/07/17.
-  *
-  * this trait is useful to handle two types of communication:
-  * - peer to peer (so that, a peer send info to others)
-  * - peer to controller
-  *
+  * Created by Federica on 26/07/17.
   */
+class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingMessageHandler {
 
-trait ClientOutcomingMessageHandler  {
+  var character = Character
 
   /**
     * this method allows to register controller
     * as model observer, so that:
     * - model is observable
     * - controller is observer of model
-    * @param observer
+    *
     */
-  def addObserver(observer: Observer): Unit
+  override def addObserver(observer: Observer): Unit =
+    this.addObserver(observer)
+
 
   /**
     * method to notify controller and other peers
     * about the number of lives left to this peer
+    *
     * @param arg
     */
-  def notifyRemainingLives(arg: scala.Any): Unit
+  override def notifyRemainingLives(arg: Any): Unit = 
+    notifyObservers("remainingLives", character)
+
 
   /**
     * method to notify controller and other peers
     * about the current total score of this peer
+    *
     * @param arg
     */
-  def notifyScore(arg: scala.Any): Unit
+  override def notifyScore(arg: Any): Unit =
+    notifyObservers("score", character)
+
 
   /**
     * method to notify controller and other peers
     * about the current position of this peer
+    *
     * @param arg
     */
-  def notifyMove(arg: scala.Any): Unit
+  override def notifyMove(arg: Any): Unit =
+    notifyObservers("move", character)
 
   /**
     * method to notify controller and other peers
     * about the current state (dead or alive) of this peer
     * @param arg
     */
-  def notifyDeath(arg: scala.Any): Unit
-
+  def notifyDeath(arg: scala.Any): Unit =
+    notifyObservers("isDead", character)
 
 
 }

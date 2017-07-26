@@ -27,12 +27,6 @@ trait ClientIncomingMessageHandler {
   def updateRemainingLives(character: Character): Unit
 
   /**
-    * this method updates the current state (dead or alive) for this peer
-    * @param character
-    */
-  def updateDead(character: Character): Unit
-
-  /**
     * this method updates the current score for this peer
     * @param character
     */
@@ -42,5 +36,5 @@ trait ClientIncomingMessageHandler {
     * this method updates the current position for this peer
     * @param character
     */
-  def updatePosition(character: Character): Unit
+  def updateMove(character: Character): Unit
 }

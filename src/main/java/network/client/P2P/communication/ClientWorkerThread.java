@@ -72,8 +72,6 @@ public class ClientWorkerThread implements Runnable {
     }
 
     /**
-     *
-     *
      * clientIps is set from an actor (p.e.
      * OutocominPeerHandlerActor who will receive a
      * json message (p.e. json(actorIp, Set<String> ips))
