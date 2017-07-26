@@ -1,8 +1,8 @@
-package client.view.playground;
+package client.view;
 
 import client.model.Direction;
-import client.view.MainFrame;
-import client.view.PacmanView;
+import client.view.playground.MicroMapPanel;
+import client.view.playground.PlaygroundView;
 import client.view.utils.ImagesUtils;
 import client.view.utils.JComponentsUtils;
 
@@ -23,6 +23,7 @@ public class GamePanel extends JLayeredPane {
     private int currentY = 8; //TODO CAMBIA
 
     private final JLabel score = new JLabel("Score: 0");
+    private int livesNum = 3;
 
     public GamePanel(final Container playground) {
 
@@ -62,9 +63,8 @@ public class GamePanel extends JLayeredPane {
             updatePosition(dir);
             playground.renderCharacter(currentX, currentY, new PacmanView(), dir);
         }
-        addMicroMap();
-        addScorePanel();
-        addLivesPanel(currentX%10);
+        revalidate();
+        repaint();
     }
 
     private void updatePosition(final Direction dir){
@@ -79,11 +79,11 @@ public class GamePanel extends JLayeredPane {
     private void addScorePanel(){
         score.setForeground(BACKGROUND_COLOR);
         score.setFont(new Font(score.getFont().getName(), Font.BOLD, FONT_SIZE ));
-        score.setBounds(0,0, 500,50);
+        score.setBounds(0,0, 100,50);
         add(score, 1);
     }
 
-    public void addLivesPanel(final int livesNumber){
+    private void addLivesPanel(final int livesNumber){
 
         JPanel livesPanel = JComponentsUtils.createTrasparentPanel();
         livesPanel.setLayout(new BoxLayout(livesPanel, BoxLayout.Y_AXIS));
@@ -96,6 +96,10 @@ public class GamePanel extends JLayeredPane {
         }
 
         livesPanel.setBounds(0,50,100, (int)MainFrame.DIMENSION.getWidth());
+
+        JButton muori = new JButton("MUORI");
+        muori.addActionListener(e->deadh());
+        livesPanel.add(muori);
         add(livesPanel, 1);
     }
 
@@ -106,4 +110,12 @@ public class GamePanel extends JLayeredPane {
         repaint();
     }
 
+    public void updateLives(final int livesNumber){
+        this.livesNum = livesNumber;
+    }
+
+    public void deadh(){
+        GameOverDialog gameoverDialog = new GameOverDialog(MainFrame.getInstance());
+        gameoverDialog.setVisible(true);
+    }
 }

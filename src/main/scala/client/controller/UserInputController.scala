@@ -4,7 +4,7 @@ import java.awt.event.{KeyEvent, KeyListener}
 
 import client.model.Direction
 import client.view.CharacterFactory
-import client.view.playground.{GamePanel, PlaygroundPanel}
+import client.view.playground.PlaygroundPanel
 import controller.FakeController
 
 

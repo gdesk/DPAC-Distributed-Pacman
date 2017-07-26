@@ -13,7 +13,7 @@ import client.model.utils.Point;
 import client.model.utils.PointImpl;
 import client.utils.IOUtils;
 import client.view.*;
-import client.view.playground.GamePanel;
+import client.view.GamePanel;
 import client.view.playground.PlaygroundBuilderImpl;
 import client.view.playground.PlaygroundPanel;
 import client.view.playground.PlaygroundView;
@@ -166,7 +166,7 @@ public class FakeController implements Controller{
         //dovrà chiamare un metodo del model che gli restituisce tutti i dati della partita x inizializzare il playground
         // e i personaggi del gioco
 
-        PlaygroundPanel playgroundView = initializePlaygroundView("top.dpac", null );//model.getCharacterList());
+        PlaygroundPanel playgroundView = initializePlaygroundView("alex.dpac", null );//model.getCharacterList());
         MainFrame.getInstance().setContentPane(playgroundView);
         GamePanel gp = new GamePanel(playgroundView);
 
