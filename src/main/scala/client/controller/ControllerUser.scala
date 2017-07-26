@@ -16,9 +16,7 @@ trait ControllerUser {
 
 }
 
-case class BaseControllerUser() extends ControllerUser {
-
-  private val model = ToClientCommunicationImpl()
+case class BaseControllerUser(private val model: ToClientCommunicationImpl) extends ControllerUser {
 
   override def registration(name: String, username: String, email: String, password: String, confirmPassword: String) = model registration (name, username, email, password, confirmPassword)
 

@@ -116,7 +116,7 @@ override def getCharactersToChoose: Map[String, Image] = {
     * @return true  if character has been already chosen
     *         false otherwise
     */
-override def chooseCharacter(character: Character): Boolean = {
+override def chooseCharacter(character: String): Boolean = {
   val message = JSONObject(Map[String, Any](
     "object" -> "chooseCharacter",
     "character" -> character

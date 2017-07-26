@@ -24,7 +24,7 @@ trait ControllerCharacter {
 
 }
 
-case class BaseControllerCharacter(/*private val view = ???*/) extends ControllerCharacter with Observer{
+case class BaseControllerCharacter(private val view = View) extends ControllerCharacter with Observer{
 
   private val gameMatch: Match = MatchImpl instance()
   private val playeground: Playground = PlaygroundImpl instance()

@@ -1,7 +1,6 @@
 package client.controller
 
 import java.awt.Image
-import java.io.File
 import java.util.{Observable, Observer}
 
 import client.communication.model.ToClientCommunicationImpl
@@ -21,11 +20,11 @@ trait ControllerMatch {
 
   def getCharacters: Map[String, Image]
 
-  def chooseCharacter(character: Character): Boolean
+  def chooseCharacter(characterName: String): Boolean
 
-  def getPlaygrounds: List[File]
+  def getPlaygrounds: Map[Int, Image]
 
-  def choosePlayground(playground: Int): Unit
+  def choosePlayground(playgroundId: Int): Unit
 
   def MatchResul(result: MatchResult, user: String): Unit
 
@@ -41,17 +40,17 @@ trait ControllerMatch {
 
 }
 
-case class BaseControllerMatch(/*private val view: View*/) extends ControllerMatch with Observer {
+case class BaseControllerMatch(private val view: View) extends ControllerMatch with Observer {
 
   private val model = ToClientCommunicationImpl()
   private val gameMatch: Match = MatchImpl instance()
-  private val playeground: Playground = PlaygroundImpl instance()
+  private val playground: Playground = PlaygroundImpl instance()
 
   override def getRanges = model getRanges
 
   override def getCharacters = model getCharactersToChoose
 
-  override def chooseCharacter(character: Character) = model chooseCharacter character
+  override def chooseCharacter(characterName: String) = model chooseCharacter characterName
 
   override def getPlaygrounds = model getPlaygrounds
 
@@ -70,15 +69,13 @@ case class BaseControllerMatch(/*private val view: View*/) extends ControllerMat
   override def startMatch(players: Map[Character, String], character: Character, playgroundDimention: Dimension, ground: List[GameItem]) = {
     gameMatch addPlayers (mutable.Map(players.toSeq: _*)); //": _*" -> prima trasforma players in una sequenza e poi prende una coppia chiave-valore alla volta e l'aggiunge alla mutable.Map
     gameMatch myCharacter = character
-    gameMatch playground = playeground
-    playeground dimension = playgroundDimention
-    playeground ground = ground
+    gameMatch playground = playground
+    playground dimension = playgroundDimention
+    playground ground = ground
   }
 
- // Map<NomePers: String, Map<direzione: Direction, immagine>>
-
-  override def update(o:Observable, arg: scala.Any) = arg.isInstanceOf[Map[String, Map[Direction, Image]]] match {
-    case true => view charactersChoosen (arg/*.asInstanceOf[Map[String, Map[Direction, Image]]]*/)
+  override def update(o:Observable, arg: scala.Any) = arg match {
+    case x if x.isInstanceOf[Map[String, Map[Direction, Image]]] => view charactersChoosen (arg/*.asInstanceOf[Map[String, Map[Direction, Image]]]*/)
     case _ => view playgroundChoosen (arg/*.asInstanceOf[File]*/)
   }
 
