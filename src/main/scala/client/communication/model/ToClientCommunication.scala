@@ -5,6 +5,7 @@ import java.io.File
 import java.util.Observer
 
 import client.model.{Direction, MatchResult}
+import client.model.character.Character
 
 /**
   * This class manages the model of communication between Client and Server.

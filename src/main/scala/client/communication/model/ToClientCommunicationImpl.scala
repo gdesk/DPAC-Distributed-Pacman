@@ -12,6 +12,8 @@ import scala.concurrent.duration.Duration
 import scala.util.parsing.json.JSONObject
 import java.util.Observer
 
+import client.model.character.Character
+
 /**
   * This class is the model of communication, used to controller. It manages the interaction with the server,
   * through the actor paradigm.

@@ -1,5 +1,6 @@
 package client.controller
 
+import client.communication.model.ToClientCommunicationImpl
 import client.model._
 
 /**
@@ -9,7 +10,7 @@ trait ControllerUser {
 
   def registration(name: String, username: String, email: String, password: String, confirmPassword: String): Boolean
 
-  def login(username: String, Password: String): List[MatchResult]
+  def login(username: String, Password: String): Option[List[MatchResult]]
 
   def getAllMatchesResults(username: String): List[MatchResult]
 
@@ -17,9 +18,11 @@ trait ControllerUser {
 
 case class BaseControllerUser() extends ControllerUser {
 
-  override def registration(name: String, username: String, email: String, password: String, confirmPassword: String) = ToClientCommunication registrtion(name, username, email, password, confirmPassword)
+  private val model = ToClientCommunicationImpl()
 
-  override def login(username: String, password: String) = ToClientCommunication login(username, password)
+  override def registration(name: String, username: String, email: String, password: String, confirmPassword: String) = model registration (name, username, email, password, confirmPassword)
 
-  override def getAllMatchesResults(username: String) = ToClientCommunication getAllMatchesResults(username)
+  override def login(username: String, password: String) = model login (username, password)
+
+  override def getAllMatchesResults(username: String) = model getAllMatchesResults username
 }
