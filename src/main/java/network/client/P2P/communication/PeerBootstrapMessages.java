@@ -3,7 +3,7 @@ package network.client.P2P.communication;
 /**
  * Created by Federica on 25/07/17.
  */
-public enum PeerMessages {
+public enum PeerBootstrapMessages {
 
 
     SERVER_IS_RUNNING,

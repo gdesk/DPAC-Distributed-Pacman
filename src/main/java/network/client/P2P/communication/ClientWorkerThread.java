@@ -31,7 +31,6 @@ public class ClientWorkerThread implements Runnable {
     private final JSONObject message;
     //TODO SCOMMENTARE PRIMA DI PUSHARE SU DEVELOP
     //private final ActorRef bootstrapManager;
-    private Boolean isRunning;
 
 
     public ClientWorkerThread(String ip) throws UnknownHostException {
@@ -41,7 +40,6 @@ public class ClientWorkerThread implements Runnable {
         this.message   = new JSONObject();
         //TODO SCOMMENTARE PRIMA DI PUSHARE SU DEVELOP
         //this.bootstrapManager = system.actorOf(new Props(MessageReceiverActor.class, "MessageReceiverActor"));
-        this.isRunning = false;
     }
 
     @Override
@@ -60,7 +58,7 @@ public class ClientWorkerThread implements Runnable {
                 }
 
                 PeerStateRegister stub = (PeerStateRegister) registry.lookup("Hello from M");
-                //PeerStateRegister stub = (PeerStateRegister) registry.lookup("Hello from F");
+                //currentWorking.PeerStateRegister stub = (currentWorking.PeerStateRegister) registry.lookup("Hello from F");
                 String response = stub.sayHello();
                 System.out.println("response: " + response);
 
@@ -75,15 +73,21 @@ public class ClientWorkerThread implements Runnable {
 
     /**
      *
-     * @param serverIps
      *
      * clientIps is set from an actor (p.e.
      * OutocominPeerHandlerActor who will receive a
      * json message (p.e. json(actorIp, Set<String> ips))
      * from server)
      */
-    public void setServerIps(Set<String> serverIps){
-        this.serverIps = serverIps;
+    public void setServerIps(){
+        try {
+            if(this.inbox instanceof Set<?>){
+                this.inbox.receive(FiniteDuration.apply(5, TimeUnit.SECONDS));
+                this.serverIps = (Set<String>) this.inbox;
+            }
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -95,8 +99,8 @@ public class ClientWorkerThread implements Runnable {
      */
     private boolean startClients() {
         try {
-            this.inbox.receive(FiniteDuration.apply(10, TimeUnit.SECONDS));
-            if(this.inbox.toString().equals(PeerMessages.CLIENT_CAN_START_RUNNING)) {
+            if(this.inbox.toString().equals(PeerBootstrapMessages.CLIENT_CAN_START_RUNNING)){
+                this.inbox.receive(FiniteDuration.apply(10, TimeUnit.SECONDS));
                 return true;
             }
         } catch (TimeoutException e) {

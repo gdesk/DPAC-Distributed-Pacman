@@ -106,7 +106,7 @@ public class ServerWorkerThread implements PeerStateRegister, Runnable{
     }
 
     /**
-     * this method sets up communication between this class (ServerWorkerThread)
+     * this method sets up communication between this class (currentWorking.ServerWorkerThread)
      * and a server actor (MessageReceiverActor). So that it is possible to handle
      * interaction between object oriented and Actor paradigms.
      */

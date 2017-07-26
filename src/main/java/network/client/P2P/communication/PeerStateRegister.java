@@ -11,7 +11,7 @@ public interface PeerStateRegister extends Remote {
 
     String sayHello() throws RemoteException;
 
-   /* String getPosition();
+    /*String getPosition();
 
     int getScore();
 

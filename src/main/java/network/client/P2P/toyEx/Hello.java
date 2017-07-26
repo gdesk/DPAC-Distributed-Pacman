@@ -1,4 +1,4 @@
-package network.client.P2P.toyExample; /**
+package network.client.P2P.toyEx; /**
  * Created by Federica on 16/07/17.
  */
 

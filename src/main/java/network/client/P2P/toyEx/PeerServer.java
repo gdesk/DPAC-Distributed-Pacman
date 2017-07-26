@@ -1,4 +1,4 @@
-package network.client.P2P.toyExample;
+package network.client.P2P.toyEx;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -8,14 +8,14 @@ import java.rmi.server.UnicastRemoteObject;
 /**
  * Created by Federica on 18/07/17.
  */
-public class PeerClient implements Hello {
+public class PeerServer implements Hello {
 
     private static Boolean isServer;
     private  static Boolean isClient;
 
-    public PeerClient(){
-        this.isServer = false;
-        this.isClient = true;
+    public PeerServer(){
+        this.isServer = true;
+        this.isClient = false;
     }
 
     public String sayHello() {
@@ -25,7 +25,7 @@ public class PeerClient implements Hello {
 
 
     public static void main(String[] args) throws RemoteException {
-        PeerClient obj = new PeerClient();
+        PeerServer obj = new PeerServer();
         if(isServer){
             Registry registry = LocateRegistry.createRegistry(1099);
             System.setProperty("Djava.rmi.server.codebase", "out/");
@@ -65,5 +65,3 @@ public class PeerClient implements Hello {
         }
     }
 }
-
-
