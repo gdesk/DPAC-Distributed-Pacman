@@ -146,8 +146,7 @@ case class PlaygroundImpl private() extends Playground{
     elementsMap foreach (e => _ground += e)
     _ground.foreach(p => checkItemPosition(p))
 
-    //---Fede
-    //streetPositions
+    streetPositions
     var theory = ""
     _streetPositions foreach (s => theory = theory + "street(" + s.x + "," + s.y + ").")
     engine = modifyPrologEngine(theory)
