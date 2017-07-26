@@ -4,6 +4,7 @@ import java.awt.Image
 import java.io.File
 import java.util.Observer
 
+import client.model.character._
 import client.model.{Direction, MatchResult}
 
 /**

@@ -18,17 +18,17 @@ import scala.util.parsing.json.JSONObject
 class ToServerCommunication extends UntypedAbstractActor {
 
   val config: Config = ConfigFactory.parseFile(new File("src/main/resources/communication/configuration.conf"))
-  val system: ActorSystem  = ActorSystem.create("ServerSystem", config)
+  val system: ActorSystem = ActorSystem.create("ServerSystem", config)
   val server: ActorSelection = system.actorSelection("akka.tcp://MyServerSystem@127.0.0.1:2552/user/myServerActor")
 
   override def onReceive(message: Any): Unit = message match {
     case msg: JSONObject => {
-    msg.obj.+("senderIP" ->InetAddress.getLocalHost)
+      msg.obj.+("senderIP" -> InetAddress.getLocalHost)
       msg.obj("object") match {
         case "newUser" => server ! msg.asInstanceOf[JSONObject]
         case "login" => server ! msg.asInstanceOf[JSONObject]
         case "chooseCharacter" => server ! msg.asInstanceOf[JSONObject]
-        case "choosePlayground" => server ! msg.asInstanceOf[JSONObject]
+        case "chosenPlayground" => server ! msg.asInstanceOf[JSONObject]
         case "matchResult" => server ! msg.asInstanceOf[JSONObject]
         case "allMatchResult" => server ! msg.asInstanceOf[JSONObject]
         case "matches" => {
@@ -50,7 +50,7 @@ class ToServerCommunication extends UntypedAbstractActor {
           val receiver = context.system actorSelection "user/gameManager"
           receiver ! playgrounds
         }
-        case "listMatch" => {
+        case "matches" => {
           val playgrounds: List[MatchResult] = msg.obj("list").asInstanceOf[List[MatchResult]]
           val receiver = context.system actorSelection "user/gameManager"
           receiver ! playgrounds
@@ -64,14 +64,17 @@ class ToServerCommunication extends UntypedAbstractActor {
           val receiver = context.system actorSelection "/system/dsl/inbox-1"
           receiver ! playground.asInstanceOf[String]
         }
+
       }
     }
-    case msg: String => server ! msg
+    case msg: String => {
+      val message = JSONObject(Map[String, String]("object" -> msg, "senderIP" -> InetAddress.getLocalHost.toString))
+      server ! message.asInstanceOf[JSONObject]
+    }
     case msg: Boolean => {
       val receiver = context.system actorSelection "user/accessManager"
       receiver ! msg.asInstanceOf[Boolean]
     }
 
   }
-
 }

@@ -143,7 +143,7 @@ override def chooseCharacter(character: Character): Boolean = {
     */
   override def choosePlayground(playground: Int): Unit = {
     val message = JSONObject(Map[String, Any](
-      "object" -> "choosePlayground",
+      "object" -> "chosenPlayground",
       "character" -> playground
     ))
     gameManager ! message
