@@ -32,8 +32,8 @@ public class FakeController implements Controller{
 
     private CreateTeamDialog ct;
     private Playground playground;
-    private int currentX = 20;
-    private int currentY = 20; //TODO CAMBIA
+    private int currentX = 30;
+    private int currentY = 8; //TODO CAMBIA
 
     public List<MatchResult>  getmatches(){
         List<MatchResult> r = new ArrayList<>();
@@ -93,8 +93,6 @@ public class FakeController implements Controller{
 
         view.renderBlockList(Utils.getJavaList(playground.blocks()));
         view.renderEatableList(Utils.getJavaList(playground.eatables()));
-
-        //view.renderCharacter( 45, 17, new CharacterFactory().createPacman() , "left");
 
         return (PlaygroundPanel)view;
     }
@@ -168,7 +166,7 @@ public class FakeController implements Controller{
         //dovrà chiamare un metodo del model che gli restituisce tutti i dati della partita x inizializzare il playground
         // e i personaggi del gioco
 
-        PlaygroundPanel playgroundView = initializePlaygroundView("default.dpac", null );//model.getCharacterList());
+        PlaygroundPanel playgroundView = initializePlaygroundView("top.dpac", null );//model.getCharacterList());
         MainFrame.getInstance().setContentPane(playgroundView);
         GamePanel gp = new GamePanel(playgroundView);
 
@@ -176,6 +174,7 @@ public class FakeController implements Controller{
 
         UserInputController keyboardController = new UserInputController(this);
         playgroundView.addKeyListener(keyboardController);
+        gp.move(Direction.RIGHT);
     }
 
     public void victory(){
@@ -193,7 +192,6 @@ public class FakeController implements Controller{
     }
 
     private boolean checkPosition(final Direction direction){
-        System.out.println(currentX + "   "+currentY);
         switch (direction){
             case UP: return (currentY-1) >= 0 && (currentY-1) < playground.dimension().y();
             case DOWN: return (currentY+1) >= 0 && (currentY+1) < playground.dimension().y();

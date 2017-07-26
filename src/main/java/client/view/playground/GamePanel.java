@@ -19,8 +19,8 @@ public class GamePanel extends JLayeredPane {
 
     private PlaygroundView playground;
 
-    private int currentX = 20;
-    private int currentY = 20; //TODO CAMBIA
+    private int currentX = 30;
+    private int currentY = 8; //TODO CAMBIA
 
     private final JLabel score = new JLabel("Score: 0");
 
@@ -28,9 +28,9 @@ public class GamePanel extends JLayeredPane {
 
         this.playground = (PlaygroundView) playground;
         this.add(playground, 0);
-       /* addMicroMap();
+        addMicroMap();
         addScorePanel();
-        addLivesPanel(3);*/
+        addLivesPanel(3);
     }
 
     public void addMicroMap(){
@@ -62,9 +62,9 @@ public class GamePanel extends JLayeredPane {
             updatePosition(dir);
             playground.renderCharacter(currentX, currentY, new PacmanView(), dir);
         }
-        /*addMicroMap();
+        addMicroMap();
         addScorePanel();
-        addLivesPanel(currentX%10);*/
+        addLivesPanel(currentX%10);
     }
 
     private void updatePosition(final Direction dir){

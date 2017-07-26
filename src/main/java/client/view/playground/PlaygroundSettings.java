@@ -9,8 +9,11 @@ import static client.view.MainFrame.DIMENSION;
  */
 public class PlaygroundSettings {
 
-    private int columnsToRender = 30;
-    private int rowsToRender = 20;
+    private final static int DEFAULT_COLUMS_TO_RENDER = 30;
+    private final static int DEFAULT_ROWS_TO_RENDER = 30;
+
+    private int columnsToRender;
+    private int rowsToRender;
 
     private int columns;
     private int rows;
@@ -22,8 +25,10 @@ public class PlaygroundSettings {
 
     public PlaygroundSettings(final int columns, final int rows){
         this.rows = rows;
-
         this.columns = columns;
+
+        this.columnsToRender = Math.min(DEFAULT_COLUMS_TO_RENDER,columns);
+        this.rowsToRender = Math.min(DEFAULT_ROWS_TO_RENDER,rows);
 
         int xCellSize = (int)(DIMENSION.getWidth()/ columnsToRender);
         int yCellSize = (int)(DIMENSION.getHeight()/ rowsToRender);
