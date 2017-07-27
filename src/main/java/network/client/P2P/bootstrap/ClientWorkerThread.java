@@ -1,4 +1,4 @@
-package network.client.P2P.communication;
+package network.client.P2P.bootstrap;
 
 import akka.actor.ActorSystem;
 import akka.actor.Inbox;

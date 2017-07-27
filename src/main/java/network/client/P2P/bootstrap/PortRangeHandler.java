@@ -1,4 +1,4 @@
-package network.client.P2P.communication;
+package network.client.P2P.bootstrap;
 
 /**
  * Created by Federica on 20/07/17.

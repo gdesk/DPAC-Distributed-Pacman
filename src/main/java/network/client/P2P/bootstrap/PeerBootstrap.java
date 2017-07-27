@@ -1,12 +1,8 @@
 package network.client.P2P.bootstrap;
 
-import network.client.P2P.communication.ClientWorkerThread;
-import network.client.P2P.communication.ServerWorkerThread;
 import scala.concurrent.duration.FiniteDuration;
 
 import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

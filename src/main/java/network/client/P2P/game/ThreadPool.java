@@ -1,4 +1,7 @@
-package network.client.P2P.communication;
+package network.client.P2P.game;
+
+import network.client.P2P.bootstrap.ClientWorkerThread;
+import network.client.P2P.bootstrap.ServerWorkerThread;
 
 import java.net.UnknownHostException;
 import java.util.Arrays;
