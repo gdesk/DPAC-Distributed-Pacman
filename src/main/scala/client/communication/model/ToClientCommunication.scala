@@ -27,7 +27,7 @@ trait ToClientCommunication {
   def registration(name: String, username: String, email: String, password: String, confirmPassword: String): Boolean
 
   /**
-    * Send the message to actor AccessManager with the login's data and
+    * Send the message to actor ToServerCommunication with the login's data and
     * receive from sever the response with also the MatchResult
     * @param username
     * @param password
@@ -36,6 +36,13 @@ trait ToClientCommunication {
     *         If it's Option.empty, this is the first login
     */
   def login(username: String, password: String): Option[List[MatchResult]]
+
+  /**
+    * Send to server the username to remove the user from online users' list.
+    *
+    * @param username user's username who wants to disconnect
+    */
+  def logout(username: String): Unit
 
   /**
     *  Receives to server the list of range to play the match.
@@ -94,13 +101,6 @@ trait ToClientCommunication {
   def MatchResult(result: MatchResult, user: String): Unit
 
   /**
-    * Adds the observer.
-    *
-    * @param observer observer to add.
-    */
-  def addObserver(observer: Observer): Unit
-
-  /**
     * Receives from server playgrond's string, corresponding to chosen playground.
     * SONO  SERVE AL CONTROLLER
     * @return Playground chosen in current match
@@ -114,4 +114,18 @@ trait ToClientCommunication {
     * @return list of all match with its result
     */
   def getAllMatchesResults(username: String): List[MatchResult]
+
+  /**
+    * Adds the observer.
+    *
+    * @param observer observer to add.
+    */
+  def addObserver(observer: Observer): Unit
+
+  /**
+    * Send to server the request to information to configure and synchronize the P2P Communication.
+    * Then start the game
+    *
+    * */
+  def startMatch(): Unit
 }

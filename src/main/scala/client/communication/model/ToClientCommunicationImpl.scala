@@ -25,7 +25,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   private val system = ActorSystem("ClientSystem")
   private val inbox = Inbox.create(system)
 
-  private val toServerCommunication2 = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
+  private val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
   private val fromServerCommunication = system.actorOf(Props[FromServerCommunication], "fromServerCommunication")
   private val P2PCommunication = system actorOf(Props[P2PCommunication], "P2PCommunication")
 
@@ -62,7 +62,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Send the message to actor AccessManager with the login's data and
+    * Send the message to actor ToServerCommunication with the login's data and
     * receive from sever the response with also the MatchResult
     *
     * @param username
@@ -81,6 +81,20 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
     val response = getJSONMessage(message)
     response.obj("list").asInstanceOf[Option[List[MatchResult]]]
+  }
+
+  /**
+    * Send to server the username to remove the user from online users' list.
+    *
+    * @param username user's username who wants to disconnect
+    */
+  override def logout(username: String): Unit = {
+    val message = JSONObject(Map[String, String](
+      "object" -> "logout",
+      "username" -> username
+    ))
+
+    toServerCommunication ! message.asInstanceOf[JSONObject]
   }
 
   /**
@@ -137,6 +151,8 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     * Receives from server the List of available playgrounds.
     *
     * @return list of available playgrounds
+    *         Int -> playground'id
+    *         Image -> playground transformed to image
     */
   override def getPlaygrounds: Map[Int, Image] = {
     val message = JSONObject(Map[String, String](
@@ -176,7 +192,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "result" -> result, // vediamo poi se passare solo il punteggio o tutto l'oggetto
       "user" -> user
     ))
-    toServerCommunication2 ! message.asInstanceOf[JSONObject]
+    toServerCommunication ! message.asInstanceOf[JSONObject]
   }
 
   /**
@@ -208,7 +224,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     * NON SONO RICHIAMATI DAL CONTROLLER
     *
     * @return list of current match's characters.
-    *         The Map has the name of character as key and, as value, a Map with direction and Image.
+    *         The Map has the IP address of character as key and, as value, a Map with direction and Image.
     */
   override def getTeamCharacter: Map[String, Map[Direction, Image]] = {
     val message = JSONObject(Map[String, String](
@@ -236,8 +252,16 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     * @return         message to receive
     */
   private def getJSONMessage( message: JSONObject) : JSONObject = {
-    inbox.send(toServerCommunication2, message)
+    inbox.send(toServerCommunication, message)
     inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[JSONObject]
   }
 
+  /**
+    * Send to server the request to information to configure and synchronize the P2P Communication.
+    * Then start the game
+    *
+    **/
+  override def startMatch(): Unit = {
+    //parte fede
+  }
 }
