@@ -1,5 +1,7 @@
 package client.view;
 
+import client.view.utils.JComponentsUtils;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,15 +19,32 @@ public class GameOverDialog extends JDialog {
             setLocationRelativeTo(null);
         }
 
-        JButton playAgain = new JButton("PLAY AGAIN");
-        JButton quit = new JButton("QUIT");
-        quit.addActionListener(e->frame.setContentPane(new HomePanel("chia")));//TODO lo passo dal controller
+        // JPanel scores = new JPanel();
 
+        JButton playAgain = JComponentsUtils.createBlackButton("PLAY AGAIN");
+        playAgain.addActionListener(e->{
+            //
+            dispose();
+        });
+        JButton quit = JComponentsUtils.createBlackButton("QUIT");
+        quit.addActionListener(e->{
+            frame.setContentPane(new HomePanel("chia")); //TODO controller
+            dispose();
+        });
 
-        JPanel scores = new JPanel();
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.ipadx = 50;
+        gbc.fill = GridBagConstraints.NONE;
+        add(playAgain, gbc);
+        gbc.gridx = 1;
+        add(new JLabel(" "), gbc);
+        gbc.gridx = 2;
+        add(quit, gbc);
 
-        JPanel buttuonPanel = new JPanel();
-        buttuonPanel.setLayout(new BoxLayout(buttuonPanel, BoxLayout.X_AXIS));
-      //  buttuonPanel.add()
+        pack();
+
     }
 }
