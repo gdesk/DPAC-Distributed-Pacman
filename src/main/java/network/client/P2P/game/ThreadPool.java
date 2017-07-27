@@ -13,6 +13,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by Federica on 21/07/17.
  */
+//TODO DA SISTEMARE
 public class ThreadPool {
 
 

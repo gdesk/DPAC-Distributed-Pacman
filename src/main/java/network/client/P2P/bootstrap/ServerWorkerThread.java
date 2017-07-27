@@ -1,7 +1,5 @@
 package network.client.P2P.bootstrap;
 
-import akka.actor.ActorSystem;
-import akka.actor.Inbox;
 import network.client.P2P.messages.PeerMessages;
 import org.json.JSONObject;
 
@@ -20,11 +18,7 @@ public class ServerWorkerThread implements PeerStateRegister, Runnable{
 
     private String ip;
     private int rmiPort;
-    private ActorSystem system;
-    private Inbox inbox;
     private JSONObject message;
-    //TODO SCOMMENTARE PRIMA DI PUSHARE SU DEVELOP
-    //private ActorRef bootstrapManager;
 
     public  ServerWorkerThread() throws UnknownHostException {
         this.ip = InetAddress.getLocalHost().toString();
@@ -112,11 +106,11 @@ public class ServerWorkerThread implements PeerStateRegister, Runnable{
      * interaction between object oriented and Actor paradigms.
      */
     private void configureServerSystemCommunication(){
-        this.system = ActorSystem.create("PeerServerSystem");
+
+        //TODO
+        /*this.system = ActorSystem.create("PeerServerSystem");
         this.inbox = Inbox.create(system);
-        this.message   = new JSONObject();
-        //TODO SCOMMENTARE PRIMA DI PUSHARE SU DEVELOP
-        //this.bootstrapManager = system.actorOf(new Props(MessageReceiverActor.class, "MessageReceiverActor"));
+        this.message   = new JSONObject();*/
 
     }
 

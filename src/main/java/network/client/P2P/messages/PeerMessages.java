@@ -13,5 +13,5 @@ public enum PeerMessages {
 
 
     SERVER_IS_RUNNING,
-    CLIENT_CAN_START_RUNNING
+    CLIENTS_CAN_START_RUNNING
 }

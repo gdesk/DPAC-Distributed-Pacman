@@ -2,6 +2,7 @@ package network.client.P2P.bootstrap;
 
 import akka.actor.ActorSystem;
 import akka.actor.Inbox;
+import network.client.P2P.messages.PeerMessages;
 import org.json.JSONObject;
 import scala.concurrent.duration.FiniteDuration;
 
@@ -26,20 +27,15 @@ public class ClientWorkerThread implements Runnable {
      * act like client and need to know the server ip
      */
     private Set<String> serverIps;
-    private final ActorSystem system;
     private final Inbox inbox;
     private final JSONObject message;
-    //TODO SCOMMENTARE PRIMA DI PUSHARE SU DEVELOP
-    //private final ActorRef bootstrapManager;
 
 
     public ClientWorkerThread(String ip) throws UnknownHostException {
         this.ip = ip;
-        this.system = ActorSystem.create("PeerClientSystem");
         this.inbox = Inbox.create(system);
         this.message   = new JSONObject();
-        //TODO SCOMMENTARE PRIMA DI PUSHARE SU DEVELOP
-        //this.bootstrapManager = system.actorOf(new Props(MessageReceiverActor.class, "MessageReceiverActor"));
+
     }
 
     @Override
@@ -82,7 +78,7 @@ public class ClientWorkerThread implements Runnable {
      */
     private boolean startClients() {
         try {
-            if(this.inbox.toString().equals(PeerBootstrapMessages.CLIENT_CAN_START_RUNNING)){
+            if(this.inbox.toString().equals(PeerMessages.CLIENTS_CAN_START_RUNNING)){
                 this.inbox.receive(FiniteDuration.apply(10, TimeUnit.SECONDS));
                 return true;
             }

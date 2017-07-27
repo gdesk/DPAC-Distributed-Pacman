@@ -1,13 +1,9 @@
 package network.client.P2P.bootstrap;
 
-import scala.concurrent.duration.FiniteDuration;
-
 import java.net.UnknownHostException;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Federica on 27/07/17.
@@ -27,14 +23,16 @@ public class PeerBootstrap {
          * json message (p.e. json(actorIp, Set<String> ips))
          * from server)
          */
-        try {
+
+        //TODO
+        /*try {
             if(this.inbox instanceof Set<?>){
                 this.inbox.receive(FiniteDuration.apply(5, TimeUnit.SECONDS));
                 this.serverIps = (Set<String>) this.inbox;
             }
         } catch (TimeoutException e) {
             e.printStackTrace();
-        }
+        }*/
 
         //====================================
 
