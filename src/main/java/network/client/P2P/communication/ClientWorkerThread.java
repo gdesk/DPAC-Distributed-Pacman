@@ -71,22 +71,7 @@ public class ClientWorkerThread implements Runnable {
 
     }
 
-    /**
-     * clientIps is set from an actor (p.e.
-     * OutocominPeerHandlerActor who will receive a
-     * json message (p.e. json(actorIp, Set<String> ips))
-     * from server)
-     */
-    public void setServerIps(){
-        try {
-            if(this.inbox instanceof Set<?>){
-                this.inbox.receive(FiniteDuration.apply(5, TimeUnit.SECONDS));
-                this.serverIps = (Set<String>) this.inbox;
-            }
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     /**
      * this method checks if client threads can
