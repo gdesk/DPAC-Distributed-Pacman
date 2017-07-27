@@ -1,10 +1,8 @@
 package client.communication.model
 
 import java.awt.Image
-import java.io.File
 import java.util.Observer
 
-import client.model.character._
 import client.model.{Direction, MatchResult}
 
 /**
@@ -69,14 +67,14 @@ trait ToClientCommunication {
     * @return true  if character has been already chosen
     *         false otherwise
     */
-  def chooseCharacter(character: Character): Boolean
+  def chooseCharacter(character: String): Boolean
 
   /**
     * Receives from server the List of available playgrounds.
     *
     * @return list of available playgrounds
     */
-  def getPlaygrounds: List[File]
+  def getPlaygrounds: Map[Int, Image]
 
   /**
     * Send to server the playground chosen. It's recall when the player choose the playground of current match.
