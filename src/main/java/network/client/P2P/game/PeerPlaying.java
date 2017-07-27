@@ -11,7 +11,6 @@ import java.rmi.Remote;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -32,7 +31,7 @@ public class PeerPlaying implements Callable, Remote {
 
     public PeerPlaying(int rmiPort, Registry registry){
         this.match = MatchImpl.instance();
-        this.character = match.myCharacter();
+        //this.character = match.myCharacter();
         this.rmiPort = rmiPort;
         this.registry = registry;
         this.handler = new ClientOutcomingMessageHandlerImpl();
@@ -50,23 +49,23 @@ public class PeerPlaying implements Callable, Remote {
 
         while(character.isAlive()){
 
-            if(character){
+            //if(character){
                 stub = (PeerStateRegister) UnicastRemoteObject.exportObject(objects.get("positon"), this.rmiPort);
                 registry.rebind("Position", stub);
                 handler.notifyMove(character);
-            }else if(){
+            //}else if(){
                 stub = (PeerStateRegister) UnicastRemoteObject.exportObject(objects.get("score"), this.rmiPort);
                 registry.rebind("Score", stub);
                 handler.notifyScore(character);
-            }else if(){
+            //}else if(){
                 stub = (PeerStateRegister) UnicastRemoteObject.exportObject(objects.get("remaningLives"), this.rmiPort);
                 registry.rebind("RemaningLives", stub);
                 handler.notifyRemainingLives(character);
-            }else if(){
+            //}else if(){
                 stub = (PeerStateRegister) UnicastRemoteObject.exportObject(objects.get("death"), this.rmiPort);
                 registry.rebind("Death", stub);
                 handler.notifyDeath(character);
-            }
+            //}
         }
 
         return null;

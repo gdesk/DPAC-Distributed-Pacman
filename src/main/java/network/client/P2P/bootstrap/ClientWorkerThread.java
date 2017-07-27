@@ -1,18 +1,11 @@
 package network.client.P2P.bootstrap;
 
-import akka.actor.ActorSystem;
-import akka.actor.Inbox;
-import network.client.P2P.messages.PeerMessages;
-import org.json.JSONObject;
-import scala.concurrent.duration.FiniteDuration;
 
+import org.json.JSONObject;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Federica on 21/07/17.
@@ -20,20 +13,11 @@ import java.util.concurrent.TimeoutException;
 public class ClientWorkerThread implements Runnable {
 
     private String ip;
-
-    /**
-     * a set containg ips of other peers.
-     * these ips are useful when I need to peer
-     * act like client and need to know the server ip
-     */
-    private Set<String> serverIps;
-    private final Inbox inbox;
     private final JSONObject message;
 
 
     public ClientWorkerThread(String ip) throws UnknownHostException {
         this.ip = ip;
-        this.inbox = Inbox.create(system);
         this.message   = new JSONObject();
 
     }
@@ -77,14 +61,15 @@ public class ClientWorkerThread implements Runnable {
      * @return
      */
     private boolean startClients() {
-        try {
+        //TODO
+        /*try {
             if(this.inbox.toString().equals(PeerMessages.CLIENTS_CAN_START_RUNNING)){
                 this.inbox.receive(FiniteDuration.apply(10, TimeUnit.SECONDS));
                 return true;
             }
         } catch (TimeoutException e) {
             e.printStackTrace();
-        }
+        }*/
 
         return false;
     }
