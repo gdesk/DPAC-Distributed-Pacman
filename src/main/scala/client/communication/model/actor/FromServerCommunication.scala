@@ -5,9 +5,11 @@ import akka.actor.UntypedAbstractActor
 import scala.util.parsing.json.JSONObject
 
 /**
-  * Created by lucch on 27/07/2017.
+  * This actor manage the message, that it's received from server.
+  *
+  * @author Giulia Lucchi
   */
-class FromServerCommunication2 extends UntypedAbstractActor{
+class FromServerCommunication extends UntypedAbstractActor{
   override def onReceive(message: Any): Unit = message match {
     case msg: JSONObject => {
       val receiver = context actorSelection "/system/dsl/inbox-1"

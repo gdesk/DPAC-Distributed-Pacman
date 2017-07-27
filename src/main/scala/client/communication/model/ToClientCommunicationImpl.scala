@@ -5,7 +5,7 @@ import java.util.Observer
 import java.util.concurrent.TimeUnit
 
 import akka.actor.{ActorSystem, Inbox, Props}
-import client.communication.model.actor.{FromServerCommunication2, ToServerCommunication2}
+import client.communication.model.actor.{FromServerCommunication, P2PCommunication, ToServerCommunication}
 import client.model.{Direction, MatchResult}
 import client.utils.ActorUtils
 
@@ -25,8 +25,9 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   private val system = ActorSystem("ClientSystem")
   private val inbox = Inbox.create(system)
 
-  private val toServerCommunication2 = system.actorOf(Props[ToServerCommunication2], "toServerCommunication")
-  private val fromServerCommunication = system.actorOf(Props[FromServerCommunication2], "fromServerCommunication")
+  private val toServerCommunication2 = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
+  private val fromServerCommunication = system.actorOf(Props[FromServerCommunication], "fromServerCommunication")
+  private val P2PCommunication = system actorOf(Props[P2PCommunication], "P2PCommunication")
 
   private val observers: List[Observer] = null
 
