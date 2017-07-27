@@ -232,8 +232,21 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "senderIP" -> ActorUtils.IP_ADDRESS
     ))
 
-    val rensponse = getJSONMessage(message)
-    rensponse.obj("map").asInstanceOf[Map[String, Map[Direction, Image]]]
+    val response = getJSONMessage(message)
+    response.obj("map").asInstanceOf[Map[String, Map[Direction, Image]]]
+  }
+
+  /**
+    * Send to server the request to information to configure and synchronize the P2P Communication.
+    * Then start the game
+    *
+    **/
+  override def startMatch(): Unit = {
+    val message = JSONObject(Map[String,String](
+      "object" -> "startGame",
+      "senderIP" -> ActorUtils.IP_ADDRESS
+    ))
+    P2PCommunication ! message.asInstanceOf[JSONObject]
   }
 
   /**
@@ -256,12 +269,5 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[JSONObject]
   }
 
-  /**
-    * Send to server the request to information to configure and synchronize the P2P Communication.
-    * Then start the game
-    *
-    **/
-  override def startMatch(): Unit = {
-    //parte fede
-  }
+
 }
