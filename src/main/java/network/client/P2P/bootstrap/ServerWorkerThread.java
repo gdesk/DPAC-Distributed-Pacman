@@ -1,6 +1,6 @@
 package network.client.P2P.bootstrap;
 
-import network.client.P2P.messages.PeerMessages;
+import network.client.P2P.game.PeerStateRegister;
 import org.json.JSONObject;
 
 import java.net.InetAddress;
@@ -8,7 +8,6 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 
 
 /**
@@ -19,9 +18,11 @@ public class ServerWorkerThread implements PeerStateRegister, Runnable{
     private String ip;
     private int rmiPort;
     private JSONObject message;
+    private static Registry registry;
 
     public  ServerWorkerThread() throws UnknownHostException {
         this.ip = InetAddress.getLocalHost().toString();
+        registry = null;
         configureRmiPort();
         configureServerSystemCommunication();
 
@@ -49,7 +50,7 @@ public class ServerWorkerThread implements PeerStateRegister, Runnable{
 
     @Override
     public void run() {
-        Registry registry = null;
+
         try {
             registry = LocateRegistry.createRegistry(rmiPort);
         } catch (RemoteException e) {
@@ -58,24 +59,7 @@ public class ServerWorkerThread implements PeerStateRegister, Runnable{
         System.setProperty("Djava.rmi.server.codebase", "out/");
         System.setProperty("Djava.rmi.server.hostname", ip);
 
-        try {
-
-            ServerWorkerThread obj = new ServerWorkerThread();
-            PeerStateRegister stub = (PeerStateRegister) UnicastRemoteObject.exportObject(obj, rmiPort);
-
-            // Bind the remote object's stub in the registry
-            //registry = LocateRegistry.getRegistry();
-            registry.bind("Hello from F", stub);
-            //registry.bind("Hello from M", stub);
-            System.out.println("Server ready");
-            this.message.put(ip, PeerMessages.SERVER_IS_RUNNING);
-            //TODO SCOMMENTARE PRIMA DI PUSHARE SU DEVELOP
-            //this.inbox.send(bootstrapManager, message);
-            //TODO GESTIRE CHE L'INVIO DEL MESSAGGIO NON VADA A BUON FINE
-        } catch (Exception e) {
-            System.err.println("Server exception: " + e.toString());
-            e.printStackTrace();
-        }
+        System.out.println("Rmiregistry configured");
 
     }
 
@@ -112,6 +96,10 @@ public class ServerWorkerThread implements PeerStateRegister, Runnable{
         this.inbox = Inbox.create(system);
         this.message   = new JSONObject();*/
 
+    }
+
+    public static Registry getRegistry(){
+        return registry;
     }
 
 

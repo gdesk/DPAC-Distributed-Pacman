@@ -1,4 +1,4 @@
-package network.client.P2P.messages;
+package network.client.P2P.utils;
 
 /**
  * Created by Federica on 25/07/17.

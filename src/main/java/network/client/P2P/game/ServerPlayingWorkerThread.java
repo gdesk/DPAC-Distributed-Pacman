@@ -7,7 +7,7 @@ import client.model.character.Lives;
 import client.model.peerCommunication.ClientOutcomingMessageHandler;
 import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl;
 import client.model.utils.Point;
-import network.client.P2P.bootstrap.PeerStateRegister;
+import network.client.P2P.bootstrap.ServerWorkerThread;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
@@ -22,16 +22,19 @@ import java.util.Map;
  */
 public class ServerPlayingWorkerThread implements Runnable, Remote {
 
-    private Match match;
-    private Character character;
     private int rmiPort;
     private Registry registry;
-    private ClientOutcomingMessageHandler handler;
+    private Map<String, ServerPlayingWorkerThread> objects;
+
+    private Match match;
+    private Character character;
     private Point<Object,Object> currentPosition;
     private int currentScore;
     private Lives currentLives;
     private Boolean isDead;
-    private Map<String, ServerPlayingWorkerThread> objects;
+
+    private ClientOutcomingMessageHandler handler;
+
 
 
     public ServerPlayingWorkerThread(){}
@@ -40,7 +43,7 @@ public class ServerPlayingWorkerThread implements Runnable, Remote {
         this.match = MatchImpl.instance();
         //this.character = match.myCharacter(); //TODO SCOMMENTARE QUANDO PUSHO SU DEVELOP
         this.rmiPort = rmiPort;
-        this.registry = registry;
+        this.registry = ServerWorkerThread.getRegistry();
         this.handler = new ClientOutcomingMessageHandlerImpl();
         this.currentPosition = character.position();
         this.currentScore = character.score();
@@ -54,30 +57,15 @@ public class ServerPlayingWorkerThread implements Runnable, Remote {
     public void run() {
         initializeObjectBinding();
 
+        //this.message.put(ip, PeerMessages.SERVER_IS_RUNNING);
+        //TODO SCOMMENTARE PRIMA DI PUSHARE SU DEVELOP
+        //this.inbox.send(bootstrapManager, message);
+        //TODO GESTIRE CHE L'INVIO DEL MESSAGGIO NON VADA A BUON FINE
+
         //per far terminare questo while basta chiamare shutdown
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                if(!character.position().equals(currentPosition)){
-                    registry.rebind("currentPosition", objects.get("currentPosition"));
-                    this.currentPosition = character.position();
-                    handler.notifyMove(character);
-                }else if(!((Integer) character.score()).equals(currentScore)){
-                    //stub = (PeerStateRegister) UnicastRemoteObject.exportObject(objects.get("currentScore"), this.rmiPort);
-                    registry.rebind("currentScore", objects.get("currentScore"));
-                    this.currentScore = character.score();
-                    handler.notifyScore(character);
-                }else if(!character.lives().equals(currentLives)){
-                    //stub = (PeerStateRegister) UnicastRemoteObject.exportObject(objects.get("currentLives"), this.rmiPort);
-                    registry.rebind("currentLives", objects.get("currentLives"));
-                    this.currentLives = character.lives();
-                    handler.notifyRemainingLives(character);
-                }else if(!character.isAlive() == isDead){
-                    //stub = (PeerStateRegister) UnicastRemoteObject.exportObject(objects.get("isDead"), this.rmiPort);
-                    registry.rebind("isDead", objects.get("isDead"));
-                    this.isDead = character.isAlive();
-                    handler.notifyDeath(character);
-                }
-
+                updateObjects();
                 wait(1000);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
@@ -92,6 +80,7 @@ public class ServerPlayingWorkerThread implements Runnable, Remote {
     private void initializeObjectBinding(){
         PeerStateRegister stub;
 
+        //TO DO WRAPPER FOR STRING
         this.objects.put("currentPosition", new ServerPlayingWorkerThread());
         this.objects.put("currentScore", new ServerPlayingWorkerThread());
         this.objects.put("currentLives", new ServerPlayingWorkerThread());
@@ -105,6 +94,33 @@ public class ServerPlayingWorkerThread implements Runnable, Remote {
             } catch (RemoteException | AlreadyBoundException e) {
                 e.printStackTrace();
             }
+        }
+
+        System.out.println("Server ready");
+
+    }
+
+
+    private void updateObjects() throws RemoteException {
+        if(!character.position().equals(currentPosition)){
+            registry.rebind("currentPosition", objects.get("currentPosition"));
+            this.currentPosition = character.position();
+            handler.notifyMove(character);
+
+        }else if(!((Integer) character.score()).equals(currentScore)){
+            registry.rebind("currentScore", objects.get("currentScore"));
+            this.currentScore = character.score();
+            handler.notifyScore(character);
+
+        }else if(!character.lives().equals(currentLives)){
+            registry.rebind("currentLives", objects.get("currentLives"));
+            this.currentLives = character.lives();
+            handler.notifyRemainingLives(character);
+
+        }else if(!character.isAlive() == isDead){
+            registry.rebind("isDead", objects.get("isDead"));
+            this.isDead = character.isAlive();
+            handler.notifyDeath(character);
 
         }
 

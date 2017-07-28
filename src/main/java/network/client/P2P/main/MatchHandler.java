@@ -1,5 +1,6 @@
-package network.client.P2P.bootstrap;
+package network.client.P2P.main;
 
+import network.client.P2P.bootstrap.PeerBootstrap;
 import network.client.P2P.game.PeerPlaying;
 import network.client.P2P.shutdown.PeerShutdown;
 

@@ -14,33 +14,30 @@ public class ClientWorkerThread implements Runnable {
 
     private String ip;
     private final JSONObject message;
-
+    private static Registry registry;
 
     public ClientWorkerThread(String ip) throws UnknownHostException {
         this.ip = ip;
         this.message   = new JSONObject();
+        registry = null;
 
     }
 
     @Override
     public void run() {
 
-        if(startClients()) {
+        if(isClientStarted()) {
             System.setProperty("Djava.rmi.server.hostname", ip);
             String host = ip;
 
             try {
-                Registry registry = null;
+
                 try {
                     registry = LocateRegistry.getRegistry(host);
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
                 }
 
-                PeerStateRegister stub = (PeerStateRegister) registry.lookup("Hello from M");
-                //currentWorking.PeerStateRegister stub = (currentWorking.PeerStateRegister) registry.lookup("Hello from F");
-                String response = stub.sayHello();
-                System.out.println("response: " + response);
 
 
             } catch (Exception e) {
@@ -60,7 +57,7 @@ public class ClientWorkerThread implements Runnable {
      * has been properly configured.
      * @return
      */
-    private boolean startClients() {
+    private boolean isClientStarted() {
         //TODO
         /*try {
             if(this.inbox.toString().equals(PeerMessages.CLIENTS_CAN_START_RUNNING)){
@@ -72,5 +69,9 @@ public class ClientWorkerThread implements Runnable {
         }*/
 
         return false;
+    }
+
+    public static Registry getRegistry(){
+        return registry;
     }
 }
