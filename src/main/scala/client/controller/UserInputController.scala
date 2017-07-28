@@ -10,7 +10,7 @@ import client.view.PlaygroundPanel
 class UserInputController (val view: PlaygroundPanel)/*(val client.model.character.gameElement.character: Character) */ extends KeyListener{
 
   var currentX : Int = 45
-  var currentY: Int = 17
+  var currentY: Int = 15
 
   override def keyPressed(e: KeyEvent): Unit = {
     //todo: controllare bordi

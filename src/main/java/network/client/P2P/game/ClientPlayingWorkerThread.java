@@ -23,7 +23,7 @@ public class ClientPlayingWorkerThread implements Runnable {
     @Override
     public void run() {
 
-        PeerStateRegister stub;
+        PeerRegister stub;
         Point<Object, Object> positionResponse;
         int scoreResponse;
         Lives livesResponse;
@@ -40,16 +40,16 @@ public class ClientPlayingWorkerThread implements Runnable {
          */
         while(!Thread.currentThread().isInterrupted()) {
             try {
-                stub = (PeerStateRegister) registry.lookup("currentPosition");
+                stub = (PeerRegister) registry.lookup("currentPosition");
                 positionResponse = stub.getPosition();
 
-                stub = (PeerStateRegister) registry.lookup("currentScore");
+                stub = (PeerRegister) registry.lookup("currentScore");
                 scoreResponse = stub.getScore();
 
-                stub = (PeerStateRegister) registry.lookup("currentLives");
+                stub = (PeerRegister) registry.lookup("currentLives");
                 livesResponse = stub.getLives();
 
-                stub = (PeerStateRegister) registry.lookup("isAlive");
+                stub = (PeerRegister) registry.lookup("isAlive");
                 isAliveResponse = stub.isAlive();
 
 

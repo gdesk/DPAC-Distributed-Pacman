@@ -1,8 +1,8 @@
 package client.model.character
 
-import client.model.Direction
+import client.model._
 import client.model.gameElement.GameItem
-import client.model.utils.{Point, PointImpl}
+import client.model.utils.{Lives, Point, PointImpl}
 
 /**
   * Manages the base model of client.model.character.gameElement.character.
@@ -10,7 +10,7 @@ import client.model.utils.{Point, PointImpl}
   * @author Giulia Lucchi
   * @author Margherita Pecorelli
   */
-trait Character[X,Y] extends GameItem{
+trait Character extends GameItem{
   /**
     * Manages the client.model.character.gameElement.character's movement and consequently the contact with other item of the game.
     *
@@ -21,14 +21,15 @@ trait Character[X,Y] extends GameItem{
   /**
     * Manage the the strategy of game, that is based on who the killer is and who the killable
     */
-  def checkAllPositions(): Unit
+  def checkAllPositions: Unit
 
   /**
     * setter client.model.character.gameElement.character's position
     *
-    * @param point    a point of client.model.character.gameElement.character within the game map
+    * @param point    a point of client.model.character.gameElement.character within the game map.
+    * @throws OutOfPlaygroundBoundAccessException when the position is out of the ground.
     * */
-  def setPosition(point: Point[X,Y]): Unit
+  def setPosition(point: Point[Int,Int]): Unit
 
   /**
     * getter of client.model.character.gameElement.character's direction
@@ -105,9 +106,11 @@ trait Character[X,Y] extends GameItem{
   def score_=(score: Int): Unit
 }
 
-abstract class CharacterImpl(override var isKillable: Boolean) extends Character[Int, Int] {
+abstract class CharacterImpl(override var isKillable: Boolean) extends Character {
 
   private var pos: Point[Int, Int] = PointImpl(0,0)
+  private val playground: Playground = PlaygroundImpl instance()
+  private val game: Match = MatchImpl instance()
 
   override var isAlive: Boolean = true
   override var direction: Direction = Direction.START
@@ -118,11 +121,11 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     *
     * @param direction - client.model.character.gameElement.character's direction
     */
-  override def go(direction: Direction): Unit = {
+  override def go(direction: Direction) = {
     val point: Option[Point[Int, Int]] = move(direction)
-    if (point nonEmpty) {
+    if(point nonEmpty) {
       setPosition(point get)
-      checkAllPositions()
+      checkAllPositions
     } else {
       println("NO. it hit the wall.")
     }
@@ -134,7 +137,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     * @param direction the client.model.character.gameElement.character's direction during the movement
     * @return the new client.model.character.gameElement.character's position after the movement
     */
-  private def move(direction: Direction): Option[Point[Int, Int]] = {
+  private def move(direction: Direction) = {
     val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${pos x}, ${pos y},${direction getDirection}, X, Y).")
     if (solveInfo isSuccess) {
       val x = Integer.valueOf(solveInfo.getTerm("X").toString)
@@ -148,12 +151,29 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     *
     * @return item's position.
     */
-  override def position: Point[Int, Int] = pos
+  override def position = pos
 
    /**
-     * setter client.model.character.gameElement.character's position
+     * Sets character's position.
      *
-     * @param point a point of client.model.character.gameElement.character within the game map
+     * @param position a point of client.model.character.gameElement.character within the game map.
+     * @throws OutOfPlaygroundBoundAccessException when the position is out of the ground.
      **/
-   override def setPosition(point: Point[Int, Int]): Unit = pos = point
+   override def setPosition(position: Point[Int, Int]) = {
+     (playground checkPosition position)
+     pos = position
+   }
+
+  protected def prologGhostsList: String = {
+    var ghosts: String = "["
+    (game characters) filter (c => !(c.isInstanceOf[Pacman])) foreach(e =>
+      ghosts = ghosts + "ghost(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.name + "),"
+      )
+    if(game.myCharacter.isInstanceOf[Ghost]) ghosts = {
+      ghosts + "ghost(" + game.myCharacter.position.x + "," + game.myCharacter.position.y + "," + game.myCharacter.score + "," + game.myCharacter.name + "),"
+    }
+    ghosts = ghosts substring (0,(ghosts size)-1)
+    ghosts = ghosts + "]"
+    ghosts
+  }
  }

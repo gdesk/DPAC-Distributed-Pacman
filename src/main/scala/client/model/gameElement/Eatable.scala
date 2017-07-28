@@ -13,13 +13,6 @@ trait Eatable extends GameItem {
     def score: Int
 
     /**
-      * Returns the family to which the eatable object belongs
-      *
-      * @return object's family
-      */
-    def belonginFamily: String
-
-    /**
       * Returns the identifier of the eatable object.
       *
       * @return the object's identifier.

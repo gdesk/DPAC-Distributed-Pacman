@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Created by Federica on 27/07/17.
  */
-public class ServerPlayingWorkerThread implements Runnable, PeerStateRegister {
+public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
     private int rmiPort;
     private Registry registry;
@@ -97,7 +97,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerStateRegister {
 
 
     private void initializeObjectBinding(){
-        PeerStateRegister stub;
+        PeerRegister stub;
 
         //TO DO WRAPPER FOR STRING
         this.objects.put("currentPosition", new ServerPlayingWorkerThread());
@@ -107,7 +107,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerStateRegister {
 
         for(Map.Entry<String, ServerPlayingWorkerThread> pair: objects.entrySet()){
             try {
-                stub = (PeerStateRegister) UnicastRemoteObject.exportObject(pair.getValue(), this.rmiPort);
+                stub = (PeerRegister) UnicastRemoteObject.exportObject(pair.getValue(), this.rmiPort);
                 registry.bind(pair.getKey(), stub);
 
             } catch (RemoteException | AlreadyBoundException e) {

@@ -13,12 +13,6 @@ case class Bell(override val id: String, override val position: Point[Int, Int])
     */
   override def score: Int = Bell.score
 
-  /**
-    * Returns the family to which the eatable object belongs
-    *
-    * @return object's family
-    */
-  override def belonginFamily: String = "dot"
 }
 
 object Bell {

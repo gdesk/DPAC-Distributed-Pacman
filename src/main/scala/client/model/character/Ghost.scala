@@ -2,19 +2,25 @@ package client.model.character
 
 import java.lang.Integer.valueOf
 
-import client.model.{Direction, PacmanImpl}
-import client.model.utils.{PointImpl, ScalaProlog}
+import client.model._
+import client.model.utils.{LivesImpl, PointImpl, ScalaProlog}
 
 /**
   * Ghost in one of Characters.
   *
   * @author Giulia Lucchi
+  * @author Margherita Pecorelli
   */
+trait Ghost extends Character
 
-case class GhostImpl(override val name: String) extends CharacterImpl(false) {
+case class BaseGhost(override val name: String) extends CharacterImpl(false) with Ghost {
+
+  private val playground: Playground = PlaygroundImpl instance()
+  private val game: Match = MatchImpl instance()
 
   setPosition(PointImpl[Int, Int](20, 20))
-  //setPosition(InitializedInfoImpl.getStartPosition(ghostName.getName))
+  //setPosition(InitializedInfoImpl.getStartPosition("ghost"))
+
   override val lives = LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))
 
   /**
@@ -22,37 +28,37 @@ case class GhostImpl(override val name: String) extends CharacterImpl(false) {
     *
     * @param direction - client.model.character.gameElement.character's of direction
     */
-  override def go(direction: Direction): Unit = super.go(direction)
+  override def go(direction: Direction) = super.go(direction)
 
   /**
     * Manages the strategy of game, that is based on who is the killer and who is killable.
     *
     */
-  override def checkAllPositions(): Unit = {
-    /*solo per capire se funziona poi lo importeremo da scalaprolog e dovrò fare the convert ghost scala to ghost prolog*/
-    val blueGhost = GhostImpl("blueGhost")
-    val redGhost = GhostImpl("redGhost")
-    val yellowGhost = GhostImpl("yellowGhost")
-    val ghostList: List[String] = List(s" ghost(${blueGhost.position x}, ${blueGhost.position y}, ${blueGhost.score}, ${blueGhost.name})", s"ghost(${redGhost.position x}, ${redGhost.position y}, ${redGhost.score}, ${redGhost.name})")
-
-    val ghostEaten: Int = 1
-    var EatenGhostColor: List[String] = List()// lista
-    val pacman = PacmanImpl("pacman", BaseStrategy())
-    pacman.setPosition(PointImpl[Int,Int](20,20))
-    val listProlog = ScalaProlog.scalaToPrologList(ghostList)
-
-    if (isKillable) {
-      val solveInfo = PrologConfig.getPrologEngine().solve(s"ghost_defeat(pacman(${pacman.position x},${pacman.position y},${pacman.lives remainingLives},${pacman.score.toString}), ${listProlog}, ${ghostEaten}, PS, EG).")
-      val newScore = valueOf(solveInfo.getTerm("PS").toString)
-      val eatenGhost = ScalaProlog.prologToScalaList(solveInfo.getTerm("EG").toString )
-      pacman.score = newScore
+  override def checkAllPositions() = {
+    val ghosts = super.prologGhostsList
+    val pac: List[Character] = game.characters filter (c => (c.isInstanceOf[Pacman]))
+    val pacman = pac isEmpty match {
+      case true =>
+        game.myCharacter.asInstanceOf[Pacman]
+      case false =>
+        pac.head.asInstanceOf[Pacman]
+    }
+    if(isKillable) {
+      pacman.checkAllPositions
     } else {
-      val solveInfo = PrologConfig.getPrologEngine().solve(s"eat_pacman(pacman(${pacman.position x},${pacman.position y},${pacman.lives remainingLives},${pacman.score.toString}), ${listProlog}, NL, GS, CG).")
-      val newPacmanLives: Int = valueOf(solveInfo.getTerm("NL").toString)
-      pacman.lives.remainingLives_=(newPacmanLives)
-      val scoreGhost: Int = valueOf(solveInfo.getTerm("GS").toString)
-      score = scoreGhost
-      val killerGhost: String = solveInfo.getTerm("CG").toString
+      val solveInfo = PrologConfig.getPrologEngine() solve (s"eat_pacman(pacman(${pacman.position x},${pacman.position y},${pacman.lives remainingLives},${pacman.score.toString}), ${ghosts}, NL, GS, CG).")
+      val killerGhost = (game characters) find (c => c.name equals (solveInfo getTerm ("CG") toString))
+      val killer: Ghost = killerGhost isEmpty match {
+        case true =>
+          game.myCharacter.asInstanceOf[Ghost]
+        case false =>
+          killerGhost.get.asInstanceOf[Ghost]
+      }
+      if(killer equals this) {
+        pacman.lives remainingLives = valueOf(solveInfo getTerm ("NL") toString)
+        if(pacman.lives.remainingLives == 0) pacman isAlive = false
+        score = valueOf(solveInfo getTerm ("GS") toString)
+      }
     }
   }
 

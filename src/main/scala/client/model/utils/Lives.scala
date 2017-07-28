@@ -1,4 +1,4 @@
-package client.model.character
+package client.model.utils
 
 /**
   * Created by Giulia Lucchi on 28/06/2017.
@@ -7,7 +7,7 @@ trait Lives {
   /**
     * Decrement of one the remaining lives
     */
-  def decrement(): Unit
+  def decrement: Unit
 
   /**
     * Decrement of a particular gap the remaining lives
@@ -21,7 +21,7 @@ trait Lives {
     *
     * @return RemainingLives  the actual number of lives in the match
     */
-  def remainingLives(): Int
+  def remainingLives: Int
 
   /**
     * getter of remaining lives
@@ -35,12 +35,12 @@ case class LivesImpl(override var remainingLives: Int) extends Lives{
   /**
     * Decrement of one the remaining lives
     */
-  override def decrement(): Unit = remainingLives  = remainingLives - 1
+  override def decrement = remainingLives  = remainingLives - 1
 
   /**
     * Decrement of a particular gap the remaining lives
     *
     * @param gap number of lives to decrement
     */
-  override def decrementOf(gap: Int): Unit = remainingLives = remainingLives - gap
+  override def decrementOf(gap: Int) = remainingLives = remainingLives - gap
 }

@@ -9,4 +9,4 @@ import client.model.utils.Point
   *
   * @author manuBottax
   */
-case class Block(override val position: Point[Int, Int]) extends GameItem {}
+case class Block(override val position: Point[Int, Int]) extends GameItem
