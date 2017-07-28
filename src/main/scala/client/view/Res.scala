@@ -18,4 +18,5 @@ object Res {
   val PLAYER_BUTTON = "playerButton/empty"
   val PLAYER_OK = "playerButton/ok"
   val PLAYER_NO = "playerButton/no"
+
 }

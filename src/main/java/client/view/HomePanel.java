@@ -18,13 +18,13 @@ public class HomePanel extends JPanel {
 
     private final List<MatchResult> matches;
     private final FakeController controller = new FakeController();
+    private final JButton startGame =  createBlackButton("START GAME");
 
     public HomePanel(final String username){
 
         this.matches = controller.getmatches();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        final JButton startGame = createBlackButton("START GAME");
         final JButton exit = createBlackButton("EXIT");
 
         JPanel north = createWhitePanel();
@@ -53,7 +53,7 @@ public class HomePanel extends JPanel {
         add(scrollPane);
 
         startGame.addActionListener(e->{
-
+System.out.println("gggggghi");
             CreateTeamDialog createMatch = new CreateTeamDialog(MainFrame.getInstance());
             createMatch.setVisible(true);
         });
@@ -85,5 +85,9 @@ public class HomePanel extends JPanel {
         table.getTableHeader().setFont(new Font(table.getFont().getName(), Font.BOLD, 25));
 
         return table;
+    }
+
+    protected JButton getStartGameButton(){
+        return this.startGame;
     }
 }

@@ -1,9 +1,9 @@
 package client.view;
 
-import client.view.utils.JComponentsUtils;
-
 import javax.swing.*;
 import java.awt.*;
+
+import static client.view.utils.JComponentsUtils.FONT_SIZE;
 
 /**
  * Created by chiaravarini on 26/07/17.
@@ -15,36 +15,36 @@ public class GameOverDialog extends JDialog {
         if (frame != null) {
 
             Dimension frameDim = frame.getSize();
-            setMinimumSize(new Dimension((int) frameDim.getWidth() / 2, (int) frameDim.getHeight() / 3));
+            setMinimumSize(new Dimension((int) frameDim.getWidth() , (int) frameDim.getHeight() ));
             setLocationRelativeTo(null);
         }
 
-        // JPanel scores = new JPanel();
+        JLabel gameOver = new JLabel("GAME OVER");
+        gameOver.setFont(new Font(gameOver.getFont().getName(), Font.BOLD, FONT_SIZE*10));
+        gameOver.setForeground(Color.BLACK);
 
-        JButton playAgain = JComponentsUtils.createBlackButton("PLAY AGAIN");
-        playAgain.addActionListener(e->{
-            //
-            dispose();
-        });
-        JButton quit = JComponentsUtils.createBlackButton("QUIT");
+        JButton quit = new JButton("QUIT");
+        quit.setFont(new Font(quit.getFont().getName(), Font.BOLD, FONT_SIZE*3));
+        quit.setForeground(Color.BLACK);
+        //quit.setBorderPainted(false);
         quit.addActionListener(e->{
             frame.setContentPane(new HomePanel("chia")); //TODO controller
             dispose();
         });
 
+        setUndecorated(true);
+        getContentPane().setBackground(new Color(150,150,150));
+        setOpacity(new Float(0.7));
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipadx = 50;
+        gbc.ipady = 50;
+        gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.NONE;
-        add(playAgain, gbc);
-        gbc.gridx = 1;
-        add(new JLabel(" "), gbc);
-        gbc.gridx = 2;
+        add(gameOver, gbc);
+
+        gbc.gridy = 1;
         add(quit, gbc);
-
-        pack();
-
     }
 }
