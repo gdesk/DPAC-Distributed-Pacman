@@ -1,5 +1,6 @@
 package network.client.P2P.game;
 
+import client.model.character.Lives;
 import client.model.utils.Point;
 import network.client.P2P.bootstrap.ClientWorkerThread;
 
@@ -13,7 +14,6 @@ import java.rmi.registry.Registry;
 public class ClientPlayingWorkerThread implements Runnable {
 
     private Registry registry;
-    Point<Object, Object> positionResponse;
 
     public ClientPlayingWorkerThread(){
         this.registry = ClientWorkerThread.getRegistry();
@@ -26,8 +26,8 @@ public class ClientPlayingWorkerThread implements Runnable {
         PeerStateRegister stub;
         Point<Object, Object> positionResponse;
         int scoreResponse;
-        int livesResponse;
-        boolean isDeadResponse;
+        Lives livesResponse;
+        boolean isAliveResponse;
 
         /**
          * ogni client preleva nel registro del server su
@@ -49,11 +49,13 @@ public class ClientPlayingWorkerThread implements Runnable {
                 stub = (PeerStateRegister) registry.lookup("currentLives");
                 livesResponse = stub.getLives();
 
-                stub = (PeerStateRegister) registry.lookup("isDead");
-                isDeadResponse = stub.isAlive();
+                stub = (PeerStateRegister) registry.lookup("isAlive");
+                isAliveResponse = stub.isAlive();
 
 
-                //TODO COMPATTARE LO STREAM DI DATI IN INGRESSO CON RXJAVA
+                //TODO COMPATTARE LO STREAM DI DATI IN INGRESSO SU QUESTO CLIENT
+                //TODO E, A SUA VOLTA COMPATTARE CON STREAM DEGLI ALTRI CLIENT
+                //TODO SULLO STESSO PEER CON RXJAVA
                 wait(1000);
 
             } catch (RemoteException | NotBoundException | InterruptedException e) {

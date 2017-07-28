@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
  */
 public class PeerBootstrap {
 
-    private Set<String> serverIps;
+    private static Set<String> serverIps;
     private int poolSize;
     private ExecutorService executor;
     private Runnable worker;
@@ -70,5 +70,9 @@ public class PeerBootstrap {
 
         }
 
+    }
+
+    public static Set<String> getserverIps(){
+        return serverIps;
     }
 }

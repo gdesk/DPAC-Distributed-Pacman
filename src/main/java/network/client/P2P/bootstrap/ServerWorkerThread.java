@@ -1,8 +1,5 @@
 package network.client.P2P.bootstrap;
 
-import network.client.P2P.game.PeerStateRegister;
-import org.json.JSONObject;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
@@ -13,11 +10,10 @@ import java.rmi.registry.Registry;
 /**
  * Created by Federica on 21/07/17.
  */
-public class ServerWorkerThread implements PeerStateRegister, Runnable{
+public class ServerWorkerThread implements Runnable{
 
     private String ip;
     private int rmiPort;
-    private JSONObject message;
     private static Registry registry;
 
     public  ServerWorkerThread() throws UnknownHostException {
@@ -28,25 +24,7 @@ public class ServerWorkerThread implements PeerStateRegister, Runnable{
 
     }
 
-    @Override
-    public String sayHello() throws RemoteException {
-        return "[" + ip + "] Hello, world!";
-    }
 
-    /*@Override
-    public String getPosition() {
-        return null;
-    }
-
-    @Override
-    public int getScore() {
-        return 0;
-    }
-
-    @Override
-    public Boolean isAlive() {
-        return null;
-    }*/
 
     @Override
     public void run() {

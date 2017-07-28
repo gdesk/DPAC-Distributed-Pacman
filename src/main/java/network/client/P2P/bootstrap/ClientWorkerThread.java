@@ -1,7 +1,6 @@
 package network.client.P2P.bootstrap;
 
 
-import org.json.JSONObject;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -13,12 +12,10 @@ import java.rmi.registry.Registry;
 public class ClientWorkerThread implements Runnable {
 
     private String ip;
-    private final JSONObject message;
     private static Registry registry;
 
     public ClientWorkerThread(String ip) throws UnknownHostException {
         this.ip = ip;
-        this.message   = new JSONObject();
         registry = null;
 
     }
@@ -29,26 +26,14 @@ public class ClientWorkerThread implements Runnable {
         if(isClientStarted()) {
             System.setProperty("Djava.rmi.server.hostname", ip);
             String host = ip;
-
             try {
-
-                try {
-                    registry = LocateRegistry.getRegistry(host);
-                } catch (RemoteException e1) {
-                    e1.printStackTrace();
-                }
-
-
-
-            } catch (Exception e) {
-                System.err.println("Client exception: " + e.toString());
+                registry = LocateRegistry.getRegistry(host);
+            } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
 
     }
-
-
 
     /**
      * this method checks if client threads can

@@ -10,7 +10,6 @@ import client.model.utils.Point;
 import network.client.P2P.bootstrap.ServerWorkerThread;
 
 import java.rmi.AlreadyBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -20,7 +19,7 @@ import java.util.Map;
 /**
  * Created by Federica on 27/07/17.
  */
-public class ServerPlayingWorkerThread implements Runnable, Remote {
+public class ServerPlayingWorkerThread implements Runnable, PeerStateRegister {
 
     private int rmiPort;
     private Registry registry;
@@ -31,7 +30,7 @@ public class ServerPlayingWorkerThread implements Runnable, Remote {
     private Point<Object,Object> currentPosition;
     private int currentScore;
     private Lives currentLives;
-    private Boolean isDead;
+    private Boolean isAlive;
 
     private ClientOutcomingMessageHandler handler;
 
@@ -48,9 +47,29 @@ public class ServerPlayingWorkerThread implements Runnable, Remote {
         this.currentPosition = character.position();
         this.currentScore = character.score();
         this.currentLives = character.lives();
-        this.isDead = character.isAlive();
+        this.isAlive = character.isAlive();
         this.objects = new HashMap<>();
 
+    }
+
+    @Override
+    public Point<Object, Object> getPosition() {
+        return this.currentPosition;
+    }
+
+    @Override
+    public int getScore() {
+        return this.currentScore;
+    }
+
+    @Override
+    public Lives getLives() {
+        return this.currentLives;
+    }
+
+    @Override
+    public Boolean isAlive() {
+        return this.isAlive;
     }
 
     @Override
@@ -84,7 +103,7 @@ public class ServerPlayingWorkerThread implements Runnable, Remote {
         this.objects.put("currentPosition", new ServerPlayingWorkerThread());
         this.objects.put("currentScore", new ServerPlayingWorkerThread());
         this.objects.put("currentLives", new ServerPlayingWorkerThread());
-        this.objects.put("isDead", new ServerPlayingWorkerThread());
+        this.objects.put("isAlive", new ServerPlayingWorkerThread());
 
         for(Map.Entry<String, ServerPlayingWorkerThread> pair: objects.entrySet()){
             try {
@@ -117,14 +136,15 @@ public class ServerPlayingWorkerThread implements Runnable, Remote {
             this.currentLives = character.lives();
             handler.notifyRemainingLives(character);
 
-        }else if(!character.isAlive() == isDead){
-            registry.rebind("isDead", objects.get("isDead"));
-            this.isDead = character.isAlive();
+        }else if(!character.isAlive() == isAlive){
+            registry.rebind("isAlive", objects.get("isAlive"));
+            this.isAlive = character.isAlive();
             handler.notifyDeath(character);
 
         }
 
     }
+
 
 
 }

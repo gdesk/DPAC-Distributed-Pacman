@@ -1,20 +1,16 @@
-package network.client.P2P.game;
+/*
 
-import network.client.P2P.bootstrap.ClientWorkerThread;
-import network.client.P2P.bootstrap.ServerWorkerThread;
+TRACCIA DA SEGUIRE CHE CONTIENE TUTTA LA LOGICA P2P DI GIOCO
 
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
+package network.client.P2P.utils;
+ */
 
 /**
  * Created by Federica on 21/07/17.
  */
-//TODO DA SISTEMARE
-public class ThreadPool {
+
+/*public class ThreadPool {
 
 
     public static void main(String[] args) throws UnknownHostException, InterruptedException {
@@ -42,7 +38,7 @@ public class ThreadPool {
          * creo un thread per ogni peer con cui questo peer
          * dovrà comunicare (=> n peer tot. - 1)
          */
-        for(String ip: serverIps) {
+        /*for(String ip: serverIps) {
             worker = new ClientWorkerThread(ip);
             executor.execute(worker);
 
@@ -57,14 +53,12 @@ public class ThreadPool {
 
         //}
 
-        while(isMyPeerAlive){
+        /*while(isMyPeerAlive){
             Thread.sleep(10000);
             isMyPeerAlive = false;
         }
 
-        executor.shutdown();
-        while(!executor.isTerminated()){}
-        System.out.println("Finished all threads");
+
 
 
 
@@ -73,4 +67,4 @@ public class ThreadPool {
 
 
 
-}
+}*/

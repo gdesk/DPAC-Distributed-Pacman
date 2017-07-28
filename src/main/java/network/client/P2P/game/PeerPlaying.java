@@ -1,6 +1,9 @@
 package network.client.P2P.game;
 
+import network.client.P2P.bootstrap.PeerBootstrap;
+
 import java.net.UnknownHostException;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -9,21 +12,23 @@ import java.util.concurrent.Executors;
  */
 public class PeerPlaying {
 
+    private Set<String> serverIps;
     private int poolSize;
     private ExecutorService executor;
     private Runnable worker;
 
-    public PeerPlaying() {
 
+    public PeerPlaying() {
+        this.serverIps = PeerBootstrap.getserverIps();
         this.poolSize = Runtime.getRuntime().availableProcessors()+1;
         this.executor = Executors.newFixedThreadPool(poolSize);
+
         try {
             initServerPlayingThread();
             initClientPlayingThreads();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-
 
     }
 
@@ -43,16 +48,11 @@ public class PeerPlaying {
      * dovrà comunicare (=> n peer tot. - 1)
      */
     private void initClientPlayingThreads() throws UnknownHostException {
-        //for(String ip: serverIps) {
+        for(String ip: serverIps) {
             worker = new ClientPlayingWorkerThread();
             executor.execute(worker);
-
-        //}
+        }
 
     }
-
-
-
-
 
 }
