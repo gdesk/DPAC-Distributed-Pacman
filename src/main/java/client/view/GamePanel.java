@@ -5,6 +5,7 @@ import client.view.playground.MicroMapPanel;
 import client.view.playground.PlaygroundView;
 import client.view.utils.ImagesUtils;
 import client.view.utils.JComponentsUtils;
+import controller.FakeController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,7 @@ import static client.view.utils.JComponentsUtils.FONT_SIZE;
 public class GamePanel extends JLayeredPane {
 
     private PlaygroundView playground;
+    private final FakeController controller = new FakeController();
 
     private int currentX = 30;
     private int currentY = 8; //TODO CAMBIA
@@ -35,7 +37,7 @@ public class GamePanel extends JLayeredPane {
     }
 
     public void addMicroMap(){
-        JPanel microMap = new MicroMapPanel();
+        JPanel microMap = new MicroMapPanel(controller.getPlayground());
         add(microMap, 1);
     }
 

@@ -201,4 +201,8 @@ public class FakeController implements Controller{
 
         return false;
     }
+
+    public Playground getPlayground(){
+        return IOUtils.getPlaygroundFromFile("alex.dpac");
+    }
 }
