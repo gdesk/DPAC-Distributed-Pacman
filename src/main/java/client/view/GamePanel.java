@@ -1,6 +1,8 @@
 package client.view;
 
 import client.model.Direction;
+import client.model.utils.*;
+import client.model.utils.Point;
 import client.view.playground.MicroMapPanel;
 import client.view.playground.PlaygroundView;
 import client.view.utils.ImagesUtils;
@@ -26,20 +28,17 @@ public class GamePanel extends JLayeredPane {
 
     private final JLabel score = new JLabel("Score: 0");
     private int livesNum = 3;
+    private final MicroMapPanel microMap = new MicroMapPanel(controller.getPlayground());
 
     public GamePanel(final Container playground) {
 
         this.playground = (PlaygroundView) playground;
         this.add(playground, 0);
-        addMicroMap();
+        add(microMap, 1);
         addScorePanel();
         addLivesPanel(3);
     }
 
-    public void addMicroMap(){
-        JPanel microMap = new MicroMapPanel(controller.getPlayground());
-        add(microMap, 1);
-    }
 
     public void showResult(final String result) {
 
@@ -59,11 +58,13 @@ public class GamePanel extends JLayeredPane {
         add(victoryPanel, 1);
     }
 
-    public void move(final Direction dir) {
+    public void move(final CharacterView character, final Direction dir) {
+        Point<Integer, Integer> oldPosition = new PointImpl<>(currentX,currentY);
         if (playground != null) {
             playground.removeCharacter(currentX, currentY);
             updatePosition(dir);
-            playground.renderCharacter(currentX, currentY, new PacmanView(), dir);
+            playground.renderCharacter(currentX, currentY, character, dir);
+            microMap.moveCharacter(Color.red, new PointImpl<>(currentX,currentY), oldPosition);
         }
         revalidate();
         repaint();

@@ -21,11 +21,13 @@ public class MicroMapPanel extends JPanel {
     private final static int BOUND = 30;
     private final Playground playground;
     private final GridBagConstraints gbc = new GridBagConstraints();
+    private final MazePecePanel[][] panles;
 
     public MicroMapPanel(Playground playground){
         this.playground = playground;
         int columns = playground.dimension().x();
         int rows = playground.dimension().y();
+        this.panles = new MazePecePanel[columns+1][rows];
 
         setSize(new Dimension(new MazePecePanel().getPreferredSize().width*columns+BOUND/2, new MazePecePanel().getPreferredSize().width*rows+BOUND/2));
         setBorder(BorderFactory.createLineBorder(Color.white));
@@ -36,20 +38,20 @@ public class MicroMapPanel extends JPanel {
             for(int y = 0; y<rows; y++){
                 gbc.gridx = x;
                 gbc.gridy = y;
-                add(new MazePecePanel(),gbc);
+                MazePecePanel panel = new MazePecePanel();
+                add(panel,gbc);
+                panles[x][y] = panel;
             }
         }
-
         revalidate();
         repaint();
     }
 
-    public void moveCharacter(Color color, Point<Integer,Integer> position){
-        gbc.gridx = position.x();
-        gbc.gridy = position.y();
-        MazePecePanel characterPanel = new MazePecePanel();
-        characterPanel.setBackground(color);
-        add(characterPanel, position);
+    public void moveCharacter(Color color, Point<Integer,Integer> position, Point<Integer,Integer> oldPosition) {
+        panles[oldPosition.x()][oldPosition.y()].setBackground(Color.WHITE);
+        panles[position.x()][position.y()].setBackground(color);
+        revalidate();
+        repaint();
     }
 
     private class MazePecePanel extends JPanel{

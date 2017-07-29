@@ -34,6 +34,7 @@ public class FakeController implements Controller{
     private Playground playground;
     private int currentX = 30;
     private int currentY = 8; //TODO CAMBIA
+    private final CharacterView characterView = new PacmanView();
 
     public List<MatchResult>  getmatches(){
         List<MatchResult> r = new ArrayList<>();
@@ -150,7 +151,7 @@ public class FakeController implements Controller{
 
         if(checkPosition(direction)){
 
-            ((GamePanel)MainFrame.getInstance().getContentPane()).move(direction);
+            ((GamePanel)MainFrame.getInstance().getContentPane()).move(characterView, direction);
 
             switch (direction){
                 case UP:  currentY = currentY-1;break;
@@ -174,7 +175,7 @@ public class FakeController implements Controller{
 
         UserInputController keyboardController = new UserInputController(this);
         playgroundView.addKeyListener(keyboardController);
-        gp.move(Direction.RIGHT);
+        gp.move(characterView, Direction.RIGHT);
     }
 
     public void victory(){
