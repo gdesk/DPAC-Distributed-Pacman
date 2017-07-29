@@ -6,8 +6,10 @@ import java.awt.*;
 import static client.view.utils.JComponentsUtils.FONT_SIZE;
 
 /**
+ * This class represents the panel displayed when you lose
  * Created by chiaravarini on 26/07/17.
  */
+
 public class GameOverDialog extends JDialog {
 
     public GameOverDialog(final JFrame frame){
@@ -26,7 +28,6 @@ public class GameOverDialog extends JDialog {
         JButton quit = new JButton("QUIT");
         quit.setFont(new Font(quit.getFont().getName(), Font.BOLD, FONT_SIZE*3));
         quit.setForeground(Color.BLACK);
-        //quit.setBorderPainted(false);
         quit.addActionListener(e->{
             frame.setContentPane(new HomePanel("chia")); //TODO controller
             dispose();

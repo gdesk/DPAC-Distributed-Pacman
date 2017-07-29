@@ -59,7 +59,6 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         this.revalidate();
     }
 
-
     /**
      * Shows a labyrinth block in the specified position
      * @param x Horizontal position on grid
