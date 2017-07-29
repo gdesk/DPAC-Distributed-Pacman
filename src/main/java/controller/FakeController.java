@@ -1,6 +1,5 @@
 package controller;
 
-import client.controller.Controller;
 import client.controller.UserInputController;
 import client.model.Direction;
 import client.model.MatchResult;
@@ -13,7 +12,6 @@ import client.model.utils.Point;
 import client.model.utils.PointImpl;
 import client.utils.IOUtils;
 import client.view.*;
-import client.view.GamePanel;
 import client.view.playground.PlaygroundBuilderImpl;
 import client.view.playground.PlaygroundPanel;
 import client.view.playground.PlaygroundView;
@@ -28,7 +26,7 @@ import java.util.List;
 /**
  * Created by chiaravarini on 10/07/17.
  */
-public class FakeController implements Controller{
+public class FakeController {
 
     private CreateTeamDialog ct;
     private Playground playground;
@@ -141,17 +139,15 @@ public class FakeController implements Controller{
         return "CHIA";
     }
 
-    @Override
     public void startMatch(Map<Character, String> players, Character character, Dimension playgroundDimention, scala.collection.immutable.List<GameItem> ground) {
 
     }
 
-    @Override
     public Point<Object, Object> move(Direction direction) {
 
         if(checkPosition(direction)){
 
-            ((GamePanel)MainFrame.getInstance().getContentPane()).move(characterView, direction);
+            ((GamePanelImpl)MainFrame.getInstance().getContentPane()).move(characterView, direction);
 
             switch (direction){
                 case UP:  currentY = currentY-1;break;
@@ -169,7 +165,7 @@ public class FakeController implements Controller{
 
         PlaygroundPanel playgroundView = initializePlaygroundView("alex.dpac", null );//model.getCharacterList());
         MainFrame.getInstance().setContentPane(playgroundView);
-        GamePanel gp = new GamePanel(playgroundView);
+        GamePanelImpl gp = new GamePanelImpl(playgroundView);
 
         MainFrame.getInstance().setContentPane(gp);
 
@@ -187,8 +183,8 @@ public class FakeController implements Controller{
     }
 
     private void showResult(final String result){
-        if(MainFrame.getInstance().getContentPane() instanceof GamePanel) {
-            ((GamePanel)MainFrame.getInstance().getContentPane()).showResult(result);
+        if(MainFrame.getInstance().getContentPane() instanceof GamePanelImpl) {
+            ((GamePanelImpl)MainFrame.getInstance().getContentPane()).showResult(result);
         }
     }
 

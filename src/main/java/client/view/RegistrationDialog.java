@@ -1,6 +1,7 @@
 package client.view;
 
-import controller.FakeController;
+import client.controller.BaseControllerUser;
+import client.controller.ControllerUser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,7 @@ public class RegistrationDialog extends JDialog {
     private final int lenghtTextField = 30;
     private final JPanel infoPanel = new JPanel(new GridBagLayout());
     private final GridBagConstraints gbc = new GridBagConstraints();
-    private final FakeController controller = new FakeController();
+    private final ControllerUser controller = BaseControllerUser.instance();
 
     public RegistrationDialog(final JFrame frame){
         super(frame, "Registration", true);

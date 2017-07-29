@@ -7,6 +7,7 @@ import client.model.character.Pacman
 import client.model.character.Character
 import client.model.gameElement.Eatable
 import client.model.utils.Point
+import client.view.{GamePanel, GamePanelImpl}
 
 /**
   * Created by margherita on 25/07/17.
@@ -24,7 +25,7 @@ trait ControllerCharacter {
 
 }
 
-case class BaseControllerCharacter(private val view = View) extends ControllerCharacter with Observer{
+case class BaseControllerCharacter(private val view: GamePanel) extends ControllerCharacter with Observer{
 
   private val gameMatch: Match = MatchImpl instance()
   private val playeground: Playground = PlaygroundImpl instance()

@@ -1,7 +1,8 @@
 package client.view;
 
+import client.controller.BaseControllerUser;
+import client.controller.ControllerUser;
 import client.model.MatchResult;
-import controller.FakeController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,12 +18,12 @@ import static client.view.utils.JComponentsUtils.*;
 public class HomePanel extends JPanel {
 
     private final List<MatchResult> matches;
-    private final FakeController controller = new FakeController();
+    private final ControllerUser controller = BaseControllerUser.instance();
     private final JButton startGame =  createBlackButton("START GAME");
 
     public HomePanel(final String username){
 
-        this.matches = controller.getmatches();
+        this.matches = Utils.getJavaList(controller.getAllMatchesResults(username));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         final JButton exit = createBlackButton("EXIT");
@@ -53,13 +54,12 @@ public class HomePanel extends JPanel {
         add(scrollPane);
 
         startGame.addActionListener(e->{
-System.out.println("gggggghi");
             CreateTeamDialog createMatch = new CreateTeamDialog(MainFrame.getInstance());
             createMatch.setVisible(true);
         });
 
         exit.addActionListener(e->{
-            controller.exit(username);
+            controller.logout();
             MainFrame.getInstance().setContentPane(new LoginPanel());
         });
     }
@@ -85,9 +85,5 @@ System.out.println("gggggghi");
         table.getTableHeader().setFont(new Font(table.getFont().getName(), Font.BOLD, 25));
 
         return table;
-    }
-
-    protected JButton getStartGameButton(){
-        return this.startGame;
     }
 }

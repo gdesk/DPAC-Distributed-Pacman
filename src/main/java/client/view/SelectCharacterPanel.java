@@ -11,7 +11,7 @@ import static client.view.utils.JComponentsUtils.*;
 /**
  * Created by chiaravarini on 14/07/17.
  */
-public class SelectCharacterPanel extends JPanel {
+public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
 
     private final Dimension CHARACTER_IMAGE_DIMENSION = calculatedImageCharDimension(10);//new Dimension(100,100);
     private final Dimension PLAYGROUND_IMAGE_DIMENSION = calculatedImageCharDimension(2.2);

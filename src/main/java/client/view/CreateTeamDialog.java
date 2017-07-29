@@ -1,5 +1,6 @@
 package client.view;
 
+import client.controller.ControllerMatch;
 import client.view.utils.ImagesUtils;
 import controller.FakeController;
 
@@ -17,7 +18,7 @@ import static client.view.utils.JComponentsUtils.createWhitePanel;
  */
 public class CreateTeamDialog extends JDialog {
 
-    private final FakeController controller = new FakeController();
+    private final ControllerMatch controller = new FakeController();
     private final PlayersPanel playerPanel = new PlayersPanel();
     private int width = 1;
 

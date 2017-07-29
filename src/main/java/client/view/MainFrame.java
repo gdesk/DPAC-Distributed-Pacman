@@ -12,7 +12,6 @@ import java.awt.*;
 public class MainFrame extends JFrame {
 
     public static final Dimension DIMENSION = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
-    //public static final Controller controller = Controller.getInstance();
     private static MainFrame SINGLETON = null;
 
     public static MainFrame getInstance(){  //TODO passare il controller

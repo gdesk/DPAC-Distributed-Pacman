@@ -1,6 +1,7 @@
 package client.view;
 
-import controller.FakeController;
+import client.controller.BaseControllerUser;
+import client.controller.ControllerUser;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,7 +17,7 @@ public class LoginPanel extends JPanel {
 
     private final static int JTEXTEFIELD_COLUMNS = 20;
     private final static int TOP_BORDER_PADDING = 30;
-    private final FakeController controller = new FakeController();
+    private final static ControllerUser controller = BaseControllerUser.instance();
 
     public LoginPanel() {
 

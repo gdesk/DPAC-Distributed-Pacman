@@ -8,6 +8,7 @@ import client.model._
 import client.model.character.Character
 import client.model.gameElement.GameItem
 import client.model.utils.Dimension
+import client.view.SelectCharacterView
 
 import scala.collection.mutable
 
@@ -40,7 +41,7 @@ trait ControllerMatch {
 
 }
 
-case class BaseControllerMatch(private val view: View) extends ControllerMatch with Observer {
+case class BaseControllerMatch(private val view: SelectCharacterView) extends ControllerMatch with Observer {
 
   private val model = ToClientCommunicationImpl()
   private val gameMatch: Match = MatchImpl instance()
