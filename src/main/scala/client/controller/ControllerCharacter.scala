@@ -47,8 +47,8 @@ case class BaseControllerCharacter(private val view: GamePanel) extends Controll
         val postEatenObj: List[Eatable] = playeground eatenObjects
         val eatenObjet = postEatenObj diff preEatenObj
         if(!(eatenObjet isEmpty)) {
-          view eatenObject (eatenObjet head)
-          view score (character score)
+          //view eatenObject (eatenObjet head)
+          //view score (character score)
         }
       case false =>
         character go direction
@@ -63,7 +63,7 @@ case class BaseControllerCharacter(private val view: GamePanel) extends Controll
         case "remainingLives" => view updateLives pair._2
         case "isDead" => view deleteCharacter pair._2
         case "score" => view updateScore pair._2.score
-        case "move" => view move pair._2
+        //case "move" => view move pair._2
       }
     }
   }

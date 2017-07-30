@@ -14,6 +14,8 @@ import client.utils.IOUtils
 import client.view.SelectCharacterView
 
 import scala.collection.mutable
+import scala.collection.JavaConverters._
+
 
 /**
   * Created by margherita on 11/07/17.
@@ -44,13 +46,13 @@ trait ControllerMatch {
 
 }
 
-case class BaseControllerMatch(private val view: SelectCharacterView) extends ControllerMatch with Observer {
+case class BaseControllerMatch private (private val view: SelectCharacterView) extends ControllerMatch with Observer {
 
   private val model = ToClientCommunicationImpl()
   private val gameMatch: Match = MatchImpl instance()
   private val playground: Playground = PlaygroundImpl instance()
 
-  override def getRanges = model getRanges
+  override def getRanges =  List( Range (3,5), Range(5,10), Range(10,15)) //model getRanges TODO cambia
 
   override def getCharacters = model getCharactersToChoose
 
@@ -60,7 +62,7 @@ case class BaseControllerMatch(private val view: SelectCharacterView) extends Co
 
   override def choosePlayground(playground: Int) = model choosePlayground playground
 
-  override def MatchResul(result: MatchResult, user: String) = model MatchResult (result, user)
+  override def MatchResul(result: MatchResult, user: String) = model MatchResult(result, user)
 
   /**
     * Method called to start the match.
@@ -78,14 +80,13 @@ case class BaseControllerMatch(private val view: SelectCharacterView) extends Co
     playground ground = ground
   }
 
-  override def update(o:Observable, arg: scala.Any) = arg match {
+  override def update(o: Observable, arg: scala.Any) = arg match {
 
     case x if x.isInstanceOf[Map[String, Map[Direction, Image]]] => {
-      import scala.collection.JavaConverters._
 
       val x1 = arg.asInstanceOf[Map[String, Map[Direction, Image]]]
       val x2: util.Map[String, java.util.Map[Direction, Image]] = new util.HashMap[String, java.util.Map[Direction, Image]]()
-      x1.keySet.foreach(k => x2 put (k, (x1.get(k) get).asJava))
+      x1.keySet.foreach(k => x2 put(k, (x1.get(k) get).asJava))
 
       view charactersChoosen x2
     }
@@ -95,5 +96,13 @@ case class BaseControllerMatch(private val view: SelectCharacterView) extends Co
       val playground = IOUtils.getPlaygroundFromFile(file.getName)
       view playgroundChoosen (playground)
     }
+  }
+}
+
+object BaseControllerMatch {
+  private var _instance: BaseControllerMatch = null
+  def instance(view :SelectCharacterView): BaseControllerMatch = _instance match{
+    case null => _instance = new BaseControllerMatch(view); _instance
+    case _ => _instance
   }
 }

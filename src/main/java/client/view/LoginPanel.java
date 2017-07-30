@@ -82,13 +82,11 @@ public class LoginPanel extends JPanel {
 
         login.addActionListener(e->{
             boolean loginCorrect = controller.login(userInput.getText(), Utils.transformInString(passwordInput.getPassword()));
-
             if(!loginCorrect){
                 userErr.setVisible(true);
             }else {
                 MainFrame.getInstance().setContentPane(new HomePanel(userInput.getText()));
             }
-
         });
 
         registration.addActionListener(e->{

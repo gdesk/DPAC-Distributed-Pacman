@@ -8,7 +8,7 @@ import javax.swing.ImageIcon
 
 import client.view.utils.ImagesResolutions
 import Res._
-
+import scala.collection.JavaConverters._
 /**
   * Created by chiaravarini on 01/07/17.
   */
@@ -36,10 +36,8 @@ object Utils {
 
   }
 
-  def getJavaList[E](list: List[E]): java.util.List[E] = {
-    import scala.collection.JavaConverters._
-    list.asJava
-  }
+  def getJavaList[E](list: List[E]): java.util.List[E] = list.asJava
+
 
   def transformInString (array: Array[Char]): String = {
     var res = ""
@@ -47,9 +45,11 @@ object Utils {
     res
   }
 
-  def getScalaMap[A,B](map: java.util.Map[A,B]): scala.collection.mutable.Map[A,B] = {
-    import scala.collection.JavaConverters._
-    map.asScala
+  def getScalaMap[A,B](map: java.util.Map[A,B]): scala.collection.mutable.Map[A,B] = map.asScala
+
+
+  def scalaRangeToString(ranges: List[Range]): java.util.List[client.view.utils.Range] ={
+    ranges map(r => new client.view.utils.Range(r min, r max)) asJava
   }
   /* def playSound(sound: String):Unit = {
     val clip = AudioSystem.getClip

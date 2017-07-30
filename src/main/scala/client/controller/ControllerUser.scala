@@ -21,9 +21,9 @@ trait ControllerUser {
 case class BaseControllerUser private(private val model: ToClientCommunicationImpl) extends ControllerUser {
   override def registration(name: String, username: String, email: String, password: String, confirmPassword: String) = model registration (name, username, email, password, confirmPassword)
 
-  override def login(username: String, password: String) = model login (username, password) isDefined
+  override def login(username: String, password: String) = true //model login (username, password) //TODO cambia
 
-  override def getAllMatchesResults(username: String) = model getAllMatchesResults username
+  override def getAllMatchesResults(username: String) = List(new MatchResultImpl(true, 210)) //model getAllMatchesResults username //TODO cambia
 
   override def logout() = ??? //model logout
 }

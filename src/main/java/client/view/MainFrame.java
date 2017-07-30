@@ -26,6 +26,7 @@ public class MainFrame extends JFrame {
 
         setSize(DIMENSION);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setUndecorated(true);
         setContentPane(new LoginPanel());
         setResizable(false);
         setVisible(true);

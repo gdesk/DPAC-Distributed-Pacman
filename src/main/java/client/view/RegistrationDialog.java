@@ -64,8 +64,10 @@ public class RegistrationDialog extends JDialog {
                     errLabel.setVisible(true);   //registrationResult.getMessageError()
                     revalidate();
                     repaint();
+
                 } else {
                     //TODO mandare mail di notifica di registrazione?
+
                     MainFrame.getInstance().setContentPane(new HomePanel(username.getText()));
                     dispose();
                 }

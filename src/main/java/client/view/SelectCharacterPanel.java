@@ -1,10 +1,14 @@
 package client.view;
 
+import client.controller.BaseControllerMatch;
+import client.controller.ControllerMatch;
+import client.model.Direction;
+import client.model.Playground;
 import client.view.utils.ImagesUtils;
-import controller.FakeController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 import static client.view.utils.JComponentsUtils.*;
 
@@ -16,7 +20,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     private final Dimension CHARACTER_IMAGE_DIMENSION = calculatedImageCharDimension(10);//new Dimension(100,100);
     private final Dimension PLAYGROUND_IMAGE_DIMENSION = calculatedImageCharDimension(2.2);
 
-    private final FakeController controller = new FakeController();
+    private final ControllerMatch controller = BaseControllerMatch.instance(this) ;
     private final JButton doneButton = createButton("DONE");;
 
     private JButton characterChoosed = new JButton();
@@ -42,9 +46,9 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
 
         JPanel characterPanel = createColorPanel();
         characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.X_AXIS));
-        controller.getAllCharactersImagesJava().forEach((img, nameImage)-> {
+      /*  controller.getAllCharactersImagesJava().forEach((img, nameImage)-> {
             characterPanel.add(createImagePanel(img, nameImage, CHARACTER_IMAGE_DIMENSION));
-        });
+        });*/
         JScrollPane characterScroll = new JScrollPane(characterPanel);
 
         center.add(createSectionTitle("Select one Character"));
@@ -56,9 +60,9 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         JPanel playgroundPanel = createColorPanel();
         playgroundPanel.setLayout(new BoxLayout(playgroundPanel, BoxLayout.X_AXIS));
 
-        controller.getAllPlaygroundsImages().forEach( (img,nameImage) -> {
+/*        controller.getAllPlaygroundsImages().forEach( (img,nameImage) -> {
             playgroundPanel.add(createImagePanel(img, nameImage, PLAYGROUND_IMAGE_DIMENSION));
-        });
+        });*/
         JScrollPane playgroundScroll = new JScrollPane(playgroundPanel);
 
         south.add(createSectionTitle("Select one Playground"));
@@ -69,7 +73,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         add(south, BorderLayout.SOUTH);
 
         exitButton.addActionListener(e->{
-            MainFrame.getInstance().setContentPane(new HomePanel(controller.getUsername()));
+            //MainFrame.getInstance().setContentPane(new HomePanel(controller.getUsername()));
         });
 
         doneButton.addActionListener(e->{
@@ -77,7 +81,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
             //invia il nome del personaggio e il playground
             //((ImageIcon)characterChoosed.getIcon()).getDescription();
             //((ImageIcon)playgroundChoosed.getIcon()).getDescription();
-            controller.startGame();
+          //  controller.startGame();
         });
     }
 
@@ -143,5 +147,15 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         if(isCharacterChoosed && isPlaygroundChoosed){
             doneButton.setEnabled(true);
         }
+    }
+
+    @Override
+    public void charactersChoosen(Map<String, Map<Direction, Image>> charactersMap) {
+
+    }
+
+    @Override
+    public void playgroundChoosen(Playground playground) {
+
     }
 }

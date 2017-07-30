@@ -1,8 +1,9 @@
 package client.view;
 
+import client.controller.BaseControllerMatch;
 import client.controller.ControllerMatch;
 import client.view.utils.ImagesUtils;
-import controller.FakeController;
+import client.view.utils.Range;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,9 +19,11 @@ import static client.view.utils.JComponentsUtils.createWhitePanel;
  */
 public class CreateTeamDialog extends JDialog {
 
-    private final ControllerMatch controller = new FakeController();
+    private final SelectCharacterPanel nextView = new SelectCharacterPanel();
+    private final ControllerMatch controller = BaseControllerMatch.instance(nextView);
     private final PlayersPanel playerPanel = new PlayersPanel();
     private int width = 1;
+    private final JButton starGame = new JButton("START");
 
     private  int numPlayer  = 1;
     public CreateTeamDialog(final JFrame frame){
@@ -38,10 +41,10 @@ public class CreateTeamDialog extends JDialog {
 
             JPanel buttonPanel = createWhitePanel();
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-            JButton starGame = new JButton("START");
+            starGame.setEnabled(true); //TODO cambia mettere false
             starGame.addActionListener(e->{
                 dispose();
-                frame.setContentPane(new SelectCharacterPanel());
+                frame.setContentPane(nextView);
             });
 
             JButton addFiends = new JButton("+ ADD FRIENDS");
@@ -54,31 +57,26 @@ public class CreateTeamDialog extends JDialog {
 
             JPanel numberPlayerPanel = createWhitePanel();
             numberPlayerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-            List<String> ranges = controller.getTeamRange();
-            JComboBox comboRange = new JComboBox(ranges.toArray());
 
+            List<Range> ranges = Utils.scalaRangeToString(controller.getRanges());
+            JComboBox comboRange = new JComboBox();
+            ranges.forEach(r -> comboRange.addItem(r.getMin() + "-"+ (r.getMax()+1)));
             comboRange.addActionListener(e->{
-                switch((String)comboRange.getSelectedItem()){
-                    case "3-5": numPlayer = 5; break;
-                    case "5-10": numPlayer = 10; break;
-                    case "10-15": numPlayer = 15; break;
-                    case "15-20": numPlayer = 20; break;
-                }
-
-                playerPanel.init(numPlayer);
+                Range rangeSelected = ranges.get(comboRange.getSelectedIndex());
+                playerPanel.init(rangeSelected);
             });
 
             numberPlayerPanel.add(comboRange);
             numberPlayerPanel.add(new JLabel("Select the number of players"));
             p.add(numberPlayerPanel);
-            playerPanel.init(5);
+            playerPanel.init(new Range(-1,-1));
             p.add(playerPanel);
             p.add(buttonPanel);
             add(p);
         }
     }
 
-    synchronized public void update(Boolean response){   //TODO passare il nome del player?
+    public void markUser(Boolean response){
         if(response){
             playerPanel.markOK();
         } else {
@@ -90,21 +88,22 @@ public class CreateTeamDialog extends JDialog {
 
         private int index = 0;
         private int imgDim = 20;
-        private int numPlayer = 1;
+        private Range rangePlayers;
+        private int numPlayerOK = 1;
         private List<JLabel> icons = new ArrayList<>();
 
         public PlayersPanel(){
             setBackground(BACKGROUND_COLOR);
         }
 
-        private synchronized void init(final int numPlayers ){
+        private synchronized void init(final Range rangePlayers){
             this.index = 0;
-            this.numPlayer = numPlayers;
+            this.rangePlayers = rangePlayers;
             icons.clear();
             removeAll();
-            for(int i = 0; i<numPlayers; i++) {
+            for(int i = 0; i<rangePlayers.getMax()+1; i++) {
                 JLabel l = new JLabel();
-                imgDim = width / (numPlayers+1);
+                imgDim = width / (rangePlayers.getMax()+2);
                 l.setIcon(new ImageIcon(ImagesUtils.getScaledImage(Utils.getImage(Res.PLAYER_BUTTON()), imgDim, imgDim)));
                 icons.add(l);
                 add(l);
@@ -117,6 +116,10 @@ public class CreateTeamDialog extends JDialog {
             System.out.println(index);
             icons.get(index).setIcon(new ImageIcon(ImagesUtils.getScaledImage(Utils.getImage(Res.PLAYER_OK()), imgDim, imgDim)));
             index = index+1%numPlayer;
+            numPlayerOK ++;
+            if(numPlayerOK<=rangePlayers.getMin()){
+                starGame.setEnabled(true);
+            }
             revalidate();
             repaint();
         }

@@ -216,5 +216,6 @@ override def chooseCharacter(character: String): Boolean = {
   override def addObserver(observer: Observer): Unit = {
     observers.::(observer)
   }
+
 }
 

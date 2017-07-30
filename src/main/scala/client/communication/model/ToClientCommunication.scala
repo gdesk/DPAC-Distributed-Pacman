@@ -69,7 +69,7 @@ trait ToClientCommunication {
     * @return true  if character has been already chosen
     *         false otherwise
     */
-  def chooseCharacter(character: Character): Boolean
+  def chooseCharacter(character: String): Boolean
 
   /**
     * Receives from server the List of available playgrounds.
