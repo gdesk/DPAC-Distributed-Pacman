@@ -54,9 +54,8 @@ public class HomePanel extends JPanel {
         add(scrollPane);
 
         startGame.addActionListener(e->{
-            //CreateTeamDialog createMatch = new CreateTeamDialog(MainFrame.getInstance());
-            //createMatch.setVisible(true);
-            new RequestDialog(MainFrame.getInstance()).setVisible(true);
+            CreateTeamDialog createMatch = new CreateTeamDialog(MainFrame.getInstance());
+            createMatch.setVisible(true);
         });
 
         exit.addActionListener(e->{
