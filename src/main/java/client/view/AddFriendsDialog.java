@@ -1,7 +1,5 @@
 package client.view;
 
-import controller.FakeController;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,7 +15,6 @@ public class AddFriendsDialog extends JDialog {
     private final JTextField username = new JTextField(FONT_SIZE);
     private final JButton send = new JButton("Send Request");
     private final JButton cancel = new JButton("Cancel");
-    private final FakeController controller = new FakeController();
 
     private int friendsAdded = 0;
 
@@ -52,7 +49,7 @@ public class AddFriendsDialog extends JDialog {
             friendsAdded++;
             username.setText("");
             friendsAddedCounter.setText("Firends added: "+friendsAdded);
-            controller.sendRequest(username.getText());
+            //controller.sendRequest(username.getText());
         });
     }
 }

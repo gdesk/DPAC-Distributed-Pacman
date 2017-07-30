@@ -13,4 +13,6 @@ public interface SelectCharacterView {
 
     void charactersChoosen(final Map<String,Map<Direction,Image>> charactersMap);
     void playgroundChoosen(final Playground playground);
+    void disableCharacter(final String nameImage);
+    void enableCharacter(final String nameImage);
 }

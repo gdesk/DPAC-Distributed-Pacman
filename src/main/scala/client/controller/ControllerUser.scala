@@ -16,6 +16,8 @@ trait ControllerUser {
 
   def logout()
 
+  def getPlayerUsername(): String
+
 }
 
 case class BaseControllerUser private(private val model: ToClientCommunicationImpl) extends ControllerUser {
@@ -26,6 +28,8 @@ case class BaseControllerUser private(private val model: ToClientCommunicationIm
   override def getAllMatchesResults(username: String) = List(new MatchResultImpl(true, 210)) //model getAllMatchesResults username //TODO cambia
 
   override def logout() = ??? //model logout
+
+  override def getPlayerUsername() = "chia" //TODO cambia
 }
 
 object BaseControllerUser {

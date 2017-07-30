@@ -38,7 +38,6 @@ object Utils {
 
   def getJavaList[E](list: List[E]): java.util.List[E] = list.asJava
 
-
   def transformInString (array: Array[Char]): String = {
     var res = ""
     array.toSeq.foreach(c=> res += c)
@@ -47,10 +46,11 @@ object Utils {
 
   def getScalaMap[A,B](map: java.util.Map[A,B]): scala.collection.mutable.Map[A,B] = map.asScala
 
-
   def scalaRangeToString(ranges: List[Range]): java.util.List[client.view.utils.Range] ={
     ranges map(r => new client.view.utils.Range(r min, r max)) asJava
   }
+
+  def getJavaMap[A,B](map: Map[A,B]) = map.asJava
   /* def playSound(sound: String):Unit = {
     val clip = AudioSystem.getClip
     clip.open(AudioSystem.getAudioInputStream(getResource(sound)))

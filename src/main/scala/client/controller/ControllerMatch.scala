@@ -11,10 +11,11 @@ import client.model.character.Character
 import client.model.gameElement.GameItem
 import client.model.utils.Dimension
 import client.utils.IOUtils
-import client.view.SelectCharacterView
+import client.view._
 
 import scala.collection.mutable
 import scala.collection.JavaConverters._
+import scala.collection.immutable.HashMap
 
 
 /**
@@ -54,11 +55,26 @@ case class BaseControllerMatch private (private val view: SelectCharacterView) e
 
   override def getRanges =  List( Range (3,5), Range(5,10), Range(10,15)) //model getRanges TODO cambia
 
-  override def getCharacters = model getCharactersToChoose
+  override def getCharacters = {
+    val map = new HashMap[String,Image]
+    var res = map + ("PACMAN" ->  new PacmanView().getCharacterRight)
+    res = res + ("RED" ->  new RedGhostView().getCharacterRight)
+    res = res + ("BLUE" ->  new BlueGhostView().getCharacterRight)
+    res = res + ("PINK" ->  new PinkGhostView().getCharacterRight)
+    res
+  }// model getCharactersToChoose TODO cambia
 
   override def chooseCharacter(characterName: String) = model chooseCharacter characterName
 
-  override def getPlaygrounds = ??? //model getPlaygrounds
+  override def getPlaygrounds = {
+    val map = new HashMap[Int,Image]
+    var res: Map[Int, Image] = map + (1 -> Utils.getImage("/mazes/arancione"))
+    res = res + (2 -> Utils.getImage("/mazes/rosso"))
+    res = res + (3 -> Utils.getImage("/mazes/blu"))
+    res = res + (4 -> Utils.getImage("/mazes/rosa"))
+    res = res + (5 -> Utils.getImage("/mazes/rossoGiallo"))
+    res
+  }//model getPlaygrounds TODO cambia
 
   override def choosePlayground(playground: Int) = model choosePlayground playground
 
