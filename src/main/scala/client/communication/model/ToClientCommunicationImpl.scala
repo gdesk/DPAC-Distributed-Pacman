@@ -62,7 +62,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "password" -> password
     ))
 
-    user = UserImpl(,username, password)
+    user = UserImpl(username, password)
     val response= getJSONMessage(message)
     response.obj("registration").asInstanceOf[Boolean]
   }
