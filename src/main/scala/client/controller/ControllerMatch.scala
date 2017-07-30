@@ -1,6 +1,8 @@
 package client.controller
 
 import java.awt.Image
+import java.io.File
+import java.util
 import java.util.{Observable, Observer}
 
 import client.communication.model.ToClientCommunicationImpl
@@ -8,6 +10,7 @@ import client.model._
 import client.model.character.Character
 import client.model.gameElement.GameItem
 import client.model.utils.Dimension
+import client.utils.IOUtils
 import client.view.SelectCharacterView
 
 import scala.collection.mutable
@@ -53,7 +56,7 @@ case class BaseControllerMatch(private val view: SelectCharacterView) extends Co
 
   override def chooseCharacter(characterName: String) = model chooseCharacter characterName
 
-  override def getPlaygrounds = model getPlaygrounds
+  override def getPlaygrounds = ??? //model getPlaygrounds
 
   override def choosePlayground(playground: Int) = model choosePlayground playground
 
@@ -76,9 +79,21 @@ case class BaseControllerMatch(private val view: SelectCharacterView) extends Co
   }
 
   override def update(o:Observable, arg: scala.Any) = arg match {
-    case x if x.isInstanceOf[Map[String, Map[Direction, Image]]] => view charactersChoosen (arg/*.asInstanceOf[Map[String, Map[Direction, Image]]]*/)
-    case _ => view playgroundChoosen (arg/*.asInstanceOf[File]*/)
+
+    case x if x.isInstanceOf[Map[String, Map[Direction, Image]]] => {
+      import scala.collection.JavaConverters._
+
+      val x1 = arg.asInstanceOf[Map[String, Map[Direction, Image]]]
+      val x2: util.Map[String, java.util.Map[Direction, Image]] = new util.HashMap[String, java.util.Map[Direction, Image]]()
+      x1.keySet.foreach(k => x2 put (k, (x1.get(k) get).asJava))
+
+      view charactersChoosen x2
+    }
+    case _ => {
+      //TODO salvare il file
+      val file = arg.asInstanceOf[File]
+      val playground = IOUtils.getPlaygroundFromFile(file.getName)
+      view playgroundChoosen (playground)
+    }
   }
-
-
 }
