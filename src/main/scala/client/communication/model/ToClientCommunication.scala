@@ -86,10 +86,10 @@ trait ToClientCommunication {
   /**
     * Send to server the playground chosen. It's recall when the player choose the playground of current match.
     *
-    * @param playground position of playground's in the file list.
+    * @param idPlayground position of playground's in the file list.
     *
     */
-  def choosePlayground(playground: Int): Unit
+  def choosePlayground(idPlayground: Int): Unit
 
 
   /**

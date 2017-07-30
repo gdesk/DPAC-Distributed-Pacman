@@ -1,16 +1,19 @@
 package client.communication.model
 
 import java.awt.Image
+import java.io.File
 import java.util.Observer
 import java.util.concurrent.TimeUnit
 
 import akka.actor.{ActorSystem, Inbox, Props}
 import client.communication.model.actor.{FromServerCommunication, P2PCommunication, ToServerCommunication}
-import client.model.{Direction, MatchResult}
-import client.utils.ActorUtils
+import client.model._
+import client.model.character.{BaseGhost, BasePacman}
+import client.model.utils.BaseEatObjectStrategy
+import client.utils.{ActorUtils, IOUtils}
 
+import scala.collection.mutable
 import scala.concurrent.duration.Duration
-import scala.reflect.io.File
 import scala.util.parsing.json.JSONObject
 
 /**
@@ -30,6 +33,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   private val P2PCommunication = system actorOf(Props[P2PCommunication], "P2PCommunication")
 
   private val observers: List[Observer] = null
+  private val currentMatch: Match = MatchImpl()
 
   /**
     * Send the message to actor AccessManager with the registration's data and
@@ -166,17 +170,20 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   /**
     * Send to server the playground chosen. It's recall when the player choose the playground of current match.
     *
-    * @param playground position of playground's in the file list.
+    * @param idPlayground position of playground's in the file list.
     *
     */
-  override def choosePlayground(playground: Int): Unit = {
+  override def choosePlayground(idPlayground: Int): Unit = {
     val message = JSONObject(Map[String, Any](
       "object" -> "chosenPlayground",
       "senderIP" -> ActorUtils.IP_ADDRESS,
-      "playground" -> playground))
+      "playground" -> idPlayground
+    ))
 
     val response = getJSONMessage(message)
-    val playgroundFile = response.obj("playground").asInstanceOf[File] // initialize
+    val playgroundFile = response.obj("playground").asInstanceOf[File]
+    val playground = IOUtils.getPlaygroundFromFile(playgroundFile)
+    currentMatch.playground_=(playground)
   }
 
   /**
@@ -233,7 +240,27 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     ))
 
     val response = getJSONMessage(message)
+    val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
+    var players :mutable.Map[client.model.character.Character, String] = null
+    typeCharacters.keySet.foreach(ipAddress => ipAddress match{
+      case ActorUtils.IP_ADDRESS => {
+        val singleCharacter = typeCharacters(ActorUtils.IP_ADDRESS)
+        singleCharacter(1) match{
+          case "pacman" => currentMatch.myCharacter_=(BasePacman(singleCharacter(2) ,BaseEatObjectStrategy()))
+          case "ghost" => currentMatch.myCharacter_=(BaseGhost(singleCharacter(2)))
+        }
+      }
+      case _ =>{
+        val singleCharacter = typeCharacters(ipAddress)
+        singleCharacter(1) match{
+          case "pacman" => players + (BasePacman(singleCharacter(2) ,BaseEatObjectStrategy()) -> ipAddress)
+          case "ghost" => players + (BaseGhost(singleCharacter(2)) -> ipAddress)
+        }
+      }
+    })
+    currentMatch.addPlayers(players)
     response.obj("map").asInstanceOf[Map[String, Map[Direction, Image]]]
+
   }
 
   /**
@@ -268,6 +295,4 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     inbox.send(toServerCommunication, message)
     inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[JSONObject]
   }
-
-
 }
