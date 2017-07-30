@@ -34,6 +34,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
   private val observers: List[Observer] = null
   private val currentMatch: Match = MatchImpl()
+  private var user: User = null
 
   /**
     * Send the message to actor AccessManager with the registration's data and
@@ -61,6 +62,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "password" -> password
     ))
 
+    user = UserImpl(,username, password)
     val response= getJSONMessage(message)
     response.obj("registration").asInstanceOf[Boolean]
   }
@@ -83,6 +85,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "password" -> password
     ))
 
+    user = UserImpl(username, password)
     val response = getJSONMessage(message)
     response.obj("list").asInstanceOf[Option[List[MatchResult]]]
   }
@@ -242,25 +245,24 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val response = getJSONMessage(message)
     val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
     var players :mutable.Map[client.model.character.Character, String] = null
-    typeCharacters.keySet.foreach(ipAddress => ipAddress match{
+    typeCharacters.keySet.foreach {
       case ActorUtils.IP_ADDRESS => {
         val singleCharacter = typeCharacters(ActorUtils.IP_ADDRESS)
-        singleCharacter(1) match{
-          case "pacman" => currentMatch.myCharacter_=(BasePacman(singleCharacter(2) ,BaseEatObjectStrategy()))
+        singleCharacter(1) match {
+          case "pacman" => currentMatch.myCharacter_=(BasePacman(singleCharacter(2), BaseEatObjectStrategy()))
           case "ghost" => currentMatch.myCharacter_=(BaseGhost(singleCharacter(2)))
         }
       }
-      case _ =>{
+      case ipAddress => {
         val singleCharacter = typeCharacters(ipAddress)
-        singleCharacter(1) match{
-          case "pacman" => players + (BasePacman(singleCharacter(2) ,BaseEatObjectStrategy()) -> ipAddress)
-          case "ghost" => players + (BaseGhost(singleCharacter(2)) -> ipAddress)
+        singleCharacter(1) match {
+          case "pacman" => players + (BasePacman(singleCharacter(2), BaseEatObjectStrategy()) -> user.username())
+          case "ghost" => players + (BaseGhost(singleCharacter(2)) -> user.username())
         }
       }
-    })
+    }
     currentMatch.addPlayers(players)
     response.obj("map").asInstanceOf[Map[String, Map[Direction, Image]]]
-
   }
 
   /**
