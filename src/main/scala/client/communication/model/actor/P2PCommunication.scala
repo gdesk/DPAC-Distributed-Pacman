@@ -32,7 +32,6 @@ class P2PCommunication extends UntypedAbstractActor {
 
         new MatchHandler
 
-
     }
 
   }

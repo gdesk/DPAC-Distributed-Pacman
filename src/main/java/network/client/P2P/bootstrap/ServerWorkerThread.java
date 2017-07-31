@@ -20,7 +20,6 @@ public class ServerWorkerThread implements Runnable{
         this.ip = InetAddress.getLocalHost().toString();
         registry = null;
         configureRmiPort();
-        configureServerSystemCommunication();
 
     }
 
@@ -59,20 +58,6 @@ public class ServerWorkerThread implements Runnable{
                 }
             }
         }
-
-    }
-
-    /**
-     * this method sets up communication between this class (currentWorking.ServerWorkerThread)
-     * and a server actor (MessageReceiverActor). So that it is possible to handle
-     * interaction between object oriented and Actor paradigms.
-     */
-    private void configureServerSystemCommunication(){
-
-        //TODO
-        /*this.system = ActorSystem.create("PeerServerSystem");
-        this.inbox = Inbox.create(system);
-        this.message   = new JSONObject();*/
 
     }
 

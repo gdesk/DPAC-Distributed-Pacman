@@ -17,24 +17,6 @@ public class PeerBootstrap {
 
     public PeerBootstrap() {
 
-        /**
-         * clientIps is set from an actor (p.e.
-         * OutocominPeerHandlerActor who will receive a
-         * json message (p.e. json(actorIp, Set<String> ips))
-         * from server)
-         */
-
-        //TODO
-        /*try {
-            if(this.inbox instanceof Set<?>){
-                this.inbox.receive(FiniteDuration.apply(5, TimeUnit.SECONDS));
-                this.serverIps = (Set<String>) this.inbox;
-            }
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        }*/
-
-        //====================================
 
         this.poolSize = Runtime.getRuntime().availableProcessors()+1;
         this.executor = Executors.newFixedThreadPool(poolSize);

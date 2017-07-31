@@ -1,6 +1,6 @@
 package network.client.P2P.game;
 
-import client.model.character.Lives;
+import client.model.utils.Lives;
 import client.model.utils.Point;
 import network.client.P2P.bootstrap.ClientWorkerThread;
 
