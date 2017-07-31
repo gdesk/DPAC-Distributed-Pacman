@@ -1,6 +1,8 @@
 package network.client.P2P.toyEx;
 
-import network.client.PortRangeGenerator;
+
+
+import network.client.P2P.bootstrap.PortRangeHandler;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -24,7 +26,7 @@ public class Peer implements Hello{
 
     public Peer() throws UnknownHostException {
         this.id = InetAddress.getLocalHost().toString();
-        this.rmiPort = PortRangeGenerator.getAvailablePortNumber();
+        this.rmiPort = PortRangeHandler.getPortNumber();
     }
 
 

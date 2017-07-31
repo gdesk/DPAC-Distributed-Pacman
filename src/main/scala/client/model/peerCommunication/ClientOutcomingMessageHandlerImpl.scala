@@ -1,13 +1,14 @@
 package client.model.peerCommunication
 import java.util.{Observable, Observer}
-import javax.security.auth.Subject
+
+import client.model.MatchImpl
 
 /**
   * Created by Federica on 26/07/17.
   */
 class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingMessageHandler {
 
-  var character = Character
+  val character = MatchImpl.instance().myCharacter
 
   /**
     * this method allows to register controller
@@ -15,10 +16,10 @@ class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingM
     * - model is observable
     * - controller is observer of model
     *
+    * @param observer
     */
-  override def addObserver(observer: Observer): Unit =
+  def addObserver(observer: Any): Unit =
     this.addObserver(observer)
-
 
   /**
     * method to notify controller and other peers
