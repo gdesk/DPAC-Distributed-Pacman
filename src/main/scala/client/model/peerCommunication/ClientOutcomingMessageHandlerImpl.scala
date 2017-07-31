@@ -2,13 +2,12 @@ package client.model.peerCommunication
 import java.util.{Observable, Observer}
 
 import client.model.MatchImpl
+import client.model.character.Character
 
 /**
   * Created by Federica on 26/07/17.
   */
 class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingMessageHandler {
-
-  val character = MatchImpl.instance().myCharacter
 
   /**
     * this method allows to register controller
@@ -21,14 +20,6 @@ class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingM
   def addObserver(observer: Any): Unit =
     this.addObserver(observer)
 
-  /**
-    * method to notify controller and other peers
-    * about the number of lives left to this peer
-    *
-    * @param arg
-    */
-  override def notifyRemainingLives(arg: Any): Unit = 
-    notifyObservers("remainingLives", character)
 
 
   /**
@@ -58,5 +49,11 @@ class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingM
   def notifyDeath(arg: scala.Any): Unit =
     notifyObservers("isDead", character)
 
-
+  /**
+    * method to notify controller and other peers
+    * about the number of lives left to this peer
+    *
+    */
+  override def notifyRemainingLives(s: String, c: Character): Unit =
+    notifyObservers(s: String, c: Character)
 }

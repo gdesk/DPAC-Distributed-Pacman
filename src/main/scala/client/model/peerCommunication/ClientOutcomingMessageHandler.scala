@@ -1,6 +1,7 @@
 package client.model.peerCommunication
 
 import java.util.Observer
+import client.model.character.Character
 
 /**
   * Created by Federica on 24/07/17.
@@ -25,30 +26,31 @@ trait ClientOutcomingMessageHandler  {
   /**
     * method to notify controller and other peers
     * about the number of lives left to this peer
-    * @param arg
+
     */
-  def notifyRemainingLives(arg: scala.Any): Unit
+  def notifyRemainingLives(arg:Any): Unit
 
   /**
     * method to notify controller and other peers
     * about the current total score of this peer
-    * @param arg
+
     */
-  def notifyScore(arg: scala.Any): Unit
+  //def notifyScore(s: String, c: Character): Unit
+  def notifyScore(arg:Any): Unit
 
   /**
     * method to notify controller and other peers
     * about the current position of this peer
-    * @param arg
+
     */
-  def notifyMove(arg: scala.Any): Unit
+  def notifyMove(arg:Any): Unit
 
   /**
     * method to notify controller and other peers
     * about the current state (dead or alive) of this peer
-    * @param arg
+
     */
-  def notifyDeath(arg: scala.Any): Unit
+  def notifyDeath(arg:Any): Unit
 
 
 

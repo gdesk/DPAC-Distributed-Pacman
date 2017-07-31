@@ -10,26 +10,28 @@ trait ClientIncomingMessageHandler {
   /**
     * this method updates the remaining lives for this peer
     *
-    * @param character
+
     */
-  def updateRemainingLives(character: Character): Unit
+  def updateRemainingLives(arg:Any): Unit
   /**
     * this method updates the current score for this peer
     *
-    * @param character
+
     */
-   def updateScore(character: Character): Unit
+   //def updateScore(character: Character): Unit
+
+   def updateScore(arg:Any):Unit
   /**
     * this method updates the current position for this peer
     *
-    * @param character
+
     */
-   def updatePosition(character: Character): Unit
+   def updatePosition(arg:Any): Unit
 
   /**
     * this method updates the current state for this peer
     *
-    * @param character
+
     */
-   def updateIsDead(character: Character): Unit
+   def updateIsDead(arg:Any): Unit
 }

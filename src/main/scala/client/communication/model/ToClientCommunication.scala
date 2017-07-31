@@ -1,9 +1,17 @@
 package client.communication.model
 
 import java.awt.Image
+<<<<<<< HEAD
 import java.util.Observer
 
 import client.model.{Direction, MatchResult}
+=======
+import java.io.File
+import java.util.Observer
+
+import client.model.{Direction, MatchResult}
+import client.model.character.Character
+>>>>>>> 68886a0350f42d164cd02a62837241401739b052
 
 /**
   * This class manages the model of communication between Client and Server.
@@ -27,7 +35,11 @@ trait ToClientCommunication {
   def registration(name: String, username: String, email: String, password: String, confirmPassword: String): Boolean
 
   /**
+<<<<<<< HEAD
     * Send the message to actor ToServerCommunication with the login's data and
+=======
+    * Send the message to actor AccessManager with the login's data and
+>>>>>>> 68886a0350f42d164cd02a62837241401739b052
     * receive from sever the response with also the MatchResult
     * @param username
     * @param password
@@ -38,6 +50,7 @@ trait ToClientCommunication {
   def login(username: String, password: String): Option[List[MatchResult]]
 
   /**
+<<<<<<< HEAD
     * Send to server the username to remove the user from online users' list.
     *
     * @param username user's username who wants to disconnect
@@ -45,6 +58,8 @@ trait ToClientCommunication {
   def logout(username: String): Unit
 
   /**
+=======
+>>>>>>> 68886a0350f42d164cd02a62837241401739b052
     *  Receives to server the list of range to play the match.
     *
     * @return list of range to players' game
@@ -74,14 +89,22 @@ trait ToClientCommunication {
     * @return true  if character has been already chosen
     *         false otherwise
     */
+<<<<<<< HEAD
   def chooseCharacter(character: String): Boolean
+=======
+  def chooseCharacter(character: Character): Boolean
+>>>>>>> 68886a0350f42d164cd02a62837241401739b052
 
   /**
     * Receives from server the List of available playgrounds.
     *
     * @return list of available playgrounds
     */
+<<<<<<< HEAD
   def getPlaygrounds: Map[Int, Image]
+=======
+  def getPlaygrounds: List[File]
+>>>>>>> 68886a0350f42d164cd02a62837241401739b052
 
   /**
     * Send to server the playground chosen. It's recall when the player choose the playground of current match.
@@ -101,6 +124,16 @@ trait ToClientCommunication {
   def MatchResult(result: MatchResult, user: String): Unit
 
   /**
+<<<<<<< HEAD
+=======
+    * Adds the observer.
+    *
+    * @param observer observer to add.
+    */
+  def addObserver(observer: Observer): Unit
+
+  /**
+>>>>>>> 68886a0350f42d164cd02a62837241401739b052
     * Receives from server playgrond's string, corresponding to chosen playground.
     * SONO  SERVE AL CONTROLLER
     * @return Playground chosen in current match
@@ -114,6 +147,7 @@ trait ToClientCommunication {
     * @return list of all match with its result
     */
   def getAllMatchesResults(username: String): List[MatchResult]
+<<<<<<< HEAD
 
   /**
     * Adds the observer.
@@ -128,4 +162,6 @@ trait ToClientCommunication {
     *
     * */
   def startMatch(): Unit
+=======
+>>>>>>> 68886a0350f42d164cd02a62837241401739b052
 }

@@ -3,10 +3,8 @@ package network.client.P2P.game;
 import client.model.Match;
 import client.model.MatchImpl;
 import client.model.character.Character;
-
 import client.model.peerCommunication.ClientOutcomingMessageHandler;
 import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl;
-import client.model.utils.Lives;
 import client.model.utils.Point;
 import network.client.P2P.bootstrap.ServerWorkerThread;
 
@@ -30,7 +28,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     private Character character;
     private Point<Object,Object> currentPosition;
     private int currentScore;
-    private Lives currentLives;
+    private String currentLives;
     private Boolean isAlive;
 
     private ClientOutcomingMessageHandler handler;
@@ -41,13 +39,13 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
     public ServerPlayingWorkerThread(int rmiPort, Registry registry){
         this.match = MatchImpl.instance();
-        //this.character = match.myCharacter(); //TODO SCOMMENTARE QUANDO PUSHO SU DEVELOP
+        this.character = match.myCharacter(); //TODO SCOMMENTARE QUANDO PUSHO SU DEVELOP
         this.rmiPort = rmiPort;
         this.registry = ServerWorkerThread.getRegistry();
         this.handler = new ClientOutcomingMessageHandlerImpl();
         this.currentPosition = character.position();
         this.currentScore = character.score();
-        this.currentLives = character.lives();
+        this.currentLives = character.lives().toString();
         this.isAlive = character.isAlive();
         this.objects = new HashMap<>();
 
@@ -64,7 +62,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     }
 
     @Override
-    public Lives getLives() {
+    public String getLives() {
         return this.currentLives;
     }
 
@@ -134,8 +132,9 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
         }else if(!character.lives().equals(currentLives)){
             registry.rebind("currentLives", objects.get("currentLives"));
-            this.currentLives = character.lives();
+            this.currentLives = character.lives().toString();
             handler.notifyRemainingLives(character);
+            //handler.notifyRemainingLives("remainingLives", character);
 
         }else if(!character.isAlive() == isAlive){
             registry.rebind("isAlive", objects.get("isAlive"));
