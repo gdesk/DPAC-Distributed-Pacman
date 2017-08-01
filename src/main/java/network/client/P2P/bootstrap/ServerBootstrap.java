@@ -10,41 +10,24 @@ import java.rmi.registry.Registry;
 /**
  * Created by Federica on 21/07/17.
  */
-public class ServerWorkerThread implements Runnable{
+public class ServerBootstrap {
 
     private String ip;
     private int rmiPort;
     private static Registry registry;
 
-    public  ServerWorkerThread() throws UnknownHostException {
+    public  ServerBootstrap() throws UnknownHostException {
         this.ip = InetAddress.getLocalHost().toString();
-        registry = null;
         configureRmiPort();
-
+        setUpRmiregistry();
     }
 
-
-
-    @Override
-    public void run() {
-
-        try {
-            registry = LocateRegistry.createRegistry(rmiPort);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        System.setProperty("Djava.rmi.server.codebase", "out/");
-        System.setProperty("Djava.rmi.server.hostname", ip);
-
-        System.out.println("Rmiregistry configured");
-
-    }
 
     /**
      * this method configures server port on which
      * rmiregisty has to be launched
      */
-    private void configureRmiPort() {
+    private void configureRmiPort(){
         int count = 0;
         int maxTries = 5;
         while (true) {
@@ -58,6 +41,21 @@ public class ServerWorkerThread implements Runnable{
                 }
             }
         }
+
+    }
+
+    /**
+     * this method creates an rmiregistry on a
+     * given port
+     */
+    private void setUpRmiregistry() {
+        try {
+            this.registry = LocateRegistry.createRegistry(rmiPort);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        System.setProperty("Djava.rmi.server.codebase", "out/");
+        System.setProperty("Djava.rmi.server.hostname", ip);
 
     }
 

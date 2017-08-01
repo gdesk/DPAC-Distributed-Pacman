@@ -6,7 +6,8 @@ import client.model.character.Character;
 import client.model.peerCommunication.ClientOutcomingMessageHandler;
 import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl;
 import client.model.utils.Point;
-import network.client.P2P.bootstrap.ServerWorkerThread;
+import network.client.P2P.bootstrap.ServerBootstrap;
+
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -37,11 +38,11 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
     public ServerPlayingWorkerThread(){}
 
-    public ServerPlayingWorkerThread(int rmiPort, Registry registry){
+    public ServerPlayingWorkerThread(int rmiPort){
         this.match = MatchImpl.instance();
-        this.character = match.myCharacter(); //TODO SCOMMENTARE QUANDO PUSHO SU DEVELOP
+        //this.character = match.myCharacter(); //TODO SCOMMENTARE QUANDO PUSHO SU DEVELOP
         this.rmiPort = rmiPort;
-        this.registry = ServerWorkerThread.getRegistry();
+        this.registry = ServerBootstrap.getRegistry();
         this.handler = new ClientOutcomingMessageHandlerImpl();
         this.currentPosition = character.position();
         this.currentScore = character.score();
@@ -74,11 +75,6 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     @Override
     public void run() {
         initializeObjectBinding();
-
-        //this.message.put(ip, PeerMessages.SERVER_IS_RUNNING);
-        //TODO SCOMMENTARE PRIMA DI PUSHARE SU DEVELOP
-        //this.inbox.send(bootstrapManager, message);
-        //TODO GESTIRE CHE L'INVIO DEL MESSAGGIO NON VADA A BUON FINE
 
         //per far terminare questo while basta chiamare shutdown
         while (!Thread.currentThread().isInterrupted()) {
