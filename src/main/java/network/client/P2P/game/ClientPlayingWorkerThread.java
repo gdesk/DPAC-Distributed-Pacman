@@ -35,7 +35,6 @@ public class ClientPlayingWorkerThread implements Runnable {
 
     }
 
-
     @Override
     public void run() {
         PeerRegister stub;

@@ -11,11 +11,9 @@ import java.rmi.registry.Registry;
  */
 public class ClientBootstrap {
 
-    //private String ip;
     private static Registry registry;
 
     public ClientBootstrap(String ip) throws UnknownHostException {
-        //this.ip = ip;
         System.setProperty("Djava.rmi.server.hostname", ip);
         try {
             registry = LocateRegistry.getRegistry(ip);

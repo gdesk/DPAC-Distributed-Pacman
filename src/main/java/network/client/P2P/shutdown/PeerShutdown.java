@@ -16,9 +16,6 @@ public class PeerShutdown {
      */
 
         /*PeerShutdown() {
-            executor.shutdown();
-            while (!executor.isTerminated()) {
-            }
-            System.out.println("Finished all threads");
+
         }*/
 }
