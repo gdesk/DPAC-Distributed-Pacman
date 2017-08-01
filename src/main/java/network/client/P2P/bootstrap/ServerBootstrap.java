@@ -50,7 +50,7 @@ public class ServerBootstrap {
      */
     private void setUpRmiregistry() {
         try {
-            this.registry = LocateRegistry.createRegistry(rmiPort);
+            registry = LocateRegistry.createRegistry(rmiPort);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

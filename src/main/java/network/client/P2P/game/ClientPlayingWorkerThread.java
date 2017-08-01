@@ -2,82 +2,116 @@ package network.client.P2P.game;
 
 import client.model.peerCommunication.ClientIncomingMessageHandler;
 import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
-import io.reactivex.Observable;
-import network.client.P2P.bootstrap.ClientWorkerThread;
+import network.client.P2P.bootstrap.ClientBootstrap;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.Callable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Federica on 27/07/17.
  */
-public class ClientPlayingWorkerThread implements Callable<List<String>> {
+public class ClientPlayingWorkerThread implements Runnable {
 
     private Registry registry;
     private ClientIncomingMessageHandler handler;
-    private List<String> list;
+    private Map<String, String> responses;
 
-    public ClientPlayingWorkerThread() {
-        this.registry = ClientWorkerThread.getRegistry();
+    public ClientPlayingWorkerThread() throws RemoteException, NotBoundException {
+        this.registry = ClientBootstrap.getRegistry();
         this.handler = new ClientIncomingMessageHandlerImpl();
-        this.list = new LinkedList<>();
+
+        //initialize client character
+        this.responses = new HashMap<String, String>() {{
+            put("currentPositionX", "");
+            put("currentPositionY", "");
+            put("currentScore", "");
+            put("currentLives", "");
+            put("currentIsDead", "");
+
+        }};
+
     }
 
 
     @Override
-    public List<String> call() throws Exception {
-
+    public void run() {
         PeerRegister stub;
-        String positionResponseX;
-        String positionResponseY;
-        String scoreResponse;
-        String livesResponse;
-        String isAliveResponse;
-
-        /**
-         * ogni client preleva nel registro del server su
-         * cui è in ascolto i valori (posizione, punteggio, vite, stato)
-         * riguardanti l'altro peer
-         *
-         * NB. verranno avviati tanti thread di tipo ClientPlayingWorkerThread
-         * quanti sono gli ip contenuti nella lista che mi viene mandata dal
-         * server di manu (=> peer tot. - 1)
-         */
+        String response;
         while (!Thread.currentThread().isInterrupted()) {
-            Observable<String> observable;
+
             try {
-                stub = (PeerRegister) registry.lookup("currentPosition");
-                positionResponseX = stub.getPosition().x().toString();
-                positionResponseY = stub.getPosition().y().toString();
-                this.list.add(positionResponseX);
-                this.list.add(positionResponseY);
+                for (Map.Entry<String, String> pair : responses.entrySet()) {
 
-                stub = (PeerRegister) registry.lookup("currentScore");
-                scoreResponse = String.valueOf(stub.getScore());
-                this.list.add(scoreResponse);
+                    switch (pair.getKey()) {
+                        case "currentPositionX":
+                            stub = (PeerRegister) registry.lookup(pair.getKey());
+                            response = stub.getPosition().x().toString();
+                            break;
 
-                stub = (PeerRegister) registry.lookup("currentLives");
-                livesResponse = stub.getLives();
-                this.list.add(livesResponse);
+                        case "currentPositionY":
+                            stub = (PeerRegister) registry.lookup(pair.getKey());
+                            response = stub.getPosition().y().toString();
+                            break;
 
-                stub = (PeerRegister) registry.lookup("isAlive");
-                isAliveResponse = stub.isAlive().toString();
-                this.list.add(isAliveResponse);
+                        case "currentScore":
+                            stub = (PeerRegister) registry.lookup(pair.getKey());
+                            response = String.valueOf(stub.getScore());
+                            break;
 
-                wait(1000);
+                        case "currentLives":
+                            stub = (PeerRegister) registry.lookup(pair.getKey());
+                            response = stub.getLives();
+                            break;
 
-                return list;
+                        case "currentIsDead":
+                            stub = (PeerRegister) registry.lookup(pair.getKey());
+                            response = stub.isAlive().toString();
+                            break;
 
-            } catch (RemoteException | NotBoundException | InterruptedException e) {
+                        default:
+                            response = "";
+
+                    }
+
+                    if (!response.equals(pair.getValue())) {
+                        pair.setValue(response);
+                        /**
+                         * TODO
+                         *
+                         * - per il momento chiamo questo metodo:
+                         * this.handler.update(character);
+                         *
+                         * PROBLEMA:
+                         * - il character che sto passando NON è quello del
+                         * mio peer, ma relativo ad un alro peer.
+                         * Infatti, ad esempio, il character che passo,
+                         * dovrebbe contenere le info relative (es. allo spostamento)
+                         * ad un altro character (che sta un altro peer) =>
+                         * non posso passare questo riferimento.
+                         *
+                         * SOLUZIONE:
+                         * - chiamo qui un metodo update che prende in ingresso 2 paramentri:
+                         *               -stringa relativa al valore da aggiornare  es. "position"
+                         *               -nuovo valore es. "(0,1)"
+                         *
+                         * - questo metodo richiamerà il controller di questo peer
+                         * - che a sua volta aggiornera la view di questo peer
+                         * con le nuove posizioni degli ALTRI peer
+                         *
+                         * this.handler.update(pair.getKey(), character); */
+
+
+                    }
+                    wait(1000);
+
+                }
+            } catch(RemoteException | NotBoundException | InterruptedException e){
                 e.printStackTrace();
-                return null;
+
             }
         }
-
-        return null;
     }
 }

@@ -2,9 +2,9 @@ package client.communication.model.actor
 
 import akka.actor.UntypedAbstractActor
 import client.utils.ActorUtils
-import network.client.P2P.bootstrap.{ClientWorkerThread, ServerBootstrap, ServerWorkerThread}
-import network.client.P2P.game.ServerPlayingWorkerThread
-import network.client.P2P.main.{Main, MatchHandler}
+import network.client.P2P.bootstrap.{ClientBootstrap, ServerBootstrap}
+import network.client.P2P.game.{ClientPlayingWorkerThread, ServerPlayingWorkerThread}
+import network.client.P2P.main.MatchHandler
 
 import scala.util.parsing.json.JSONObject
 
@@ -19,19 +19,18 @@ class P2PCommunication extends UntypedAbstractActor {
     case msg: JSONObject => msg.obj("object") match{
       case "startGame" =>
         new ServerBootstrap
-        new ServerPlayingWorkerThread
+        new ServerPlayingWorkerThread //farlo partire con il thread pool
         context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! msg.asInstanceOf[JSONObject]
 
       case "otherPlayerIP" =>
-        val IPList = msg.obj("playerList").asInstanceOf[List[String]] // lista con ip
+        val IPList = msg.obj("playerList").asInstanceOf[Set[String]]
 
-        /*foreach su IPList{
-         configuro i client di questo peer
-        }*/
+        IPList.foreach(_ -> { new ClientBootstrap(_)
+          new ClientPlayingWorkerThread()
+        });
 
-        IPList.foreach(new ClientWorkerThread(_))
 
-        new MatchHandler
+      //new MatchHandler
 
     }
 

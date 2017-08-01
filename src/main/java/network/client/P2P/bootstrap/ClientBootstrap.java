@@ -9,30 +9,21 @@ import java.rmi.registry.Registry;
 /**
  * Created by Federica on 21/07/17.
  */
-public class ClientWorkerThread implements Runnable {
+public class ClientBootstrap {
 
-    private String ip;
+    //private String ip;
     private static Registry registry;
 
-    public ClientWorkerThread(String ip) throws UnknownHostException {
-        this.ip = ip;
-        registry = null;
-
-    }
-
-    @Override
-    public void run() {
-
+    public ClientBootstrap(String ip) throws UnknownHostException {
+        //this.ip = ip;
         System.setProperty("Djava.rmi.server.hostname", ip);
-        String host = ip;
         try {
-            registry = LocateRegistry.getRegistry(host);
+            registry = LocateRegistry.getRegistry(ip);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
 
     }
-
 
     public static Registry getRegistry(){
         return registry;
