@@ -36,6 +36,8 @@ class P2PCommunication extends UntypedAbstractActor {
           executor.initClientPlayingWorkerThread()
         });
 
+        //actor telling controller that view can be refreshed
+
 
     }
 

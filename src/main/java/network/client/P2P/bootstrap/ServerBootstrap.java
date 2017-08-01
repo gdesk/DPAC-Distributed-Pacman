@@ -13,7 +13,7 @@ import java.rmi.registry.Registry;
 public class ServerBootstrap {
 
     private String ip;
-    private int rmiPort;
+    private static int rmiPort;
     private static Registry registry;
 
     public  ServerBootstrap() throws UnknownHostException {
@@ -32,10 +32,10 @@ public class ServerBootstrap {
         int maxTries = 5;
         while (true) {
             try {
-                this.rmiPort = PortRangeHandler.getPortNumber();
+                rmiPort = PortRangeHandler.getPortNumber();
                 break;
             } catch (Exception ex) {
-                this.rmiPort = PortRangeHandler.getNextPortNumber();
+                rmiPort = PortRangeHandler.getNextPortNumber();
                 if (++count == maxTries) {
                     throw ex;
                 }
@@ -63,5 +63,7 @@ public class ServerBootstrap {
         return registry;
     }
 
-
+    public static int getRmiPort() {
+        return rmiPort;
+    }
 }
