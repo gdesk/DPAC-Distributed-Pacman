@@ -4,11 +4,15 @@ import client.model.peerCommunication.ClientIncomingMessageHandler;
 import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
 import network.client.P2P.bootstrap.ClientBootstrap;
 import network.client.P2P.utils.ExecutorServiceUtility;
+import network.client.rxJava.OtherCharacterInfo;
 
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,15 +20,24 @@ import java.util.Map;
  */
 public class ClientPlayingWorkerThread implements Runnable {
 
-    private Registry registry;
-    private ClientIncomingMessageHandler handler;
-    private Map<String, Object> responses;
     private ExecutorServiceUtility executor;
+    private String ip;
+    private Registry registry;
+    private OtherCharacterInfo info;
+    private ClientIncomingMessageHandlerImpl handler;
+    private Map<String, Object> responses;
 
-    public ClientPlayingWorkerThread(ExecutorServiceUtility executor) throws RemoteException, NotBoundException {
-        this.registry = ClientBootstrap.getRegistry();
-        this.handler = new ClientIncomingMessageHandlerImpl();
+
+    public ClientPlayingWorkerThread
+            (ExecutorServiceUtility executor, String ip, Registry registry, OtherCharacterInfo info,
+             ClientIncomingMessageHandlerImpl handler)
+            throws RemoteException, NotBoundException, UnknownHostException {
+
         this.executor = executor;
+        this.ip = ip;
+        this.registry = registry;
+        this.info = info;
+        this.handler = handler;
 
         //initialize client character
         this.responses = new HashMap<String, Object>() {{
@@ -35,13 +48,21 @@ public class ClientPlayingWorkerThread implements Runnable {
 
         }};
 
+
+
     }
+
+
 
     @Override
     public void run() {
         PeerRegister stub;
         Object response;
+        List<String> otherClientInfo = new LinkedList<>();
+
         while (!Thread.currentThread().isInterrupted()) {
+            otherClientInfo.clear();
+            otherClientInfo.add(ip);
 
             try {
                 for (Map.Entry<String, Object> pair : responses.entrySet()) {
@@ -77,34 +98,15 @@ public class ClientPlayingWorkerThread implements Runnable {
 
                     if (!response.equals(pair.getValue())) {
                         pair.setValue(response);
-                        /**
-                         * TODO
-                         *
-                         * - per il momento chiamo questo metodo:
-                         * this.handler.update(character);
-                         *
-                         * PROBLEMA:
-                         * - il character che sto passando NON è quello del
-                         * mio peer, ma relativo ad un alro peer.
-                         * Infatti, ad esempio, il character che passo,
-                         * dovrebbe contenere le info relative (es. allo spostamento)
-                         * ad un altro character (che sta un altro peer) =>
-                         * non posso passare questo riferimento.
-                         *
-                         * SOLUZIONE:
-                         * - chiamo qui un metodo update che prende in ingresso 2 paramentri:
-                         *               -stringa relativa al valore da aggiornare  es. "position"
-                         *               -nuovo valore es. "(0,1)"
-                         *
-                         * - questo metodo richiamerà il controller di questo peer
-                         * - che a sua volta aggiornera la view di questo peer
-                         * con le nuove posizioni degli ALTRI peer
-                         *
-                         * this.handler.update(pair.getKey(), character); */
 
+                        otherClientInfo.add(pair.getKey());
+                        otherClientInfo.add(response);
 
                     }
 
+                    this.info.createObservable(otherClientInfo).subscribe((value) -> {
+                        this.handler.updateCharacters(value);
+                    });
 
                     wait(1000);
 

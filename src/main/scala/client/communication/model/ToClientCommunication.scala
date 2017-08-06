@@ -1,3 +1,4 @@
+/*
 package client.communication.model
 
 import java.awt.Image
@@ -165,3 +166,4 @@ trait ToClientCommunication {
 =======
 >>>>>>> 68886a0350f42d164cd02a62837241401739b052
 }
+*/

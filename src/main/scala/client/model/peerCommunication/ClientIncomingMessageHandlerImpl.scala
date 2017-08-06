@@ -4,6 +4,7 @@ import java.util.{Observable, Observer}
 
 import client.controller.ControllerCharacter
 import client.model.character.Character
+import io.reactivex.Flowable
 
 
 /**
@@ -12,17 +13,17 @@ import client.model.character.Character
 class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMessageHandler {
 
 
-  override def addObserver(observer:Observer){
-      if(observer.isInstanceOf[ControllerCharacter]) {
-        this.addObserver(observer)
-      }
+  override def addObserver(observer: Observer) {
+    if (observer.isInstanceOf[ControllerCharacter]) {
+      this.addObserver(observer)
+    }
   }
 
 
   /**
     * this method updates the remaining lives for this peer
     *
-
+    *
     */
   //def updateRemainingLives(arg: Any): Unit =
   //notifyObservers("remainingLives", arg)
@@ -30,7 +31,7 @@ class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMes
   /**
     * this method updates the current score for this peer
     *
-
+    *
     */
   //override def updateScore(character: Character): Unit =
   //def updateScore(arg: Any): Unit =
@@ -40,7 +41,7 @@ class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMes
   /**
     * this method updates the current position for this peer
     *
-
+    *
     */
   //def updatePosition(arg: Any): Unit =
   //notifyObservers("move", arg)
@@ -48,15 +49,19 @@ class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMes
   /**
     * this method updates the current state for this peer
     *
-
+    *
     */
   //def updateIsDead(arg: Any): Unit =
   //notifyObservers("isDead", arg)
-  override def update(arg: scala.Any): Unit = {
+  override def update(flowable: Flowable): Unit = {
 
-    val pair: (String, String) = if(arg.isInstanceOf[(String, String)]) {arg.asInstanceOf[(String, String)]} else {null}
+    /*val pair: (String, String) = if (arg.isInstanceOf[(String, String)]) {
+      arg.asInstanceOf[(String, String)]
+    } else {
+      null
+    }
 
-    if(pair != null) {
+    if (pair != null) {
       pair._1 match {
 
         case "currentPositionX" => notifyObservers("move", arg)
@@ -65,5 +70,9 @@ class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMes
         case "currentLives" => notifyObservers("remainingLives", arg)
         case "currentIsDead" => notifyObservers("isDead", arg)
       }
-    }
+    }(())*/
+
+
+    notifyObservers(flowable)
   }
+}

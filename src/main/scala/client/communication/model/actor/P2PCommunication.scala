@@ -1,11 +1,13 @@
 package client.communication.model.actor
 
+import java.rmi.registry.{LocateRegistry, Registry}
+
 import akka.actor.UntypedAbstractActor
+import client.model.peerCommunication.ClientIncomingMessageHandlerImpl
 import client.utils.ActorUtils
 import network.client.P2P.bootstrap.{ClientBootstrap, ServerBootstrap}
-import network.client.P2P.game.{ClientPlayingWorkerThread, ServerPlayingWorkerThread}
-import network.client.P2P.main.MatchHandler
 import network.client.P2P.utils.ExecutorServiceUtility
+import network.client.rxJava.OtherCharacterInfo
 
 import scala.util.parsing.json.JSONObject
 
@@ -31,10 +33,17 @@ class P2PCommunication extends UntypedAbstractActor {
 
       case "otherPlayerIP" =>
         val IPList = msg.obj("playerList").asInstanceOf[Set[String]]
+        val info = new OtherCharacterInfo
+        val handler = new ClientIncomingMessageHandlerImpl
 
-        IPList.foreach(_ -> { new ClientBootstrap(_)
-          executor.initClientPlayingWorkerThread()
-        });
+
+        for(ip <- IPList){
+          val registry = LocateRegistry.getRegistry(ip)
+          new ClientBootstrap(ip)
+          executor.initClientPlayingWorkerThread(ip, registry, info,
+            handler)
+
+        }
 
         //actor telling controller that view can be refreshed
 

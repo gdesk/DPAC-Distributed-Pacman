@@ -1,10 +1,14 @@
 package network.client.P2P.utils;
 
+import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
 import network.client.P2P.game.ClientPlayingWorkerThread;
 import network.client.P2P.game.ServerPlayingWorkerThread;
+import network.client.rxJava.OtherCharacterInfo;
 
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -35,11 +39,14 @@ public class ExecutorServiceUtility {
         executor.execute(worker);
     }
 
-    public void initClientPlayingWorkerThread(){
+    public void initClientPlayingWorkerThread(String ip, Registry registry, OtherCharacterInfo info,
+                                              ClientIncomingMessageHandlerImpl handler){
         try {
             //this.worker = new ClientPlayingWorkerThread(this);
-            this.future = executor.submit(new ClientPlayingWorkerThread(this));
+            this.future = executor.submit(new ClientPlayingWorkerThread(this, ip, registry, info, handler));
         } catch (RemoteException | NotBoundException e) {
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
         executor.execute(worker);
@@ -55,6 +62,17 @@ public class ExecutorServiceUtility {
         this.future.cancel(true);
 
     }
+
+    /*
+    * TODO
+    * compatto le varie future dei thread dei client
+    * una volta compattate chiamo l'observable
+    * e creo un flusso di flowable che metterò come
+    * paramentro in ingresso a un metodo del mio
+    * model / controller (devo ancora decidere)
+    */
+
+
 
 
 

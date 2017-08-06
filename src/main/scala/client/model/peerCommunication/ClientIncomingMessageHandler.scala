@@ -2,14 +2,21 @@ package client.model.peerCommunication
 
 import java.util.Observer
 
+import io.reactivex.Flowable
+
 /**
   * Created by Federica on 31/07/17.
   */
+
+
+//observable
 trait ClientIncomingMessageHandler {
 
   def addObserver(observer:Observer): Unit
 
-  def update(arg: scala.Any): Unit
+  def updateCharacters(string: String): Unit
+
+
   /**
     * this method updates the remaining lives for this peer
     *
