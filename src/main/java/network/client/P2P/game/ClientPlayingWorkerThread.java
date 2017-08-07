@@ -1,12 +1,12 @@
 package network.client.P2P.game;
 
-import client.model.peerCommunication.ClientIncomingMessageHandler;
+
 import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
-import network.client.P2P.bootstrap.ClientBootstrap;
+
 import network.client.P2P.utils.ExecutorServiceUtility;
 import network.client.rxJava.OtherCharacterInfo;
 
-import java.net.UnknownHostException;
+
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;

@@ -5,6 +5,7 @@ import client.model.MatchImpl;
 import client.model.character.Character;
 import client.model.peerCommunication.ClientOutcomingMessageHandler;
 import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl;
+import client.model.utils.Lives;
 import client.model.utils.Point;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
@@ -26,9 +27,10 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
     private Match match;
     private Character character;
+    private String characterName;
     private Point<Object,Object> currentPosition;
     private int currentScore;
-    private String currentLives;
+    private Lives currentLives;
     private Boolean isAlive;
     private ExecutorServiceUtility executor;
 
@@ -38,11 +40,12 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
     private ServerPlayingWorkerThread(){
         this.match = MatchImpl.instance();
-        //this.character = match.myCharacter(); //TODO SCOMMENTARE QUANDO PUSHO SU DEVELOP
+        this.character = match.myCharacter();
+        this.characterName =  match.myCharacter().name();
         this.handler = new ClientOutcomingMessageHandlerImpl();
         this.currentPosition = character.position();
         this.currentScore = character.score();
-        this.currentLives = character.lives().toString();
+        this.currentLives = character.lives();
         this.isAlive = character.isAlive();
         this.objects = new HashMap<>();
 
@@ -67,7 +70,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     }
 
     @Override
-    public String getLives() {
+    public Lives getLives() {
         return this.currentLives;
     }
 
@@ -98,10 +101,13 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     private void initializeObjectBinding(){
         PeerRegister stub;
 
-        //TO DO WRAPPER FOR STRING
         this.objects.put("currentPosition", new ServerPlayingWorkerThread());
         this.objects.put("currentScore", new ServerPlayingWorkerThread());
-        this.objects.put("currentLives", new ServerPlayingWorkerThread());
+
+        if(characterName.equals("Pacman")) {
+            this.objects.put("currentLives", new ServerPlayingWorkerThread());
+        }
+
         this.objects.put("isAlive", new ServerPlayingWorkerThread());
 
         for(Map.Entry<String, ServerPlayingWorkerThread> pair: objects.entrySet()){
@@ -124,23 +130,22 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
             registry.rebind("currentPosition", objects.get("currentPosition"));
             //TODO this.currentPosition =
             //TODO        new Point<Object, Object>(character.position().x()),character.position().y());
-            handler.notifyMove(character);
+           // handler.notifyMove("move", currentPosition);
 
         }else if(!((Integer) character.score()).equals(currentScore)){
             registry.rebind("currentScore", objects.get("currentScore"));
             this.currentScore = character.score();
-            handler.notifyScore(character);
+            handler.notifyScore("score", currentScore);
 
-        }else if(!character.lives().toString().equals(currentLives)){
+        }else if(characterName.equals("Pacman") && !character.lives().toString().equals(currentLives)){
             registry.rebind("currentLives", objects.get("currentLives"));
-            this.currentLives = character.lives().toString();
-            handler.notifyRemainingLives(character);
-            //handler.notifyRemainingLives("remainingLives", character);
+            this.currentLives = character.lives();
+            handler.notifyRemainingLives("remainingLives", currentLives);
 
         }else if(!character.isAlive() == isAlive){
             registry.rebind("isAlive", objects.get("isAlive"));
             this.isAlive = character.isAlive();
-            handler.notifyDeath(character);
+            handler.notifyDeath("isDead", isAlive);
             executor.stopServerPlayingWorkerThread();
 
         }
