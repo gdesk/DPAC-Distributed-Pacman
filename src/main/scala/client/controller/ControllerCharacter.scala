@@ -55,16 +55,34 @@ case class BaseControllerCharacter(private val view: View) extends ControllerCha
     view move character
   }
 
-  override def update(o: Observable, arg: scala.Any) = {
-    val pair: (String, Character) = if(arg.isInstanceOf[(String, Character)]) {arg.asInstanceOf[(String, Character)]} else {null}
-    if(pair != null) {
-      pair._1 match {
-        case "remainingLives" => view updateLives pair._2 //pacmanRemainingLives
-        case "isDead" => view deleteCharacter pair._2
-        case "score" => view updateScore pair._2 //no
-        case "move" => view move pair._2
+  override def update(o: Observable, arg: _) = {
+    val tris: (String, String, _) = if(arg.isInstanceOf[(String, String, _)]) {arg.asInstanceOf[(String, String, _)]} else {null}
+    if(tris != null) {
+      var characterToUpdate: Character = null
+      val player = gameMatch.allPlayers.find(p => p.ip equals tris._1)
+      if(player.isEmpty) {
+        throw new ThisIpDoesNotExist("Ip:" + tris._1 + " doen't exist!")
+      } else {
+        characterToUpdate = gameMatch.character(player get) get
+      }
+      tris._2 match {
+        case "remainingLives" =>
+          characterToUpdate.lives remainingLives = tris._3.asInstanceOf[Int]
+          view updateLives characterToUpdate //pacmanRemainingLives
+        case "isDead" =>
+          characterToUpdate isAlive = tris._3.asInstanceOf[Boolean]
+          view deleteCharacter characterToUpdate
+        case "score" =>
+          characterToUpdate score = tris._3.asInstanceOf[Int]
+          view updateScore characterToUpdate //no
+        case "move" =>
+          characterToUpdate setPosition tris._3.asInstanceOf[Point[Int, Int]]
+          view move characterToUpdate
       }
     }
   }
 
 }
+
+
+case class ThisIpDoesNotExist(private val message: String = "") extends Exception(message)

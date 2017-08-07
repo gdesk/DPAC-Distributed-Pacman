@@ -1,8 +1,10 @@
 package client.model
 
-import client.model.character.{BasePacman, Character, Pacman}
+import client.model.character.Character
 
-import scala.collection.mutable.{ListBuffer, Map}
+import scala.collection.immutable.Map
+import scala.collection.mutable.HashMap
+import scala.collection.mutable.ListBuffer
 
 /**
   * Represent the current match status, holding some information about the game.
@@ -39,19 +41,27 @@ trait Match {
     */
   def myCharacter_=(character: Character): Unit
 
-  /**
-    * Adds all match's players, excluding the main one.
-    *
-    * @param players - the characters and users Map.
-    */
-  def addPlayers(players: Map[Character, String]): Unit
+  def charactersAndPlayers: Map[Character, Player]
+
+  def addCharactersAndPlayers(character: Character, player: Player): Unit
 
   /**
     * Returns the list of all characters who participate at the match.
     *
     * @return the list of all characters.
     */
-  def characters: List[Character]
+  def allCharacters: List[Character]
+
+  /**
+    * Returns the list of all players who participate at the match.
+    *
+    * @return the list of all players.
+    */
+  def allPlayers: List[Player]
+
+  def character(player: Player): Option[Character]
+
+  def player(character: Character): Option[Player]
 
   /**
     * Returns the list of dead characters.
@@ -79,24 +89,35 @@ trait Match {
 case class MatchImpl private() extends Match {
 
   private var _deadCharacters: ListBuffer[Character] = ListBuffer empty
-  private var mapCharacterUser: Map[Character, String] = Map empty
+  private var charactersPlayers: HashMap[Character, Player] = HashMap empty
 
   override var playground: Playground = null
   override var myCharacter: Character = null
 
-  /**
-    * Adds all match's players, excluding the main one.
-    *
-    * @param players - the characters and users Map.
-    */
-  override def addPlayers(players: Map[Character, String]) = mapCharacterUser = players
+  override def charactersAndPlayers = charactersPlayers toMap
+
+  override def addCharactersAndPlayers(character: Character, player: Player) = charactersPlayers += character -> player
+
+  override def character(player: Player) = {
+    val pair = charactersPlayers.filter(p => p._2 equals player).headOption
+    if(pair isEmpty) {Option empty} else {Option (pair.get _1)}
+  }
+
+  override def player(character: Character) = charactersPlayers get character
 
   /**
     * Returns the list of all characters who participate at the match.
     *
     * @return the list of all characters.
     */
-  override def characters = (mapCharacterUser keySet) toList
+  override def allCharacters = (charactersPlayers keySet) toList
+
+  /**
+    * Returns the list of all players who participate at the match.
+    *
+    * @return the list of all players.
+    */
+  override def allPlayers: List[Player] = (charactersPlayers values) toList
 
   /**
     * Returns the list of dead characters.
@@ -112,10 +133,10 @@ case class MatchImpl private() extends Match {
     * @throws CharacterDoesNotExistException when the character to add doesn't exist.
     */
   override def addDeadCharacters(deadCharacter: Character) = {
-    if(!(mapCharacterUser.contains(deadCharacter)) && !(myCharacter equals deadCharacter)) throw new CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
+    if(!(charactersPlayers.contains(deadCharacter)) && !(myCharacter equals deadCharacter)) throw new CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
     _deadCharacters += deadCharacter
     if(!(myCharacter equals deadCharacter)) {
-      mapCharacterUser -=  deadCharacter
+      charactersPlayers -=  deadCharacter
     }
   }
 }
