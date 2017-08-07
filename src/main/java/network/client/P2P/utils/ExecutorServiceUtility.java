@@ -31,8 +31,8 @@ public class ExecutorServiceUtility {
     }
 
 
-    public void initServerPlayingWorkerThread(Registry registry, int rmiPort){
-        this.worker = ServerPlayingWorkerThread.getIstance(this, registry, rmiPort);
+    public void initServerPlayingWorkerThread(String ip, Registry registry, int rmiPort){
+        this.worker = ServerPlayingWorkerThread.getIstance(this, ip, registry, rmiPort);
         executor.execute(worker);
     }
 

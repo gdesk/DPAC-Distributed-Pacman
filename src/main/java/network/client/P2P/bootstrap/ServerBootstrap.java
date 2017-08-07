@@ -1,6 +1,5 @@
 package network.client.P2P.bootstrap;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -18,14 +17,15 @@ public class ServerBootstrap {
     private static ServerBootstrap SINGLETON = null;
 
     private  ServerBootstrap() throws UnknownHostException {
-        this.ip = InetAddress.getLocalHost().toString();
-        configureRmiPort();
-        setUpRmiregistry();
+        //this.ip = InetAddress.getLocalHost().toString();
     }
 
-    public static ServerBootstrap getIstance() throws UnknownHostException {
+
+
+    public static ServerBootstrap getIstance(String ip) throws UnknownHostException {
         if(SINGLETON == null){
             SINGLETON = new ServerBootstrap();
+            SINGLETON.init(ip);
         }
         return SINGLETON;
     }
@@ -73,5 +73,11 @@ public class ServerBootstrap {
 
     public int getRmiPort() {
         return this.rmiPort;
+    }
+
+    private void init(String ip){
+        this.ip = ip;
+        configureRmiPort();
+        setUpRmiregistry();
     }
 }

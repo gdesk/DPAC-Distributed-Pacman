@@ -31,7 +31,7 @@ trait ClientOutcomingMessageHandler  {
     * about the current position of this peer
 
     */
-  def notifyMove(update: String, value: Point<Object, Object>): Unit
+  def notifyMove(ip: String, update: String, value: Point<Object, Object>): Unit
 
 
   /**
@@ -40,7 +40,7 @@ trait ClientOutcomingMessageHandler  {
 
     */
 
-  def notifyScore(update: String, value: Int): Unit
+  def notifyScore(ip: String, update: String, value: Int): Unit
 
 
 
@@ -49,7 +49,7 @@ trait ClientOutcomingMessageHandler  {
     * about the number of lives left to this peer
 
     */
-  def notifyRemainingLives(update: String, value: Lives): Unit
+  def notifyRemainingLives(ip: String, update: String, value: Lives): Unit
 
 
 
@@ -58,7 +58,7 @@ trait ClientOutcomingMessageHandler  {
     * about the current state (dead or alive) of this peer
 
     */
-  def notifyDeath(update: String, value: Boolean): Unit
+  def notifyDeath(ip: String, update: String, value: Boolean): Unit
 
 
 

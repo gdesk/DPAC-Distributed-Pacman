@@ -21,16 +21,14 @@ class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingM
   def addObserver(observer: Any): Unit =
     this.addObserver(observer)
 
-
-
   /**
     * method to notify controller and other peers
     * about the current position of this peer
     *
 
     */
-  override def notifyMove(update: String, value: Point<Object,Object>): Unit =
-    notifyObservers(update: String, value: Point<Object,Object>)
+  override def notifyMove(ip: String, update: String, value: Point<Object,Object>): Unit =
+    notifyObservers(ip: String, update: String, value: Point<Object,Object>)
 
   /**
     * method to notify controller and other peers
@@ -38,24 +36,24 @@ class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingM
     *
 
     */
-  override def notifyScore(update: String, value: Int): Unit =
-    notifyObservers(update: String, value: Int)
+  override def notifyScore(ip: String, update: String, value: Int): Unit =
+    notifyObservers(ip: String, update: String, value: Int)
 
   /**
     * method to notify controller and other peers
     * about the number of lives left to this peer
     *
     */
-  def notifyRemainingLives(update: String, value: Lives): Unit =
-    notifyObservers(update: String, value: Lives)
+  def notifyRemainingLives(ip: String, update: String, value: Lives): Unit =
+    notifyObservers(ip: String, update: String, value: Lives)
 
   /**
     * method to notify controller and other peers
     * about the current state (dead or alive) of this peer
-    * @param arg
+
     */
-  def notifyDeath(update: String, value: Boolean): Unit =
-    notifyObservers(update: String, value: Boolean)
+  def notifyDeath(ip: String, update: String, value: Boolean): Unit =
+    notifyObservers(ip: String, update: String, value: Boolean)
 
 
 }

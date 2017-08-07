@@ -7,6 +7,7 @@ import client.model.peerCommunication.ClientOutcomingMessageHandler;
 import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl;
 import client.model.utils.Lives;
 import client.model.utils.Point;
+import client.model.utils.PointImpl;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
 import java.rmi.AlreadyBoundException;
@@ -18,9 +19,14 @@ import java.util.Map;
 
 /**
  * Created by Federica on 27/07/17.
+ * This class is useful to update local values
+ * relating to character on my peer
+ * (so that other peers can take updated values
+ * when they need to refresh character info in their gui)
  */
 public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
+    private ExecutorServiceUtility executor;
     private int rmiPort;
     private Registry registry;
     private Map<String, ServerPlayingWorkerThread> objects;
@@ -32,7 +38,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     private int currentScore;
     private Lives currentLives;
     private Boolean isAlive;
-    private ExecutorServiceUtility executor;
+
 
     private ClientOutcomingMessageHandler handler;
     private static ServerPlayingWorkerThread SINGLETON = null;
@@ -51,7 +57,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
     }
 
-    public static ServerPlayingWorkerThread getIstance(ExecutorServiceUtility executor, Registry registry, int rmiPort){
+    public static ServerPlayingWorkerThread getIstance(ExecutorServiceUtility executor, String ip, Registry registry, int rmiPort){
         if(SINGLETON == null){
             SINGLETON = new ServerPlayingWorkerThread();
             SINGLETON.init(executor, registry, rmiPort);
@@ -128,24 +134,20 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     private void updateObjects() throws RemoteException {
         if(!character.position().equals(currentPosition)){
             registry.rebind("currentPosition", objects.get("currentPosition"));
-            //TODO this.currentPosition =
-            //TODO        new Point<Object, Object>(character.position().x()),character.position().y());
-           // handler.notifyMove("move", currentPosition);
+             this.currentPosition = new PointImpl<>(character.position().x(),character.position().y());
 
         }else if(!((Integer) character.score()).equals(currentScore)){
             registry.rebind("currentScore", objects.get("currentScore"));
             this.currentScore = character.score();
-            handler.notifyScore("score", currentScore);
 
-        }else if(characterName.equals("Pacman") && !character.lives().toString().equals(currentLives)){
+
+        }else if(characterName.equals("Pacman") && !character.lives().equals(currentLives)){
             registry.rebind("currentLives", objects.get("currentLives"));
             this.currentLives = character.lives();
-            handler.notifyRemainingLives("remainingLives", currentLives);
 
         }else if(!character.isAlive() == isAlive){
             registry.rebind("isAlive", objects.get("isAlive"));
             this.isAlive = character.isAlive();
-            handler.notifyDeath("isDead", isAlive);
             executor.stopServerPlayingWorkerThread();
 
         }
@@ -153,6 +155,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     }
 
     private void init(ExecutorServiceUtility executor, Registry registry, int rmiPort){
+
         this.executor = executor;
         this.rmiPort = rmiPort;
         this.registry = registry;

@@ -1,5 +1,6 @@
 package client.communication.model.actor
 
+import java.net.InetAddress
 import java.rmi.registry.{LocateRegistry, Registry}
 
 import akka.actor.UntypedAbstractActor
@@ -26,8 +27,12 @@ class P2PCommunication extends UntypedAbstractActor {
 
     case msg: JSONObject => msg.obj("object") match{
       case "startGame" =>
-        val singleton = ServerBootstrap.getIstance
-        executor.initServerPlayingWorkerThread(singleton.getRegistry, singleton.getRmiPort)
+        //ricevo messaggio contente l'IP con cui configurare server
+
+        val ip = msg.obj("myPlayerIp").asInstanceOf[String]
+        val singleton = ServerBootstrap.getIstance(ip)
+
+        executor.initServerPlayingWorkerThread(ip, singleton.getRegistry, singleton.getRmiPort)
 
         context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! msg.asInstanceOf[JSONObject]
 
