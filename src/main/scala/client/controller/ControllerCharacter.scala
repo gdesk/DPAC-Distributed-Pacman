@@ -24,7 +24,7 @@ trait ControllerCharacter {
 
 }
 
-case class BaseControllerCharacter(private val view = View) extends ControllerCharacter with Observer{
+case class BaseControllerCharacter(private val view: View) extends ControllerCharacter with Observer{
 
   private val gameMatch: Match = MatchImpl instance()
   private val playeground: Playground = PlaygroundImpl instance()
@@ -52,16 +52,16 @@ case class BaseControllerCharacter(private val view = View) extends ControllerCh
       case false =>
         character go direction
     }
-    character position
+    view move character
   }
 
   override def update(o: Observable, arg: scala.Any) = {
-    val pair: (String, Character) = if(arg.isInstanceOf[(String, client.model.character.Character)]) {arg.asInstanceOf[(String, Character)]} else {null}
+    val pair: (String, Character) = if(arg.isInstanceOf[(String, Character)]) {arg.asInstanceOf[(String, Character)]} else {null}
     if(pair != null) {
       pair._1 match {
-        case "remainingLives" => view updateLives pair._2
+        case "remainingLives" => view updateLives pair._2 //pacmanRemainingLives
         case "isDead" => view deleteCharacter pair._2
-        case "score" => view updateScore pair._2.score
+        case "score" => view updateScore pair._2 //no
         case "move" => view move pair._2
       }
     }

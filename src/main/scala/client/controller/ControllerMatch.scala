@@ -40,9 +40,8 @@ trait ControllerMatch {
 
 }
 
-case class BaseControllerMatch(private val view: View) extends ControllerMatch with Observer {
+case class BaseControllerMatch(private val view: View, private val model: ToClientCommunicationImpl) extends ControllerMatch with Observer {
 
-  private val model = ToClientCommunicationImpl()
   private val gameMatch: Match = MatchImpl instance()
   private val playground: Playground = PlaygroundImpl instance()
 
