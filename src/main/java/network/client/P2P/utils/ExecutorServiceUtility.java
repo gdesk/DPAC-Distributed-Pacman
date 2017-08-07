@@ -5,9 +5,6 @@ import network.client.P2P.game.ClientPlayingWorkerThread;
 import network.client.P2P.game.ServerPlayingWorkerThread;
 import network.client.rxJava.OtherCharacterInfo;
 
-import java.net.UnknownHostException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -34,21 +31,16 @@ public class ExecutorServiceUtility {
     }
 
 
-    public void initServerPlayingWorkerThread(){
-        this.worker = new ServerPlayingWorkerThread(this);
+    public void initServerPlayingWorkerThread(Registry registry, int rmiPort){
+        this.worker = ServerPlayingWorkerThread.getIstance(this, registry, rmiPort);
         executor.execute(worker);
     }
 
     public void initClientPlayingWorkerThread(String ip, Registry registry, OtherCharacterInfo info,
                                               ClientIncomingMessageHandlerImpl handler){
-        try {
-            //this.worker = new ClientPlayingWorkerThread(this);
-            this.future = executor.submit(new ClientPlayingWorkerThread(this, ip, registry, info, handler));
-        } catch (RemoteException | NotBoundException e) {
-            e.printStackTrace();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        //this.worker = new ClientPlayingWorkerThread(this);
+        this.future = executor.submit(new ClientPlayingWorkerThread(this, ip, registry, info, handler));
+
         executor.execute(worker);
     }
 

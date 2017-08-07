@@ -13,13 +13,21 @@ import java.rmi.registry.Registry;
 public class ServerBootstrap {
 
     private String ip;
-    private static int rmiPort;
-    private static Registry registry;
+    private int rmiPort;
+    private Registry registry;
+    private static ServerBootstrap SINGLETON = null;
 
-    public  ServerBootstrap() throws UnknownHostException {
+    private  ServerBootstrap() throws UnknownHostException {
         this.ip = InetAddress.getLocalHost().toString();
         configureRmiPort();
         setUpRmiregistry();
+    }
+
+    public static ServerBootstrap getIstance() throws UnknownHostException {
+        if(SINGLETON == null){
+            SINGLETON = new ServerBootstrap();
+        }
+        return SINGLETON;
     }
 
 
@@ -59,11 +67,11 @@ public class ServerBootstrap {
 
     }
 
-    public static Registry getRegistry(){
-        return registry;
+    public Registry getRegistry(){
+        return this.registry;
     }
 
-    public static int getRmiPort() {
-        return rmiPort;
+    public int getRmiPort() {
+        return this.rmiPort;
     }
 }

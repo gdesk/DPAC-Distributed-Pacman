@@ -26,8 +26,8 @@ class P2PCommunication extends UntypedAbstractActor {
 
     case msg: JSONObject => msg.obj("object") match{
       case "startGame" =>
-        new ServerBootstrap
-        executor.initServerPlayingWorkerThread()
+        val singleton = ServerBootstrap.getIstance
+        executor.initServerPlayingWorkerThread(singleton.getRegistry, singleton.getRmiPort)
 
         context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! msg.asInstanceOf[JSONObject]
 
@@ -40,12 +40,11 @@ class P2PCommunication extends UntypedAbstractActor {
         for(ip <- IPList){
           val registry = LocateRegistry.getRegistry(ip)
           new ClientBootstrap(ip)
-          executor.initClientPlayingWorkerThread(ip, registry, info,
-            handler)
+          executor.initClientPlayingWorkerThread(ip, registry, info, handler)
 
         }
 
-        //actor telling controller that view can be refreshed
+        //TODO actor telling controller that view can be refreshed
 
 
     }

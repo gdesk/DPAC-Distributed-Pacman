@@ -30,8 +30,7 @@ public class ClientPlayingWorkerThread implements Runnable {
 
     public ClientPlayingWorkerThread
             (ExecutorServiceUtility executor, String ip, Registry registry, OtherCharacterInfo info,
-             ClientIncomingMessageHandlerImpl handler)
-            throws RemoteException, NotBoundException, UnknownHostException {
+             ClientIncomingMessageHandlerImpl handler) {
 
         this.executor = executor;
         this.ip = ip;
@@ -41,7 +40,7 @@ public class ClientPlayingWorkerThread implements Runnable {
 
         //initialize client character
         this.responses = new HashMap<String, Object>() {{
-            //TODO put("currentPosition", Point<Object, Object>);
+            //TODO put("currentPosition", Point<Object, Object>); GET, SET, INITIALIZE EMPTY
             put("currentScore", "");
             put("currentLives", "");
             put("isAlive", "");
@@ -61,7 +60,7 @@ public class ClientPlayingWorkerThread implements Runnable {
         List<String> otherClientInfo = new LinkedList<>();
 
         while (!Thread.currentThread().isInterrupted()) {
-            otherClientInfo.clear();
+
             otherClientInfo.add(ip);
 
             try {
@@ -108,6 +107,7 @@ public class ClientPlayingWorkerThread implements Runnable {
                         this.handler.updateCharacters(value);
                     });
 
+                    otherClientInfo.clear();
                     wait(1000);
 
                 }

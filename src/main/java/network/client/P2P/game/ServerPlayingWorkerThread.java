@@ -6,7 +6,6 @@ import client.model.character.Character;
 import client.model.peerCommunication.ClientOutcomingMessageHandler;
 import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl;
 import client.model.utils.Point;
-import network.client.P2P.bootstrap.ServerBootstrap;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
 import java.rmi.AlreadyBoundException;
@@ -34,23 +33,27 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     private ExecutorServiceUtility executor;
 
     private ClientOutcomingMessageHandler handler;
+    private static ServerPlayingWorkerThread SINGLETON = null;
 
 
-    public ServerPlayingWorkerThread(){}
-
-    public ServerPlayingWorkerThread(ExecutorServiceUtility executor){
+    private ServerPlayingWorkerThread(){
         this.match = MatchImpl.instance();
         //this.character = match.myCharacter(); //TODO SCOMMENTARE QUANDO PUSHO SU DEVELOP
-        this.rmiPort = ServerBootstrap.getRmiPort();
-        this.registry = ServerBootstrap.getRegistry();
         this.handler = new ClientOutcomingMessageHandlerImpl();
         this.currentPosition = character.position();
         this.currentScore = character.score();
         this.currentLives = character.lives().toString();
         this.isAlive = character.isAlive();
         this.objects = new HashMap<>();
-        this.executor = executor;
 
+    }
+
+    public static ServerPlayingWorkerThread getIstance(ExecutorServiceUtility executor, Registry registry, int rmiPort){
+        if(SINGLETON == null){
+            SINGLETON = new ServerPlayingWorkerThread();
+            SINGLETON.init(executor, registry, rmiPort);
+        }
+        return SINGLETON;
     }
 
     @Override
@@ -142,6 +145,12 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
         }
 
+    }
+
+    private void init(ExecutorServiceUtility executor, Registry registry, int rmiPort){
+        this.executor = executor;
+        this.rmiPort = rmiPort;
+        this.registry = registry;
     }
 
 
