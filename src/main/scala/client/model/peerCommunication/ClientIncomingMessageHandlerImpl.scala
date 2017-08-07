@@ -19,8 +19,12 @@ class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMes
     }
   }
 
+  def updateCharacters(string: String): Unit = {
+    notifyObservers(string)
 
-  /**
+
+
+    /**
     * this method updates the remaining lives for this peer
     *
     *
@@ -53,7 +57,7 @@ class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMes
     */
   //def updateIsDead(arg: Any): Unit =
   //notifyObservers("isDead", arg)
-  override def update(flowable: Flowable): Unit = {
+
 
     /*val pair: (String, String) = if (arg.isInstanceOf[(String, String)]) {
       arg.asInstanceOf[(String, String)]
@@ -72,7 +76,5 @@ class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMes
       }
     }(())*/
 
-
-    notifyObservers(flowable)
   }
 }

@@ -47,8 +47,6 @@ public class ClientPlayingWorkerThread implements Runnable {
 
         }};
 
-
-
     }
 
 
@@ -69,7 +67,7 @@ public class ClientPlayingWorkerThread implements Runnable {
                     switch (pair.getKey()) {
                         case "currentPosition":
                             stub = (PeerRegister) registry.lookup(pair.getKey());
-                            //TODO response = new Point(stub.getPosition().x(), stub.getPosition().y().toString());
+                            response = new Point(stub.getPosition().x(), stub.getPosition().y().toString());
                             break;
 
                         case "currentScore":
@@ -103,14 +101,18 @@ public class ClientPlayingWorkerThread implements Runnable {
 
                     }
 
+                    //this class is OBSERVABLE because creates a stream
+
                     this.info.createObservable(otherClientInfo).subscribe((value) -> {
                         this.handler.updateCharacters(value);
                     });
 
-                    otherClientInfo.clear();
+
                     wait(1000);
 
                 }
+                otherClientInfo.clear();
+
             } catch(RemoteException | NotBoundException | InterruptedException e){
                 e.printStackTrace();
 
