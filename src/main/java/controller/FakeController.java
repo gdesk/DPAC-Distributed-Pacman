@@ -18,6 +18,7 @@ import client.view.playground.PlaygroundView;
 import scala.collection.mutable.Map;
 
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -82,7 +83,8 @@ public class FakeController {
 
     public PlaygroundPanel initializePlaygroundView (String nameFile, List<Character> characterList) {
 
-        playground = IOUtils.getPlaygroundFromFile(nameFile);
+        System.out.println(nameFile);
+        playground = IOUtils.getPlaygroundFromFile(new File(nameFile));
 
         PlaygroundView view = new PlaygroundBuilderImpl()
                 .setColumns(playground.dimension().x())
@@ -200,6 +202,6 @@ public class FakeController {
     }
 
     public Playground getPlayground(){
-        return IOUtils.getPlaygroundFromFile("alex.dpac");
+        return IOUtils.getPlaygroundFromFile(new File("resources/playground/alex.dpac"));
     }
 }

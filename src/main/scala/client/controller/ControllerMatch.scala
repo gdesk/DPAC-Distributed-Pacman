@@ -109,7 +109,7 @@ case class BaseControllerMatch private (private val view: SelectCharacterView) e
     case _ => {
       //TODO salvare il file
       val file = arg.asInstanceOf[File]
-      val playground = IOUtils.getPlaygroundFromFile(file.getName)
+      val playground = IOUtils.getPlaygroundFromFile(file)
       view playgroundChoosen (playground)
     }
   }

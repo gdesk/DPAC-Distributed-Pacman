@@ -11,7 +11,7 @@ public class HelloPacMan {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MainFrame.getInstance();   //TODO passare rif controller
+                MainFrame.getInstance();
             }
         });
     }
