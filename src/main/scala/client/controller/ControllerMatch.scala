@@ -64,7 +64,7 @@ case class BaseControllerMatch private (private val view: SelectCharacterView) e
     res
   }// model getCharactersToChoose TODO cambia
 
-  override def chooseCharacter(characterName: String) = model chooseCharacter characterName
+  override def chooseCharacter(characterName: String) = true //model chooseCharacter characterName TODO cambia
 
   override def getPlaygrounds = {
     val map = new HashMap[Int,Image]
