@@ -3,7 +3,6 @@ package network.client.P2P.game;
 import client.model.Match;
 import client.model.MatchImpl;
 import client.model.character.Character;
-import client.model.utils.Lives;
 import client.model.utils.Point;
 import client.model.utils.PointImpl;
 import network.client.P2P.utils.ExecutorServiceUtility;
@@ -34,7 +33,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     private String characterName;
     private Point<Object,Object> currentPosition;
     private int currentScore;
-    private Lives currentLives;
+    private int currentLives;
     private Boolean isAlive;
 
     private static ServerPlayingWorkerThread SINGLETON = null;
@@ -47,7 +46,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
         this.currentPosition = character.position();
         this.currentScore = character.score();
-        this.currentLives = character.lives();
+        this.currentLives = character.lives().remainingLives();
         this.isAlive = character.isAlive();
         this.objects = new HashMap<>();
 
@@ -72,7 +71,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     }
 
     @Override
-    public Lives getLives() {
+    public int getLives() {
         return this.currentLives;
     }
 
@@ -137,9 +136,9 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
             this.currentScore = character.score();
 
 
-        }else if(characterName.equals("Pacman") && !character.lives().equals(currentLives)){
+        }else if(characterName.equals("Pacman") && character.lives().remainingLives() != currentLives){
             registry.rebind("currentLives", objects.get("currentLives"));
-            this.currentLives = character.lives();
+            this.currentLives = character.lives().remainingLives();
 
         }else if(!character.isAlive() == isAlive){
             registry.rebind("isAlive", objects.get("isAlive"));

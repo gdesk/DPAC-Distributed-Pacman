@@ -13,7 +13,7 @@ public interface PeerRegister extends Remote {
 
     int getScore();
 
-    Lives getLives();
+    int getLives();
 
     Boolean isAlive();
 
