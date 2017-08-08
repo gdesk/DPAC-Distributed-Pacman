@@ -28,18 +28,18 @@ public class HomePanel extends JPanel {
 
         final JButton exit = createBlackButton("EXIT");
 
-        JPanel north = createWhitePanel();
+        JPanel north = createBackgroundColorPanel();
         north.setBorder(BorderFactory.createTitledBorder("Hi "+username));
         north.setLayout(new BorderLayout());
 
-        JPanel buttonPanel = createWhitePanel();
+        JPanel buttonPanel = createBackgroundColorPanel();
         buttonPanel.setLayout(new BorderLayout());
 
-        JPanel northCenter = createWhitePanel();
+        JPanel northCenter = createBackgroundColorPanel();
         northCenter.add(startGame);
         buttonPanel.add(northCenter, BorderLayout.CENTER);
 
-        JPanel northEast = createWhitePanel();
+        JPanel northEast = createBackgroundColorPanel();
         northEast.add(exit);
         buttonPanel.add(northEast, BorderLayout.EAST);
         north.add(buttonPanel, BorderLayout.NORTH);

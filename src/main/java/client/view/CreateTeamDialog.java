@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static client.view.utils.JComponentsUtils.BACKGROUND_COLOR;
-import static client.view.utils.JComponentsUtils.createWhitePanel;
+import static client.view.utils.JComponentsUtils.createBackgroundColorPanel;
 
 /**
  * Panel used to create a new play team
@@ -30,7 +30,7 @@ public class CreateTeamDialog extends JDialog {
 
         super(frame, "Create Team", true);
 
-        JPanel p = createWhitePanel();
+        JPanel p = createBackgroundColorPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         if (frame != null) {
 
@@ -39,7 +39,7 @@ public class CreateTeamDialog extends JDialog {
             width = (int) frameDim.getWidth() / 2;
             setLocationRelativeTo(null);
 
-            JPanel buttonPanel = createWhitePanel();
+            JPanel buttonPanel = createBackgroundColorPanel();
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
             starGame.setEnabled(true); //TODO cambia mettere false
             starGame.addActionListener(e->{
@@ -55,7 +55,7 @@ public class CreateTeamDialog extends JDialog {
             buttonPanel.add(starGame);
             buttonPanel.add(addFiends);
 
-            JPanel numberPlayerPanel = createWhitePanel();
+            JPanel numberPlayerPanel = createBackgroundColorPanel();
             numberPlayerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
             List<Range> ranges = Utils.scalaRangeToString(controller.getRanges());

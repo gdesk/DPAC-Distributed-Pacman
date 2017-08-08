@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import static client.view.utils.JComponentsUtils.FONT_SIZE;
-import static client.view.utils.JComponentsUtils.createWhitePanel;
+import static client.view.utils.JComponentsUtils.createBackgroundColorPanel;
 
 /**
  * This class presents the panel to be displayed when a match request is recieved
@@ -23,7 +23,7 @@ public class RequestDialog extends JDialog {
 
         super(frame, "Create Team", true);
 
-        JPanel p = createWhitePanel();
+        JPanel p = createBackgroundColorPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         if (frame != null) {
 
@@ -32,7 +32,7 @@ public class RequestDialog extends JDialog {
             setLocationRelativeTo(null);
             setLayout(new BorderLayout());
 
-            JPanel buttonPanel = JComponentsUtils.createWhitePanel();
+            JPanel buttonPanel = JComponentsUtils.createBackgroundColorPanel();
             JButton yes = JComponentsUtils.createBlackButton("YES");
             yes.addActionListener(e->{
                 //controller.sendResponse(true);
@@ -50,7 +50,7 @@ public class RequestDialog extends JDialog {
             buttonPanel.add(yes);
             buttonPanel.add(no);
 
-            JPanel labelPanel = JComponentsUtils.createWhitePanel();
+            JPanel labelPanel = JComponentsUtils.createBackgroundColorPanel();
             JLabel request = new JLabel("<html>DO YOU WANT<br> TO PLAY A MATCH?<html>");
             request.setFont(new Font(request.getFont().getName(), Font.BOLD, FONT_SIZE*2));
             labelPanel.add(request);

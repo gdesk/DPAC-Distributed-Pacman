@@ -6,6 +6,7 @@ import client.controller.ControllerMatch;
 import client.model.Direction;
 import client.model.Playground;
 import client.view.utils.ImagesUtils;
+import client.view.utils.JComponentsUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,9 @@ import java.util.List;
 import static client.view.utils.JComponentsUtils.*;
 
 /**
- * Created by chiaravarini on 14/07/17.
+ * Concrete class that implements SelectCharacterView interface
+ *
+ * Created by Chiara Varini on 14/07/17.
  */
 public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
 
@@ -24,11 +27,11 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     private final Dimension PLAYGROUND_IMAGE_DIMENSION = calculatedImageCharDimension(2.2);
 
     private final ControllerMatch controller = BaseControllerMatch.instance(this) ;
-    private final JButton doneButton = createButton("DONE");;
+    private final JButton doneButton = createButton("DONE");
 
     private JButton characterChoosed = new JButton();
     private boolean isCharacterChoosed = false;
-    private JButton playgroundChoosed = new JButton();;
+    private JButton playgroundChoosed = new JButton();
     private boolean isPlaygroundChoosed = false;
 
     private final List<JButton> characterButton = new ArrayList<>();
@@ -49,7 +52,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         JPanel center = createBlackPanel();
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 
-        JPanel characterPanel = createColorPanel();
+        JPanel characterPanel = JComponentsUtils.createBackgroundColorPanel();
         characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.X_AXIS));
 
         Utils.getJavaMap(controller.getCharacters()).forEach((name,image) -> {
@@ -63,7 +66,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         JPanel south = createBlackPanel();
         south.setLayout(new BoxLayout(south, BoxLayout.Y_AXIS));
 
-        JPanel playgroundPanel = createColorPanel();
+        JPanel playgroundPanel = JComponentsUtils.createBackgroundColorPanel();
         playgroundPanel.setLayout(new BoxLayout(playgroundPanel, BoxLayout.X_AXIS));
 
         Utils.getJavaMap(controller.getPlaygrounds()).forEach((index,image) -> {
@@ -90,72 +93,6 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         });
     }
 
-    private JPanel createImagePanel(final Image image, final String str, final Dimension dim){
-        JPanel iconPanel = createColorPanel();
-        int iconPadding = (int)dim.getWidth()/5;
-        iconPanel.setBorder(BorderFactory.createEmptyBorder(iconPadding,iconPadding,iconPadding,iconPadding));
-        JButton imageButton = new JButton();
-        imageButton.setBorder(BorderFactory.createLineBorder(Color.black));
-        imageButton.addActionListener(e->{
-            imageButton.setEnabled(false);
-            if(imageButton.getIcon().getIconWidth() == CHARACTER_IMAGE_DIMENSION.getWidth()){
-                this.characterChoosed.setEnabled(true);
-                this.characterChoosed = imageButton;
-                this.isCharacterChoosed = true;
-                controller.chooseCharacter(((ImageIcon)imageButton.getIcon()).getDescription());
-            } else {
-                this.playgroundChoosed.setEnabled(true);
-                this.playgroundChoosed = imageButton;
-                this.isPlaygroundChoosed = true;
-            }
-            checkDone();
-        });
-
-        ImageIcon icon = new ImageIcon(ImagesUtils.getScaledImage(image, (int)dim.getWidth(), (int)dim.getHeight()));
-        icon.setDescription(str);
-        imageButton.setIcon(icon);
-        iconPanel.add(imageButton);
-        characterButton.add(imageButton);
-        return iconPanel;
-    }
-
-    private JLabel createSectionTitle(final String nameTitle){
-        JLabel title = new JLabel(nameTitle);
-        title.setForeground(Color.WHITE);
-        title.setFont(new Font(title.getFont().getName(),Font.PLAIN, FONT_SIZE));
-        return title;
-    }
-
-    private JPanel createColorPanel(){
-        JPanel panel = new JPanel();
-        panel.setBackground(BACKGROUND_COLOR);
-        return panel;
-    }
-
-    private JButton createButton(final String name){
-        JButton button = new JButton(name);
-        button.setOpaque(true);
-        button.setBorderPainted(false);
-        button.setFont(new Font(getFont().getName(), Font.BOLD, FONT_SIZE));
-        return button;
-    }
-
-    private Dimension calculatedImageCharDimension(final double divider){
-
-        Dimension frameDimension = MainFrame.getInstance().getSize();
-        if(frameDimension.getWidth()<frameDimension.getHeight()){
-            return new Dimension((int)(frameDimension.getWidth()/divider), (int)(frameDimension.getWidth()/divider));
-        } else {
-            return new Dimension((int)(frameDimension.getHeight()/divider), (int)(frameDimension.getHeight()/divider));
-        }
-    }
-
-    private void checkDone(){
-        if(isCharacterChoosed && isPlaygroundChoosed){
-            doneButton.setEnabled(true);
-        }
-    }
-
     @Override
     public void disableCharacter(final String nameImage){
         modifyStatusButton(false, nameImage);
@@ -174,6 +111,61 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     @Override
     public void playgroundChoosen(Playground playground) {
 
+    }
+
+    private JPanel createImagePanel(final Image image, final String str, final Dimension dim){
+        JPanel iconPanel = JComponentsUtils.createBackgroundColorPanel();
+        int iconPadding = (int)dim.getWidth()/5;
+        iconPanel.setBorder(BorderFactory.createEmptyBorder(iconPadding,iconPadding,iconPadding,iconPadding));
+
+        JButton imageButton = new JButton();
+        imageButton.setBorder(BorderFactory.createLineBorder(Color.black));
+
+        ImageIcon icon = new ImageIcon(ImagesUtils.getScaledImage(image, (int)dim.getWidth(), (int)dim.getHeight()));
+        icon.setDescription(str);
+        imageButton.setIcon(icon);
+        iconPanel.add(imageButton);
+        characterButton.add(imageButton);
+        addActionListenerToButton(imageButton);
+
+        return iconPanel;
+    }
+
+    private void addActionListenerToButton(final JButton button){
+        if(button.getIcon().getIconWidth() == CHARACTER_IMAGE_DIMENSION.getWidth()){
+            button.addActionListener(e->{
+                button.setEnabled(false);
+                this.characterChoosed.setEnabled(true);
+                this.characterChoosed = button;
+                this.isCharacterChoosed = true;
+                controller.chooseCharacter(((ImageIcon)button.getIcon()).getDescription());
+                checkDone();
+            });
+
+        } else {
+            button.addActionListener(e->{
+                button.setEnabled(false);
+                this.playgroundChoosed.setEnabled(true);
+                this.playgroundChoosed = button;
+                this.isPlaygroundChoosed = true;
+                checkDone();
+            });
+        }
+    }
+
+    private Dimension calculatedImageCharDimension(final double divider){
+        Dimension frameDimension = MainFrame.getInstance().getSize();
+        int dimention = frameDimension.getWidth()<frameDimension.getHeight() ?
+                (int)(frameDimension.getWidth()/divider) :
+                (int)(frameDimension.getHeight()/divider);
+
+        return new Dimension(dimention,dimention);
+    }
+
+    private void checkDone(){
+        if(isCharacterChoosed && isPlaygroundChoosed){
+            doneButton.setEnabled(true);
+        }
     }
 
     private void  modifyStatusButton(final boolean status, final String nameImage){

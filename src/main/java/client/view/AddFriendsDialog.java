@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import static client.view.utils.JComponentsUtils.FONT_SIZE;
-import static client.view.utils.JComponentsUtils.createWhitePanel;
+import static client.view.utils.JComponentsUtils.createBackgroundColorPanel;
 
 /**
  * Panel used to invite a player to your match
@@ -26,19 +26,19 @@ public class AddFriendsDialog extends JDialog {
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 
-        JPanel textFieldPanel = createWhitePanel();
+        JPanel textFieldPanel = createBackgroundColorPanel();
         textFieldPanel.add(new JLabel("Insert friend username"));
         textFieldPanel.add(username);
 
         p.add(textFieldPanel);
 
-        JPanel buttonPanel = createWhitePanel();
+        JPanel buttonPanel = createBackgroundColorPanel();
         buttonPanel.add(cancel);
         buttonPanel.add(send);
         p.add(buttonPanel);
 
         JLabel friendsAddedCounter = new JLabel("Firends added: 0");
-        JPanel friendsAddedPanel = createWhitePanel();
+        JPanel friendsAddedPanel = createBackgroundColorPanel();
         friendsAddedPanel.add(friendsAddedCounter);
         p.add(friendsAddedPanel);
 

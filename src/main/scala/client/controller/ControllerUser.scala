@@ -27,7 +27,7 @@ case class BaseControllerUser private(private val model: ToClientCommunicationIm
 
   override def getAllMatchesResults(username: String) = List(new MatchResultImpl(true, 210)) //model getAllMatchesResults username //TODO cambia
 
-  override def logout() = ??? //model logout
+  override def logout() =  print("logout") //model logout
 
   override def getPlayerUsername() = "chia" //TODO cambia
 }
