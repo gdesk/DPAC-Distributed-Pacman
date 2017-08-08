@@ -154,6 +154,7 @@ object MatchImpl {
     if(_instance == null) _instance = MatchImpl()
     _instance
   }
+
 }
 
 case class CharacterDoesNotExistException(private val message: String = "") extends Exception(message)

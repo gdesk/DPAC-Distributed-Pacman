@@ -3,10 +3,9 @@ package client.controller
 import java.util.{Observable, Observer}
 
 import client.model._
-import client.model.character.Pacman
 import client.model.character.Character
-import client.model.gameElement.Eatable
 import client.model.utils.Point
+import client.view.View
 
 /**
   * Created by margherita on 25/07/17.
@@ -20,14 +19,21 @@ trait ControllerCharacter {
     * @param direction - the direction of the movement.
     * @return the new character's position
     */
-  def move(direction: Direction): Point[Int, Int]
+  def move(direction: Direction): Unit
+
+  def view: View
+
+  def view_=(view: View): Unit
 
 }
 
-case class BaseControllerCharacter(private val view: View) extends ControllerCharacter with Observer{
+case class BaseControllerCharacter private() extends ControllerCharacter with Observer{
 
   private val gameMatch: Match = MatchImpl instance()
   private val playeground: Playground = PlaygroundImpl instance()
+
+
+  override var view: View = null
 
   /**
     * Method called when the user moves his character. This method calls the method in the model.
@@ -37,8 +43,9 @@ case class BaseControllerCharacter(private val view: View) extends ControllerCha
     * @param direction - the direction of the movement.
     * @return the new character's position
     */
-  override def move(direction: Direction): Point[Int, Int] = {
+  override def move(direction: Direction) = {
     val character = gameMatch myCharacter;
+    /*
     character.isInstanceOf[Pacman] match {
       case true =>
         val preEatenObj: List[Eatable] = playeground eatenObjects;
@@ -52,7 +59,11 @@ case class BaseControllerCharacter(private val view: View) extends ControllerCha
       case false =>
         character go direction
     }
-    view move character
+    */
+    val prePosition: Point[Int, Int] = character position;
+    character go direction
+    val postPosition: Point[Int, Int] = character position;
+    if(!(prePosition equals postPosition)) view move character
   }
 
   override def update(o: Observable, arg: _) = {
@@ -84,5 +95,15 @@ case class BaseControllerCharacter(private val view: View) extends ControllerCha
 
 }
 
+object BaseControllerCharacter {
+
+  private var _instance: BaseControllerCharacter = null
+
+  def instance(): BaseControllerCharacter = {
+    if(_instance == null) _instance = BaseControllerCharacter()
+    _instance
+  }
+
+}
 
 case class ThisIpDoesNotExist(private val message: String = "") extends Exception(message)
