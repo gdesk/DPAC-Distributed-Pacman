@@ -14,7 +14,7 @@ trait ClientIncomingMessageHandler {
 
   def addObserver(observer:Observer): Unit
 
-  def updateCharacters(string: String): Unit
+  def updateGameView(arg:Any): Unit
 
 
   /**

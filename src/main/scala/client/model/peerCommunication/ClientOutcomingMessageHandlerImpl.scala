@@ -3,7 +3,7 @@ import java.util.{Observable, Observer}
 
 import client.model.MatchImpl
 import client.model.character.Character
-import client.model.utils.Lives
+import client.model.utils.{Lives, PointImpl}
 
 /**
   * Created by Federica on 26/07/17.
@@ -27,8 +27,8 @@ class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingM
     *
 
     */
-  override def notifyMove(ip: String, update: String, value: Point<Object,Object>): Unit =
-    notifyObservers(ip: String, update: String, value: Point<Object,Object>)
+  override def notifyMove(ip: String, update: String, value: PointImpl[Integer, Integer]): Unit =
+    notifyObservers(ip: String, update: String, value: PointImpl[Integer, Integer])
 
   /**
     * method to notify controller and other peers

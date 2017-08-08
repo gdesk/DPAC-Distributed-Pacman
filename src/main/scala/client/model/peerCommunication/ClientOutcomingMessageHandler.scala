@@ -3,7 +3,7 @@ package client.model.peerCommunication
 import java.util.Observer
 
 import client.model.character.Character
-import client.model.utils.Lives
+import client.model.utils.{Lives, PointImpl}
 
 /**
   * Created by Federica on 24/07/17.
@@ -31,7 +31,7 @@ trait ClientOutcomingMessageHandler  {
     * about the current position of this peer
 
     */
-  def notifyMove(ip: String, update: String, value: Point<Object, Object>): Unit
+  def notifyMove(ip: String, update: String, value: PointImpl[Integer, Integer]): Unit
 
 
   /**

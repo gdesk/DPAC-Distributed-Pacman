@@ -45,7 +45,7 @@ class P2PCommunication extends UntypedAbstractActor {
         for(ip <- IPList){
           val registry = LocateRegistry.getRegistry(ip)
           new ClientBootstrap(ip)
-          executor.initClientPlayingWorkerThread(ip, registry, info, handler)
+          executor.initClientPlayingWorkerThread(ip, registry)
 
         }
 

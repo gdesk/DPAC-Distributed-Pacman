@@ -16,8 +16,14 @@ import java.util.List;
 public class OtherCharacterInfo {
 
 
-    public Flowable<String> createObservable(List<String> list){
+    /**
+     *
+     * @param tris a list containing 3 elements (es. "ip", "currentScore", new PointImpl<2,4,())
+     * @return an item whose type is Flowable<Object>
+     */
+    public Flowable<Object> createObservable(List<Object> tris){
 
-        return Flowable.fromIterable(list);
+        return Flowable.just(tris);
     }
+
 }

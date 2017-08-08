@@ -1,6 +1,8 @@
-//package network.client.rxJava;
+package network.client.rxJava;
 
-//import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
+import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
+
+import java.util.List;
 
 /**
  * Created by Federica on 03/08/17.
@@ -14,7 +16,7 @@
  */
 
 
-/*
+
 public class ObservableCharacter {
 
     private ClientIncomingMessageHandlerImpl handler;
@@ -25,10 +27,15 @@ public class ObservableCharacter {
         this.info = new OtherCharacterInfo();
     }
 
-    private void subscribeObserver(){
-        this.info.createObservable().subscribe((value) -> {
-            this.handler.update(value);
-        });
+    public void subscribeObserver(List<Object> tris){
+
+        if(tris.size() == 3){
+            this.info.createObservable(tris).subscribe((item) -> {
+                this.handler.updateGameView(item);
+            });
+
+        }
+
     }
 
-}*/
+}

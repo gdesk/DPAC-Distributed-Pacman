@@ -3,8 +3,6 @@ package network.client.P2P.game;
 import client.model.Match;
 import client.model.MatchImpl;
 import client.model.character.Character;
-import client.model.peerCommunication.ClientOutcomingMessageHandler;
-import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl;
 import client.model.utils.Lives;
 import client.model.utils.Point;
 import client.model.utils.PointImpl;
@@ -39,8 +37,6 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     private Lives currentLives;
     private Boolean isAlive;
 
-
-    private ClientOutcomingMessageHandler handler;
     private static ServerPlayingWorkerThread SINGLETON = null;
 
 
@@ -48,7 +44,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
         this.match = MatchImpl.instance();
         this.character = match.myCharacter();
         this.characterName =  match.myCharacter().name();
-        this.handler = new ClientOutcomingMessageHandlerImpl();
+
         this.currentPosition = character.position();
         this.currentScore = character.score();
         this.currentLives = character.lives();

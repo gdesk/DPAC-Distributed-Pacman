@@ -1,18 +1,16 @@
 package network.client.P2P.game;
 
 
-import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
-
 import client.model.utils.PointImpl;
-import io.reactivex.Flowable;
 import network.client.P2P.utils.ExecutorServiceUtility;
-import network.client.rxJava.OtherCharacterInfo;
-
+import network.client.rxJava.ObservableCharacter;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,30 +25,26 @@ public class ClientPlayingWorkerThread implements Runnable {
     private ExecutorServiceUtility executor;
     private String ip;
     private Registry registry;
-    private OtherCharacterInfo info;
-    private ClientIncomingMessageHandlerImpl handler;
     private Map<String, Object> responses;
+    private ObservableCharacter observableCharacter;
 
 
     public ClientPlayingWorkerThread
-            (ExecutorServiceUtility executor, String ip, Registry registry, OtherCharacterInfo info,
-             ClientIncomingMessageHandlerImpl handler) {
+            (ExecutorServiceUtility executor, String ip, Registry registry) {
 
         this.executor = executor;
         this.ip = ip;
         this.registry = registry;
-        this.info = info;
-        this.handler = handler;
 
         //initialize client character
         this.responses = new HashMap<String, Object>() {{
-            put("currentPosition", new PointImpl<Integer, Integer>(5,5));
-            put("currentScore", "");
-            put("currentLives", "");
-            put("isAlive", "");
+            put("currentPosition", new PointImpl<>(-1,-1));
+            put("currentScore", -1);
+            put("currentLives", -1);
+            put("isAlive", false);
 
         }};
-
+        this.observableCharacter = new ObservableCharacter();
 
     }
 
@@ -59,12 +53,10 @@ public class ClientPlayingWorkerThread implements Runnable {
     public void run() {
         PeerRegister stub;
         Object response;
-
+        List<Object> tris = new LinkedList<>();
 
         while (!Thread.currentThread().isInterrupted()) {
 
-
-            Flowable<String> source = Flowable.(emitter -> {
             try {
                 for (Map.Entry<String, Object> pair : responses.entrySet()) {
 
@@ -98,35 +90,27 @@ public class ClientPlayingWorkerThread implements Runnable {
 
                     }
 
-                    /*
-
-                    123.467.678
-                    currentPosition
-                     (0,1)
-                    currentScore
-                    3000
-                    currentLives
-                    2
-                    isAlive
-                    true
-                     */
 
 
                     if (!response.equals(pair.getValue())) {
                         pair.setValue(response);
+                        tris.add(ip);
+                        tris.add(pair.getKey());
+                        tris.add(response);
+
                         /**
                          * aggiorno lo stato degli ALTRI personaggi nella MIA view
                          * STREAM -> ip, "move", currentPosition);
                          * this class is OBSERVABLE because creates a stream
                          */
-                        this.handler.updateGameView(emitter.onNext(response));
+                        observableCharacter.subscribeObserver(tris);
                     }
+
+                    tris.clear();
 
                 }
 
-
                 wait(1000);
-
 
             } catch(RemoteException | NotBoundException | InterruptedException e){
                 e.printStackTrace();

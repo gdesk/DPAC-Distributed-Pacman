@@ -1,9 +1,7 @@
 package network.client.P2P.utils;
 
-import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
 import network.client.P2P.game.ClientPlayingWorkerThread;
 import network.client.P2P.game.ServerPlayingWorkerThread;
-import network.client.rxJava.OtherCharacterInfo;
 
 import java.rmi.registry.Registry;
 import java.util.concurrent.ExecutorService;
@@ -36,10 +34,9 @@ public class ExecutorServiceUtility {
         executor.execute(worker);
     }
 
-    public void initClientPlayingWorkerThread(String ip, Registry registry, OtherCharacterInfo info,
-                                              ClientIncomingMessageHandlerImpl handler){
+    public void initClientPlayingWorkerThread(String ip, Registry registry){
         //this.worker = new ClientPlayingWorkerThread(this);
-        this.future = executor.submit(new ClientPlayingWorkerThread(this, ip, registry, info, handler));
+        this.future = executor.submit(new ClientPlayingWorkerThread(this, ip, registry));
 
         executor.execute(worker);
     }

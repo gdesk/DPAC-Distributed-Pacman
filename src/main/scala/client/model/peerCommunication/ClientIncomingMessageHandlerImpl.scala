@@ -19,8 +19,8 @@ class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMes
     }
   }
 
-  def updateCharacters(string: String): Unit = {
-    notifyObservers(string)
+  def updateGameView(arg: Any): Unit =
+    notifyObservers(arg: Any)
 
 
 
@@ -76,5 +76,5 @@ class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMes
       }
     }(())*/
 
-  }
+
 }
