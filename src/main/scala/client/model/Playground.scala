@@ -146,6 +146,7 @@ case class PlaygroundImpl private() extends Playground{
     elementsMap foreach (e => _ground += e)
     _ground.foreach(p => checkItemPosition(p))
 
+    blocks
     streetPositions
     var theory = ""
     _streetPositions foreach (s => theory = theory + "street(" + s.x + "," + s.y + ").")
@@ -238,7 +239,7 @@ case class PlaygroundImpl private() extends Playground{
     if(_streetPositions.isEmpty) {
       for(i <- 0 to dimension.x-1) {
         for(j <- 0 to dimension.y-1) {
-          if((_ground filter (e => e.position equals PointImpl(i,j)) size) equals 0) _streetPositions += PointImpl(i,j)
+          if((_blocks filter (e => e.position equals PointImpl(i,j)) size) equals 0) _streetPositions += PointImpl(i,j)
         }
       }
     }
