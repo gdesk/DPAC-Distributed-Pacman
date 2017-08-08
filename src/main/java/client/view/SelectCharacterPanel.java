@@ -3,15 +3,13 @@ package client.view;
 import client.controller.BaseControllerMatch;
 import client.controller.BaseControllerUser;
 import client.controller.ControllerMatch;
-import client.model.Direction;
-import client.model.Playground;
 import client.view.utils.ImagesUtils;
 import client.view.utils.JComponentsUtils;
+import controller.FakeController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.List;
 
 import static client.view.utils.JComponentsUtils.*;
@@ -90,6 +88,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
             MainFrame.getInstance().setContentPane(new LoadingPanel());
             controller.chooseCharacter(((ImageIcon)characterChoosed.getIcon()).getDescription());
             controller.choosePlayground(Integer.parseInt(((ImageIcon)playgroundChoosed.getIcon()).getDescription()));
+            new FakeController().startGame();
         });
     }
 
@@ -101,16 +100,6 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     @Override
     public void enableCharacter(final String nameImage){
         modifyStatusButton(true, nameImage);
-    }
-
-    @Override
-    public void charactersChoosen(Map<String, Map<Direction, Image>> charactersMap) {
-
-    }
-
-    @Override
-    public void playgroundChoosen(Playground playground) {
-
     }
 
     private JPanel createImagePanel(final Image image, final String str, final Dimension dim){

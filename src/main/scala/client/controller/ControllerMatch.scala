@@ -103,14 +103,13 @@ case class BaseControllerMatch private (private val view: SelectCharacterView) e
       val x1 = arg.asInstanceOf[Map[String, Map[Direction, Image]]]
       val x2: util.Map[String, java.util.Map[Direction, Image]] = new util.HashMap[String, java.util.Map[Direction, Image]]()
       x1.keySet.foreach(k => x2 put(k, (x1.get(k) get).asJava))
-
-      view charactersChoosen x2
+      //view charactersChoosen x2
     }
     case _ => {
       //TODO salvare il file
       val file = arg.asInstanceOf[File]
       val playground = IOUtils.getPlaygroundFromFile(file)
-      view playgroundChoosen (playground)
+     // view playgroundChoosen (playground)
     }
   }
 }

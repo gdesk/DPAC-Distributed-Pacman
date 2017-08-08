@@ -1,6 +1,6 @@
 package controller;
 
-import client.controller.UserInputController;
+import client.controller.ControllerCharacter;
 import client.model.Direction;
 import client.model.MatchResult;
 import client.model.MatchResultImpl;
@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Created by chiaravarini on 10/07/17.
  */
-public class FakeController {
+public class FakeController implements ControllerCharacter{
 
     private CreateTeamDialog ct;
     private Playground playground;
@@ -83,7 +83,6 @@ public class FakeController {
 
     public PlaygroundPanel initializePlaygroundView (String nameFile, List<Character> characterList) {
 
-        System.out.println(nameFile);
         playground = IOUtils.getPlaygroundFromFile(new File(nameFile));
 
         PlaygroundView view = new PlaygroundBuilderImpl()
@@ -165,7 +164,7 @@ public class FakeController {
         //dovrà chiamare un metodo del model che gli restituisce tutti i dati della partita x inizializzare il playground
         // e i personaggi del gioco
 
-        PlaygroundPanel playgroundView = initializePlaygroundView("alex.dpac", null );//model.getCharacterList());
+        PlaygroundPanel playgroundView = initializePlaygroundView("src/main/resources/playground/alex.dpac", null );//model.getCharacterList());
         MainFrame.getInstance().setContentPane(playgroundView);
         GamePanelImpl gp = new GamePanelImpl(playgroundView);
 
@@ -202,6 +201,6 @@ public class FakeController {
     }
 
     public Playground getPlayground(){
-        return IOUtils.getPlaygroundFromFile(new File("resources/playground/alex.dpac"));
+        return IOUtils.getPlaygroundFromFile(new File("src/main/resources/playground/alex.dpac"));
     }
 }
