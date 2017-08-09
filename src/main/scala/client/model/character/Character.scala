@@ -111,8 +111,8 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
   private var pos: Point[Int, Int] = PointImpl(0,0)
   private val playground: Playground = PlaygroundImpl instance()
   private val game: Match = MatchImpl instance()
+  private var _isAlive = true
 
-  override var isAlive: Boolean = true
   override var direction: Direction = Direction.START
   override var score: Int = 0
 
@@ -126,6 +126,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     if(point nonEmpty) {
       setPosition(point get)
       checkAllPositions
+      //notifica il client che mi sono mosso
     } else {
       println("NO. it hit the wall.")
     }
@@ -159,21 +160,27 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
      * @param position a point of client.model.character.gameElement.character within the game map.
      * @throws OutOfPlaygroundBoundAccessException when the position is out of the ground.
      **/
-   override def setPosition(position: Point[Int, Int]) = {
-     (playground checkPosition position)
-     pos = position
-   }
+  override def setPosition(position: Point[Int, Int]) = {
+    playground checkPosition position
+    pos = position
+  }
+
+  def isAlive = _isAlive
+
+  def isAlive_=(alive: Boolean) = {
+    _isAlive = alive
+    if(!_isAlive) println("GAME OVER!")
+  }
 
   protected def prologGhostsList: String = {
     var ghosts: String = "["
-    (game characters) filter (c => !(c.isInstanceOf[Pacman])) foreach(e =>
-      ghosts = ghosts + "ghost(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.name + "),"
+    game.allCharacters filter (c => !(c.isInstanceOf[Pacman])) foreach (e =>
+        ghosts = ghosts + "ghost(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.name + "),"
       )
-    if(game.myCharacter.isInstanceOf[Ghost]) ghosts = {
-      ghosts + "ghost(" + game.myCharacter.position.x + "," + game.myCharacter.position.y + "," + game.myCharacter.score + "," + game.myCharacter.name + "),"
-    }
+    if(game.myCharacter.isInstanceOf[Ghost]) ghosts = ghosts + "ghost(" + game.myCharacter.position.x + "," + game.myCharacter.position.y + "," + game.myCharacter.score + "," + game.myCharacter.name + "),"
     ghosts = ghosts substring (0,(ghosts size)-1)
     ghosts = ghosts + "]"
     ghosts
   }
+
  }

@@ -35,7 +35,7 @@ trait ToClientCommunication {
     *         If it's 'None', the login ended not good.
     *         If it's Option.empty, this is the first login
     */
-  def login(username: String, password: String): Option[List[MatchResult]]
+  def login(username: String, password: String): Boolean
 
   /**
     * Send to server the username to remove the user from online users' list.

@@ -16,6 +16,7 @@ import scala.collection.mutable
 import scala.concurrent.duration.Duration
 import scala.util.parsing.json.JSONObject
 
+
 /**
   * This class is the model of communication, used to controller. It manages the interaction with the server,
   * through the actor paradigm.
@@ -34,7 +35,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
   private val observers: List[Observer] = null
   private val currentMatch: Match = MatchImpl()
-  private var user: User = null
+  private var player: Player = PlayerImpl.instance()
 
   /**
     * Send the message to actor AccessManager with the registration's data and
@@ -62,7 +63,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "password" -> password
     ))
 
-    user = UserImpl(username, password)
+    player.username = username
     val response= getJSONMessage(message)
     response.obj("registration").asInstanceOf[Boolean]
   }
@@ -77,7 +78,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     *         If it's 'None', the login ended not good.
     *         If it's Option.empty, this is the first login
     */
-  override def login(username: String, password: String): Option[List[MatchResult]] = {
+  override def login(username: String, password: String): Boolean = {
     val message = JSONObject(Map[String, String](
       "object" -> "login",
       "senderIP" -> ActorUtils.IP_ADDRESS,
@@ -85,9 +86,14 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "password" -> password
     ))
 
-    user = UserImpl(username, password)
+    player.username = username
     val response = getJSONMessage(message)
-    response.obj("list").asInstanceOf[Option[List[MatchResult]]]
+    val list = response.obj("list").asInstanceOf[Option[List[MatchResult]]]
+    player.allMatchesResults = list get
+    if (list.isEmpty){
+      false
+    }
+    true
   }
 
   /**
@@ -245,23 +251,14 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val response = getJSONMessage(message)
     val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
     var players :mutable.Map[client.model.character.Character, String] = null
-    typeCharacters.keySet.foreach {
-      case ActorUtils.IP_ADDRESS => {
-        val singleCharacter = typeCharacters(ActorUtils.IP_ADDRESS)
-        singleCharacter(1) match {
-          case "pacman" => currentMatch.myCharacter_=(BasePacman(singleCharacter(2), BaseEatObjectStrategy()))
-          case "ghost" => currentMatch.myCharacter_=(BaseGhost(singleCharacter(2)))
-        }
+    typeCharacters.keySet.foreach(x =>{
+      val singleCharacter = typeCharacters(x)
+      singleCharacter(1) match {
+        case "pacman" => currentMatch.addCharactersAndPlayers(BasePacman(singleCharacter(2), BaseEatObjectStrategy()), x)
+        case "ghost" => currentMatch.addCharactersAndPlayers(BaseGhost(singleCharacter(2)), x)
       }
-      case ipAddress => {
-        val singleCharacter = typeCharacters(ipAddress)
-        singleCharacter(1) match {
-          case "pacman" => players + (BasePacman(singleCharacter(2), BaseEatObjectStrategy()) -> user.username())
-          case "ghost" => players + (BaseGhost(singleCharacter(2)) -> user.username())
-        }
-      }
-    }
-    currentMatch.addPlayers(players)
+    })
+
     response.obj("map").asInstanceOf[Map[String, Map[Direction, Image]]]
   }
 
