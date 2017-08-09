@@ -40,9 +40,8 @@ trait ToClientCommunication {
   /**
     * Send to server the username to remove the user from online users' list.
     *
-    * @param username user's username who wants to disconnect
     */
-  def logout(username: String): Unit
+  def logout(): Unit
 
   /**
     *  Receives to server the list of range to play the match.
