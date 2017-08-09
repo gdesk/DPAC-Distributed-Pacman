@@ -1,7 +1,7 @@
 package client.view;
 
-import client.controller3.BaseControllerUser;
-import client.controller3.ControllerUser;
+import client.controller.BaseControllerUser;
+import client.controller.ControllerUser;
 
 import javax.swing.*;
 import java.awt.*;

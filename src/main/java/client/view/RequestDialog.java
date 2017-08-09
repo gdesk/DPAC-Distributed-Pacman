@@ -1,7 +1,7 @@
 package client.view;
 
-import client.controller3.BaseControllerMatch;
-import client.controller3.ControllerMatch;
+import client.controller.BaseControllerMatch;
+import client.controller.ControllerMatch;
 import client.view.utils.JComponentsUtils;
 
 import javax.swing.*;
@@ -17,11 +17,13 @@ import static client.view.utils.JComponentsUtils.createBackgroundColorPanel;
 public class RequestDialog extends JDialog {
 
     private final SelectCharacterPanel nextView = new SelectCharacterPanel();
-    private final ControllerMatch controller = BaseControllerMatch.instance(nextView);
+    private final ControllerMatch controller = BaseControllerMatch.instance();
 
     public RequestDialog(final JFrame frame){
 
         super(frame, "Create Team", true);
+
+        controller.view_$eq(nextView);
 
         JPanel p = createBackgroundColorPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));

@@ -1,7 +1,7 @@
 package client.view;
 
-import client.controller3.BaseControllerMatch;
-import client.controller3.ControllerMatch;
+import client.controller.BaseControllerMatch;
+import client.controller.ControllerMatch;
 import client.view.utils.ImagesUtils;
 import client.view.utils.Range;
 
@@ -20,7 +20,8 @@ import static client.view.utils.JComponentsUtils.createBackgroundColorPanel;
 public class CreateTeamDialog extends JDialog {
 
     private final SelectCharacterPanel nextView = new SelectCharacterPanel();
-    private final ControllerMatch controller = BaseControllerMatch.instance(nextView);
+    private final ControllerMatch controller = BaseControllerMatch.instance();
+
     private final PlayersPanel playerPanel = new PlayersPanel();
     private int width = 1;
     private final JButton starGame = new JButton("START");
@@ -29,6 +30,8 @@ public class CreateTeamDialog extends JDialog {
     public CreateTeamDialog(final JFrame frame){
 
         super(frame, "Create Team", true);
+
+        controller.view_$eq(nextView);
 
         JPanel p = createBackgroundColorPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));

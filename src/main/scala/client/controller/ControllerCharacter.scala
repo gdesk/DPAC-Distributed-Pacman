@@ -21,9 +21,9 @@ trait ControllerCharacter {
     */
   def move(direction: Direction): Unit
 
-  def view: View
+ // def view: View
 
-  def view_=(view: View): Unit
+ // def view_=(view: View): Unit
 
 }
 
@@ -33,7 +33,7 @@ case class BaseControllerCharacter(private val view: GamePanel) extends Controll
   private val gameMatch: Match = MatchImpl instance()
   private val playeground: Playground = PlaygroundImpl instance()
 
-  override var view: ??? = null
+//  override var view: ??? = null
 
   /**
     * Method called when the user moves his character. This method calls the method in the model.
@@ -63,7 +63,7 @@ case class BaseControllerCharacter(private val view: GamePanel) extends Controll
     val prePosition: Point[Int, Int] = character position;
     character go direction
     val postPosition: Point[Int, Int] = character position;
-    if(!(prePosition equals postPosition)) view move character
+    //if(!(prePosition equals postPosition)) view move character
   }
 
   override def update(o: Observable, arg: scala.Any) = {
@@ -85,10 +85,10 @@ case class BaseControllerCharacter(private val view: GamePanel) extends Controll
           view deleteCharacter characterToUpdate
         case "score" =>
           characterToUpdate score = tris._3.asInstanceOf[Int]
-          view updateScore characterToUpdate //quali score vogliamo visualizzare?????????????????????????????????????????????????????????
+          //view updateScore characterToUpdate //quali score vogliamo visualizzare?????????????????????????????????????????????????????????
         case "move" =>
           characterToUpdate setPosition tris._3.asInstanceOf[Point[Int, Int]]
-          view move characterToUpdate
+         // view move characterToUpdate
       }
     }
   }

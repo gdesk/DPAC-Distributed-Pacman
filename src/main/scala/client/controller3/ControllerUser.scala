@@ -1,5 +1,5 @@
 package client.controller3
-
+/*
 import client.communication.model.ToClientCommunicationImpl
 import client.model._
 
@@ -38,3 +38,4 @@ object BaseControllerUser {
   private val _instance = new BaseControllerUser(new ToClientCommunicationImpl())
   def instance() = _instance
 }
+*/
