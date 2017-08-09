@@ -5,8 +5,9 @@ import java.io.File
 import java.util
 import java.util.{Observable, Observer}
 
-import client.communication.model.ToClientCommunicationImpl
+import client.communication.model.ToClientCommunication
 import client.model._
+
 import client.model.character.Character
 import client.model.gameElement.GameItem
 import client.model.utils.Dimension
@@ -35,23 +36,26 @@ trait ControllerMatch {
 
   def MatchResul(result: MatchResult, user: String): Unit
 
-  /**
-    * Method called to start the match.
-    *
-    * @param players - the players' Map composed with characters and users.
-    * @param character - the character of the main user.
-    * @param playgroundDimention - the playground's dimension.
-    * @param ground - the ground chosen.
-    */
-  def startMatch(players: Map[Character, String], character: Character, playgroundDimention: Dimension, ground: List[GameItem]): Unit
+  def view: View
+
+  def view_=(view: View): Unit
+
+  def model: ToClientCommunication
+
+  def model_=(model: ToClientCommunication): Unit
+
+//  def startMatch(players: Map[Character, String], character: Character, playgroundDimention: Dimension, ground: List[GameItem]): Unit
+
+  def startMatch: Map[String, Map[Direction, Image]]
 
 }
 
-case class BaseControllerMatch private (private val view: SelectCharacterView) extends ControllerMatch with Observer {
+case class BaseControllerMatch private (private val view1: SelectCharacterView) extends ControllerMatch with Observer {
 
-  private val model = ToClientCommunicationImpl()
+
   private val gameMatch: Match = MatchImpl instance()
   private val playground: Playground = PlaygroundImpl instance()
+
 
   override def getRanges =  List( Range (3,5), Range(5,10), Range(10,15)) //model getRanges TODO cambia
 
@@ -76,24 +80,24 @@ case class BaseControllerMatch private (private val view: SelectCharacterView) e
     res
   }//model getPlaygrounds TODO cambia
 
-  override def choosePlayground(playground: Int) = model choosePlayground playground
+
+  override def choosePlayground(playground: Int) = {}//model choosePlayground playground
 
   override def MatchResul(result: MatchResult, user: String) = model MatchResult(result, user)
 
-  /**
-    * Method called to start the match.
-    *
-    * @param players             - the players' Map composed with characters and users.
-    * @param character           - the character of the main user.
-    * @param playgroundDimention - the playground's dimension.
-    * @param ground              - the ground chosen.
-    */
+  /*
   override def startMatch(players: Map[Character, String], character: Character, playgroundDimention: Dimension, ground: List[GameItem]) = {
     gameMatch addPlayers (mutable.Map(players.toSeq: _*)); //": _*" -> prima trasforma players in una sequenza e poi prende una coppia chiave-valore alla volta e l'aggiunge alla mutable.Map
     gameMatch myCharacter = character
     gameMatch playground = playground
     playground dimension = playgroundDimention
     playground ground = ground
+  }
+  */
+
+  override def startMatch = {
+    model startMatch;
+    model getTeamCharacter
   }
 
   override def update(o: Observable, arg: scala.Any) = arg match {
@@ -112,7 +116,16 @@ case class BaseControllerMatch private (private val view: SelectCharacterView) e
      // view playgroundChoosen (playground)
     }
   }
+
+  override def view: View = ???
+
+  override def view_=(view: View): Unit = ???
+
+  override def model: ToClientCommunication = ???
+
+  override def model_=(model: ToClientCommunication): Unit = ???
 }
+
 
 object BaseControllerMatch {
   private var _instance: BaseControllerMatch = null
@@ -121,3 +134,4 @@ object BaseControllerMatch {
     case _ => _instance
   }
 }
+

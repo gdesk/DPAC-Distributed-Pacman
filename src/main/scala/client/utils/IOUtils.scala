@@ -4,8 +4,8 @@ import java.io.{File, PrintWriter}
 import java.util.Calendar
 
 import client.model.gameElement._
-import client.model.{Playground, PlaygroundImpl}
 import client.model.utils.{Dimension, PointImpl}
+import client.model.{Playground, PlaygroundImpl}
 
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
@@ -83,6 +83,7 @@ object IOUtils {
     }
     playground
   }
+
 
   /** Get the specified file from path and parse it to generate a playground.
     *

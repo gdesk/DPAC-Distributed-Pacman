@@ -16,10 +16,6 @@ class UserInputController (val controller: ControllerCharacter) extends KeyListe
     e.getKeyCode match {
       case KeyEvent.VK_LEFT => {
         controller.move(Direction.LEFT)
-println("left")
-        //view.removeCharacter(currentX,currentY)
-        //currentX = currentX - 1
-        //view.renderCharacter(currentX,currentY,"pacman","left")
       }
 
       case KeyEvent.VK_RIGHT => {
@@ -49,6 +45,8 @@ println("left")
       case KeyEvent.VK_S => {
         controller.move(Direction.DOWN)
       }
+
+      case _ => {}
     }
 
   }

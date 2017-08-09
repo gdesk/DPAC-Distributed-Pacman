@@ -1,11 +1,9 @@
 package client.communication.model
 
 import java.awt.Image
-import java.io.File
 import java.util.Observer
 
 import client.model.{Direction, MatchResult}
-import client.model.character.Character
 
 /**
   * This class manages the model of communication between Client and Server.
@@ -29,7 +27,7 @@ trait ToClientCommunication {
   def registration(name: String, username: String, email: String, password: String, confirmPassword: String): Boolean
 
   /**
-    * Send the message to actor AccessManager with the login's data and
+    * Send the message to actor ToServerCommunication with the login's data and
     * receive from sever the response with also the MatchResult
     * @param username
     * @param password
@@ -37,7 +35,13 @@ trait ToClientCommunication {
     *         If it's 'None', the login ended not good.
     *         If it's Option.empty, this is the first login
     */
-  def login(username: String, password: String): Option[List[MatchResult]]
+  def login(username: String, password: String): Boolean
+
+  /**
+    * Send to server the username to remove the user from online users' list.
+    *
+    */
+  def logout(): Unit
 
   /**
     *  Receives to server the list of range to play the match.
@@ -76,15 +80,15 @@ trait ToClientCommunication {
     *
     * @return list of available playgrounds
     */
-  def getPlaygrounds: List[File]
+  def getPlaygrounds: Map[Int, Image]
 
   /**
     * Send to server the playground chosen. It's recall when the player choose the playground of current match.
     *
-    * @param playground position of playground's in the file list.
+    * @param idPlayground position of playground's in the file list.
     *
     */
-  def choosePlayground(playground: Int): Unit
+  def choosePlayground(idPlayground: Int): Unit
 
 
   /**
@@ -94,13 +98,6 @@ trait ToClientCommunication {
     * @param user id of characters.
     */
   def MatchResult(result: MatchResult, user: String): Unit
-
-  /**
-    * Adds the observer.
-    *
-    * @param observer observer to add.
-    */
-  def addObserver(observer: Observer): Unit
 
   /**
     * Receives from server playgrond's string, corresponding to chosen playground.
@@ -116,4 +113,18 @@ trait ToClientCommunication {
     * @return list of all match with its result
     */
   def getAllMatchesResults(username: String): List[MatchResult]
+
+  /**
+    * Adds the observer.
+    *
+    * @param observer observer to add.
+    */
+  def addObserver(observer: Observer): Unit
+
+  /**
+    * Send to server the request to information to configure and synchronize the P2P Communication.
+    * Then start the game
+    *
+    * */
+  def startMatch(): Unit
 }

@@ -8,8 +8,6 @@ import client.model.Playground;
 import client.model.character.Character;
 import client.model.gameElement.GameItem;
 import client.model.utils.Dimension;
-import client.model.utils.Point;
-import client.model.utils.PointImpl;
 import client.utils.IOUtils;
 import client.view.*;
 import client.view.playground.PlaygroundBuilderImpl;
@@ -144,7 +142,7 @@ public class FakeController implements ControllerCharacter{
 
     }
 
-    public Point<Object, Object> move(Direction direction) {
+    public void move(Direction direction) {
 
         if(checkPosition(direction)){
 
@@ -157,7 +155,6 @@ public class FakeController implements ControllerCharacter{
                 case RIGHT: currentX = currentX+1;break;
             }
         }
-        return new PointImpl<Object, Object>(currentX,currentY); //TODO non serve
     }
 
     public void startGame(){
@@ -203,4 +200,5 @@ public class FakeController implements ControllerCharacter{
     public Playground getPlayground(){
         return IOUtils.getPlaygroundFromFile(new File("src/main/resources/playground/alex.dpac"));
     }
+
 }
