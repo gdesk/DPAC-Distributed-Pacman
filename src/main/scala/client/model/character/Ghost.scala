@@ -36,7 +36,7 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
     */
   override def checkAllPositions() = {
     val ghosts = super.prologGhostsList
-    val pac: List[Character] = game.characters filter (c => (c.isInstanceOf[Pacman]))
+    val pac: List[Character] = game.allCharacters filter (c => (c.isInstanceOf[Pacman]))
     val pacman = pac isEmpty match {
       case true =>
         game.myCharacter.asInstanceOf[Pacman]
@@ -47,7 +47,7 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
       pacman.checkAllPositions
     } else {
       val solveInfo = PrologConfig.getPrologEngine() solve (s"eat_pacman(pacman(${pacman.position x},${pacman.position y},${pacman.lives remainingLives},${pacman.score.toString}), ${ghosts}, NL, GS, CG).")
-      val killerGhost = (game characters) find (c => c.name equals (solveInfo getTerm ("CG") toString))
+      val killerGhost = (game allCharacters) find (c => c.name equals (solveInfo getTerm ("CG") toString))
       val killer: Ghost = killerGhost isEmpty match {
         case true =>
           game.myCharacter.asInstanceOf[Ghost]
@@ -57,6 +57,7 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
       if(killer equals this) {
         pacman.lives remainingLives = valueOf(solveInfo getTerm ("NL") toString)
         if(pacman.lives.remainingLives == 0) pacman isAlive = false
+        //notificare il client del pacman che è stato mangiato (controllare le vite)
         score = valueOf(solveInfo getTerm ("GS") toString)
       }
     }
