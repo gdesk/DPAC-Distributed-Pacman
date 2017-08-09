@@ -12,4 +12,7 @@ object ActorTest extends App {
   assert(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao1"), false)
   assert(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao"), true)
 
+  //login
+
+
 }

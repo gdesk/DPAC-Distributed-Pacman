@@ -5,7 +5,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 import akka.actor.{ActorSystem, Inbox, Props}
-import client.communication.model.actor.{FakeServer, FromServerCommunication, P2PCommunication, ToServerCommunication}
+import client.communication.model.actor.{FromServerCommunication, P2PCommunication, ToServerCommunication}
 import client.model._
 import client.model.character.{BaseGhost, BasePacman}
 import client.model.utils.BaseEatObjectStrategy
@@ -31,7 +31,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   private val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
   private val fromServerCommunication = system.actorOf(Props[FromServerCommunication], "fromServerCommunication")
   private val P2PCommunication = system actorOf(Props[P2PCommunication], "P2PCommunication")
-  private val fakeServer = system.actorOf(Props[FakeServer], "fakeServer")
 
   private val currentMatch: Match = MatchImpl()
   private var player: Player = PlayerImpl.instance()
