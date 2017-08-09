@@ -8,7 +8,7 @@ import java.util.Calendar
   *
   * @author manuBottax
   */
-trait MatchResult {
+trait MatchResult extends Serializable {
 
   /** a boolean describing if the player has won the game or not*/
   def result: Boolean
@@ -18,7 +18,7 @@ trait MatchResult {
   def date: Calendar
 }
 
-/** A simple implementation of [[MatchResult]]
+/** A simple implementation of [MatchResult]
   *
   * @constructor create the result
   * @param result if the player has won the game or not

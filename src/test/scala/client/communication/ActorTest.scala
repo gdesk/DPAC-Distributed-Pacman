@@ -1,18 +1,17 @@
 package client.communication
 
-import client.communication.model.ToClientCommunicationImpl
+import client.communication.model.{ToClientCommunication, ToClientCommunicationImpl}
 
 /**
   * Created by lucch on 09/08/2017.
   */
 object ActorTest extends App {
-  val model = ToClientCommunicationImpl()
+  val model: ToClientCommunication = ToClientCommunicationImpl()
 
   //registration
-  assert(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao1"), false)
-  assert(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao"), true)
+ // println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao1"))
+ // println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao"))
 
   //login
-
-
+  println(model.login("giulia", "ciaogiulia").toString)
 }

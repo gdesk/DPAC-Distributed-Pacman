@@ -27,7 +27,7 @@ import scala.util.parsing.json.JSONObject
 case class ToClientCommunicationImpl() extends ToClientCommunication{
 
   private val config: Config = ConfigFactory.parseFile(new File("src/main/resources/communication/configuration.conf"))
-  private val system: ActorSystem = ActorSystem.create("ClientSystem")
+  private val system: ActorSystem = ActorSystem.create("DpacClient", config)
   private val inbox = Inbox.create(system)
 
   private val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
@@ -65,8 +65,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
     player.username = username
     val response= getJSONMessage(message)
-    println("fatto registrazione.")
-    response.obj("registration").asInstanceOf[Boolean]
+    response.obj("result").asInstanceOf[Boolean]
   }
 
   /**
@@ -87,13 +86,13 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "password" -> password
     ))
 
-    player.username = username
     val response = getJSONMessage(message)
-    val list = response.obj("list").asInstanceOf[Option[List[MatchResult]]]
-    player.allMatchesResults = list.get
-    if (list.isEmpty){
-      false
-    }
+    val list = response.obj("list").asInstanceOf[Option[List[MatchResultImpl]]]
+    println(list )
+    player.username = username
+   player.allMatchesResults = list
+
+    if (list.isEmpty) false
     true
   }
 
@@ -316,6 +315,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     */
   private def getJSONMessage( message: JSONObject) : JSONObject = {
     inbox.send(toServerCommunication, message)
-    inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[JSONObject]
+    inbox.receive(Duration.apply(10000,TimeUnit.SECONDS)).asInstanceOf[JSONObject]
   }
 }

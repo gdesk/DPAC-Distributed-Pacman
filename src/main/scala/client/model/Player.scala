@@ -29,7 +29,7 @@ case class PlayerImpl private() extends Player {
 
   private var matchesResults: ListBuffer[MatchResult] = ListBuffer empty
 
-  override val ip = InetAddress.getLocalHost.toString
+  override val ip =InetAddress.getLocalHost.toString.split('/')(1)
   override val port = 2554
   override var username = ""
 
