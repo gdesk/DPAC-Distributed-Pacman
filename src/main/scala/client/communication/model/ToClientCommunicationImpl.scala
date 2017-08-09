@@ -1,8 +1,10 @@
 package client.communication.model
 
 import java.awt.Image
-import java.io.File
+import java.io.{File, FileInputStream, FileOutputStream}
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
+import javax.swing.ImageIcon
 
 import akka.actor.{ActorSystem, Inbox, Props}
 import client.communication.model.actor.{FromServerCommunication, P2PCommunication, ToServerCommunication}
@@ -52,7 +54,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   override def registration(name: String, username: String, email: String, password: String, confirmPassword: String): Boolean = {
     if (!(password equals(confirmPassword))){
       println("PASSWORD SBAGLIATA.")
-      false
+      return false
     }
     val message = JSONObject(Map[String, String](
       "object" -> "newUser",
@@ -78,6 +80,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     *         If it's 'None', the login ended not good.
     *         If it's Option.empty, this is the first login
     */
+  //todo: sistema scala doc
   override def login(username: String, password: String): Boolean = {
     val message = JSONObject(Map[String, String](
       "object" -> "login",
@@ -87,12 +90,25 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     ))
 
     val response = getJSONMessage(message)
-    val list = response.obj("list").asInstanceOf[Option[List[MatchResultImpl]]]
-    println(list )
-    player.username = username
-    player.allMatchesResults = list.get
+    println("ricevuto")
+    val list = response.obj("list").asInstanceOf[Option[List[Map[String, Any]]]]
+    var allMatches: List[MatchResultImpl] = List.empty
 
-    if (list.isEmpty) false
+    list.get.foreach(map =>{
+      val matchResult = new MatchResultImpl()
+      map.keySet.foreach {
+        case "date" => matchResult.date = map("date").asInstanceOf[Calendar]
+        case "score" => matchResult.score = map("score").asInstanceOf[Int]
+        case "result" => matchResult.result = map("result").asInstanceOf[Boolean]
+      }
+       allMatches = matchResult :: allMatches
+    })
+    println(allMatches)
+    player.username = username
+
+    player.allMatchesResults = allMatches
+
+    if (list.isEmpty) return false
     true
   }
 
@@ -103,6 +119,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   override def logout(): Boolean = {
     val message = JSONObject(Map[String, String](
       "object" -> "logout",
+      "senderIP" -> player.ip,
       "username" -> player.username
     ))
 
@@ -125,6 +142,17 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     response.obj("list").asInstanceOf[List[Range]]
   }
 
+//todo: fare scala doc
+  override def selectRange(range: Range): Unit = {
+    val message = JSONObject(Map[String,Any](
+      "object" -> "selectedRange",
+      "senderIP" -> player.ip,
+      "range" -> range
+    ))
+
+    toServerCommunication ! message
+  }
+
   /**
     * Receives from server the available character.
     *
@@ -136,8 +164,13 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "senderIP" -> player.ip
     ))
 
-    val rensponse = getJSONMessage(message)
-    rensponse.obj("map").asInstanceOf[Map[String, Image]]
+    val response = getJSONMessage(message)
+    val fileMap = response.obj("map").asInstanceOf[Map[String, File]]
+    var characterToChoose: Map[String, Image]= Map.empty
+    fileMap.keySet.foreach(name =>{
+      characterToChoose += ((name, new ImageIcon(fileMap(name).getPath).getImage))
+    })
+    characterToChoose
   }
 
   /**
@@ -154,9 +187,19 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "character" -> character))
 
     val response = getJSONMessage(message)
-    val isAvaible = response.obj("avaible").asInstanceOf[Boolean]
+    val isAvaible = response.obj("available").asInstanceOf[Boolean]
     if (isAvaible) {
-      val images = response.obj("map").asInstanceOf[Map[String, Map[Direction, Image]]]
+      val images = response.obj("map").asInstanceOf[List[File]]
+      images.foreach(file =>{
+        val f: File = new File( "/" + file.getPath + ".png")
+        //val f: File = new File( "src/main/resources/characters/"+file.getPath+".png")
+        val incomingFile:Array[Byte]  = new Array(file.length().asInstanceOf[Int])
+        val reader: FileInputStream = new FileInputStream(file)
+        reader.read(incomingFile,0,incomingFile.length)
+
+        val fileOutput: FileOutputStream = new FileOutputStream(f)
+        fileOutput.write(incomingFile)
+      })
     }
     isAvaible
   }
@@ -317,4 +360,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     inbox.send(toServerCommunication, message)
     inbox.receive(Duration.apply(10000,TimeUnit.SECONDS)).asInstanceOf[JSONObject]
   }
+
+
 }

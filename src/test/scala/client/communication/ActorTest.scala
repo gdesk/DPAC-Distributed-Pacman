@@ -3,15 +3,31 @@ package client.communication
 import client.communication.model.{ToClientCommunication, ToClientCommunicationImpl}
 
 /**
-  * Created by lucch on 09/08/2017.
+  * Test of client-server architecture
+  *
+  * @author Giulia Lucchi
   */
 object ActorTest extends App {
   val model: ToClientCommunication = ToClientCommunicationImpl()
-
+/*
   //registration
- // println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao1"))
- // println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao"))
+  println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciaonoo"))
+  println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao"))
+
 
   //login
-  println(model.login("giulia", "ciaogiulia").toString)
+  println(model.login("giulia", "ciaogiulia"))
+
+
+  //logout
+  println(model.logout())
+
+  println(model.getRanges)
+
+  //selectRange
+  println(model.selectRange(Range(3,5)))
+
+  println(model.getCharactersToChoose)*/
+
+  println(model.chooseCharacter("pacman"))
 }
