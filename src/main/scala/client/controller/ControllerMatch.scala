@@ -7,12 +7,15 @@ import client.communication.model.ToClientCommunication
 import client.model._
 import client.view._
 
+
 /**
   * Created by margherita on 11/07/17.
   */
 trait ControllerMatch {
 
   def getRanges: List[Range]
+
+  def rangeChoosed(range: client.view.utils.Range): Unit
 
   def getCharacters: Map[String, Image]
 
@@ -53,6 +56,8 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
   override def teamView(view: CreateTeamView): Unit = _teamView = view
 
   override def getRanges = _model.getRanges
+
+  override def rangeChoosed(range: client.view.utils.Range) = _model.selectRange(Range(range.getMin,range.getMax))
 
   override def getCharacters = _model.getCharactersToChoose
 
