@@ -126,7 +126,6 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     if(point nonEmpty) {
       setPosition(point get)
       checkAllPositions
-      //notifica il client che mi sono mosso
     } else {
       println("NO. it hit the wall.")
     }
@@ -174,10 +173,9 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
 
   protected def prologGhostsList: String = {
     var ghosts: String = "["
-    game.allCharacters filter (c => !(c.isInstanceOf[Pacman])) foreach (e =>
-        ghosts = ghosts + "ghost(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.name + "),"
-      )
-    if(game.myCharacter.isInstanceOf[Ghost]) ghosts = ghosts + "ghost(" + game.myCharacter.position.x + "," + game.myCharacter.position.y + "," + game.myCharacter.score + "," + game.myCharacter.name + "),"
+    game.allCharacters.filter(c => !(c.isInstanceOf[Pacman])).foreach{e =>
+      ghosts = ghosts + "ghost(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.name + "),"
+    }
     ghosts = ghosts substring (0,(ghosts size)-1)
     ghosts = ghosts + "]"
     ghosts

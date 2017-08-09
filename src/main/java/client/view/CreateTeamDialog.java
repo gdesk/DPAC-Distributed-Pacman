@@ -17,7 +17,7 @@ import static client.view.utils.JComponentsUtils.createBackgroundColorPanel;
  * Panel used to create a new play team
  * Created by chiaravarini on 12/07/17.
  */
-public class CreateTeamDialog extends JDialog {
+public class CreateTeamDialog extends JDialog implements CreateTeamView{
 
     private final SelectCharacterPanel nextView = new SelectCharacterPanel();
     private final ControllerMatch controller = BaseControllerMatch.instance();
@@ -31,7 +31,7 @@ public class CreateTeamDialog extends JDialog {
 
         super(frame, "Create Team", true);
 
-        controller.view_$eq(nextView);
+        controller.teamView(this);
 
         JPanel p = createBackgroundColorPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
@@ -79,7 +79,8 @@ public class CreateTeamDialog extends JDialog {
         }
     }
 
-    public void markUser(Boolean response){
+    @Override
+    public void playerResponse(final Boolean response){
         if(response){
             playerPanel.markOK();
         } else {

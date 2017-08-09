@@ -1,13 +1,15 @@
 package client.view;
 
-import client.model.Direction;
-import client.model.utils.*;
+import client.controller.BaseControllerMatch;
+import client.controller.BaseControllerMatch$;
+import client.controller.ControllerMatch;
+import client.model.PlaygroundImpl;
 import client.model.utils.Point;
 import client.view.playground.MicroMapPanel;
 import client.view.playground.PlaygroundView;
 import client.view.utils.ImagesUtils;
 import client.view.utils.JComponentsUtils;
-import controller.FakeController;
+//import controller.FakeController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,17 +20,13 @@ import static client.view.utils.JComponentsUtils.FONT_SIZE;
 /**
  * Created by chiaravarini on 10/07/17.
  */
-public class GamePanelImpl extends JLayeredPane {
+public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
     private PlaygroundView playground;
-    private final FakeController controller = new FakeController();
-
-    private int currentX = 30;
-    private int currentY = 8; //TODO CAMBIA
 
     private final JLabel score = new JLabel("Score: 0");
     private int livesNum = 3;
-    private final MicroMapPanel microMap = new MicroMapPanel(controller.getPlayground());
+    private final MicroMapPanel microMap = new MicroMapPanel(PlaygroundImpl.instance());
 
     public GamePanelImpl(final Container playground) {
 
@@ -58,25 +56,16 @@ public class GamePanelImpl extends JLayeredPane {
         add(victoryPanel, 1);
     }
 
-    public void move(final CharacterView character, final Direction dir) {
-        Point<Integer, Integer> oldPosition = new PointImpl<>(currentX,currentY);
+    @Override
+    public void move(final Image characterImage, final Point<Integer,Integer> oldPosition, final Point<Integer,Integer> newPosition) {
+
         if (playground != null) {
-            playground.removeCharacter(currentX, currentY);
-            updatePosition(dir);
-            playground.renderCharacter(currentX, currentY, character, dir);
-            microMap.moveCharacter(Color.red, new PointImpl<>(currentX,currentY), oldPosition);
+            playground.removeCharacter(oldPosition.x(), oldPosition.y());
+            playground.renderCharacter(newPosition.x(), newPosition.y(), characterImage);
+            microMap.moveCharacter(Color.red, newPosition, oldPosition);
         }
         revalidate();
         repaint();
-    }
-
-    private void updatePosition(final Direction dir){
-        switch (dir){
-            case UP: currentY = currentY-1; break;
-            case DOWN: currentY = currentY+1; break;
-            case LEFT: currentX = currentX-1; break;
-            case RIGHT: currentX = currentX+1; break;
-        }
     }
 
     private void addScorePanel(){
@@ -100,25 +89,31 @@ public class GamePanelImpl extends JLayeredPane {
 
         livesPanel.setBounds(0,50,100, (int)MainFrame.DIMENSION.getWidth());
 
-        JButton muori = new JButton("MUORI");
-        muori.addActionListener(e->deadh());
-        livesPanel.add(muori);
         add(livesPanel, 1);
     }
 
-
-    public void aupdateScore(final int score){
+    @Override
+    public void updateScore(final int score){
         this.score.setText("Score: "+score);
         revalidate();
         repaint();
     }
 
+    @Override
     public void updateLives(final int livesNumber){
         this.livesNum = livesNumber;
     }
 
-    public void deadh(){
+    @Override
+    public void gameOver(){
         GameOverDialog gameoverDialog = new GameOverDialog(MainFrame.getInstance());
         gameoverDialog.setVisible(true);
     }
+
+    @Override
+    public void deleteCharacter(Point<Integer, Integer> characterToDeletePosition) {
+        playground.removeCharacter(characterToDeletePosition.x(), characterToDeletePosition.y());
+    }
+
+
 }

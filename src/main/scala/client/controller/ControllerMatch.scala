@@ -5,7 +5,9 @@ import java.util.{Observable, Observer}
 
 import client.communication.model.ToClientCommunication
 import client.model._
-import client.view.SelectCharacterView
+import client.view._
+
+import scala.collection.JavaConverters._
 
 /**
   * Created by margherita on 11/07/17.
@@ -24,9 +26,9 @@ trait ControllerMatch {
 
   def MatchResul(result: MatchResult, user: String): Unit
 
-  def view: SelectCharacterView
+  def loadingView(view: LoadingView): Unit
 
-  def view_=(view: SelectCharacterView): Unit
+  def teamView(view: CreateTeamView): Unit
 
   def model: ToClientCommunication
 
@@ -36,9 +38,7 @@ trait ControllerMatch {
 
   def sendResponse(response: Boolean): Unit
 
-//  def startMatch(players: Map[Character, String], character: Character, playgroundDimention: Dimension, ground: List[GameItem]): Unit
-
-  def startMatch: Map[String, Map[Direction, Image]]
+  def startMatch: Unit
 
 }
 
@@ -46,9 +46,14 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
   private val gameMatch: Match = MatchImpl instance()
   private val playground: Playground = PlaygroundImpl instance()
+  private var _loadingView: LoadingView = null
+  private var _teamView: CreateTeamView = null
 
-  override var view: SelectCharacterView = null
   override var model: ToClientCommunication = null
+
+  override def loadingView(view: LoadingView): Unit = _loadingView = view
+
+  override def teamView(view: CreateTeamView): Unit = _teamView = view
 
   override def getRanges = model getRanges
 
@@ -67,24 +72,26 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
   override def sendResponse(response: Boolean) = model.sendResponse(response)
 
   override def startMatch = {
+
     model startMatch;
-    model getTeamCharacter
+    BaseControllerCharacter.instance().setCharacterImages(model getTeamCharacter)
+
   }
 
   override def update(o:Observable, arg: scala.Any) = {
     if(arg equals "StartMatch") {
-     // view startMatch
+     _loadingView renderGamePanel
     } else {
       val game: (String, _) = if(arg.isInstanceOf[(String, _)]) {arg.asInstanceOf[(String, _)]} else {null}
       if(game != null) {
+
         game._1 match {
-          case "GameRequest" => //view.haveRequest(game._2)
-          case "GameResponse" => //view.haveResponse(game._2)
+          case "GameRequest" => MainFrame.getInstance().showRequest(game._2.asInstanceOf[String])
+          case "GameResponse" => _teamView.playerResponse(game._2.asInstanceOf[Boolean])
         }
       }
     }
   }
-
 }
 
 object BaseControllerMatch {

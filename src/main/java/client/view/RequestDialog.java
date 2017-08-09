@@ -19,11 +19,9 @@ public class RequestDialog extends JDialog {
     private final SelectCharacterPanel nextView = new SelectCharacterPanel();
     private final ControllerMatch controller = BaseControllerMatch.instance();
 
-    public RequestDialog(final JFrame frame){
+    public RequestDialog(final JFrame frame, final String username){
 
         super(frame, "Create Team", true);
-
-        controller.view_$eq(nextView);
 
         JPanel p = createBackgroundColorPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
@@ -37,14 +35,14 @@ public class RequestDialog extends JDialog {
             JPanel buttonPanel = JComponentsUtils.createBackgroundColorPanel();
             JButton yes = JComponentsUtils.createBlackButton("YES");
             yes.addActionListener(e->{
-                //controller.sendResponse(true);
+                controller.sendResponse(true);
                 frame.setContentPane(nextView);
                 dispose();
             });
 
             JButton no = JComponentsUtils.createBlackButton("NO");
             no.addActionListener(e->{
-                //controller.sendResponse(false);
+                controller.sendResponse(false);
                 frame.setContentPane(nextView);
                 dispose();
             });
@@ -53,7 +51,7 @@ public class RequestDialog extends JDialog {
             buttonPanel.add(no);
 
             JPanel labelPanel = JComponentsUtils.createBackgroundColorPanel();
-            JLabel request = new JLabel("<html>DO YOU WANT<br> TO PLAY A MATCH?<html>");
+            JLabel request = new JLabel("<html>DO YOU WANT<br> TO PLAY A MATCH <br> WHIT "+username+"?<html>");
             request.setFont(new Font(request.getFont().getName(), Font.BOLD, FONT_SIZE*2));
             labelPanel.add(request);
             add(labelPanel, BorderLayout.CENTER);
