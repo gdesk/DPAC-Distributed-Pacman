@@ -30,10 +30,10 @@ public class RegistrationDialog extends JDialog {
             setLocationRelativeTo(null);
 
             final JTextField name = new JTextField(lenghtTextField);
-            final JTextField surname = new JTextField(lenghtTextField);
             final JTextField email = new JTextField(lenghtTextField);
             final JTextField username = new JTextField(lenghtTextField);
             final JPasswordField password = new JPasswordField(lenghtTextField);
+            final JPasswordField confPassword = new JPasswordField(lenghtTextField);
             final JButton registration = new JButton("Registration");
             final JLabel errLabel = new JLabel("Data error");
             errLabel.setForeground(Color.RED);
@@ -46,10 +46,10 @@ public class RegistrationDialog extends JDialog {
             gbc.anchor = GridBagConstraints.LINE_END;
 
             addField(0, "Name", name);
-            addField(1, "Surname", surname);
-            addField(2, "Email", email);
-            addField(3, "Username", username);
-            addField(4, "Password", password);
+            addField(1, "Email", email);
+            addField(2, "Username", username);
+            addField(3, "Password", password);
+            addField(4, "Confirm Password", confPassword);
             addField(5, "", errLabel);
 
             gbc.gridy = 6;
@@ -57,8 +57,8 @@ public class RegistrationDialog extends JDialog {
             infoPanel.add(registration, gbc);
 
             registration.addActionListener(e -> {
-                boolean registrationResult = controller.registration(name.getText(), surname.getText(), email.getText(),
-                        username.getText(), Utils.transformInString(password.getPassword()));
+                boolean registrationResult = controller.registration(name.getText(), username.getText(), email.getText(),
+                        Utils.transformInString(password.getPassword()), Utils.transformInString(confPassword.getPassword()));
 
                 if(!registrationResult){           //!registrationResult.isCorrect
                     errLabel.setVisible(true);   //registrationResult.getMessageError()
