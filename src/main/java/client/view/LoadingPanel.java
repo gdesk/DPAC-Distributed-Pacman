@@ -16,7 +16,7 @@ import static client.view.utils.JComponentsUtils.*;
  * Panel displayed while loading all the game data
  * Created by chiaravarini on 14/07/17.
  */
-public class LoadingPanel extends JPanel {
+public class LoadingPanel extends JPanel implements LoadingView {
 
     public LoadingPanel(){
         setBackground(LOGIN_COLOR);
@@ -65,5 +65,4 @@ public class LoadingPanel extends JPanel {
         MainFrame.getInstance().setContentPane(gp);
 
     }
-
 }

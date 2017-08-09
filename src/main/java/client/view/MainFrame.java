@@ -38,4 +38,9 @@ public class MainFrame extends JFrame {
         revalidate();
         repaint();
     }
+
+    public void showRequest(final String username){
+        RequestDialog requestDialog = new RequestDialog(this, username);
+        requestDialog.setVisible(true);
+    }
 }

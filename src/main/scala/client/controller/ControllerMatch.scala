@@ -27,9 +27,9 @@ trait ControllerMatch {
 
   def MatchResul(result: MatchResult, user: String): Unit
 
-  //def view: GamePanel
+  def loadingView(view: LoadingView): Unit
 
-  def view_=(view: LoadingPanel): Unit
+  def teamView(view: CreateTeamView): Unit
 
   def model: ToClientCommunication
 
@@ -47,11 +47,14 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
   private val gameMatch: Match = MatchImpl instance()
   private val playground: Playground = PlaygroundImpl instance()
-  private var view: LoadingPanel = null
+  private var _loadingView: LoadingView = null
+  private var _teamView: CreateTeamView = null
 
   override var model: ToClientCommunication = null
 
-  override def view_=(view: LoadingPanel): Unit = this.view = view
+  override def loadingView(view: LoadingView): Unit = _loadingView = view
+
+  override def teamView(view: CreateTeamView): Unit = _teamView = view
 
   override def getRanges = model getRanges
 
@@ -78,13 +81,14 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
   override def update(o:Observable, arg: scala.Any) = {
     if(arg equals "StartMatch") {
-     view renderGamePanel
+     _loadingView renderGamePanel
     } else {
       val game: (String, _) = if(arg.isInstanceOf[(String, _)]) {arg.asInstanceOf[(String, _)]} else {null}
       if(game != null) {
+
         game._1 match {
-          case "GameRequest" => view.haveRequest(game._2)
-          case "GameResponse" => view.haveResponse(game._2)
+          case "GameRequest" => MainFrame.getInstance().showRequest(game._2.asInstanceOf[String])
+          case "GameResponse" => _teamView.playerResponse(game._2.asInstanceOf[Boolean])
         }
       }
     }
