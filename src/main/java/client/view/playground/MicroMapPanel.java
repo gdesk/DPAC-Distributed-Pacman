@@ -34,7 +34,7 @@ public class MicroMapPanel extends JPanel {
         setBounds((int) MainFrame.DIMENSION.getWidth()-getWidth()-BOUND, (int) MainFrame.DIMENSION.getHeight()-getHeight()-BOUND,getWidth(),getHeight());
         setLayout(new GridBagLayout());
 
-        for(int x = 2; x<=columns; x++){
+        for(int x = 0; x<=columns; x++){
             for(int y = 0; y<rows; y++){
                 gbc.gridx = x;
                 gbc.gridy = y;

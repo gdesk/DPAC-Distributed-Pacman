@@ -149,7 +149,7 @@ case class PlaygroundImpl private() extends Playground{
     streetPositions
     var theory = ""
     _streetPositions foreach (s => theory = theory + "street(" + s.x + "," + s.y + ").")
-    engine = modifyPrologEngine(theory)
+    //engine = modifyPrologEngine(theory)
   }
 
   /**
