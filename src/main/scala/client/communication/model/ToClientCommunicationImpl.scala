@@ -10,6 +10,7 @@ import client.model._
 import client.model.character.{BaseGhost, BasePacman}
 import client.model.utils.BaseEatObjectStrategy
 import client.utils.IOUtils
+import com.typesafe.config.{Config, ConfigFactory}
 
 import scala.collection.mutable
 import scala.concurrent.duration.Duration
@@ -25,7 +26,8 @@ import scala.util.parsing.json.JSONObject
 
 case class ToClientCommunicationImpl() extends ToClientCommunication{
 
-  private val system = ActorSystem("ClientSystem")
+  private val config: Config = ConfigFactory.parseFile(new File("src/main/resources/communication/configuration.conf"))
+  private val system: ActorSystem = ActorSystem.create("ClientSystem")
   private val inbox = Inbox.create(system)
 
   private val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
@@ -63,6 +65,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
     player.username = username
     val response= getJSONMessage(message)
+    println("fatto registrazione.")
     response.obj("registration").asInstanceOf[Boolean]
   }
 
