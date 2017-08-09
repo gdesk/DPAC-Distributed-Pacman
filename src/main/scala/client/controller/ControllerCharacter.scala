@@ -71,21 +71,21 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
     if(tris != null) {
       var characterToUpdate: Character = null
       val player = gameMatch.allPlayers.find(p => p.ip equals tris._1)
-      if(player.isEmpty) {
+      if(player isEmpty) {
         throw new ThisIpDoesNotExist("Ip:" + tris._1 + " doen't exist!")
       } else {
-        characterToUpdate = gameMatch.character(player get) get
+        characterToUpdate = gameMatch.character(player.get).get
       }
       tris._2 match {
         case "remainingLives" =>
           characterToUpdate.lives remainingLives = tris._3.asInstanceOf[Int]
-          view updateLives characterToUpdate //pacmanRemainingLives
+          view updateLives characterToUpdate
         case "isDead" =>
           characterToUpdate isAlive = tris._3.asInstanceOf[Boolean]
           view deleteCharacter characterToUpdate
         case "score" =>
           characterToUpdate score = tris._3.asInstanceOf[Int]
-          view updateScore characterToUpdate //no
+          view updateScore characterToUpdate //quali score vogliamo visualizzare?????????????????????????????????????????????????????????
         case "move" =>
           characterToUpdate setPosition tris._3.asInstanceOf[Point[Int, Int]]
           view move characterToUpdate

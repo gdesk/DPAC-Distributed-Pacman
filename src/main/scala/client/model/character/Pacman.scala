@@ -64,7 +64,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     val ghosts = super.prologGhostsList
     isKillable match {
       case true =>
-        (game allCharacters) filter (c => !(c.isInstanceOf[Pacman])) foreach (g => g.checkAllPositions)
+        game.allCharacters.filter(c => !(c.isInstanceOf[Pacman])).foreach(g => g.checkAllPositions)
       case false =>
         val numberOfGhostAlreadyEaten: Int = (game deadCharacters) size
         val solveInfo = PrologConfig.getPrologEngine().solve(s"ghost_defeat(pacman(${position x},${position y},${lives remainingLives},${score toString}), ${ghosts}, ${numberOfGhostAlreadyEaten}, PS, EG).")

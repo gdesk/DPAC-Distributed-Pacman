@@ -57,7 +57,7 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
       if(killer equals this) {
         pacman.lives remainingLives = valueOf(solveInfo getTerm ("NL") toString)
         if(pacman.lives.remainingLives == 0) pacman isAlive = false
-        //notificare il client del ghost che è stato mangiato (controllare le vite)
+        //notificare il client del pacman che è stato mangiato (controllare le vite)
         score = valueOf(solveInfo getTerm ("GS") toString)
       }
     }

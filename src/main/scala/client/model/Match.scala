@@ -34,13 +34,6 @@ trait Match {
     */
   def myCharacter: Character
 
-  /**
-    * Sets the character of the main user.
-    *
-    * @param character - the character of the main user.
-    */
-  def myCharacter_=(character: Character): Unit
-
   def charactersAndPlayers: Map[Character, Player]
 
   def addCharactersAndPlayers(character: Character, player: Player): Unit
@@ -90,9 +83,14 @@ case class MatchImpl private() extends Match {
 
   private var _deadCharacters: ListBuffer[Character] = ListBuffer empty
   private var charactersPlayers: HashMap[Character, Player] = HashMap empty
+  private var _myCharacter: Character = null
 
   override var playground: Playground = null
-  override var myCharacter: Character = null
+
+  override def myCharacter: Character = {
+    if(_myCharacter == null) _myCharacter = character(PlayerImpl instance()).get
+    _myCharacter
+  }
 
   override def charactersAndPlayers = charactersPlayers toMap
 
@@ -133,11 +131,9 @@ case class MatchImpl private() extends Match {
     * @throws CharacterDoesNotExistException when the character to add doesn't exist.
     */
   override def addDeadCharacters(deadCharacter: Character) = {
-    if(!(charactersPlayers.contains(deadCharacter)) && !(myCharacter equals deadCharacter)) throw new CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
+    if(!(charactersPlayers contains deadCharacter)) throw new CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
     _deadCharacters += deadCharacter
-    if(!(myCharacter equals deadCharacter)) {
-      charactersPlayers -=  deadCharacter
-    }
+    charactersPlayers -=  deadCharacter
   }
 }
 

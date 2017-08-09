@@ -10,7 +10,7 @@ trait ControllerUser {
 
   def registration(name: String, username: String, email: String, password: String, confirmPassword: String): Boolean
 
-  def login(username: String, Password: String): Option[List[MatchResult]]
+  def login(username: String, Password: String): Boolean
 
   def logout(): Boolean
 

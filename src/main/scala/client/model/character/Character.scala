@@ -111,8 +111,8 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
   private var pos: Point[Int, Int] = PointImpl(0,0)
   private val playground: Playground = PlaygroundImpl instance()
   private val game: Match = MatchImpl instance()
+  private var _isAlive = true
 
-  override var isAlive: Boolean = true
   override var direction: Direction = Direction.START
   override var score: Int = 0
 
@@ -163,6 +163,13 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
   override def setPosition(position: Point[Int, Int]) = {
     playground checkPosition position
     pos = position
+  }
+
+  def isAlive = _isAlive
+
+  def isAlive_=(alive: Boolean) = {
+    _isAlive = alive
+    if(!_isAlive) println("GAME OVER!")
   }
 
   protected def prologGhostsList: String = {
