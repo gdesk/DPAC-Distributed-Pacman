@@ -99,12 +99,11 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   /**
     * Send to server the username to remove the user from online users' list.
     *
-    * @param username user's username who wants to disconnect
     */
-  override def logout(username: String): Unit = {
+  override def logout(): Unit = {
     val message = JSONObject(Map[String, String](
       "object" -> "logout",
-      "username" -> username
+      "username" -> player.username
     ))
 
     toServerCommunication ! message.asInstanceOf[JSONObject]
