@@ -35,7 +35,57 @@ object IOUtils {
       //writer.close()
   }
 
-  /** Get the specified file from the default path and parse it to generate a playground.
+
+  /** Get the specified file from path and parse it to generate a playground.
+    *
+    * the syntax for that file is :
+    * 'x' -> block
+    * '.' -> dot
+    * 'p' -> pill
+    *
+    * 'a' -> apple
+    * 'b' -> bell
+    * 'c' -> cherry
+    * 's' -> Galaxian Ship
+    * 'g' -> grapes
+    * 'k' -> key
+    * 'o' -> orange
+    * 's' -> strawberry
+    *
+    * other char are taken as blank space by default.
+    *
+    * dimension are taken from file counting the line and the length of the line in it.
+    *
+    * @param file the file to be parsed
+    * @return the playground parsed from file
+    *
+    */
+  def getPlaygroundFromFile(file: File) : Playground = {
+    val playground: Playground = PlaygroundImpl.instance()
+
+    if (file.canRead) {
+
+      val block: List[Block] = parseBlock(file)
+      val eatable: List[Eatable] = parseEatable(file)
+
+      // todo: perchè character vuole i tipi ?
+      //val character: List[Character[Int,Int]] = parseCharacter(playgroundFile)
+
+      playground.dimension = parseDimension(file)
+      var groundList: List[GameItem] = block ::: eatable
+      playground.ground_=(groundList)
+      //  playground.blocks_=(block)
+      //  playground.eatables_=(eatable)
+
+      println("Created a Playground of dimension [ " + playground.dimension.x + " | " + playground.dimension.y
+        + " ] with " + block.size + " blocks and " + eatable.size + " eatable elements")
+
+    }
+    playground
+  }
+
+
+  /** Get the specified file from path and parse it to generate a playground.
     *
     * the syntax for that file is :
     * 'x' -> block
@@ -58,75 +108,9 @@ object IOUtils {
     * @param fileName the name of the file to be parsed. Suggested format is ''filename.dpac''
     * @return the playground parsed from file
     */
-  def getPlaygroundFromFile(fileName: String) : Playground = {
-    val playground: Playground = PlaygroundImpl.instance()
-
+  def getPlaygroundFromPath(fileName: String) : Playground = {
     val playgroundFile: File = new File(BASE_PATH + fileName)
-
-    // todo: con la versione vecchia del model era infinitamente più facile ed economico farlo
-    //  playground = parseFile(path)
-
-    val block: List[Block] = parseBlock (playgroundFile)
-    val eatable: List[Eatable] = parseEatable (playgroundFile)
-
-    // todo: perchè character vuole i tipi ?
-    //val character: List[Character[Int,Int]] = parseCharacter(playgroundFile)
-
-    playground.dimension = parseDimension(playgroundFile)
-  //  playground.blocks_=(block)
-  //  playground.eatables_=(eatable)
-
-    println("Created a Playground of dimension [ " + playground.dimension.x + " | " + playground.dimension.y
-      + " ] with " + block.size + " blocks and " + eatable.size + " eatable elements")
-
-    playground
-  }
-
-  /** Get the specified file from the default path and parse it to generate a playground.
-    *
-    * the syntax for that file is :
-    * 'x' -> block
-    * '.' -> dot
-    * 'p' -> pill
-    *
-    * 'a' -> apple
-    * 'b' -> bell
-    * 'c' -> cherry
-    * 's' -> Galaxian Ship
-    * 'g' -> grapes
-    * 'k' -> key
-    * 'o' -> orange
-    * 's' -> strawberry
-    *
-    * other char are taken as blank space by default.
-    *
-    * dimension are taken from file counting the line and the length of the line in it.
-    *
-    * @param playgroundFile the file to be parsed. Suggested format is ''filename.dpac''
-    * @return the playground parsed from file
-    */
-  def getPlaygroundFromFile(playgroundFile: File) : Playground = {
-    val playground: Playground = PlaygroundImpl.instance()
-
-
-
-    // todo: con la versione vecchia del model era infinitamente più facile ed economico farlo
-    //  playground = parseFile(path)
-
-    val block: List[Block] = parseBlock (playgroundFile)
-    val eatable: List[Eatable] = parseEatable (playgroundFile)
-
-    // todo: perchè character vuole i tipi ?
-    //val character: List[Character[Int,Int]] = parseCharacter(playgroundFile)
-
-    playground.dimension = parseDimension(playgroundFile)
-    //  playground.blocks_=(block)
-    //  playground.eatables_=(eatable)
-
-    println("Created a Playground of dimension [ " + playground.dimension.x + " | " + playground.dimension.y
-      + " ] with " + block.size + " blocks and " + eatable.size + " eatable elements")
-
-    playground
+    getPlaygroundFromFile(playgroundFile)
   }
 
   private def parseBlock(file: File): List[Block] = {
