@@ -97,10 +97,10 @@ class PlaygroundTest extends FunSuite{
     assert(playground.blocks contains((Block(PointImpl(2,4)))))
     assert(playground.blocks contains((Block(PointImpl(3,0)))))
 
-    assert(playground.streetPositions.size equals (playground.dimension.x*playground.dimension.y-(playground.blocks.size + playground.eatables.size)))
+    assert(playground.streetPositions.size equals (playground.dimension.x*playground.dimension.y-playground.blocks.size))
     for(i <- 0 to playground.dimension.x-1) {
       for(j <- 0 to playground.dimension.y-1) {
-        if((playground.ground filter (e => e.position equals PointImpl(i,j)) size) equals 0) assert(playground.streetPositions contains(PointImpl(i,j)))
+        if((playground.blocks filter (e => e.position equals PointImpl(i,j)) size) equals 0) assert(playground.streetPositions contains(PointImpl(i,j)))
       }
     }
 
@@ -114,10 +114,10 @@ class PlaygroundTest extends FunSuite{
     assert(playground.eatables contains((Apple("Apple", PointImpl(0,0)))))
     assert(playground.blocks contains((Block(PointImpl(4,4)))))
 
-    assert(playground.streetPositions.size equals (playground.dimension.x*playground.dimension.y-(playground.blocks.size + playground.eatables.size)))
+    assert(playground.streetPositions.size equals (playground.dimension.x*playground.dimension.y-playground.blocks.size))
     for(i <- 0 to playground.dimension.x-1) {
       for(j <- 0 to playground.dimension.y-1) {
-        if((playground.ground filter (e => e.position equals PointImpl(i,j)) size) equals 0) assert(playground.streetPositions contains(PointImpl(i,j)))
+        if((playground.blocks filter (e => e.position equals PointImpl(i,j)) size) equals 0) assert(playground.streetPositions contains(PointImpl(i,j)))
       }
     }
   }
