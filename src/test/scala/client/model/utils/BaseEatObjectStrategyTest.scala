@@ -16,6 +16,8 @@ class BaseEatObjectStrategyTest extends FunSuite {
   private var ip2: String = "10.200.300.401"
   private var ip3: String = "10.200.300.402"
 
+  private val millisecondsToWait =  BaseEatObjectStrategy.getMillisecondsToWait + 1000
+
   val strategy = BaseEatObjectStrategy()
 
   val gameMatch: Match = MatchImpl instance()
@@ -38,7 +40,7 @@ class BaseEatObjectStrategyTest extends FunSuite {
     strategy.eat(Pill("pill", PointImpl(0,1)))
     assert(!(pacman.isKillable) && redGhost.isKillable && blueGhost.isKillable)
     val time = System.currentTimeMillis()
-    while(System.currentTimeMillis() <= time + BaseEatObjectStrategy.getMillisecondsToWait) {}
+    while(System.currentTimeMillis() <= time + millisecondsToWait) {}
     assert(pacman.isKillable && !(redGhost.isKillable) && !(blueGhost.isKillable))
   }
 

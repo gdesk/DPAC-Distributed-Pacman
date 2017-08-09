@@ -36,8 +36,6 @@ trait ControllerMatch {
 
   def sendResponse(response: Boolean): Unit
 
-//  def startMatch(players: Map[Character, String], character: Character, playgroundDimention: Dimension, ground: List[GameItem]): Unit
-
   def startMatch: Map[String, Map[Direction, Image]]
 
 }
@@ -68,18 +66,18 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
   override def startMatch = {
     model startMatch;
-    model getTeamCharacter
+    view.???????(model getTeamCharacter)
   }
 
   override def update(o:Observable, arg: scala.Any) = {
     if(arg equals "StartMatch") {
-     // view startMatch
+     view startMatch
     } else {
       val game: (String, _) = if(arg.isInstanceOf[(String, _)]) {arg.asInstanceOf[(String, _)]} else {null}
       if(game != null) {
         game._1 match {
-          case "GameRequest" => //view.haveRequest(game._2)
-          case "GameResponse" => //view.haveResponse(game._2)
+          case "GameRequest" => view.haveRequest(game._2)
+          case "GameResponse" => view.haveResponse(game._2)
         }
       }
     }
