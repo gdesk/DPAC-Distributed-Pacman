@@ -12,6 +12,10 @@ import scala.collection.mutable.{HashMap, Map}
   */
 class BaseEatObjectStrategyTest extends FunSuite {
 
+  private var ip1: String = "10.200.300.400"
+  private var ip2: String = "10.200.300.401"
+  private var ip3: String = "10.200.300.402"
+
   val strategy = BaseEatObjectStrategy()
 
   val gameMatch: Match = MatchImpl instance()
@@ -23,10 +27,9 @@ class BaseEatObjectStrategyTest extends FunSuite {
   val pacman = BasePacman("Pacman", strategy)
   val blueGhost = BaseGhost("Blue")
 
-  var usersAndCharacters: Map[Character, String] = HashMap((pacman, "Marghe"),
-                                                           (blueGhost, "Giuls"),
-                                                           (redGhost, "Manu"))
-  gameMatch addPlayers usersAndCharacters
+  gameMatch.addCharactersAndPlayersIp(redGhost, ip1)
+  gameMatch.addCharactersAndPlayersIp(blueGhost, ip2)
+  gameMatch.addCharactersAndPlayersIp(pacman, ip3)
 
   test("eat") {
     assert(pacman.isKillable && !(redGhost.isKillable) && !(blueGhost.isKillable))

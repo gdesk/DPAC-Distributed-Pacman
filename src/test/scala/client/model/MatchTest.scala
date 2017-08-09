@@ -15,12 +15,16 @@ import scala.collection.mutable.Map
   */
 class MatchTest extends FunSuite {
 
+  private val myPlayer: Player = PlayerImpl.instance()
+  private var ip1: String = "10.200.300.400"
+  private var ip2: String = "10.200.300.401"
+  private var ip3: String = "10.200.300.402"
+
   val gameMatch: Match = MatchImpl instance()
 
   val playground: PlaygroundImpl = PlaygroundImpl instance()
   playground dimension = Dimension(35,35)
 
-  val redGhost = BaseGhost("Red")
   val pacman = BasePacman("Pacman", BaseEatObjectStrategy())
   val blueGhost = BaseGhost("Blue")
   val greeenGhost = BaseGhost("Green")
@@ -49,43 +53,67 @@ class MatchTest extends FunSuite {
     assert(gameMatch.playground equals playground)
   }
 
+  test("addCharactersAndPlayersIp and charactersAndPlayersIp") {
+    gameMatch.addCharactersAndPlayersIp(pacman, myPlayer.ip)
+    gameMatch.addCharactersAndPlayersIp(blueGhost, ip1)
+    gameMatch.addCharactersAndPlayersIp(greeenGhost, ip2)
+    gameMatch.addCharactersAndPlayersIp(yellowGhost, ip3)
+
+    assert(gameMatch.charactersAndPlayersIp.size == 4)
+    assert(gameMatch.charactersAndPlayersIp exists (m => ((m._1 equals pacman) && (m._2 equals myPlayer.ip))))
+    assert(gameMatch.charactersAndPlayersIp exists (m => ((m._1 equals blueGhost) && (m._2 equals ip1))))
+    assert(gameMatch.charactersAndPlayersIp exists (m => ((m._1 equals greeenGhost) && (m._2 equals ip2))))
+    assert(gameMatch.charactersAndPlayersIp exists (m => ((m._1 equals yellowGhost) && (m._2 equals ip3))))
+  }
+
+  test("allCharacters and allPlayersIp") {
+    assert(gameMatch.allCharacters.size == 4)
+    assert(gameMatch.allCharacters contains pacman)
+    assert(gameMatch.allCharacters contains blueGhost)
+    assert(gameMatch.allCharacters contains greeenGhost)
+    assert(gameMatch.allCharacters contains yellowGhost)
+
+    assert(gameMatch.allPlayersIp.size == 4)
+    assert(gameMatch.allPlayersIp contains myPlayer.ip)
+    assert(gameMatch.allPlayersIp contains ip1)
+    assert(gameMatch.allPlayersIp contains ip2)
+    assert(gameMatch.allPlayersIp contains ip3)
+  }
+
   test("myCharacter") {
-    assert(gameMatch.myCharacter == null)
-    gameMatch myCharacter = redGhost;
-    assert(gameMatch.myCharacter equals redGhost)
+    assert(gameMatch.myCharacter == pacman)
   }
 
-  test("addPlayers and characters") {
-    assert(gameMatch.characters isEmpty)
-    var usersAndCharacters: Map[Character, String] = HashMap((pacman, "Marghe"),
-                                                             (blueGhost, "Giuls"),
-                                                             (greeenGhost, "Manu"),
-                                                             (yellowGhost, "Fede"))
-    gameMatch addPlayers usersAndCharacters
-    assert(gameMatch.characters.size equals 4)
-    assert(gameMatch.characters contains BasePacman("Pacman", BaseEatObjectStrategy()))
-    assert(gameMatch.characters contains BaseGhost("Blue"))
-    assert(gameMatch.characters contains BaseGhost("Green"))
-    assert(gameMatch.characters contains BaseGhost("Yellow"))
+  test("character and playerIp") {
+    assert(gameMatch.character(myPlayer.ip).get equals pacman)
+    assert(gameMatch.character(ip1).get equals blueGhost)
+    assert(gameMatch.character(ip2).get equals greeenGhost)
+    assert(gameMatch.character(ip3).get equals yellowGhost)
+
+    assert(gameMatch.playerIp(pacman).get equals myPlayer.ip)
+    assert(gameMatch.playerIp(blueGhost).get equals ip1)
+    assert(gameMatch.playerIp(greeenGhost).get equals ip2)
+    assert(gameMatch.playerIp(yellowGhost).get equals ip3)
   }
 
-  test("characters, deadCharacters and addDeadCharacters") {
+  test("deadCharacters and addDeadCharacters") {
     assert(gameMatch.deadCharacters isEmpty)
 
     gameMatch.addDeadCharacters(pacman)
-    assert(gameMatch.deadCharacters contains BasePacman("Pacman", BaseEatObjectStrategy()))
+    assert(gameMatch.deadCharacters contains pacman)
+    assert(!(gameMatch.charactersAndPlayersIp contains pacman))
 
     gameMatch.addDeadCharacters(blueGhost)
-    assert(gameMatch.deadCharacters contains BaseGhost("Blue"))
+    assert(gameMatch.deadCharacters contains blueGhost)
+    assert(!(gameMatch.charactersAndPlayersIp contains blueGhost))
 
     gameMatch.addDeadCharacters(greeenGhost)
-    assert(gameMatch.deadCharacters contains BaseGhost("Green"))
+    assert(gameMatch.deadCharacters contains greeenGhost)
+    assert(!(gameMatch.charactersAndPlayersIp contains greeenGhost))
 
     gameMatch.addDeadCharacters(yellowGhost)
-    assert(gameMatch.deadCharacters contains BaseGhost("Yellow"))
-
-    gameMatch.addDeadCharacters(redGhost)
-    assert(gameMatch.deadCharacters contains BaseGhost("Red"))
+    assert(gameMatch.deadCharacters contains yellowGhost)
+    assert(!(gameMatch.charactersAndPlayersIp contains yellowGhost))
 
     val blackGhost = BaseGhost("Black")
 
@@ -95,8 +123,7 @@ class MatchTest extends FunSuite {
   }
 
   test ("singleton"){
-    val gm = MatchImpl instance()
-    assert(gameMatch == gm)
+    assert(gameMatch == MatchImpl.instance())
   }
 
 }
