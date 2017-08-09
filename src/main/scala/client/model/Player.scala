@@ -35,7 +35,7 @@ case class PlayerImpl private() extends Player {
 
   override def allMatchesResults = matchesResults toList
 
-  override def allMatchesResults_=(matches: List[MatchResult]) = matchesResults = matches.to[ListBuffer[MatchResult]]
+  override def allMatchesResults_=(matches: List[MatchResult]) = matchesResults = matches.to[ListBuffer]
 
   override def addAMatchResult(matchResult: MatchResult)= matchesResults += matchResult
 }

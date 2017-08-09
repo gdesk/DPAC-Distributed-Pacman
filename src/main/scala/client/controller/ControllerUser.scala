@@ -30,7 +30,7 @@ case class BaseControllerUser private() extends ControllerUser {
 
   override def login(username: String, password: String) = model login (username, password)
 
-  override def logout = model logout
+  override def logout = {model logout; true}
 
   override def player = PlayerImpl instance()
 

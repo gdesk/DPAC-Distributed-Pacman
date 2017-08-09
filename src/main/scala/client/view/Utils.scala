@@ -7,22 +7,25 @@ import javax.sound.sampled.AudioSystem
 import javax.swing.ImageIcon
 
 import client.view.utils.ImagesResolutions
-
+import Res._
+import scala.collection.JavaConverters._
 /**
   * Created by chiaravarini on 01/07/17.
   */
 object Utils {
 
   // private var mediaPlayer: MediaPlayer = null
-  private val IMAGES_BASE_PATH = "/images/"
-  private val IMAGES_EXTENSION = ".png"
+
 
 
   def getResource(path: String): URL = Utils.getClass.getResource(path)   //TODO lanciare eccezione nel caso in cui non trovi la risorsa!
 
-
   def getImage(path: String): Image = {
     new ImageIcon(getResource(IMAGES_BASE_PATH + path + IMAGES_EXTENSION)).getImage
+  }
+
+  def getGif(name: String): Image = {
+    new ImageIcon(getResource(GIF_BASE_PATH + name + GIF_EXTENSION)).getImage
   }
 
   def getResolution(): ImagesResolutions =  Toolkit.getDefaultToolkit().getScreenResolution() match{
@@ -33,11 +36,21 @@ object Utils {
 
   }
 
-  def getJavaList[E](list: List[E]): java.util.List[E] = {
-    import scala.collection.JavaConverters._
-    list.asJava
+  def getJavaList[E](list: List[E]): java.util.List[E] = list.asJava
+
+  def transformInString (array: Array[Char]): String = {
+    var res = ""
+    array.toSeq.foreach(c=> res += c)
+    res
   }
 
+  def getScalaMap[A,B](map: java.util.Map[A,B]): scala.collection.mutable.Map[A,B] = map.asScala
+
+  def scalaRangeToString(ranges: List[Range]): java.util.List[client.view.utils.Range] ={
+    ranges map(r => new client.view.utils.Range(r min, r max)) asJava
+  }
+
+  def getJavaMap[A,B](map: Map[A,B]) = map.asJava
   /* def playSound(sound: String):Unit = {
     val clip = AudioSystem.getClip
     clip.open(AudioSystem.getAudioInputStream(getResource(sound)))
