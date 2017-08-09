@@ -1,7 +1,6 @@
 package client.communication.model
 
 import java.awt.Image
-import java.util.Observer
 
 import client.model.{Direction, MatchResult}
 
@@ -41,7 +40,7 @@ trait ToClientCommunication {
     * Send to server the username to remove the user from online users' list.
     *
     */
-  def logout(): Unit
+  def logout(): Boolean
 
   /**
     *  Receives to server the list of range to play the match.
@@ -114,12 +113,6 @@ trait ToClientCommunication {
     */
   def getAllMatchesResults(username: String): List[MatchResult]
 
-  /**
-    * Adds the observer.
-    *
-    * @param observer observer to add.
-    */
-  def addObserver(observer: Observer): Unit
 
   /**
     * Send to server the request to information to configure and synchronize the P2P Communication.
@@ -127,4 +120,19 @@ trait ToClientCommunication {
     *
     * */
   def startMatch(): Unit
+
+  /**
+    * Send to server the request to invite the friend in current match
+    *
+    * @param username username of player to invite
+    * @return boolean the invite's response
+    */
+  def sendRequest(username: String): Unit
+
+  /**
+    * Send to server the invite's response
+    *
+    * @param response the invite's response to current match
+    */
+  def sendResponse(response: Boolean): Unit
 }
