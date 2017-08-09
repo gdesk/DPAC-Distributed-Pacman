@@ -30,9 +30,7 @@ trait ControllerMatch {
 
   def teamView(view: CreateTeamView): Unit
 
-  def model: ToClientCommunication
-
-  def model_=(model: ToClientCommunication): Unit
+  def model(model: ToClientCommunication): Unit
 
   def sendRequestAt(username: String): Unit
 
@@ -48,34 +46,33 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
   private val playground: Playground = PlaygroundImpl instance()
   private var _loadingView: LoadingView = null
   private var _teamView: CreateTeamView = null
+  private var _model: ToClientCommunication = null
 
-  override var model: ToClientCommunication = null
+  override def model(model: ToClientCommunication) = _model = model
 
   override def loadingView(view: LoadingView): Unit = _loadingView = view
 
   override def teamView(view: CreateTeamView): Unit = _teamView = view
 
-  override def getRanges = model getRanges
+  override def getRanges = _model.getRanges
 
-  override def getCharacters = model getCharactersToChoose
+  override def getCharacters = _model.getCharactersToChoose
 
-  override def chooseCharacter(characterName: String) = model chooseCharacter characterName
+  override def chooseCharacter(characterName: String) = _model.chooseCharacter(characterName)
 
-  override def getPlaygrounds = model getPlaygrounds
+  override def getPlaygrounds = _model.getPlaygrounds
 
-  override def choosePlayground(playground: Int) = model choosePlayground playground
+  override def choosePlayground(playground: Int) = _model.choosePlayground(playground)
 
-  override def MatchResul(result: MatchResult, user: String) = model MatchResult (result, user)
+  override def MatchResul(result: MatchResult, user: String) = _model.MatchResult(result, user)
 
-  override def sendRequestAt(username: String) = model.sendRequest(username)
+  override def sendRequestAt(username: String) = _model.sendRequest(username)
 
-  override def sendResponse(response: Boolean) = model.sendResponse(response)
+  override def sendResponse(response: Boolean) = _model.sendResponse(response)
 
   override def startMatch = {
-
-    model startMatch;
-    BaseControllerCharacter.instance().setCharacterImages(model getTeamCharacter)
-
+    _model.startMatch;
+    BaseControllerCharacter.instance().setCharacterImages(_model.getTeamCharacter)
   }
 
   override def update(o:Observable, arg: scala.Any) = {
@@ -84,7 +81,6 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
     } else {
       val game: (String, _) = if(arg.isInstanceOf[(String, _)]) {arg.asInstanceOf[(String, _)]} else {null}
       if(game != null) {
-
         game._1 match {
           case "GameRequest" => MainFrame.getInstance().showRequest(game._2.asInstanceOf[String])
           case "GameResponse" => _teamView.playerResponse(game._2.asInstanceOf[Boolean])
