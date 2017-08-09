@@ -16,24 +16,23 @@ trait ControllerUser {
 
   def player(): Player
 
-  def model: ToClientCommunication
-
-  def model_=(model: ToClientCommunication): Unit
+  def model(model: ToClientCommunication): Unit
 
 }
 
 case class BaseControllerUser private() extends ControllerUser {
 
-  override var model: ToClientCommunication = null
+  private var _model: ToClientCommunication = null
 
-  override def registration(name: String, username: String, email: String, password: String, confirmPassword: String) = model registration (name, username, email, password, confirmPassword)
+  override def registration(name: String, username: String, email: String, password: String, confirmPassword: String) = _model registration (name, username, email, password, confirmPassword)
 
-  override def login(username: String, password: String) = model login (username, password)
+  override def login(username: String, password: String) = _model login (username, password)
 
-  override def logout = model logout()
+  override def logout = _model logout()
 
   override def player = PlayerImpl instance()
 
+  override def model(model: ToClientCommunication) = _model = model
 }
 
 object BaseControllerUser {

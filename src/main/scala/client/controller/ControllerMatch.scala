@@ -5,7 +5,6 @@ import java.util.{Observable, Observer}
 
 import client.communication.model.ToClientCommunication
 import client.model._
-import client.view.utils.GameSetting
 import client.view._
 
 import scala.collection.JavaConverters._

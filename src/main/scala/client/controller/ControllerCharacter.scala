@@ -6,7 +6,6 @@ import java.util.{Observable, Observer}
 import client.model._
 import client.model.character.Character
 import client.model.utils.Point
-import client.view.playground.PlaygroundPanel
 import client.view.{GamePanel, MainFrame}
 
 /**
@@ -65,12 +64,24 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
         character go direction
     }
     */
-    val prePosition: Point[Int, Int] = character position;
+    val prePosition: Point[Int, Int] = character.position
+    val preLives: Int = character.lives.remainingLives
+    val preScore: Int = character.score
     character go direction
-    val postPosition: Point[Int, Int] = character position;
-    if(!(prePosition equals postPosition)) view.move(characterImages.get(gameMatch.myCharacter.name).get(direction),
-                                                                        prePosition.asInstanceOf[Point[Integer,Integer]],
-                                                                        postPosition.asInstanceOf[Point[Integer,Integer]])
+    val postPosition: Point[Int, Int] = character.position
+    val postLives: Int = character.lives.remainingLives
+    val postScore: Int = character.score
+
+    if(!(prePosition equals postPosition)) view.move(characterImages.get(character.name).get(direction),
+                                                                          prePosition.asInstanceOf[Point[Integer,Integer]],
+                                                                          postPosition.asInstanceOf[Point[Integer,Integer]])
+
+    if(!(preLives equals postLives)) {
+      view.updateLives(postLives)
+      if(postLives <= 0) view.gameOver()
+    }
+
+    if(!(preScore equals postScore)) view.updateLives(postScore)
   }
 
   override def update(o: Observable, arg: scala.Any) = {
@@ -84,18 +95,29 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
         characterToUpdate = gameMatch.character(player.get).get
       }
       tris._2 match {
-        case "lives" =>
-          characterToUpdate.lives remainingLives = tris._3.asInstanceOf[Int]
-          view.updateLives(characterToUpdate)
         case "isAlive" =>
-          characterToUpdate isAlive = tris._3.asInstanceOf[Boolean]
-          view.deleteCharacter(characterToUpdate)
-        case "score" =>
-          characterToUpdate score = tris._3.asInstanceOf[Int]
-          view.updateScore(characterToUpdate) //quali score vogliamo visualizzare?
+          characterToUpdate.isAlive = tris._3.asInstanceOf[Boolean]
+          if(!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer,Integer]])
         case "direction" =>
-          characterToUpdate setPosition tris._3.asInstanceOf[Direction]
-          view.move(characterToUpdate)
+          val direction = tris._3.asInstanceOf[Direction]
+          val prePosition: Point[Int, Int] = characterToUpdate.position
+          val preLives: Int = gameMatch.myCharacter.lives.remainingLives
+          val preScore: Int = gameMatch.myCharacter.score
+          characterToUpdate.go(direction)
+          val postPosition: Point[Int, Int] = characterToUpdate.position
+          val postLives: Int = gameMatch.myCharacter.lives.remainingLives
+          val postScore: Int = gameMatch.myCharacter.score
+
+          if(!(prePosition equals postPosition)) view.move(characterImages.get(characterToUpdate.name).get(direction),
+                                                            prePosition.asInstanceOf[Point[Integer,Integer]],
+                                                            postPosition.asInstanceOf[Point[Integer,Integer]])
+
+          if(!(preLives equals postLives)) {
+            view.updateLives(postLives)
+            if(postLives <= 0) view.gameOver()
+          }
+
+          if(!(preScore equals postScore)) view.updateLives(postScore)
       }
     }
   }

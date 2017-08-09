@@ -14,7 +14,7 @@ public class MainFrame extends JFrame {
     public static final Dimension DIMENSION = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
     private static MainFrame SINGLETON = null;
 
-    public static MainFrame getInstance(){  //TODO passare il controller
+    public static MainFrame getInstance(){
         if(SINGLETON == null){
             SINGLETON = new MainFrame();
         }
@@ -26,7 +26,6 @@ public class MainFrame extends JFrame {
 
         setSize(DIMENSION);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setUndecorated(true);
         setContentPane(new LoginPanel());
         setResizable(false);
         setVisible(true);

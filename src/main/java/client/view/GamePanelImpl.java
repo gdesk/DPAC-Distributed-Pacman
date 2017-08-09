@@ -1,11 +1,15 @@
 package client.view;
 
+import client.controller.BaseControllerMatch;
+import client.controller.BaseControllerMatch$;
+import client.controller.ControllerMatch;
+import client.model.PlaygroundImpl;
 import client.model.utils.Point;
 import client.view.playground.MicroMapPanel;
 import client.view.playground.PlaygroundView;
 import client.view.utils.ImagesUtils;
 import client.view.utils.JComponentsUtils;
-import controller.FakeController;
+//import controller.FakeController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +23,10 @@ import static client.view.utils.JComponentsUtils.FONT_SIZE;
 public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
     private PlaygroundView playground;
-    private final FakeController controller = new FakeController();
 
     private final JLabel score = new JLabel("Score: 0");
     private int livesNum = 3;
-    private final MicroMapPanel microMap = new MicroMapPanel(controller.getPlayground());
+    private final MicroMapPanel microMap = new MicroMapPanel(PlaygroundImpl.instance());
 
     public GamePanelImpl(final Container playground) {
 

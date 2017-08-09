@@ -21,10 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
-/**
- * Created by chiaravarini on 10/07/17.
- */
+/*
 public class FakeController implements ControllerCharacter{
 
     private CreateTeamDialog ct;
@@ -202,3 +199,4 @@ public class FakeController implements ControllerCharacter{
     }
 
 }
+*/
