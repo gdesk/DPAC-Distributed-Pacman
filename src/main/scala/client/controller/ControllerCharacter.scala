@@ -25,7 +25,7 @@ trait ControllerCharacter {
 
   def setCharacterImages(mapCharacterImages: Map[String, Map[Direction, Image]]): Unit
 
-  def view_(view: GamePanel): Unit
+  def view(view: GamePanel): Unit
 
 }
 
@@ -36,7 +36,7 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
   private var view: GamePanel = null
   private var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
-  override def view_(view: GamePanel): Unit = this.view = view
+  override def view(view: GamePanel): Unit = this.view = view
 
   def setCharacterImages(mapCharacterImages: Map[String, Map[Direction, Image]]) = characterImages = mapCharacterImages
 
@@ -68,7 +68,9 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
     val prePosition: Point[Int, Int] = character position;
     character go direction
     val postPosition: Point[Int, Int] = character position;
-    if(!(prePosition equals postPosition)) view.move(character)
+    if(!(prePosition equals postPosition)) view.move(characterImages.get(gameMatch.myCharacter.name).get(direction),
+                                                                        prePosition.asInstanceOf[Point[Integer,Integer]],
+                                                                        postPosition.asInstanceOf[Point[Integer,Integer]])
   }
 
   override def update(o: Observable, arg: scala.Any) = {
@@ -82,17 +84,17 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
         characterToUpdate = gameMatch.character(player.get).get
       }
       tris._2 match {
-        case "remainingLives" =>
+        case "lives" =>
           characterToUpdate.lives remainingLives = tris._3.asInstanceOf[Int]
           view.updateLives(characterToUpdate)
-        case "isDead" =>
+        case "isAlive" =>
           characterToUpdate isAlive = tris._3.asInstanceOf[Boolean]
           view.deleteCharacter(characterToUpdate)
         case "score" =>
           characterToUpdate score = tris._3.asInstanceOf[Int]
           view.updateScore(characterToUpdate) //quali score vogliamo visualizzare?
-        case "move" =>
-          characterToUpdate setPosition tris._3.asInstanceOf[Point[Int, Int]]
+        case "direction" =>
+          characterToUpdate setPosition tris._3.asInstanceOf[Direction]
           view.move(characterToUpdate)
       }
     }

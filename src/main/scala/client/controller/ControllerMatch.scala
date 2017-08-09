@@ -93,7 +93,6 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
       }
     }
   }
-
 }
 
 object BaseControllerMatch {

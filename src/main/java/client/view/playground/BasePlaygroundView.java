@@ -1,9 +1,9 @@
 package client.view.playground;
 
-import client.model.Direction;
-import client.view.CharacterView;
 import client.view.utils.BlocksImages;
 import client.view.utils.FruitsImages;
+
+import java.awt.*;
 
 /**
  * Created by Manuel Bottax on 04/07/2017.
@@ -45,9 +45,8 @@ public interface BasePlaygroundView {
      * @param x Horizontal position on grid
      * @param y Vertical position on grid
      * @param characterView Chracter's name
-     * @param direction Character's direction
      */
-    void renderCharacter(int x, int y, CharacterView characterView, Direction direction);
+    void renderCharacter(int x, int y, Image characterView);
 
 
     /**
