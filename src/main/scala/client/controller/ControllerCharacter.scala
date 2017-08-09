@@ -70,7 +70,7 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
     val tris: (String, String, _) = if(arg.isInstanceOf[(String, String, _)]) {arg.asInstanceOf[(String, String, _)]} else {null}
     if(tris != null) {
       var characterToUpdate: Character = null
-      val player = gameMatch.allPlayers.find(p => p.ip equals tris._1)
+      val player = gameMatch.allPlayersIp.find(p => p.ip equals tris._1)
       if(player isEmpty) {
         throw new ThisIpDoesNotExist("Ip:" + tris._1 + " doen't exist!")
       } else {

@@ -254,8 +254,8 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     typeCharacters.keySet.foreach(x =>{
       val singleCharacter = typeCharacters(x)
       singleCharacter(1) match {
-        case "pacman" => currentMatch.addCharactersAndPlayers(BasePacman(singleCharacter(2), BaseEatObjectStrategy()), x)
-        case "ghost" => currentMatch.addCharactersAndPlayers(BaseGhost(singleCharacter(2)), x)
+        case "pacman" => currentMatch.addCharactersAndPlayersIp(BasePacman(singleCharacter(2), BaseEatObjectStrategy()), x)
+        case "ghost" => currentMatch.addCharactersAndPlayersIp(BaseGhost(singleCharacter(2)), x)
       }
     })
 

@@ -34,7 +34,7 @@ trait ControllerMatch {
 
 //  def startMatch(players: Map[Character, String], character: Character, playgroundDimention: Dimension, ground: List[GameItem]): Unit
 
-  def startMatch: Unit
+  def startMatch: Map[String, Map[Direction, Image]]
 
 }
 
@@ -68,11 +68,13 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
   }
   */
 
-  override def startMatch = model startMatch
+  override def startMatch = {
+    model startMatch;
+    model getTeamCharacter
+  }
 
   override def update(o:Observable, arg: scala.Any) = arg match {
-    case x if x.isInstanceOf[Map[String, Map[Direction, Image]]] => view charactersChoosen (arg/*.asInstanceOf[Map[String, Map[Direction, Image]]]*/)
-    case _ => view playgroundChoosen (arg/*.asInstanceOf[File]*/)
+    case "StartMatch" => view startMatch
   }
 
 }

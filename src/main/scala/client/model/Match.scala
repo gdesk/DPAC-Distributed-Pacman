@@ -34,9 +34,9 @@ trait Match {
     */
   def myCharacter: Character
 
-  def charactersAndPlayers: Map[Character, String]
+  def charactersAndPlayersIp: Map[Character, String]
 
-  def addCharactersAndPlayers(character: Character, idPlayer: String): Unit
+  def addCharactersAndPlayersIp(character: Character, playerIp: String): Unit
 
   /**
     * Returns the list of all characters who participate at the match.
@@ -50,11 +50,11 @@ trait Match {
     *
     * @return the list of all players.
     */
-  def allPlayersId: List[String]
+  def allPlayersIp: List[String]
 
-  def character(idPlayer: String): Option[Character]
+  def character(playerIp: String): Option[Character]
 
-  def player(character: Character): Option[String]
+  def playerIp(character: Character): Option[String]
 
   /**
     * Returns the list of dead characters.
@@ -82,40 +82,40 @@ trait Match {
 case class MatchImpl private() extends Match {
 
   private var _deadCharacters: ListBuffer[Character] = ListBuffer empty
-  private var charactersPlayers: HashMap[Character, String] = HashMap empty
+  private var charactersPlayersIp: HashMap[Character, String] = HashMap empty
   private var _myCharacter: Character = null
 
   override var playground: Playground = null
 
   override def myCharacter: Character = {
-    if(_myCharacter == null) _myCharacter = character(PlayerImpl instance() ip).get
+    if(_myCharacter == null) _myCharacter = character(PlayerImpl.instance().ip).get
     _myCharacter
   }
 
-  override def charactersAndPlayers = charactersPlayers toMap
+  override def charactersAndPlayersIp = charactersPlayersIp toMap
 
-  override def addCharactersAndPlayers(character: Character, idPlayer: String) = charactersPlayers += character -> idPlayer
+  override def addCharactersAndPlayersIp(character: Character, playerIp: String) = charactersPlayersIp += character -> playerIp
 
-  override def character(idPlayer: String) = {
-    val pair = charactersPlayers.filter(p => p._2 equals idPlayer).headOption
+  override def character(playerIp: String) = {
+    val pair = charactersPlayersIp.filter(p => p._2 equals playerIp).headOption
     if(pair isEmpty) {Option empty} else {Option (pair.get _1)}
   }
 
-  override def player(character: Character) = charactersPlayers get character
+  override def playerIp(character: Character) = charactersPlayersIp get character
 
   /**
     * Returns the list of all characters who participate at the match.
     *
     * @return the list of all characters.
     */
-  override def allCharacters = (charactersPlayers keySet) toList
+  override def allCharacters = (charactersPlayersIp keySet) toList
 
   /**
     * Returns the list of all players who participate at the match.
     *
     * @return the list of all players.
     */
-  override def allPlayersId: List[String] = (charactersPlayers values) toList
+  override def allPlayersIp: List[String] = (charactersPlayersIp values) toList
 
   /**
     * Returns the list of dead characters.
@@ -131,9 +131,9 @@ case class MatchImpl private() extends Match {
     * @throws CharacterDoesNotExistException when the character to add doesn't exist.
     */
   override def addDeadCharacters(deadCharacter: Character) = {
-    if(!(charactersPlayers contains deadCharacter)) throw new CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
+    if(!(charactersPlayersIp contains deadCharacter)) throw new CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
     _deadCharacters += deadCharacter
-    charactersPlayers -=  deadCharacter
+    charactersPlayersIp -=  deadCharacter
   }
 }
 
