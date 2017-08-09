@@ -1,4 +1,4 @@
-package client.controller
+package client.controller3
 
 import java.util.{Observable, Observer}
 

@@ -1,8 +1,8 @@
 package client.view;
 
-import client.controller.BaseControllerMatch;
-import client.controller.BaseControllerUser;
-import client.controller.ControllerMatch;
+import client.controller3.BaseControllerMatch;
+import client.controller3.BaseControllerUser;
+import client.controller3.ControllerMatch;
 import client.view.utils.ImagesUtils;
 import client.view.utils.JComponentsUtils;
 import controller.FakeController;

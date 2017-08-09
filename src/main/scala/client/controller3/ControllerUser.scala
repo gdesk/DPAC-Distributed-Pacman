@@ -1,4 +1,4 @@
-package client.controller
+package client.controller3
 
 import client.communication.model.ToClientCommunicationImpl
 import client.model._

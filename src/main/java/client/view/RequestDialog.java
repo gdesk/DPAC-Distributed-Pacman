@@ -1,7 +1,7 @@
 package client.view;
 
-import client.controller.BaseControllerMatch;
-import client.controller.ControllerMatch;
+import client.controller3.BaseControllerMatch;
+import client.controller3.ControllerMatch;
 import client.view.utils.JComponentsUtils;
 
 import javax.swing.*;

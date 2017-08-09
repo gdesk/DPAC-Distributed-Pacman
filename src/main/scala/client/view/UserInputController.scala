@@ -2,7 +2,7 @@ package client.view
 
 import java.awt.event.{KeyEvent, KeyListener}
 
-import client.controller.ControllerCharacter
+import client.controller3.ControllerCharacter
 import client.model.Direction
 
 /**
