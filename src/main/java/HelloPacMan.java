@@ -12,7 +12,7 @@ public class HelloPacMan {
 
     public static void main(String[] args) {
         ToClientCommunicationImpl clientComm = new ToClientCommunicationImpl();
-        BaseControllerUser.instance().model_$eq(clientComm);
+        BaseControllerUser.instance().model(clientComm);
         BaseControllerMatch.instance().model_$eq(clientComm);
         
         SwingUtilities.invokeLater(new Runnable() {
