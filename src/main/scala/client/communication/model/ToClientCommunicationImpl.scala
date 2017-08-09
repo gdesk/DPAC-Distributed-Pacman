@@ -105,6 +105,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     })
     println(allMatches)
     player.username = username
+
     player.allMatchesResults = allMatches
 
     if (list.isEmpty) return false

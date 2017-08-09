@@ -1,82 +1,52 @@
-package client.controller
+package client.view
 
 import java.awt.event.{KeyEvent, KeyListener}
 
+import client.controller.ControllerCharacter
 import client.model.Direction
-import controller.FakeController
-
 
 /**
   * Created by Manuel Bottax on 06/07/2017.
   */
-class UserInputController (val controller: FakeController)/*(val client.model.character.gameElement.character: Character) */ extends KeyListener{
+class UserInputController (val controller: ControllerCharacter) extends KeyListener{
+
 
   override def keyPressed(e: KeyEvent): Unit = {
-    //todo: controllare bordi
+
     e.getKeyCode match {
       case KeyEvent.VK_LEFT => {
-
         controller.move(Direction.LEFT)
-        /* view.removeCharacter(currentX, currentY)
-         currentX = currentX - 1
-         view.renderCharacter(currentX, currentY, new CharacterFactory().createPacman, "left")*/
       }
-
 
       case KeyEvent.VK_RIGHT => {
-
         controller.move(Direction.RIGHT)
-        /* view.removeCharacter(currentX, currentY)
-         currentX = currentX + 1
-         view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "right")*/
       }
 
-
       case KeyEvent.VK_UP => {
-
-          controller.move(Direction.UP)/*
-          view.removeCharacter(currentX, currentY)
-          currentY = currentY - 1
-          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "up")*/
+        controller.move(Direction.UP)
       }
 
       case KeyEvent.VK_DOWN => {
-          controller.move(Direction.DOWN)/*
-          view.removeCharacter(currentX, currentY)
-          currentY = currentY + 1
-          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "down")*/
-        }
+        controller.move(Direction.DOWN)
+      }
 
       case KeyEvent.VK_A => {
-          controller.move(Direction.LEFT)/*
-          view.removeCharacter(currentX, currentY)
-          currentX = currentX - 1
-          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "left")*/
+        controller.move(Direction.LEFT)
       }
 
       case KeyEvent.VK_D => {
-          controller.move(Direction.RIGHT)/*
-          view.removeCharacter(currentX, currentY)
-          currentX = currentX + 1
-          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "right")*/
-        }
+        controller.move(Direction.RIGHT)
+      }
 
       case KeyEvent.VK_W => {
-          controller.move(Direction.UP)/*
-          view.removeCharacter(currentX, currentY)
-          currentY = currentY - 1
-          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "up")*/
-        }
-
+        controller.move(Direction.UP)
+      }
 
       case KeyEvent.VK_S => {
-          controller.move(Direction.DOWN)/*
-          view.removeCharacter(currentX, currentY)
-          currentY = currentY + 1
-          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "down")*/
-        }
+        controller.move(Direction.DOWN)
+      }
 
-      case _ =>
+      case _ => {}
     }
 
   }
@@ -84,9 +54,6 @@ class UserInputController (val controller: FakeController)/*(val client.model.ch
   override def keyTyped(e: KeyEvent): Unit = {}
 
   override def keyReleased(e: KeyEvent): Unit = {}
-
-  private def check(x: Int, y: Int): Boolean = x>=0 && y>=0 && x<61 && y<16 //TODO passare le columns e le rows del playground
-
 }
 
 
