@@ -1,6 +1,7 @@
 package client.communication.model
 
 import java.awt.Image
+import java.io.File
 
 import client.model.{Direction, MatchResult}
 
@@ -53,6 +54,10 @@ trait ToClientCommunication {
     *
     * @return list of all character to choose in team's creation.
     */
+
+  def selectRange(range: Range): Unit
+
+  //todo:fai scala doc
   def getCharactersToChoose: Map[String, Image]
 
   /**
