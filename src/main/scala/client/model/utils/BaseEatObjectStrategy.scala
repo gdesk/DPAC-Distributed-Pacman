@@ -26,7 +26,7 @@ case class BaseEatObjectStrategy() extends EatObjectStrategy with Observer{
         case true => c.isKillable = false
         case _ => c.isKillable = true
       })
-      timer.counts(BaseEatObjectStrategy.millisecondsToWait)
+      timer.counts(BaseEatObjectStrategy.getMillisecondsToWait)
     case _ =>
   }
 
@@ -35,8 +35,8 @@ case class BaseEatObjectStrategy() extends EatObjectStrategy with Observer{
       case true => c.isKillable = true
       case _ => c.isKillable = false
     })
-
   }
+
 }
 
 object BaseEatObjectStrategy {

@@ -1,4 +1,4 @@
-package client.view;
+package client.view.playground;
 
 import java.awt.*;
 
@@ -36,8 +36,9 @@ public class PlaygroundBuilderImpl implements PlaygroundBuilder {
         return this;
     }
 
+    @Override
     public PlaygroundView createPlayground(){
-        PlaygroundDynamicSettings settings = new PlaygroundDynamicSettings(colums,rows);
+        PlaygroundSettings settings = new PlaygroundSettings(colums,rows);
         settings.setBackgroundColor(color);
         if(image!=null){
             settings.setBackgroundImage(image);
