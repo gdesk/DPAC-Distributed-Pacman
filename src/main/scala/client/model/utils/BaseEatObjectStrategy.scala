@@ -22,7 +22,7 @@ case class BaseEatObjectStrategy() extends EatObjectStrategy with Observer{
     */
   override def eat(eatenObject: Eatable) = eatenObject.isInstanceOf[Pill] match {
     case true =>
-      game.characters foreach(c => c.isInstanceOf[Pacman] match {
+      game.allCharacters.foreach(c => c.isInstanceOf[Pacman] match {
         case true => c.isKillable = false
         case _ => c.isKillable = true
       })
@@ -31,7 +31,7 @@ case class BaseEatObjectStrategy() extends EatObjectStrategy with Observer{
   }
 
   override def update(observable: Observable, arg: scala.Any) = {
-    game.characters foreach (c => c.isInstanceOf[Pacman] match {
+    game.allCharacters.foreach (c => c.isInstanceOf[Pacman] match {
       case true => c.isKillable = true
       case _ => c.isKillable = false
     })

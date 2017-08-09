@@ -32,6 +32,10 @@ trait ControllerMatch {
 
   def model_=(model: ToClientCommunication): Unit
 
+  def sendRequestAt(username: String): Boolean
+
+  def sendResponse(response: Boolean): Unit
+
 //  def startMatch(players: Map[Character, String], character: Character, playgroundDimention: Dimension, ground: List[GameItem]): Unit
 
   def startMatch: Map[String, Map[Direction, Image]]
@@ -43,7 +47,7 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
   private val gameMatch: Match = MatchImpl instance()
   private val playground: Playground = PlaygroundImpl instance()
 
-  override var view: View = null
+  override var view: ??? = null
   override var model: ToClientCommunication = null
 
   override def getRanges = model getRanges
@@ -57,6 +61,10 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
   override def choosePlayground(playground: Int) = model choosePlayground playground
 
   override def MatchResul(result: MatchResult, user: String) = model MatchResult (result, user)
+
+  override def sendRequestAt(username: String)
+
+  override def sendResponse(response: Boolean)
 
   /*
   override def startMatch(players: Map[Character, String], character: Character, playgroundDimention: Dimension, ground: List[GameItem]) = {
@@ -73,8 +81,18 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
     model getTeamCharacter
   }
 
-  override def update(o:Observable, arg: scala.Any) = arg match {
-    case "StartMatch" => view startMatch
+  override def update(o:Observable, arg: scala.Any) = {
+    if(arg equals "StartMatch") {
+      view startMatch
+    } else {
+      val game: (String, _) = if(arg.isInstanceOf[(String, _)]) {arg.asInstanceOf[(String, _)]} else {null}
+      if(game != null) {
+        game._1 match {
+          case "GameRequest" => view.haveRequest(game._2)
+          case "GameResponse" => view.haveResponse(game._2)
+        }
+      }
+    }
   }
 
 }

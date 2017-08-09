@@ -89,7 +89,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     player.username = username
     val response = getJSONMessage(message)
     val list = response.obj("list").asInstanceOf[Option[List[MatchResult]]]
-    player.allMatchesResults = list get
+    player.allMatchesResults = list.get
     if (list.isEmpty){
       false
     }

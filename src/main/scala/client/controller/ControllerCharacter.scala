@@ -33,7 +33,7 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
   private val playeground: Playground = PlaygroundImpl instance()
 
 
-  override var view: View = null
+  override var view: ??? = null
 
   /**
     * Method called when the user moves his character. This method calls the method in the model.
@@ -66,11 +66,11 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
     if(!(prePosition equals postPosition)) view move character
   }
 
-  override def update(o: Observable, arg: _) = {
+  override def update(o: Observable, arg: scala.Any) = {
     val tris: (String, String, _) = if(arg.isInstanceOf[(String, String, _)]) {arg.asInstanceOf[(String, String, _)]} else {null}
     if(tris != null) {
       var characterToUpdate: Character = null
-      val player = gameMatch.allPlayersIp.find(p => p.ip equals tris._1)
+      val player = gameMatch.allPlayersIp.find(ip => ip equals tris._1)
       if(player isEmpty) {
         throw new ThisIpDoesNotExist("Ip:" + tris._1 + " doen't exist!")
       } else {
