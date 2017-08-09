@@ -2,14 +2,12 @@
 package client.communication.model
 
 import java.awt.Image
-
 import java.util.Observer
 import java.util.concurrent.TimeUnit
 
 import akka.actor.{ActorSystem, Inbox, Props}
 import client.communication.model.actor.{FromServerCommunication, P2PCommunication, ToServerCommunication}
-
-import client.model.{Direction, MatchResult}
+import client.model._
 import client.utils.ActorUtils
 
 import scala.collection.mutable
@@ -113,17 +111,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   /**
     * Send to server the username to remove the user from online users' list.
     *
-
-    * @param username user's username who wants to disconnect
     */
-  override def logout(username: String): Unit = {
-    val message = JSONObject(Map[String, String](
-      "object" -> "logout",
-      "username" -> username
-    ))
-
-    toServerCommunication ! message.asInstanceOf[JSONObject]
-
 
   override def logout(): Boolean = {
     val message = JSONObject(Map[String, String](
@@ -133,7 +121,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
     val response = getJSONMessage(message)
     response.obj("response").asInstanceOf[Boolean]
->>>>>>> f38ed80253e0f1f45844160f8f2652e380e426a2
+
   }
 
   /**

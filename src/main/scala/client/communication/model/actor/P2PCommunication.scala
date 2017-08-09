@@ -1,6 +1,6 @@
 package client.communication.model.actor
 
-<<<<<<< HEAD
+
 import java.net.InetAddress
 import java.rmi.registry.{LocateRegistry, Registry}
 
@@ -10,10 +10,7 @@ import client.utils.ActorUtils
 import network.client.P2P.bootstrap.{ClientBootstrap, ServerBootstrap}
 import network.client.P2P.utils.ExecutorServiceUtility
 import network.client.rxJava.OtherCharacterInfo
-=======
-import akka.actor.UntypedAbstractActor
-import client.utils.ActorUtils
->>>>>>> f38ed80253e0f1f45844160f8f2652e380e426a2
+
 
 import scala.util.parsing.json.JSONObject
 
@@ -24,7 +21,7 @@ import scala.util.parsing.json.JSONObject
   *         Federica Pecci
   */
 class P2PCommunication extends UntypedAbstractActor {
-<<<<<<< HEAD
+
 
   val executor = new ExecutorServiceUtility
 
@@ -56,18 +53,7 @@ class P2PCommunication extends UntypedAbstractActor {
         }
         //todo per dire a marghe che la scermata view (loading...), può essere sostituita da (playgroung)
         //this.handler.startMatch("StartMatch");
-=======
-  override def onReceive(message: Any): Unit = message match{
-    case msg: JSONObject => msg.obj("object") match{
-      case "startGame" => {
-        //CONFIGURAZIONE SERVER DEL PEER (FEDE)
-        context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! msg.asInstanceOf[JSONObject]
-      }
-      case "otherPlayerIP" => {
-        val IPList = msg.obj("playerList").asInstanceOf[List[String]] // lista con ip
-        //poi fai le tue cose
-      }
->>>>>>> f38ed80253e0f1f45844160f8f2652e380e426a2
+
 
     }
 
