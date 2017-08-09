@@ -12,11 +12,13 @@ trait ControllerUser {
 
   def login(username: String, Password: String): Boolean
 
-  def getAllMatchesResults(username: String): List[MatchResult]
+  def getAllMatchesResults(username: String): List[MatchResult] // ORA C'è PLAYER()
 
   def logout()
 
-  def getPlayerUsername(): String
+  def getPlayerUsername(): String // non c'è -> c'è players
+
+  //def per settare e ritornare il modello
 
 }
 
