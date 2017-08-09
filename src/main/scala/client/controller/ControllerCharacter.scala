@@ -1,5 +1,6 @@
 package client.controller
 
+import java.awt.Image
 import java.util.{Observable, Observer}
 
 import client.model._
@@ -21,19 +22,22 @@ trait ControllerCharacter {
     */
   def move(direction: Direction): Unit
 
- // def view: View
+  def setCharacterImages(mapCharacterImages: Map[String, Map[Direction, Image]]): Unit
 
- // def view_=(view: View): Unit
+  def view(view: GamePanel): Unit
 
 }
 
-case class BaseControllerCharacter(private val view: GamePanel) extends ControllerCharacter with Observer{
-
+case class BaseControllerCharacter private() extends ControllerCharacter with Observer{
 
   private val gameMatch: Match = MatchImpl instance()
   private val playeground: Playground = PlaygroundImpl instance()
+  private var view: GamePanel = null
+  private var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
-//  override var view: ??? = null
+  override def view(view: GamePanel): Unit = this.view = view
+
+  def setCharacterImages(mapCharacterImages: Map[String, Map[Direction, Image]]) = characterImages = mapCharacterImages
 
   /**
     * Method called when the user moves his character. This method calls the method in the model.
@@ -44,7 +48,7 @@ case class BaseControllerCharacter(private val view: GamePanel) extends Controll
     * @return the new character's position
     */
   override def move(direction: Direction) = {
-    val character = gameMatch myCharacter;
+    val character = gameMatch.myCharacter;
     /*
     character.isInstanceOf[Pacman] match {
       case true =>
@@ -60,10 +64,24 @@ case class BaseControllerCharacter(private val view: GamePanel) extends Controll
         character go direction
     }
     */
-    val prePosition: Point[Int, Int] = character position;
+    val prePosition: Point[Int, Int] = character.position
+    val preLives: Int = character.lives.remainingLives
+    val preScore: Int = character.score
     character go direction
-    val postPosition: Point[Int, Int] = character position;
-    //if(!(prePosition equals postPosition)) view move character
+    val postPosition: Point[Int, Int] = character.position
+    val postLives: Int = character.lives.remainingLives
+    val postScore: Int = character.score
+
+    if(!(prePosition equals postPosition)) view.move(characterImages.get(character.name).get(direction),
+                                                                          prePosition.asInstanceOf[Point[Integer,Integer]],
+                                                                          postPosition.asInstanceOf[Point[Integer,Integer]])
+
+    if(!(preLives equals postLives)) {
+      view.updateLives(postLives)
+      if(postLives <= 0) view.gameOver()
+    }
+
+    if(!(preScore equals postScore)) view.updateLives(postScore)
   }
 
   override def update(o: Observable, arg: scala.Any) = {
@@ -77,18 +95,29 @@ case class BaseControllerCharacter(private val view: GamePanel) extends Controll
         characterToUpdate = gameMatch.character(player.get).get
       }
       tris._2 match {
-        case "remainingLives" =>
-          characterToUpdate.lives remainingLives = tris._3.asInstanceOf[Int]
-          view updateLives characterToUpdate
-        case "isDead" =>
-          characterToUpdate isAlive = tris._3.asInstanceOf[Boolean]
-          view deleteCharacter characterToUpdate
-        case "score" =>
-          characterToUpdate score = tris._3.asInstanceOf[Int]
-          //view updateScore characterToUpdate //quali score vogliamo visualizzare?????????????????????????????????????????????????????????
-        case "move" =>
-          characterToUpdate setPosition tris._3.asInstanceOf[Point[Int, Int]]
-         // view move characterToUpdate
+        case "isAlive" =>
+          characterToUpdate.isAlive = tris._3.asInstanceOf[Boolean]
+          if(!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer,Integer]])
+        case "direction" =>
+          val direction = tris._3.asInstanceOf[Direction]
+          val prePosition: Point[Int, Int] = characterToUpdate.position
+          val preLives: Int = gameMatch.myCharacter.lives.remainingLives
+          val preScore: Int = gameMatch.myCharacter.score
+          characterToUpdate.go(direction)
+          val postPosition: Point[Int, Int] = characterToUpdate.position
+          val postLives: Int = gameMatch.myCharacter.lives.remainingLives
+          val postScore: Int = gameMatch.myCharacter.score
+
+          if(!(prePosition equals postPosition)) view.move(characterImages.get(characterToUpdate.name).get(direction),
+                                                            prePosition.asInstanceOf[Point[Integer,Integer]],
+                                                            postPosition.asInstanceOf[Point[Integer,Integer]])
+
+          if(!(preLives equals postLives)) {
+            view.updateLives(postLives)
+            if(postLives <= 0) view.gameOver()
+          }
+
+          if(!(preScore equals postScore)) view.updateLives(postScore)
       }
     }
   }
@@ -100,7 +129,7 @@ object BaseControllerCharacter {
   private var _instance: BaseControllerCharacter = null
 
   def instance(): BaseControllerCharacter = {
-    if(_instance == null) _instance = BaseControllerCharacter(MainFrame.getInstance().getContentPane.asInstanceOf[GamePanel])
+    if(_instance == null) _instance = BaseControllerCharacter()
     _instance
   }
 

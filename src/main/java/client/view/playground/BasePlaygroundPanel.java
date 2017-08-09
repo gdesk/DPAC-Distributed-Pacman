@@ -100,27 +100,11 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
      * Shows the specified client.model.character.gameElement.character in the specified position and direction
      * @param x Horizontal position on grid
      * @param y Vertical position on grid
-     * @param direction Character's direction
      */
-    public void renderCharacter(int x, int y, CharacterView characterView, Direction direction){
+    public void renderCharacter(int x, int y, Image characterView){
 
         if (characterView != null) {
-            ImageIcon img = getImageIcon(characterView.getCharacterLeft());
-            switch(direction){
-                case UP :
-                    img = getImageIcon(characterView.getCharacterUp());
-                    break;
-                case DOWN :
-                    img = getImageIcon(characterView.getCharacterDown());
-                    break;
-                case RIGHT:
-                    img = getImageIcon(characterView.getCharacterRight());
-                    break;
-                case LEFT :
-                    img = getImageIcon(characterView.getCharacterLeft());
-                    break;
-            }
-            insertImage(x,y,img);
+            insertImage(x,y, new ImageIcon(characterView));
             drawMap(x,y);
         }
     }

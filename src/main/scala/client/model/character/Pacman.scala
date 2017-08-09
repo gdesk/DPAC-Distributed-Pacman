@@ -66,23 +66,16 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
       case true =>
         game.allCharacters.filter(c => !(c.isInstanceOf[Pacman])).foreach(g => g.checkAllPositions)
       case false =>
-        val numberOfGhostAlreadyEaten: Int = (game deadCharacters) size
+        val numberOfGhostAlreadyEaten: Int = game.deadCharacters.size
         val solveInfo = PrologConfig.getPrologEngine().solve(s"ghost_defeat(pacman(${position x},${position y},${lives remainingLives},${score toString}), ${ghosts}, ${numberOfGhostAlreadyEaten}, PS, EG).")
         score = valueOf(solveInfo getTerm ("PS") toString)
         val eatenGhost: List[String] = ScalaProlog.prologToScalaList(solveInfo getTerm ("EG") toString)
         if(!(eatenGhost isEmpty)) {
-          eatenGhost foreach { g =>
-            val gh = game.allCharacters find (c => c.name equals g)
-            val ghost: Ghost = gh isEmpty match {
-              case true =>
-                game.myCharacter.asInstanceOf[Ghost]
-              case false =>
-                gh.get.asInstanceOf[Ghost]
-            }
-            game addDeadCharacters ghost
-            ghost.lives decrement;
+          eatenGhost.foreach{g =>
+            val ghost = game.allCharacters.find(c => c.name equals g).get
+            game.addDeadCharacters(ghost)
+            ghost.lives.decrement;
             if(ghost.lives.remainingLives equals 0) ghost isAlive = false
-            //notificare il client del ghost che è stato mangiato (controllare le vite)
           }
         }
     }

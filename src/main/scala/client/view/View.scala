@@ -29,9 +29,4 @@ trait View {
 
   //controller notifica la view quando il MAIN CHARACTER si sta muovendo (ovvero quando l'utente preme una delle frecce)
   def setMainCharacterDirection(direction: Direction)
-
-  //come fa a capire che gli altri personaggi sistanno muovendo? Glielo dicono gli altri client? allora sarebbe carino avere due interfacce per la view:
-  //  - ViewLocale
-  //  - ViewDistribuita
-
 }

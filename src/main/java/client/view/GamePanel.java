@@ -1,15 +1,17 @@
 package client.view;
 
-import client.model.Direction;
-import client.model.character.Character;
+import client.model.utils.Point;
+
+import java.awt.*;
 
 /**
  * Created by chiaravarini on 29/07/17.
  */
 public interface GamePanel {
 
-    void updateLives(final Character character);
-    void deleteCharacter(final Character character);
+    void updateLives(final int lives);
+    void gameOver();
+    void deleteCharacter(final Point<Integer, Integer> characterToDeletePosition);
     void updateScore(final int score);
-    void move(final CharacterView characterView, final Direction direction);
+    void move(final Image characterImage, final Point<Integer,Integer> oldPosition, final Point<Integer,Integer> newPosition);
 }
