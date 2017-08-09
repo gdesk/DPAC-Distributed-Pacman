@@ -20,10 +20,6 @@ class UserInputController (val controller: Controller) extends KeyListener{
     e.getKeyCode match {
       case KeyEvent.VK_LEFT => {
         controller.move(Direction.LEFT)
-
-        //view.removeCharacter(currentX,currentY)
-        //currentX = currentX - 1
-        //view.renderCharacter(currentX,currentY,"pacman","left")
       }
 
       case KeyEvent.VK_RIGHT => {
@@ -53,6 +49,8 @@ class UserInputController (val controller: Controller) extends KeyListener{
       case KeyEvent.VK_S => {
         controller.move(Direction.DOWN)
       }
+
+      case _ => {}
     }
 
   }

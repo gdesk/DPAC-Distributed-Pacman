@@ -1,14 +1,12 @@
-/*
 
 package client.controller
 
 import java.util.{Observable, Observer}
 
 import client.model._
-import client.model.character.Pacman
 import client.model.character.Character
-import client.model.gameElement.Eatable
 import client.model.utils.Point
+import client.view.{GamePanel, MainFrame}
 
 /**
   * Created by margherita on 25/07/17.
@@ -22,14 +20,21 @@ trait ControllerCharacter {
     * @param direction - the direction of the movement.
     * @return the new character's position
     */
-  def move(direction: Direction): Point[Int, Int]
+  def move(direction: Direction): Unit
+
+  def view: View
+
+  def view_=(view: View): Unit
 
 }
 
 case class BaseControllerCharacter(private val view ) extends ControllerCharacter with Observer{
 
+
   private val gameMatch: Match = MatchImpl instance()
   private val playeground: Playground = PlaygroundImpl instance()
+
+  override var view: ??? = null
 
   /**
     * Method called when the user moves his character. This method calls the method in the model.
@@ -39,8 +44,9 @@ case class BaseControllerCharacter(private val view ) extends ControllerCharacte
     * @param direction - the direction of the movement.
     * @return the new character's position
     */
-  override def move(direction: Direction): Point[Int, Int] = {
+  override def move(direction: Direction) = {
     val character = gameMatch myCharacter;
+    /*
     character.isInstanceOf[Pacman] match {
       case true =>
         val preEatenObj: List[Eatable] = playeground eatenObjects;
@@ -48,26 +54,47 @@ case class BaseControllerCharacter(private val view ) extends ControllerCharacte
         val postEatenObj: List[Eatable] = playeground eatenObjects
         val eatenObjet = postEatenObj diff preEatenObj
         if(!(eatenObjet isEmpty)) {
-          view eatenObject (eatenObjet head)
-          view score (character score)
+          //view eatenObject (eatenObjet head)
+          //view score (character score)
         }
       case false =>
         character go direction
     }
-    character position
+    */
+    val prePosition: Point[Int, Int] = character position;
+    character go direction
+    val postPosition: Point[Int, Int] = character position;
+    if(!(prePosition equals postPosition)) view move character
   }
 
   override def update(o: Observable, arg: scala.Any) = {
-    val pair: (String, Character) = if(arg.isInstanceOf[(String, client.model.character.Character)]) {arg.asInstanceOf[(String, Character)]} else {null}
-    if(pair != null) {
-      pair._1 match {
-        case "remainingLives" => view updateLives pair._2
-        case "isDead" => view deleteCharacter pair._2
-        case "score" => view updateScore pair._2.score
-        case "move" => view move pair._2
+    val tris: (String, String, _) = if(arg.isInstanceOf[(String, String, _)]) {arg.asInstanceOf[(String, String, _)]} else {null}
+    if(tris != null) {
+      var characterToUpdate: Character = null
+      val player = gameMatch.allPlayersIp.find(ip => ip equals tris._1)
+      if(player isEmpty) {
+        throw new ThisIpDoesNotExist("Ip:" + tris._1 + " doen't exist!")
+      } else {
+        characterToUpdate = gameMatch.character(player.get).get
+      }
+      tris._2 match {
+        case "remainingLives" =>
+          characterToUpdate.lives remainingLives = tris._3.asInstanceOf[Int]
+          view updateLives characterToUpdate
+        case "isDead" =>
+          characterToUpdate isAlive = tris._3.asInstanceOf[Boolean]
+          view deleteCharacter characterToUpdate
+        case "score" =>
+          characterToUpdate score = tris._3.asInstanceOf[Int]
+          view updateScore characterToUpdate //quali score vogliamo visualizzare?????????????????????????????????????????????????????????
+        case "move" =>
+          characterToUpdate setPosition tris._3.asInstanceOf[Point[Int, Int]]
+          view move characterToUpdate
       }
     }
   }
 
 }
-*/
+
+
+

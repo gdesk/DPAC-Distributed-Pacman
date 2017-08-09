@@ -1,10 +1,12 @@
 package client.model
 
+
 import java.io.FileInputStream
 
 import alice.tuprolog.Theory
 import client.model.gameElement.{Block, Eatable, GameItem}
 import client.model.utils.{Dimension, Point, PointImpl, ScalaProlog}
+import client.utils.PrologUtility._
 
 import scala.collection.mutable.ListBuffer
 
@@ -107,6 +109,9 @@ trait Playground {
   *
   * @constructor create an empty playground.
   */
+
+
+
 case class PlaygroundImpl private() extends Playground{
 
   private var engine = ScalaProlog.mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/dpac-prolog.pl")))
@@ -141,9 +146,10 @@ case class PlaygroundImpl private() extends Playground{
     elementsMap foreach (e => _ground += e)
     _ground.foreach(p => checkItemPosition(p))
 
-    //streetPositions
-    //var theory = ""
-    //_streetPositions foreach (s => theory = theory + "street(" + s.x + "," + s.y + ").")
+    blocks
+    streetPositions
+    var theory = ""
+    _streetPositions foreach (s => theory = theory + "street(" + s.x + "," + s.y + ").")
     //engine = modifyPrologEngine(theory)
   }
 
@@ -233,7 +239,7 @@ case class PlaygroundImpl private() extends Playground{
     if(_streetPositions.isEmpty) {
       for(i <- 0 to dimension.x-1) {
         for(j <- 0 to dimension.y-1) {
-          if((_ground filter (e => e.position equals PointImpl(i,j)) size) equals 0) _streetPositions += PointImpl(i,j)
+          if((_blocks filter (e => e.position equals PointImpl(i,j)) size) equals 0) _streetPositions += PointImpl(i,j)
         }
       }
     }
@@ -259,7 +265,8 @@ case class PlaygroundImpl private() extends Playground{
     * @return true if the position is inside the playground, false otherwise.
     */
   override def checkPosition(position: Point[Int, Int]) = {
-    if(!(position.x < dimension.x && position.y < dimension.y && position.x >= 0 && position.y >= 0)) {
+
+    if(!(position.x <= dimension.x && position.y <= dimension.y && position.x >= 0 && position.y >= 0)) {
       throw new OutOfPlaygroundBoundAccessException("Position ("+ position.x + "," + position.y + ") is out of playground!")
     }
   }

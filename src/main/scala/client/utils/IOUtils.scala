@@ -4,8 +4,8 @@ import java.io.{File, PrintWriter}
 import java.util.Calendar
 
 import client.model.gameElement._
-import client.model.{Playground, PlaygroundImpl}
 import client.model.utils.{Dimension, PointImpl}
+import client.model.{Playground, PlaygroundImpl}
 
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
@@ -35,7 +35,57 @@ object IOUtils {
       //writer.close()
   }
 
-  /** Get the specified file from the default path and parse it to generate a playground.
+
+  /** Get the specified file from path and parse it to generate a playground.
+    *
+    * the syntax for that file is :
+    * 'x' -> block
+    * '.' -> dot
+    * 'p' -> pill
+    *
+    * 'a' -> apple
+    * 'b' -> bell
+    * 'c' -> cherry
+    * 's' -> Galaxian Ship
+    * 'g' -> grapes
+    * 'k' -> key
+    * 'o' -> orange
+    * 's' -> strawberry
+    *
+    * other char are taken as blank space by default.
+    *
+    * dimension are taken from file counting the line and the length of the line in it.
+    *
+    * @param file the file to be parsed
+    * @return the playground parsed from file
+    *
+    */
+  def getPlaygroundFromFile(file: File) : Playground = {
+    val playground: Playground = PlaygroundImpl.instance()
+
+    if (file.canRead) {
+      val block: List[Block] = parseBlock(file)
+      val eatable: List[Eatable] = parseEatable(file)
+
+      // todo: perchè character vuole i tipi ?
+      //val character: List[Character[Int,Int]] = parseCharacter(playgroundFile)
+
+      playground.dimension = parseDimension(file)
+
+      var groundList: List[GameItem] = block ::: eatable
+      playground.ground_=(groundList)
+      //  playground.blocks_=(block)
+      //  playground.eatables_=(eatable)
+
+      println("Created a Playground of dimension [ " + playground.dimension.x + " | " + playground.dimension.y
+        + " ] with " + block.size + " blocks and " + eatable.size + " eatable elements")
+
+    }
+    playground
+  }
+
+
+  /** Get the specified file from path and parse it to generate a playground.
     *
     * the syntax for that file is :
     * 'x' -> block
@@ -58,28 +108,9 @@ object IOUtils {
     * @param fileName the name of the file to be parsed. Suggested format is ''filename.dpac''
     * @return the playground parsed from file
     */
-  def getPlaygroundFromFile(fileName: String) : Playground = {
-    val playground: Playground = PlaygroundImpl.instance()
-
+  def getPlaygroundFromPath(fileName: String) : Playground = {
     val playgroundFile: File = new File(BASE_PATH + fileName)
-
-    // todo: con la versione vecchia del model era infinitamente più facile ed economico farlo
-    // playground = parseFile(path)
-
-    val block: List[Block] = parseBlock (playgroundFile)
-    val eatable: List[Eatable] = parseEatable (playgroundFile)
-
-    // todo: perchè character vuole i tipi ?
-    //val character: List[Character[Int,Int]] = parseCharacter(playgroundFile)
-
-    playground.dimension = parseDimension(playgroundFile)
-  //  playground.blocks_=(block)
-  //  playground.eatables_=(eatable)
-
-    println("Created a Playground of dimension [ " + playground.dimension.x + " | " + playground.dimension.y
-      + " ] with " + block.size + " blocks and " + eatable.size + " eatable elements")
-
-    playground
+    getPlaygroundFromFile(playgroundFile)
   }
 
   private def parseBlock(file: File): List[Block] = {
@@ -89,7 +120,7 @@ object IOUtils {
 
     Source.fromFile(file).foreach( _ match {
       case 'x' => {
-        println("I'm a Block at pos [" + xPosition + " | " + yPosition + " ]")
+       // println("I'm a Block at pos [" + xPosition + " | " + yPosition + " ]")
         xPosition = xPosition + 1
         blockList.+=(Block(PointImpl (xPosition,yPosition)))
       }
@@ -118,58 +149,55 @@ object IOUtils {
 
       Source.fromFile(file).foreach( _ match {
         case '.' => {
-          println("I'm a dot at pos [" + xPosition + " | " + yPosition + " ]")
+          //println("I'm a dot at pos [" + xPosition + " | " + yPosition + " ]")
           xPosition = xPosition + 1
           eatableList.+=(Dot("",PointImpl (xPosition,yPosition)))
         }
         case 'p' => {
-          println("I'm a pill at pos [" + xPosition + " | " + yPosition + " ]")
+          //println("I'm a pill at pos [" + xPosition + " | " + yPosition + " ]")
           xPosition = xPosition + 1
           eatableList.+=(Pill("",PointImpl (xPosition,yPosition)))
         }
         case 'a' => {
-          println("I'm an apple at pos [" + xPosition + " | " + yPosition + " ]")
+          //println("I'm an apple at pos [" + xPosition + " | " + yPosition + " ]")
           xPosition = xPosition + 1
           eatableList.+=(Apple("",PointImpl (xPosition,yPosition)))
         }
         case 'b' => {
-          println("I'm a bell at pos [" + xPosition + " | " + yPosition + " ]")
+          //println("I'm a bell at pos [" + xPosition + " | " + yPosition + " ]")
           xPosition = xPosition + 1
           eatableList.+=(Bell("",PointImpl (xPosition,yPosition)))
         }
         case 'c' => {
-          println("I'm a cherry at pos [" + xPosition + " | " + yPosition + " ]")
+          //println("I'm a cherry at pos [" + xPosition + " | " + yPosition + " ]")
           xPosition = xPosition + 1
           eatableList.+=(Cherry("",PointImpl (xPosition,yPosition)))
         }
         case 's' => {
-          println("I'm a galaxian Ship at pos [" + xPosition + " | " + yPosition + " ]")
+          //println("I'm a galaxian Ship at pos [" + xPosition + " | " + yPosition + " ]")
           xPosition = xPosition + 1
           eatableList.+=(GalaxianShip("",PointImpl (xPosition,yPosition)))
         }
         case 'g' => {
-          println("I'm a grapes at pos [" + xPosition + " | " + yPosition + " ]")
+          //println("I'm a grapes at pos [" + xPosition + " | " + yPosition + " ]")
           xPosition = xPosition + 1
           eatableList.+=(Grapes("",PointImpl (xPosition,yPosition)))
         }
         case 'k' => {
-          println("I'm a key at pos [" + xPosition + " | " + yPosition + " ]")
+          //println("I'm a key at pos [" + xPosition + " | " + yPosition + " ]")
           xPosition = xPosition + 1
           eatableList.+=(Key("",PointImpl (xPosition,yPosition)))
         }
-
         case 'o' => {
-          println("I'm an orange at pos [" + xPosition + " | " + yPosition + " ]")
+          //println("I'm an orange at pos [" + xPosition + " | " + yPosition + " ]")
           xPosition = xPosition + 1
           eatableList.+=(Orange("",PointImpl (xPosition,yPosition)))
         }
-
-        case 's' => {
-          println("I'm an apple at pos [" + xPosition + " | " + yPosition + " ]")
+        case 'a' => {
+         //println("I'm an apple at pos [" + xPosition + " | " + yPosition + " ]")
           xPosition = xPosition + 1
           eatableList.+=(Strawberry("",PointImpl (xPosition,yPosition)))
         }
-
         case '\n' => {
           yPosition = yPosition + 1
           xPosition = 0

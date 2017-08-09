@@ -1,8 +1,10 @@
 package client.model
 
-import client.model.character.{BasePacman, Character, Pacman}
+import client.model.character.Character
 
-import scala.collection.mutable.{ListBuffer, Map}
+import scala.collection.immutable.Map
+import scala.collection.mutable.HashMap
+import scala.collection.mutable.ListBuffer
 
 /**
   * Represent the current match status, holding some information about the game.
@@ -32,26 +34,27 @@ trait Match {
     */
   def myCharacter: Character
 
-  /**
-    * Sets the character of the main user.
-    *
-    * @param character - the character of the main user.
-    */
-  def myCharacter_=(character: Character): Unit
+  def charactersAndPlayersIp: Map[Character, String]
 
-  /**
-    * Adds all match's players, excluding the main one.
-    *
-    * @param players - the characters and users Map.
-    */
-  def addPlayers(players: Map[Character, String]): Unit
+  def addCharactersAndPlayersIp(character: Character, playerIp: String): Unit
 
   /**
     * Returns the list of all characters who participate at the match.
     *
     * @return the list of all characters.
     */
-  def characters: List[Character]
+  def allCharacters: List[Character]
+
+  /**
+    * Returns the list of all players who participate at the match.
+    *
+    * @return the list of all players.
+    */
+  def allPlayersIp: List[String]
+
+  def character(playerIp: String): Option[Character]
+
+  def playerIp(character: Character): Option[String]
 
   /**
     * Returns the list of dead characters.
@@ -79,24 +82,40 @@ trait Match {
 case class MatchImpl private() extends Match {
 
   private var _deadCharacters: ListBuffer[Character] = ListBuffer empty
-  private var mapCharacterUser: Map[Character, String] = Map empty
+  private var charactersPlayersIp: HashMap[Character, String] = HashMap empty
+  private var _myCharacter: Character = null
 
   override var playground: Playground = null
-  override var myCharacter: Character = null
 
-  /**
-    * Adds all match's players, excluding the main one.
-    *
-    * @param players - the characters and users Map.
-    */
-  override def addPlayers(players: Map[Character, String]) = mapCharacterUser = players
+  override def myCharacter: Character = {
+    if(_myCharacter == null) _myCharacter = character(PlayerImpl.instance().ip).get
+    _myCharacter
+  }
+
+  override def charactersAndPlayersIp = charactersPlayersIp toMap
+
+  override def addCharactersAndPlayersIp(character: Character, playerIp: String) = charactersPlayersIp += character -> playerIp
+
+  override def character(playerIp: String) = {
+    val pair = charactersPlayersIp.filter(p => p._2 equals playerIp).headOption
+    if(pair isEmpty) {Option empty} else {Option (pair.get _1)}
+  }
+
+  override def playerIp(character: Character) = charactersPlayersIp get character
 
   /**
     * Returns the list of all characters who participate at the match.
     *
     * @return the list of all characters.
     */
-  override def characters = (mapCharacterUser keySet) toList
+  override def allCharacters = (charactersPlayersIp keySet) toList
+
+  /**
+    * Returns the list of all players who participate at the match.
+    *
+    * @return the list of all players.
+    */
+  override def allPlayersIp: List[String] = (charactersPlayersIp values) toList
 
   /**
     * Returns the list of dead characters.
@@ -112,11 +131,9 @@ case class MatchImpl private() extends Match {
     * @throws CharacterDoesNotExistException when the character to add doesn't exist.
     */
   override def addDeadCharacters(deadCharacter: Character) = {
-    if(!(mapCharacterUser.contains(deadCharacter)) && !(myCharacter equals deadCharacter)) throw new CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
+    if(!(charactersPlayersIp contains deadCharacter)) throw new CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
     _deadCharacters += deadCharacter
-    if(!(myCharacter equals deadCharacter)) {
-      mapCharacterUser -=  deadCharacter
-    }
+    charactersPlayersIp -=  deadCharacter
   }
 }
 
@@ -133,6 +150,7 @@ object MatchImpl {
     if(_instance == null) _instance = MatchImpl()
     _instance
   }
+
 }
 
 case class CharacterDoesNotExistException(private val message: String = "") extends Exception(message)

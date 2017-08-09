@@ -14,7 +14,7 @@ trait Timer {
     *
     * @param milliseconds - milliseconds to wait
     */
-  def counts(milliseconds: Int): Unit
+  def counts(milliseconds: Long): Unit
 }
 
 /**
@@ -31,7 +31,7 @@ case class TimerImpl(val observer: Observer) extends Observable with Timer{
     *
     * @param milliseconds - milliseconds to wait
     */
-  override def counts(milliseconds: Int): Unit = {
+  override def counts(milliseconds: Long): Unit = {
     val thread = new Thread {
       override def run = {
         val time = System.currentTimeMillis()

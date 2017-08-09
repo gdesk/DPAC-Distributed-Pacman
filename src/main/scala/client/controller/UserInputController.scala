@@ -1,67 +1,82 @@
-package client.model.controller
+package client.controller
 
 import java.awt.event.{KeyEvent, KeyListener}
 
-import client.view.PlaygroundPanel
+import client.model.Direction
+import controller.FakeController
+
 
 /**
   * Created by Manuel Bottax on 06/07/2017.
   */
-class UserInputController (val view: PlaygroundPanel)/*(val client.model.character.gameElement.character: Character) */ extends KeyListener{
-
-  var currentX : Int = 45
-  var currentY: Int = 15
+class UserInputController (val controller: FakeController)/*(val client.model.character.gameElement.character: Character) */ extends KeyListener{
 
   override def keyPressed(e: KeyEvent): Unit = {
     //todo: controllare bordi
     e.getKeyCode match {
       case KeyEvent.VK_LEFT => {
-        view.removeCharacter(currentX,currentY)
-        currentX = currentX - 1
-        view.renderCharacter(currentX,currentY,"pacman","left")
+
+        controller.move(Direction.LEFT)
+        /* view.removeCharacter(currentX, currentY)
+         currentX = currentX - 1
+         view.renderCharacter(currentX, currentY, new CharacterFactory().createPacman, "left")*/
       }
+
 
       case KeyEvent.VK_RIGHT => {
-        view.removeCharacter(currentX,currentY)
-        currentX = currentX + 1
-        view.renderCharacter(currentX,currentY,"pacman","right")
+
+        controller.move(Direction.RIGHT)
+        /* view.removeCharacter(currentX, currentY)
+         currentX = currentX + 1
+         view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "right")*/
       }
 
+
       case KeyEvent.VK_UP => {
-        view.removeCharacter(currentX,currentY)
-        currentY = currentY - 1
-        view.renderCharacter(currentX,currentY,"pacman","up")
+
+          controller.move(Direction.UP)/*
+          view.removeCharacter(currentX, currentY)
+          currentY = currentY - 1
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "up")*/
       }
 
       case KeyEvent.VK_DOWN => {
-        view.removeCharacter(currentX,currentY)
-        currentY = currentY + 1
-        view.renderCharacter(currentX,currentY,"pacman","down")
-      }
+          controller.move(Direction.DOWN)/*
+          view.removeCharacter(currentX, currentY)
+          currentY = currentY + 1
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "down")*/
+        }
 
       case KeyEvent.VK_A => {
-        view.removeCharacter(currentX,currentY)
-        currentX = currentX - 1
-        view.renderCharacter(currentX,currentY,"pacman","left")
+          controller.move(Direction.LEFT)/*
+          view.removeCharacter(currentX, currentY)
+          currentX = currentX - 1
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "left")*/
       }
 
       case KeyEvent.VK_D => {
-        view.removeCharacter(currentX,currentY)
-        currentX = currentX + 1
-        view.renderCharacter(currentX,currentY,"pacman","right")
-      }
+          controller.move(Direction.RIGHT)/*
+          view.removeCharacter(currentX, currentY)
+          currentX = currentX + 1
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "right")*/
+        }
 
       case KeyEvent.VK_W => {
-        view.removeCharacter(currentX,currentY)
-        currentY = currentY - 1
-        view.renderCharacter(currentX,currentY,"pacman","up")
-      }
+          controller.move(Direction.UP)/*
+          view.removeCharacter(currentX, currentY)
+          currentY = currentY - 1
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "up")*/
+        }
+
 
       case KeyEvent.VK_S => {
-        view.removeCharacter(currentX,currentY)
-        currentY = currentY + 1
-        view.renderCharacter(currentX,currentY,"pacman","down")
-      }
+          controller.move(Direction.DOWN)/*
+          view.removeCharacter(currentX, currentY)
+          currentY = currentY + 1
+          view.renderCharacter(currentX, currentY,  new CharacterFactory().createPacman, "down")*/
+        }
+
+      case _ =>
     }
 
   }
@@ -69,6 +84,9 @@ class UserInputController (val view: PlaygroundPanel)/*(val client.model.charact
   override def keyTyped(e: KeyEvent): Unit = {}
 
   override def keyReleased(e: KeyEvent): Unit = {}
+
+  private def check(x: Int, y: Int): Boolean = x>=0 && y>=0 && x<61 && y<16 //TODO passare le columns e le rows del playground
+
 }
 
 

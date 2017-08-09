@@ -2,7 +2,7 @@ package prolog
 import java.io.FileInputStream
 
 import org.scalatest.FunSuite
-import TestUtility._
+import client.utils.PrologUtility._
 import alice.tuprolog.Theory
 
 /**
