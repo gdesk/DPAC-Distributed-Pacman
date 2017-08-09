@@ -15,9 +15,11 @@ public class ServerBootstrap {
     private int rmiPort;
     private Registry registry;
     private static ServerBootstrap SINGLETON = null;
+    private PortRangeHandler portRangeHandler;
 
     private  ServerBootstrap() throws UnknownHostException {
         //this.ip = InetAddress.getLocalHost().toString();
+
     }
 
 
@@ -35,28 +37,29 @@ public class ServerBootstrap {
      * this method configures server port on which
      * rmiregisty has to be launched
      */
-    private void configureRmiPort(){
-        int count = 0;
-        int maxTries = 5;
-        while (true) {
-            try {
-                rmiPort = PortRangeHandler.getPortNumber();
-                break;
-            } catch (Exception ex) {
-                rmiPort = PortRangeHandler.getNextPortNumber();
-                if (++count == maxTries) {
-                    throw ex;
-                }
-            }
-        }
+    //private void configureRmiPort(){
+        //int count = 0;
+        //int maxTries = 5;
+        //while (true) {
+        //   try {
+        //rmiPort = PortRangeHandler.getPortNumber();
 
-    }
+        //        break;
+        //    } catch (Exception ex) {
+        //        //rmiPort = PortRangeHandler.getNextPortNumber();
+        //        if (++count == maxTries) {
+        //            throw ex;
+        //        }
+        //   }
+        //}
+
+   // }
 
     /**
      * this method creates an rmiregistry on a
      * given port
      */
-    private void setUpRmiregistry() {
+    private void setUpRmiregistry() throws RemoteException{
         try {
             registry = LocateRegistry.createRegistry(rmiPort);
         } catch (RemoteException e) {
@@ -77,7 +80,22 @@ public class ServerBootstrap {
 
     private void init(String ip){
         this.ip = ip;
-        configureRmiPort();
-        setUpRmiregistry();
+        this.portRangeHandler = new PortRangeHandler();
+        int count = 0;
+        int maxTries = 5;
+
+        while (true) {
+            //seleziono porta disponibile
+            rmiPort = portRangeHandler.getFirstAvailablePortNumber();
+            try {
+                setUpRmiregistry(); //provo a settare il registro con porta scelta
+                break;
+            }catch (RemoteException ex) {
+                if (++count == maxTries) { //provo per un massimo di 4 tentativi
+                    break;
+                }
+            }
+        }
+
     }
 }

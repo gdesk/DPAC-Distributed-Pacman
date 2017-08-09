@@ -1,3 +1,4 @@
+/*
 
 package client.controller
 
@@ -69,3 +70,4 @@ case class BaseControllerCharacter(private val view ) extends ControllerCharacte
   }
 
 }
+*/

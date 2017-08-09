@@ -15,8 +15,8 @@ public class PortRangeHandler {
 
     private static final int MIN_PORT_VALUE =  1099;
     private static final int MAX_PORT_VALUE =  2100;
-    private static int minimum;
-    private static int maximum;
+    private  int minimum;
+    private  int maximum;
 
     public PortRangeHandler(){
         this.minimum = MIN_PORT_VALUE;
@@ -24,17 +24,25 @@ public class PortRangeHandler {
     }
 
 
-    public static int getPortNumber(){
-        return minimum;
-    }
+    //public static int getPortNumber(){
+    //    return minimum;
+    //}
 
-    public static int getNextPortNumber(){
+    /*public static int getNextPortNumber(){
         int nextValue = minimum + 1;
         if(nextValue <= maximum) {
             minimum = nextValue;
         }
         return minimum;
 
+    }*/
+
+    public int getFirstAvailablePortNumber(){
+        int nextValue = this.minimum + 1;
+        if(nextValue <= this.maximum) {
+            this.minimum = nextValue;
+        }
+        return this.minimum;
     }
 
 }

@@ -29,7 +29,7 @@ class P2PCommunication extends UntypedAbstractActor {
       case "startGame" =>
         //ricevo messaggio contente l'IP con cui configurare server
 
-        val ip = msg.obj("myPlayerIp").asInstanceOf[String]
+        val ip = msg.obj("myPlayerIp").asInstanceOf[String] //todo prendi dalla classe player
         val singleton = ServerBootstrap.getIstance(ip)
 
         executor.initServerPlayingWorkerThread(ip, singleton.getRegistry, singleton.getRmiPort)
@@ -37,7 +37,7 @@ class P2PCommunication extends UntypedAbstractActor {
         context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! msg.asInstanceOf[JSONObject]
 
       case "otherPlayerIP" =>
-        val IPList = msg.obj("playerList").asInstanceOf[Set[String]]
+        val IPList = msg.obj("playerList").asInstanceOf[Set[String]] //todo prendi dalla classe player
         val info = new OtherCharacterInfo
         val handler = new ClientIncomingMessageHandlerImpl
 
@@ -48,9 +48,8 @@ class P2PCommunication extends UntypedAbstractActor {
           executor.initClientPlayingWorkerThread(ip, registry)
 
         }
-
-        //TODO actor telling controller that view can be refreshed
-
+        //todo per dire a marghe che la scermata view (loading...), può essere sostituita da (playgroung)
+        //this.handler.startMatch("StartMatch");
 
     }
 
