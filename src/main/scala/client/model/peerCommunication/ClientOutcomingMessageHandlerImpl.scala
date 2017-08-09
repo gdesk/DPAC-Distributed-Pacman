@@ -1,59 +1,34 @@
 package client.model.peerCommunication
 import java.util.{Observable, Observer}
 
-import client.model.MatchImpl
-import client.model.character.Character
-import client.model.utils.{Lives, PointImpl}
+import client.controller.ControllerMatch
+
 
 /**
   * Created by Federica on 26/07/17.
+  * class to communicate with controller match
   */
+
 class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingMessageHandler {
 
   /**
-    * this method allows to register controller
-    * as model observer, so that:
-    * - model is observable
-    * - controller is observer of model
-    *
+    * method to register controller match
+    * as observer of this class model (observable)
     * @param observer
     */
   def addObserver(observer: Any): Unit =
-    this.addObserver(observer)
+    if (observer.isInstanceOf[ControllerMatch]) {
+      this.addObserver(observer)
+    }
 
   /**
-    * method to notify controller and other peers
-    * about the current position of this peer
-    *
-
+    * method to notify controller match that
+    * every Peer has finished to be configured
     */
-  override def notifyMove(ip: String, update: String, value: PointImpl[Integer, Integer]): Unit =
-    notifyObservers(ip: String, update: String, value: PointImpl[Integer, Integer])
+  def startMatch(): Unit =
+    notifyObservers("StartMatch")
 
-  /**
-    * method to notify controller and other peers
-    * about the current total score of this peer
-    *
 
-    */
-  override def notifyScore(ip: String, update: String, value: Int): Unit =
-    notifyObservers(ip: String, update: String, value: Int)
-
-  /**
-    * method to notify controller and other peers
-    * about the number of lives left to this peer
-    *
-    */
-  def notifyRemainingLives(ip: String, update: String, value: Lives): Unit =
-    notifyObservers(ip: String, update: String, value: Lives)
-
-  /**
-    * method to notify controller and other peers
-    * about the current state (dead or alive) of this peer
-
-    */
-  def notifyDeath(ip: String, update: String, value: Boolean): Unit =
-    notifyObservers(ip: String, update: String, value: Boolean)
 
 
 }

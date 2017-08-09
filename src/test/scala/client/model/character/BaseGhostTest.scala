@@ -1,6 +1,6 @@
 package client.model.character
 
-import client.model.{MatchImpl, PlaygroundImpl}
+import client.model.{MatchImpl, Player, PlayerImpl, PlaygroundImpl}
 import client.model.utils.{BaseEatObjectStrategy, Dimension, PointImpl}
 import org.scalatest.FunSuite
 
@@ -11,14 +11,21 @@ import scala.collection.mutable.{HashMap, Map}
   */
 class BaseGhostTest extends FunSuite {
 
+  private val myPlayer: Player = PlayerImpl.instance()
+  private var ip1: String = "10.200.300.400"
+  private var ip2: String = "10.200.300.401"
+  private var ip3: String = "10.200.300.402"
+  private var ip4: String = "10.200.300.403"
+
+
   val playground = PlaygroundImpl instance()
   playground dimension = Dimension(35,35)
 
   val gameMatch = MatchImpl instance()
 
-  val ghost = BaseGhost("Red")
+  val redGhost = BaseGhost("Red")
 
-  val characterTest = new CharacterImplTest(ghost)
+  val characterTest = new CharacterImplTest(redGhost)
   characterTest.execute()
 
   /*
@@ -29,7 +36,7 @@ class BaseGhostTest extends FunSuite {
   */
 
   test("name") {
-    assert(ghost.name equals "Red")
+    assert(redGhost.name equals "Red")
   }
 
   /*
@@ -102,27 +109,28 @@ class BaseGhostTest extends FunSuite {
     greeenGhost setPosition PointImpl(0,1)
     val yellowGhost = BaseGhost("Yellow")
     yellowGhost setPosition PointImpl(0,2)
-    var usersAndCharacters: Map[Character, String] = HashMap((pacman, "Giuls"),
-                                                             (blueGhost, "Giuls"),
-                                                             (greeenGhost, "Manu"),
-                                                             (yellowGhost, "Fede"))
-    gameMatch addPlayers usersAndCharacters
-    gameMatch myCharacter = ghost
-    ghost setPosition PointImpl(0,0)
-    ghost isKillable = false
-    pacman isKillable = true
-    val lives = ghost.lives remainingLives;
-    val score = ghost score;
-    ghost checkAllPositions;
-    assert(ghost.lives.remainingLives equals lives)
-    assert(ghost.score > score)
 
-    ghost setPosition PointImpl(0,1)
-    ghost isKillable = true
+    gameMatch.addCharactersAndPlayersIp(redGhost, myPlayer.ip)
+    gameMatch.addCharactersAndPlayersIp(blueGhost, ip1)
+    gameMatch.addCharactersAndPlayersIp(greeenGhost, ip2)
+    gameMatch.addCharactersAndPlayersIp(yellowGhost, ip3)
+    gameMatch.addCharactersAndPlayersIp(pacman, ip4)
+
+    redGhost setPosition PointImpl(0,0)
+    redGhost isKillable = false
+    pacman isKillable = true
+    val lives = redGhost.lives remainingLives;
+    val score = redGhost score;
+    redGhost checkAllPositions;
+    assert(redGhost.lives.remainingLives equals lives)
+    assert(redGhost.score > score)
+
+    redGhost setPosition PointImpl(0,1)
+    redGhost isKillable = true
     pacman isKillable = false
-    ghost checkAllPositions;
-    assert(ghost.lives.remainingLives equals 0)
-    assert(ghost.isAlive equals false)
+    redGhost checkAllPositions;
+    assert(redGhost.lives.remainingLives equals 0)
+    assert(redGhost.isAlive equals false)
   }
 
 }

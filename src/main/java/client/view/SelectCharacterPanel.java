@@ -1,8 +1,8 @@
 package client.view;
 
-import client.controller3.BaseControllerMatch;
-import client.controller3.BaseControllerUser;
-import client.controller3.ControllerMatch;
+import client.controller.BaseControllerMatch;
+import client.controller.BaseControllerUser;
+import client.controller.ControllerMatch;
 import client.view.utils.ImagesUtils;
 import client.view.utils.JComponentsUtils;
 import controller.FakeController;
@@ -24,7 +24,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     private final Dimension CHARACTER_IMAGE_DIMENSION = calculatedImageCharDimension(10);//new Dimension(100,100);
     private final Dimension PLAYGROUND_IMAGE_DIMENSION = calculatedImageCharDimension(2.2);
 
-    private final ControllerMatch controller = BaseControllerMatch.instance(this) ;
+    private final ControllerMatch controller = BaseControllerMatch.instance() ;
     private final JButton doneButton = createButton("DONE");
 
     private JButton characterChoosed = new JButton();
@@ -35,6 +35,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     private final List<JButton> characterButton = new ArrayList<>();
 
     public SelectCharacterPanel(){
+        controller.view_$eq(this);
 
         setLayout(new BorderLayout());
 
@@ -81,7 +82,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         add(south, BorderLayout.SOUTH);
 
         exitButton.addActionListener(e->{
-            MainFrame.getInstance().setContentPane(new HomePanel(BaseControllerUser.instance().getPlayerUsername()));
+            MainFrame.getInstance().setContentPane(new HomePanel(BaseControllerUser.instance().player().username()));
         });
 
         doneButton.addActionListener(e->{

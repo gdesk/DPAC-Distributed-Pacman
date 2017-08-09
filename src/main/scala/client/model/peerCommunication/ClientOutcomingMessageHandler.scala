@@ -2,11 +2,12 @@ package client.model.peerCommunication
 
 import java.util.Observer
 
-import client.model.character.Character
-import client.model.utils.{Lives, PointImpl}
+
 
 /**
   * Created by Federica on 24/07/17.
+  *
+  * Model to communicate with match controller
   *
   * this trait is useful to handle two types of communication:
   * - peer to peer (so that, a peer send info to others)
@@ -17,49 +18,17 @@ import client.model.utils.{Lives, PointImpl}
 trait ClientOutcomingMessageHandler  {
 
   /**
-    * this method allows to register controller
-    * as model observer, so that:
-    * - model is observable
-    * - controller is observer of model
+    * method to register controller match
+    * as observer of this class model (observable)
     * @param observer
     */
   def addObserver(observer: Observer): Unit
 
-
   /**
-    * method to notify controller and other peers
-    * about the current position of this peer
-
+    * method to notify controller match that
+    * every Peer has finished to be configured
     */
-  def notifyMove(ip: String, update: String, value: PointImpl[Integer, Integer]): Unit
-
-
-  /**
-    * method to notify controller and other peers
-    * about the current total score of this peer
-
-    */
-
-  def notifyScore(ip: String, update: String, value: Int): Unit
-
-
-
-  /**
-    * method to notify controller and other peers
-    * about the number of lives left to this peer
-
-    */
-  def notifyRemainingLives(ip: String, update: String, value: Lives): Unit
-
-
-
-  /**
-    * method to notify controller and other peers
-    * about the current state (dead or alive) of this peer
-
-    */
-  def notifyDeath(ip: String, update: String, value: Boolean): Unit
-
+  def startMatch(): Unit
 
 
 }

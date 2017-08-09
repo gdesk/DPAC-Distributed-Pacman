@@ -5,7 +5,7 @@ import java.util.{Observable, Observer}
 
 import client.communication.model.ToClientCommunication
 import client.model._
-import client.view.View
+import client.view.SelectCharacterView
 
 /**
   * Created by margherita on 11/07/17.
@@ -24,15 +24,15 @@ trait ControllerMatch {
 
   def MatchResul(result: MatchResult, user: String): Unit
 
-  def view: View
+  def view: SelectCharacterView
 
-  def view_=(view: View): Unit
+  def view_=(view: SelectCharacterView): Unit
 
   def model: ToClientCommunication
 
   def model_=(model: ToClientCommunication): Unit
 
-  def sendRequestAt(username: String): Boolean
+  def sendRequestAt(username: String): Unit
 
   def sendResponse(response: Boolean): Unit
 
@@ -47,7 +47,7 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
   private val gameMatch: Match = MatchImpl instance()
   private val playground: Playground = PlaygroundImpl instance()
 
-  override var view: ??? = null
+  override var view: SelectCharacterView = null
   override var model: ToClientCommunication = null
 
   override def getRanges = model getRanges
@@ -62,19 +62,9 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
   override def MatchResul(result: MatchResult, user: String) = model MatchResult (result, user)
 
-  override def sendRequestAt(username: String)
+  override def sendRequestAt(username: String) = model.sendRequest(username)
 
-  override def sendResponse(response: Boolean)
-
-  /*
-  override def startMatch(players: Map[Character, String], character: Character, playgroundDimention: Dimension, ground: List[GameItem]) = {
-    gameMatch addPlayers (mutable.Map(players.toSeq: _*)); //": _*" -> prima trasforma players in una sequenza e poi prende una coppia chiave-valore alla volta e l'aggiunge alla mutable.Map
-    gameMatch myCharacter = character
-    gameMatch playground = playground
-    playground dimension = playgroundDimention
-    playground ground = ground
-  }
-  */
+  override def sendResponse(response: Boolean) = model.sendResponse(response)
 
   override def startMatch = {
     model startMatch;
@@ -83,13 +73,13 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
   override def update(o:Observable, arg: scala.Any) = {
     if(arg equals "StartMatch") {
-      view startMatch
+     // view startMatch
     } else {
       val game: (String, _) = if(arg.isInstanceOf[(String, _)]) {arg.asInstanceOf[(String, _)]} else {null}
       if(game != null) {
         game._1 match {
-          case "GameRequest" => view.haveRequest(game._2)
-          case "GameResponse" => view.haveResponse(game._2)
+          case "GameRequest" => //view.haveRequest(game._2)
+          case "GameResponse" => //view.haveResponse(game._2)
         }
       }
     }

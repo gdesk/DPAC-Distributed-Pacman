@@ -1,7 +1,7 @@
 package client.view;
 
-import client.controller3.BaseControllerUser;
-import client.controller3.ControllerUser;
+import client.controller.BaseControllerUser;
+import client.controller.ControllerUser;
 import client.model.MatchResult;
 
 import javax.swing.*;
@@ -23,7 +23,7 @@ public class HomePanel extends JPanel {
 
     public HomePanel(final String username){
 
-        this.matches = Utils.getJavaList(controller.getAllMatchesResults(username));
+        this.matches = Utils.getJavaList(controller.player().allMatchesResults());
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         final JButton exit = createBlackButton("EXIT");

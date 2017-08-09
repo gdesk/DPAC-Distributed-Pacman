@@ -1,6 +1,6 @@
 package client.model.character
 
-import client.model.{MatchImpl, PlaygroundImpl}
+import client.model.{MatchImpl, Player, PlayerImpl, PlaygroundImpl}
 import org.scalatest.FunSuite
 import client.model.utils.{BaseEatObjectStrategy, Dimension, PointImpl}
 
@@ -10,6 +10,11 @@ import scala.collection.mutable.{HashMap, Map}
   * @author Margherita Pecorelli
   */
 class BasePacmanTest extends FunSuite {
+
+  private val myPlayer: Player = PlayerImpl.instance()
+  private var ip1: String = "10.200.300.400"
+  private var ip2: String = "10.200.300.401"
+  private var ip3: String = "10.200.300.402"
 
   val playground = PlaygroundImpl instance()
   playground dimension = Dimension(35,35)
@@ -123,11 +128,11 @@ class BasePacmanTest extends FunSuite {
     greeenGhost setPosition PointImpl(0,1)
     val yellowGhost = BaseGhost("Yellow")
     yellowGhost setPosition PointImpl(0,2)
-    var usersAndCharacters: Map[Character, String] = HashMap((blueGhost, "Giuls"),
-                                                             (greeenGhost, "Manu"),
-                                                             (yellowGhost, "Fede"))
-    gameMatch addPlayers usersAndCharacters
-    gameMatch myCharacter = pacman
+
+    gameMatch.addCharactersAndPlayersIp(pacman, myPlayer.ip)
+    gameMatch.addCharactersAndPlayersIp(blueGhost, ip1)
+    gameMatch.addCharactersAndPlayersIp(greeenGhost, ip2)
+    gameMatch.addCharactersAndPlayersIp(yellowGhost, ip3)
 
     pacman setPosition PointImpl(0,1)
     pacman isKillable = false

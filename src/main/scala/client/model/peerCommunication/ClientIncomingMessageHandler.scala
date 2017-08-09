@@ -2,46 +2,31 @@ package client.model.peerCommunication
 
 import java.util.Observer
 
-import io.reactivex.Flowable
 
 /**
   * Created by Federica on 31/07/17.
+  *
+  * class to communicate with controller character,
+  * so that game view and model can be updated with other
+  * character info
   */
-
-
 //observable
 trait ClientIncomingMessageHandler {
 
+  /**
+    * method to register controller character
+    * as observer of this class model (observable)
+    * @param observer
+    */
   def addObserver(observer:Observer): Unit
 
+  /**
+    * method that notify controller character
+    * with updated info (score, lives,...) of other character,
+    * so that character game view and model can be updated
+    * @param arg
+    */
   def updateGameView(arg:Any): Unit
 
 
-  /**
-    * this method updates the remaining lives for this peer
-    *
-
-    */
-  //def updateRemainingLives(arg:Any): Unit
-  /**
-    * this method updates the current score for this peer
-    *
-
-    */
-   //def updateScore(character: Character): Unit
-
-   //def updateScore(arg:Any):Unit
-  /**
-    * this method updates the current position for this peer
-    *
-
-    */
-   //def updatePosition(arg:Any): Unit
-
-  /**
-    * this method updates the current state for this peer
-    *
-
-    */
-   //def updateIsDead(arg:Any): Unit
 }

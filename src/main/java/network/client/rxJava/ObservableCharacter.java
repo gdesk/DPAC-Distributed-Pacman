@@ -19,11 +19,11 @@ import java.util.List;
 
 public class ObservableCharacter {
 
-    private ClientIncomingMessageHandlerImpl handler;
+    private ClientIncomingMessageHandlerImpl characterHandler;
     private OtherCharacterInfo info;
 
     public ObservableCharacter(){
-        this.handler = new ClientIncomingMessageHandlerImpl();
+        this.characterHandler = new ClientIncomingMessageHandlerImpl();
         this.info = new OtherCharacterInfo();
     }
 
@@ -31,7 +31,7 @@ public class ObservableCharacter {
 
         if(tris.size() == 3){
             this.info.createObservable(tris).subscribe((item) -> {
-                this.handler.updateGameView(item);
+                this.characterHandler.updateGameView(item);
             });
 
         }

@@ -8,7 +8,14 @@ import java.util.concurrent.TimeUnit
 import akka.actor.{ActorSystem, Inbox, Props}
 import client.communication.model.actor.{FromServerCommunication, P2PCommunication, ToServerCommunication}
 import client.model._
+<<<<<<< HEAD
 import client.utils.ActorUtils
+=======
+import client.model.character.{BaseGhost, BasePacman}
+import client.model.utils.BaseEatObjectStrategy
+import client.utils.IOUtils
+import com.typesafe.config.{Config, ConfigFactory}
+>>>>>>> 95fe4562b271f2994c02bb491bf211214022ff35
 
 import scala.collection.mutable
 import scala.concurrent.duration.Duration
@@ -26,7 +33,8 @@ import scala.util.parsing.json.JSONObject
 
 case class ToClientCommunicationImpl() extends ToClientCommunication{
 
-  private val system = ActorSystem("ClientSystem")
+  private val config: Config = ConfigFactory.parseFile(new File("src/main/resources/communication/configuration.conf"))
+  private val system: ActorSystem = ActorSystem.create("ClientSystem")
   private val inbox = Inbox.create(system)
 
 
@@ -73,6 +81,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
 
     val response= getJSONMessage(message)
+    println("fatto registrazione.")
     response.obj("registration").asInstanceOf[Boolean]
   }
 

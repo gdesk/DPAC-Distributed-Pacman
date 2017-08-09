@@ -1,5 +1,5 @@
 package client.controller3
-
+/*
 import java.awt.Image
 import java.io.File
 import java.util
@@ -47,6 +47,7 @@ trait ControllerMatch {
 //  def startMatch(players: Map[Character, String], character: Character, playgroundDimention: Dimension, ground: List[GameItem]): Unit
 
   def startMatch: Map[String, Map[Direction, Image]]
+
 
 }
 
@@ -124,6 +125,7 @@ case class BaseControllerMatch private (private val view1: SelectCharacterView) 
   override def model: ToClientCommunication = ???
 
   override def model_=(model: ToClientCommunication): Unit = ???
+
 }
 
 
@@ -135,3 +137,4 @@ object BaseControllerMatch {
   }
 }
 
+*/
