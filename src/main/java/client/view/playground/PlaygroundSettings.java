@@ -1,4 +1,4 @@
-package client.view;
+package client.view.playground;
 
 import java.awt.*;
 
@@ -7,7 +7,13 @@ import static client.view.MainFrame.DIMENSION;
 /**
  * Created by Manuel Bottax on 04/07/2017.
  */
-public class PlaygroundDynamicSettings {
+public class PlaygroundSettings {
+
+    private final static int DEFAULT_COLUMS_TO_RENDER = 30;
+    private final static int DEFAULT_ROWS_TO_RENDER = 30;
+
+    private int columnsToRender;
+    private int rowsToRender;
 
     private int columns;
     private int rows;
@@ -17,13 +23,15 @@ public class PlaygroundDynamicSettings {
     private Color backgroundColor;
     private Image backgroundImage;
 
-    public PlaygroundDynamicSettings(final int columns, final int rows){
+    public PlaygroundSettings(final int columns, final int rows){
         this.rows = rows;
-
         this.columns = columns;
 
-        int xCellSize = (int)(DIMENSION.getWidth()/ columns);
-        int yCellSize = (int)(DIMENSION.getHeight()/ rows);
+        this.columnsToRender = Math.min(DEFAULT_COLUMS_TO_RENDER,columns);
+        this.rowsToRender = Math.min(DEFAULT_ROWS_TO_RENDER,rows);
+
+        int xCellSize = (int)(DIMENSION.getWidth()/ columnsToRender);
+        int yCellSize = (int)(DIMENSION.getHeight()/ rowsToRender);
 
         this.cellSize = Math.min(xCellSize, yCellSize);
         this.cellDim = new Dimension(cellSize,cellSize);
@@ -53,4 +61,19 @@ public class PlaygroundDynamicSettings {
         this.backgroundImage = backgroundImage;
     }
 
+    public int getColumnsToRender() {
+        return columnsToRender;
+    }
+
+    public void setColumnsToRender(int columnsToRender) {
+        this.columnsToRender = columnsToRender;
+    }
+
+    public int getRowsToRender() {
+        return rowsToRender;
+    }
+
+    public void setRowsToRender(int rowsToRender) {
+        this.rowsToRender = rowsToRender;
+    }
 }

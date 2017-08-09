@@ -1,12 +1,14 @@
-package client.view;
+package client.view.playground;
 
+import client.model.Direction;
+import client.view.CharacterView;
 import client.view.utils.BlocksImages;
 import client.view.utils.FruitsImages;
 
 /**
  * Created by Manuel Bottax on 04/07/2017.
  */
-public interface BasePlaygroundView {
+public interface BasePlaygroundView{
 
     /**
      * Shows a labyrinth block in the specified position
@@ -42,10 +44,10 @@ public interface BasePlaygroundView {
      * Shows the specified client.model.character.gameElement.character in the specified position and direction
      * @param x Horizontal position on grid
      * @param y Vertical position on grid
-     * @param name Chracter's name
+     * @param characterView Chracter's name
      * @param direction Character's direction
      */
-    void renderCharacter(int x, int y, String name, String direction);
+    void renderCharacter(int x, int y, CharacterView characterView, Direction direction);
 
 
     /**

@@ -1,4 +1,4 @@
-package client.view;
+package client.view.playground;
 
 import client.model.gameElement.*;
 import client.model.utils.Point;
@@ -18,7 +18,8 @@ import static client.view.utils.BlocksImages.*;
 
 public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundView {
 
-    public PlaygroundPanel(PlaygroundDynamicSettings playgroundsettings){
+    public PlaygroundPanel(PlaygroundSettings playgroundsettings){
+
         super(playgroundsettings);
     }
 
