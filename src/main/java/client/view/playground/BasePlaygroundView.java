@@ -8,7 +8,7 @@ import client.view.utils.FruitsImages;
 /**
  * Created by Manuel Bottax on 04/07/2017.
  */
-public interface BasePlaygroundView{
+public interface BasePlaygroundView {
 
     /**
      * Shows a labyrinth block in the specified position

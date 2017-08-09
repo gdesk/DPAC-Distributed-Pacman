@@ -1,10 +1,12 @@
 package client.controller
 
+import java.awt.Image
 import java.util.{Observable, Observer}
 
 import client.model._
 import client.model.character.Character
 import client.model.utils.Point
+import client.view.playground.PlaygroundPanel
 import client.view.{GamePanel, MainFrame}
 
 /**
@@ -21,19 +23,22 @@ trait ControllerCharacter {
     */
   def move(direction: Direction): Unit
 
-  def view: ???
+  def setCharacterImages(mapCharacterImages: Map[String, Map[Direction, Image]]): Unit
 
-  def view_=(view: ???): Unit
+  def view_(view: GamePanel): Unit
 
 }
 
 case class BaseControllerCharacter private() extends ControllerCharacter with Observer{
 
-
   private val gameMatch: Match = MatchImpl instance()
   private val playeground: Playground = PlaygroundImpl instance()
+  private var view: GamePanel = null
+  private var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
-  override var view: ??? = null
+  override def view_(view: GamePanel): Unit = this.view = view
+
+  def setCharacterImages(mapCharacterImages: Map[String, Map[Direction, Image]]) = characterImages = mapCharacterImages
 
   /**
     * Method called when the user moves his character. This method calls the method in the model.
@@ -85,7 +90,7 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
           view.deleteCharacter(characterToUpdate)
         case "score" =>
           characterToUpdate score = tris._3.asInstanceOf[Int]
-          view.updateScore(characterToUpdate) //quali score vogliamo visualizzare?????????????????????????????????????????????????????????
+          view.updateScore(characterToUpdate) //quali score vogliamo visualizzare?
         case "move" =>
           characterToUpdate setPosition tris._3.asInstanceOf[Point[Int, Int]]
           view.move(characterToUpdate)

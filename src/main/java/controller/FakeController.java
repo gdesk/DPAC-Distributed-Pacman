@@ -162,7 +162,7 @@ public class FakeController implements ControllerCharacter{
         // e i personaggi del gioco
 
         PlaygroundPanel playgroundView = initializePlaygroundView("src/main/resources/playground/alex.dpac", null );//model.getCharacterList());
-        MainFrame.getInstance().setContentPane(playgroundView);
+       // MainFrame.getInstance().setContentPane(playgroundView);
         GamePanelImpl gp = new GamePanelImpl(playgroundView);
 
         MainFrame.getInstance().setContentPane(gp);
