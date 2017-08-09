@@ -7,8 +7,6 @@ import client.communication.model.ToClientCommunication
 import client.model._
 import client.view._
 
-import scala.collection.JavaConverters._
-
 /**
   * Created by margherita on 11/07/17.
   */
