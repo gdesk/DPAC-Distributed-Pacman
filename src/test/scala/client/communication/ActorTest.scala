@@ -1,6 +1,9 @@
 package client.communication
 
+import java.util.Calendar
+
 import client.communication.model.{ToClientCommunication, ToClientCommunicationImpl}
+import client.model.{Match, MatchImpl, MatchResultImpl, PlayerImpl}
 
 /**
   * Test of client-server architecture
@@ -9,6 +12,8 @@ import client.communication.model.{ToClientCommunication, ToClientCommunicationI
   */
 object ActorTest extends App {
   val model: ToClientCommunication = ToClientCommunicationImpl()
+  val matchGame: Match = MatchImpl.instance()
+  val player = PlayerImpl()
 /*
   //registration
   println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciaonoo"))
@@ -27,7 +32,20 @@ object ActorTest extends App {
   //selectRange
   println(model.selectRange(Range(3,5)))
 
-  println(model.getCharactersToChoose)*/
+  println(model.getCharactersToChoose)
 
   println(model.chooseCharacter("pacman"))
+
+  println(model.getPlaygrounds)
+
+  println(model.choosePlayground(1))
+  println(matchGame.playground)
+  */
+  val game: client.model.MatchResult = new MatchResultImpl()
+  game.result= true
+  game.score =123
+  game.date = Calendar.getInstance()
+  println(model.matchResult(game, player.username))
+
+
 }

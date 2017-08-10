@@ -7,8 +7,6 @@ import client.communication.model.ToClientCommunication
 import client.model._
 import client.view._
 
-import scala.collection.JavaConverters._
-
 /**
   * Created by margherita on 11/07/17.
   */
@@ -61,11 +59,11 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
   override def chooseCharacter(characterName: String) = model chooseCharacter characterName
 
-  override def getPlaygrounds = model getPlaygrounds
+ override def getPlaygrounds = null//model getPlaygrounds
 
   override def choosePlayground(playground: Int) = model choosePlayground playground
 
-  override def MatchResul(result: MatchResult, user: String) = model MatchResult (result, user)
+  override def MatchResul(result: MatchResult, user: String) = model matchResult (result, user)
 
   override def sendRequestAt(username: String) = model.sendRequest(username)
 
