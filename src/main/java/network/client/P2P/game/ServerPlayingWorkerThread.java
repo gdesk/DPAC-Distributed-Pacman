@@ -1,10 +1,9 @@
 package network.client.P2P.game;
 
+import client.model.Direction;
 import client.model.Match;
 import client.model.MatchImpl;
 import client.model.character.Character;
-import client.model.utils.Point;
-import client.model.utils.PointImpl;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
 import java.rmi.AlreadyBoundException;
@@ -31,9 +30,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     private Match match;
     private Character character;
     private String characterName;
-    private Point<Object,Object> currentPosition;
-    private int currentScore;
-    private int currentLives;
+    private Direction direction;
     private Boolean isAlive;
 
     private static ServerPlayingWorkerThread SINGLETON = null;
@@ -44,9 +41,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
         this.character = match.myCharacter();
         this.characterName =  match.myCharacter().name();
 
-        this.currentPosition = character.position();
-        this.currentScore = character.score();
-        this.currentLives = character.lives().remainingLives();
+        this.direction = character.direction();
         this.isAlive = character.isAlive();
         this.objects = new HashMap<>();
 
@@ -60,19 +55,8 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
         return SINGLETON;
     }
 
-    @Override
-    public Point<Object, Object> getPosition() {
-        return this.currentPosition;
-    }
-
-    @Override
-    public int getScore() {
-        return this.currentScore;
-    }
-
-    @Override
-    public int getLives() {
-        return this.currentLives;
+    public Direction getDirection() {
+        return this.direction;
     }
 
     @Override
@@ -102,13 +86,8 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     private void initializeObjectBinding(){
         PeerRegister stub;
 
-        this.objects.put("currentPosition", new ServerPlayingWorkerThread());
-        this.objects.put("currentScore", new ServerPlayingWorkerThread());
-
-        if(characterName.equals("Pacman")) {
-            this.objects.put("currentLives", new ServerPlayingWorkerThread());
-        }
-
+        //this.objects.put("currentPosition", new ServerPlayingWorkerThread());
+        this.objects.put("direction", new ServerPlayingWorkerThread());
         this.objects.put("isAlive", new ServerPlayingWorkerThread());
 
         for(Map.Entry<String, ServerPlayingWorkerThread> pair: objects.entrySet()){
@@ -127,18 +106,14 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
 
     private void updateObjects() throws RemoteException {
-        if(!character.position().equals(currentPosition)){
+        /*if(!character.position().equals(currentPosition)){
             registry.rebind("currentPosition", objects.get("currentPosition"));
              this.currentPosition = new PointImpl<>(character.position().x(),character.position().y());
 
-        }else if(!((Integer) character.score()).equals(currentScore)){
-            registry.rebind("currentScore", objects.get("currentScore"));
-            this.currentScore = character.score();
-
-
-        }else if(characterName.equals("Pacman") && character.lives().remainingLives() != currentLives){
-            registry.rebind("currentLives", objects.get("currentLives"));
-            this.currentLives = character.lives().remainingLives();
+        }*/
+        if(character.direction().equals(direction)){
+            registry.rebind("direction", objects.get("direction"));
+            this.direction = character.direction();
 
         }else if(!character.isAlive() == isAlive){
             registry.rebind("isAlive", objects.get("isAlive"));

@@ -38,7 +38,7 @@ class P2PCommunication extends UntypedAbstractActor {
         executor.initServerPlayingWorkerThread(ip, server.getRegistry, server.getRmiPort)
         context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! msg.asInstanceOf[JSONObject]
 
-      case "otherPlayerIP" =>
+      case "otherPlayerIP" => //todo change name
 
         val info = new OtherCharacterInfo
         val matchHandler = new ClientOutcomingMessageHandlerImpl

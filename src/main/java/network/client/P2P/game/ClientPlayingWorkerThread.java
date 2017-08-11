@@ -1,7 +1,7 @@
 package network.client.P2P.game;
 
 
-import client.model.utils.PointImpl;
+import client.model.Direction;
 import network.client.P2P.utils.ExecutorServiceUtility;
 import network.client.rxJava.ObservableCharacter;
 
@@ -38,9 +38,7 @@ public class ClientPlayingWorkerThread implements Runnable {
 
         //initialize client character
         this.responses = new HashMap<String, Object>() {{
-            put("currentPosition", new PointImpl<>(-1,-1));
-            put("currentScore", -1);
-            put("currentLives", -1);
+            put("direction", Direction.START);
             put("isAlive", false);
 
         }};
@@ -60,27 +58,14 @@ public class ClientPlayingWorkerThread implements Runnable {
             try {
                 for (Map.Entry<String, Object> pair : responses.entrySet()) {
 
+                    stub = (PeerRegister) registry.lookup(pair.getKey());
                     switch (pair.getKey()) {
-                        case "currentPosition":
-
-                            stub = (PeerRegister) registry.lookup(pair.getKey());
-                            response = stub.getPosition();
-                            break;
-
-                        case "currentScore":
-                            stub = (PeerRegister) registry.lookup(pair.getKey());
-                            response = String.valueOf(stub.getScore());
-                            break;
-
-                        case "currentLives":
-                            stub = (PeerRegister) registry.lookup(pair.getKey());
-                            response = stub.getLives();
+                        case "direction":
+                            response = stub.getDirection();
                             break;
 
                         case "isAlive":
-                            stub = (PeerRegister) registry.lookup(pair.getKey());
                             response = stub.isAlive().toString();
-
                             //https://www.google.it/search?site=&source=hp&q=EXAMPLE+With+runnable+cancel&oq=EXAMPLE+With+runnable+cancel&gs_l=psy-ab.3..33i21k1l2.2744.8760.0.8989.31.29.1.0.0.0.119.2657.20j8.28.0....0...1.1.64.psy-ab..2.29.2661.0..0j0j35i39k1j0i67k1j0i131k1j0i22i30k1j0i19k1j0i22i30i19k1j0i13i30k1j0i13i5i30k1j33i22i29i30k1j33i160k1.VRQ-mzgOFBY
                             executor.stopClientPlayingWorkerThread();
                             break;
@@ -89,8 +74,6 @@ public class ClientPlayingWorkerThread implements Runnable {
                             response = new Object();
 
                     }
-
-
 
                     if (!response.equals(pair.getValue())) {
                         pair.setValue(response);

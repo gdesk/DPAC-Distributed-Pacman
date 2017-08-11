@@ -5,7 +5,7 @@ package network.client.P2P.utils;
  */
 
 //TODO ENUMERATION PER STRINGHE
-public class RemotoObjectNames {
+public class RemoteObjectNames {
 
 
 
