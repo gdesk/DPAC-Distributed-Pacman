@@ -199,9 +199,9 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     * Receives from server the List of available playgrounds.
     *
     */
-  //todo: devi dire alla marghe che ritorna Unit
+  //todo: devi dire alla marghe che ritorna Int
   //todo : scala doc
-  override def getPlaygrounds: Unit = {
+  override def getPlaygrounds: Int = {
     val message = JSONObject(Map[String, String](
       "object" -> "playgrounds",
       "senderIP" -> player.ip))
@@ -216,6 +216,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       val bufferedImage: BufferedImage = ImageIO.read(inputStream)
       ImageIO.write(bufferedImage, "png", outputfile)
     })
+    map.size
   }
 
   /**

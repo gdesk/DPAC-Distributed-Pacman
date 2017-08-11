@@ -85,7 +85,7 @@ trait ToClientCommunication {
     * Receives from server the List of available playgrounds.
 
     */
-  def getPlaygrounds: Unit
+  def getPlaygrounds: Int
 
   /**
     * Send to server the playground chosen. It's recall when the player choose the playground of current match.
