@@ -1,25 +1,22 @@
-
 package client.communication.model
 
 import java.awt.Image
-import java.util.Observer
+import java.awt.image.BufferedImage
+import java.io._
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
+import javax.imageio.ImageIO
+import javax.swing.ImageIcon
 
 import akka.actor.{ActorSystem, Inbox, Props}
 import client.communication.model.actor.{FromServerCommunication, P2PCommunication, ToServerCommunication}
 import client.model._
-<<<<<<< HEAD
-import client.utils.ActorUtils
-=======
 import client.model.character.{BaseGhost, BasePacman}
 import client.model.utils.BaseEatObjectStrategy
 import client.utils.IOUtils
 import com.typesafe.config.{Config, ConfigFactory}
->>>>>>> 95fe4562b271f2994c02bb491bf211214022ff35
 
-import scala.collection.mutable
 import scala.concurrent.duration.Duration
-import scala.reflect.io.File
 import scala.util.parsing.json.JSONObject
 
 
@@ -30,22 +27,17 @@ import scala.util.parsing.json.JSONObject
   * @author Giulia Lucchi
   */
 
-
 case class ToClientCommunicationImpl() extends ToClientCommunication{
 
   private val config: Config = ConfigFactory.parseFile(new File("src/main/resources/communication/configuration.conf"))
-  private val system: ActorSystem = ActorSystem.create("ClientSystem")
+  private val system: ActorSystem = ActorSystem.create("DpacClient", config)
   private val inbox = Inbox.create(system)
-
-
 
   private val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
   private val fromServerCommunication = system.actorOf(Props[FromServerCommunication], "fromServerCommunication")
   private val P2PCommunication = system actorOf(Props[P2PCommunication], "P2PCommunication")
 
-
-
-  private val currentMatch: Match = MatchImpl()
+  private val currentMatch: Match = MatchImpl.instance()
   private var player: Player = PlayerImpl.instance()
 
   /**
@@ -63,74 +55,64 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   override def registration(name: String, username: String, email: String, password: String, confirmPassword: String): Boolean = {
     if (!(password equals(confirmPassword))){
       println("PASSWORD SBAGLIATA.")
-      false
+      return false
     }
     val message = JSONObject(Map[String, String](
       "object" -> "newUser",
-
-
-      "senderIP" -> ActorUtils.IP_ADDRESS,
-
+      "senderIP" -> player.ip,
       "name" -> name,
       "username" -> username,
       "email" -> email,
       "password" -> password
     ))
 
-
-
-
+    player.username = username
     val response= getJSONMessage(message)
-    println("fatto registrazione.")
-    response.obj("registration").asInstanceOf[Boolean]
+    response.obj("result").asInstanceOf[Boolean]
   }
 
   /**
     * Send the message to actor ToServerCommunication with the login's data and
-
-
-
     * receive from sever the response with also the MatchResult
     *
     * @param username
     * @param password
-    * @return list of MatchResult with data, result and score.
-    *         If it's 'None', the login ended not good.
-    *         If it's Option.empty, this is the first login
+    * @return true  if login ended good
+    *         false otherwise
     */
   override def login(username: String, password: String): Boolean = {
     val message = JSONObject(Map[String, String](
       "object" -> "login",
-
-
-      "senderIP" -> ActorUtils.IP_ADDRESS,
-
-
+      "senderIP" -> player.ip,
       "username" -> username,
       "password" -> password
     ))
 
-
-
     val response = getJSONMessage(message)
-    response.obj("list").asInstanceOf[Option[List[MatchResult]]]
-
+    println("ricevuto")
+    val list = response.obj("list").asInstanceOf[Option[List[Map[String, Any]]]]
+    if (list.isEmpty) return false
+    val allMatches = wrapperAllMatches(list.get)
+    player.username = username
+    player.allMatchesResults = allMatches
+    true
   }
 
   /**
     * Send to server the username to remove the user from online users' list.
     *
+    *@return true  if logout ended good
+    *        false otherwise
     */
-
   override def logout(): Boolean = {
     val message = JSONObject(Map[String, String](
       "object" -> "logout",
+      "senderIP" -> player.ip,
       "username" -> player.username
     ))
 
     val response = getJSONMessage(message)
     response.obj("response").asInstanceOf[Boolean]
-
   }
 
   /**
@@ -138,37 +120,50 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     *
     * @return list of range to players' game
     */
-
-
   override def getRanges: List[Range] = {
     val message = JSONObject(Map[String, String](
       "object" -> "rangesRequest",
-      "senderIP" ->ActorUtils.IP_ADDRESS))
+      "senderIP" ->player.ip
+    ))
 
     val response = getJSONMessage(message)
     response.obj("list").asInstanceOf[List[Range]]
   }
 
+  /**
+    * Send to server the selected range
+    *
+    * @param range the range selected by player
+    */
+  override def selectRange(range: Range): Unit = {
+    val message = JSONObject(Map[String,Any](
+      "object" -> "selectedRange",
+      "senderIP" -> player.ip,
+      "range" -> range
+    ))
+
+    toServerCommunication ! message
+  }
 
   /**
     * Receives from server the available character.
     *
     * @return list of all character to choose in team's creation.
-
-
     */
   override def getCharactersToChoose: Map[String, Image] = {
     val message = JSONObject(Map[String, String](
       "object" -> "characterToChooseRequest",
-
-      "senderIP" -> ActorUtils.IP_ADDRESS
-
+      "senderIP" -> player.ip
     ))
 
-    val rensponse = getJSONMessage(message)
-    rensponse.obj("map").asInstanceOf[Map[String, Image]]
+    val response = getJSONMessage(message)
+    val fileMap = response.obj("map").asInstanceOf[Map[String, File]]
+    var characterToChoose: Map[String, Image]= Map.empty
+    fileMap.keySet.foreach(name =>{
+      characterToChoose += ((name, new ImageIcon(fileMap(name).getPath).getImage))
+    })
+    characterToChoose
   }
-
 
   /**
     * Send to server the character chosen. It's recall when the player choose him character.
@@ -177,40 +172,51 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     * @return true  if character has been already chosen
     *         false otherwise
     */
-
-
+  //todo:sistema scaladoc e rifattorizza con metodi privati
   override def chooseCharacter(character: String): Boolean = {
     val message = JSONObject(Map[String, String](
       "object" -> "chooseCharacter",
-      "senderIP" -> ActorUtils.IP_ADDRESS,
-
+      "senderIP" -> player.ip,
       "character" -> character))
 
     val response = getJSONMessage(message)
-    val isAvaible = response.obj("avaible").asInstanceOf[Boolean]
-    if (isAvaible) {
-      val images = response.obj("map").asInstanceOf[Map[String, Map[Direction, Image]]]
+    val isAvailable = response.obj("available").asInstanceOf[Boolean]
+    if (isAvailable) {
+      val images = response.obj("map").asInstanceOf[Map[String,Array[Byte]]]
+      images.keySet.foreach(path =>{
+        val outputfile = new File(path.toString)
+        outputfile.mkdirs()
+        outputfile.createNewFile()
+        val inputStream: InputStream = new ByteArrayInputStream(images(path))
+        val bufferedImage: BufferedImage = ImageIO.read(inputStream)
+        ImageIO.write(bufferedImage, "png", outputfile)
+      })
     }
-    isAvaible
+    isAvailable
   }
-
 
   /**
     * Receives from server the List of available playgrounds.
     *
-    * @return list of available playgrounds
-
-    *         Int -> playground'id
-    *         Image -> playground transformed to image
     */
-  override def getPlaygrounds: Map[Int, Image] = {
+  //todo: devi dire alla marghe che ritorna Int
+  //todo : scala doc
+  override def getPlaygrounds: Int = {
     val message = JSONObject(Map[String, String](
       "object" -> "playgrounds",
-      "senderIP" -> ActorUtils.IP_ADDRESS))
+      "senderIP" -> player.ip))
 
     val response = getJSONMessage(message)
-    response.obj("list").asInstanceOf[Map[Int, Image]]
-
+    val map = response.obj("list").asInstanceOf[Map[Int, Array[Byte]]]
+    map.keySet.foreach(id =>{
+      val outputfile = new File("src/main/resources/playground/images/"+ id.toString+".png")
+      outputfile.mkdirs()
+      outputfile.createNewFile()
+      val inputStream: InputStream = new ByteArrayInputStream(map(id))
+      val bufferedImage: BufferedImage = ImageIO.read(inputStream)
+      ImageIO.write(bufferedImage, "png", outputfile)
+    })
+    map.size
   }
 
   /**
@@ -221,16 +227,15 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     */
   override def choosePlayground(idPlayground: Int): Unit = {
     val message = JSONObject(Map[String, Any](
-
-
       "object" -> "chosenPlayground",
-      "senderIP" -> ActorUtils.IP_ADDRESS,
-      "playground" -> playground))
+      "senderIP" -> player.ip,
+      "playground" -> idPlayground
+    ))
 
     val response = getJSONMessage(message)
-    val playgroundFile = response.obj("playground").asInstanceOf[File] // initialize
-
-
+    val playgroundFile = response.obj("playground").asInstanceOf[File]
+    val playground = IOUtils.getPlaygroundFromFile(playgroundFile)
+    currentMatch.playground_=(playground)
   }
 
   /**
@@ -239,40 +244,29 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     * @param result The MatchResult with date and score of the ended match
     * @param user   id of characters.
     */
-  override def MatchResult(result: MatchResult, user: String): Unit = {
+  override def matchResult(result: MatchResult, user: String): Unit = {
     val message = JSONObject(Map[String, Any](
       "object" -> "matchResult",
-
-      "senderIP" -> ActorUtils.IP_ADDRESS,
-
-      "result" -> result, // vediamo poi se passare solo il punteggio o tutto l'oggetto
+      "senderIP" -> player.ip,
+      "date" -> result.date,
+      "score" -> result.score,
+      "result"-> result.result,
       "user" -> user
     ))
     toServerCommunication ! message.asInstanceOf[JSONObject]
   }
 
   /**
-    * Receives from server playgrond's string, corresponding to chosen playground.
-    * SONO  SERVE AL CONTROLLER
-    *
-    * @return Playground chosen in current match
-    */
-  override def playgroundChosen(): String ={""} // a questo punto non lo farei
-
-  /**
-
     * Receives from server all the played matches of selected username
     *
     * @param username username of player
     * @return list of all match with its result
     */
+  //todo: guarda login() ... uguale
   override def getAllMatchesResults(username: String): List[MatchResult] = {
     val message = JSONObject(Map[String, String](
       "object" -> "allMatchResult",
-
-
-      "senderIP" -> ActorUtils.IP_ADDRESS,
-
+      "senderIP" -> player.ip,
       "username" -> username
     ))
     val response = getJSONMessage(message)
@@ -281,7 +275,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
   /**
     * Receives from server the characters playing in the current match
-    * NON SONO RICHIAMATI DAL CONTROLLER
     *
     * @return list of current match's characters.
     *         The Map has the IP address of character as key and, as value, a Map with direction and Image.
@@ -289,11 +282,19 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   override def getTeamCharacter: Map[String, Map[Direction, Image]] = {
     val message = JSONObject(Map[String, String](
       "object" -> "teamCharacterRequest ",
-
-      "senderIP" -> ActorUtils.IP_ADDRESS
+      "senderIP" -> player.ip
     ))
 
     val response = getJSONMessage(message)
+    val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
+    // var players :mutable.Map[client.model.character.Character, String] = null
+    typeCharacters.keySet.foreach(x =>{
+      val singleCharacter = typeCharacters(x)
+      singleCharacter(1) match {
+        case "pacman" => currentMatch.addCharactersAndPlayersIp(BasePacman(singleCharacter(2), BaseEatObjectStrategy()), x)
+        case "ghost" => currentMatch.addCharactersAndPlayersIp(BaseGhost(singleCharacter(2)), x)
+      }
+    })
 
     response.obj("map").asInstanceOf[Map[String, Map[Direction, Image]]]
   }
@@ -306,12 +307,25 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   override def startMatch(): Unit = {
     val message = JSONObject(Map[String,String](
       "object" -> "startGame",
-
-      "senderIP" -> ActorUtils.IP_ADDRESS
+      "senderIP" -> player.ip
     ))
     P2PCommunication ! message.asInstanceOf[JSONObject]
+  }
 
-
+  /**
+    * Send to server the request to invite the friend in current match
+    *
+    * @param username username of player to invite
+    * @return boolean the invite's response
+    */
+   def sendRequest(username: String): Unit = {
+    val message = JSONObject(Map[String,String](
+      "object" -> "addFriend",
+      "senderIP" -> player.ip,
+      "senderUsername" -> player.username,
+      "username" -> username
+    ))
+    toServerCommunication ! message
   }
 
   /**
@@ -319,7 +333,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     *
     * @param response the invite's response to current match
     */
-  override def sendResponse(response: Boolean): Unit = {
+   def sendResponse(response: Boolean): Unit = {
     val message = JSONObject(Map[String,Any](
       "object" -> "responseFriend",
       "senderIP" -> player.ip,
@@ -329,7 +343,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     toServerCommunication ! message
   }
 
-
   /**
     * This private method due to encapsulate the send and receive of the messages.
     *
@@ -338,11 +351,21 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     */
   private def getJSONMessage( message: JSONObject) : JSONObject = {
     inbox.send(toServerCommunication, message)
-    inbox.receive(Duration.apply(10,TimeUnit.SECONDS)).asInstanceOf[JSONObject]
+    inbox.receive(Duration.apply(10000,TimeUnit.SECONDS)).asInstanceOf[JSONObject]
   }
 
-
+  private def wrapperAllMatches(list : List[Map[String, Any]]): List[MatchResult] ={
+    var allMatches: List[MatchResultImpl] = List.empty
+    list.foreach(map =>{
+      val matchResult = new MatchResultImpl()
+      map.keySet.foreach {
+        case "date" => matchResult.date = map("date").asInstanceOf[Calendar]
+        case "score" => matchResult.score = map("score").asInstanceOf[Int]
+        case "result" => matchResult.result = map("result").asInstanceOf[Boolean]
+      }
+      allMatches = matchResult :: allMatches
+    })
+    allMatches
+  }
 
 }
-
-

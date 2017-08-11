@@ -23,6 +23,8 @@ class BasePacmanTest extends FunSuite {
 
   val pacman = BasePacman("Pacman", BaseEatObjectStrategy())
 
+  gameMatch.addCharactersAndPlayersIp(pacman, myPlayer.ip)
+
   val characterTest = new CharacterImplTest(pacman)
   characterTest.execute()
 
@@ -129,7 +131,6 @@ class BasePacmanTest extends FunSuite {
     val yellowGhost = BaseGhost("Yellow")
     yellowGhost setPosition PointImpl(0,2)
 
-    gameMatch.addCharactersAndPlayersIp(pacman, myPlayer.ip)
     gameMatch.addCharactersAndPlayersIp(blueGhost, ip1)
     gameMatch.addCharactersAndPlayersIp(greeenGhost, ip2)
     gameMatch.addCharactersAndPlayersIp(yellowGhost, ip3)

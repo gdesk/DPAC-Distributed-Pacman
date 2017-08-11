@@ -7,7 +7,7 @@ import scala.collection.mutable.HashMap
 import scala.collection.mutable.ListBuffer
 
 /**
-  * Represent the current match status, holding some information about the game.
+  * Represents the current match status, holding some information about the game.
   *
   * @author Margherita Pecorelli
   */
@@ -83,9 +83,9 @@ case class MatchImpl private() extends Match {
 
   private var _deadCharacters: ListBuffer[Character] = ListBuffer empty
   private var charactersPlayersIp: HashMap[Character, String] = HashMap empty
-  private var _myCharacter: Character = null
+  private var _myCharacter: Character = _
 
-  override var playground: Playground = null
+  override var playground: Playground = _
 
   override def myCharacter: Character = {
     if(_myCharacter == null) _myCharacter = character(PlayerImpl.instance().ip).get

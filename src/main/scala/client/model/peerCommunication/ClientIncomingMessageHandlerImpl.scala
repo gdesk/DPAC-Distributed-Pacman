@@ -2,6 +2,8 @@ package client.model.peerCommunication
 
 import java.util.{Observable, Observer}
 
+import client.controller.ControllerCharacter
+
 
 /**
   * Created by Federica on 31/07/17.
@@ -18,7 +20,7 @@ class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMes
     * as observer of this class model (observable)
     * @param observer
     */
-  def addObserver(observer: Observer) {
+  override def addObserver(observer: Observer) {
     if (observer.isInstanceOf[ControllerCharacter]) {
       this.addObserver(observer)
     }

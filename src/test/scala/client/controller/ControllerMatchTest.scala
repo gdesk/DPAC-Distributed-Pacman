@@ -1,5 +1,8 @@
 package client.controller
 
+import java.awt.{Component, Dialog, Label}
+import javax.swing.{ImageIcon, JLabel, JOptionPane}
+
 import org.scalatest.FunSuite
 
 class ControllerCharacterTest() extends FunSuite {
@@ -8,6 +11,10 @@ class ControllerCharacterTest() extends FunSuite {
 
   test("singleton") {
     assert(controller == BaseControllerMatch.instance())
+  }
+
+  test("getPlaygrounds") {
+    //println(controller.getPlaygrounds.get(0).get.toString)
   }
 
   /*

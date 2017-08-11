@@ -42,4 +42,5 @@ case class BaseEatObjectStrategy() extends EatObjectStrategy with Observer{
 object BaseEatObjectStrategy {
   private val millisecondsToWait = 10000
 
+  def getMillisecondsToWait: Long = millisecondsToWait
 }

@@ -64,11 +64,6 @@ public class HomePanel extends JPanel {
         });
     }
 
-    public void showRequest(){
-        RequestDialog requestDialog = new RequestDialog(MainFrame.getInstance());
-        requestDialog.setVisible(true);
-    }
-
     private int xTableIndex = 0;
     private JTable createMatchTable(final List<MatchResult> results) {
         String[] columnNames = {"Result", "Date", "Score"};

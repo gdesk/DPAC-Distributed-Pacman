@@ -25,6 +25,8 @@ class BaseGhostTest extends FunSuite {
 
   val redGhost = BaseGhost("Red")
 
+  gameMatch.addCharactersAndPlayersIp(redGhost, myPlayer.ip)
+
   val characterTest = new CharacterImplTest(redGhost)
   characterTest.execute()
 
@@ -110,7 +112,6 @@ class BaseGhostTest extends FunSuite {
     val yellowGhost = BaseGhost("Yellow")
     yellowGhost setPosition PointImpl(0,2)
 
-    gameMatch.addCharactersAndPlayersIp(redGhost, myPlayer.ip)
     gameMatch.addCharactersAndPlayersIp(blueGhost, ip1)
     gameMatch.addCharactersAndPlayersIp(greeenGhost, ip2)
     gameMatch.addCharactersAndPlayersIp(yellowGhost, ip3)

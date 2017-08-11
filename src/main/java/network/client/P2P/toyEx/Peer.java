@@ -1,3 +1,4 @@
+/*
 package network.client.P2P.toyEx;
 
 
@@ -12,9 +13,11 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Set;
 
+*/
 /**
  * Created by Federica on 18/07/17.
- */
+ *//*
+
 public class Peer implements Hello{
 
     public String id;
@@ -38,12 +41,14 @@ public class Peer implements Hello{
 
     public static void main(String[] args) {
         //start server
-        /*Peer obj = null;
+        */
+/*Peer obj = null;
         try {
             obj = new Peer();
         } catch (UnknownHostException e) {
             e.printStackTrace();
-        }*/
+        }*//*
+
         new Thread(() -> {
             Registry registry = null;
             try {
@@ -70,12 +75,14 @@ public class Peer implements Hello{
             }
         });
 
-        /**
+        */
+/**
          * start client
          *
          * creo un thread per ogni peer con cui questo peer
          * dovrà comunicare (=> n peer tot. - 1)
-         */
+         *//*
+
         for(String ip: clientIps) {
 
             new Thread(() -> {
@@ -95,11 +102,13 @@ public class Peer implements Hello{
 
         }
 
-        /**
+        */
+/**
          * problema gestion concorrenza:
          * - non in lettura ma in SCRITTURA
          * -
-         */
+         *//*
+
         //while(){ //game is over
 
         //}
@@ -107,7 +116,8 @@ public class Peer implements Hello{
     }
 
 
-    /**
+    */
+/**
      *
      * @param clientIps
      *
@@ -115,7 +125,8 @@ public class Peer implements Hello{
      * OutocominPeerHandlerActor who will receive a
      * json message (p.e. json(actorIp, Set<String> ips))
      * from server)
-     */
+     *//*
+
     public void setclientIps(Set<String> clientIps){
         this.clientIps = clientIps;
     }
@@ -129,3 +140,4 @@ public class Peer implements Hello{
 
 
 }
+*/
