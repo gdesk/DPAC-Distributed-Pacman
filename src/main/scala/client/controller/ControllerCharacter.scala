@@ -39,8 +39,8 @@ trait ControllerCharacter {
 }
 
 /**
-  * Represents the implementation of the controller for characters' management.
-  *
+  * Represents the implementation of the controller for characters' magamenagement.
+  * Implements also Observer since it has to be notify when other characters move or die.
   *
   * @author Margherita Pecorelli
   */
@@ -70,8 +70,8 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
     val postScore: Int = character.score
 
     if(!(prePosition equals postPosition)) _view.move(characterImages.get(character.name).get(direction),
-      prePosition.asInstanceOf[Point[Integer,Integer]],
-      postPosition.asInstanceOf[Point[Integer,Integer]])
+                                                      prePosition.asInstanceOf[Point[Integer,Integer]],
+                                                      postPosition.asInstanceOf[Point[Integer,Integer]])
 
     if(!(preLives equals postLives)) {
       _view.updateLives(postLives)
@@ -95,26 +95,41 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
     */
   override def view(view: GamePanel): Unit = this._view = view
 
-  override def update(o: Observable, arg: scala.Any) = {
+  /**
+    * Called when other character moves or dies.
+    * Invokes the model to perform actions that result from the changes of the character and notifies the view of changes.
+    *
+    * @param observable - the observable who notified me.
+    * @param arg - a tris of: character user's ip, message about what had changed, a boolean is case of death (true if is dead) or a direction in case of movement.
+    *
+    * @throws WrongInputParameterException when input parameter is incorrect.
+    * @throws ThisIpDoesNotExistException when the given ip doesn't belong to the current match's ips.
+    */
+  override def update(observable: Observable, arg: scala.Any) = {
     val tris: (String, String, _) = if(arg.isInstanceOf[(String, String, _)]) {arg.asInstanceOf[(String, String, _)]} else {null}
-    if(tris != null) {
+    if(tris == null) {
+      throw WrongInputParameterException("The input parameter must be a tris of: character user's ip (String), message about what had changed (String), a boolean is case of death (true if is dead) or a direction in case of movement (Boolean/Direction)!")
+    } else {
       var characterToUpdate: Character = null
       val player = gameMatch.allPlayersIp.find(ip => ip equals tris._1)
       if(player isEmpty) {
-        throw new ThisIpDoesNotExist("Ip:" + tris._1 + " doen't exist!")
+        throw ThisIpDoesNotExistException("Ip:" + tris._1 + " doesn't exist!")
       } else {
         characterToUpdate = gameMatch.character(player.get).get
       }
       tris._2 match {
-        case "isAlive" =>
-          characterToUpdate.isAlive = tris._3.asInstanceOf[Boolean]
+        case "isDead" =>
+          characterToUpdate.isAlive = !tris._3.asInstanceOf[Boolean]
           if(!characterToUpdate.isAlive) _view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer,Integer]])
         case "direction" =>
           val direction = tris._3.asInstanceOf[Direction]
+
           val prePosition: Point[Int, Int] = characterToUpdate.position
           val preLives: Int = gameMatch.myCharacter.lives.remainingLives
           val preScore: Int = gameMatch.myCharacter.score
+
           characterToUpdate.go(direction)
+
           val postPosition: Point[Int, Int] = characterToUpdate.position
           val postLives: Int = gameMatch.myCharacter.lives.remainingLives
           val postScore: Int = gameMatch.myCharacter.score
@@ -135,10 +150,20 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
 
 }
 
+/**
+  * Represents the singleton of BaseControllerCharacter.
+  *
+  * @author Margherita Pecorelli
+  */
 object BaseControllerCharacter {
 
   private var _instance: BaseControllerCharacter = null
 
+  /**
+    * Returns the only one instance of the class BaseControllerCharacter (pattern singleton).
+    *
+    * @return the only one instance of the class BaseControllerCharacter.
+    */
   def instance(): BaseControllerCharacter = {
     if(_instance == null) _instance = BaseControllerCharacter()
     _instance
@@ -146,4 +171,16 @@ object BaseControllerCharacter {
 
 }
 
-case class ThisIpDoesNotExist(private val message: String = "") extends Exception(message)
+/**
+  * Represents the excetpion throws when the given ip doesn't belong to the current match's ips.
+  *
+  * @param message - message throws by the exception.
+  */
+case class ThisIpDoesNotExistException(val message: String = "") extends Exception(message)
+
+/**
+  * Represents the excetpion throws when a method's input parameter is incorrect.
+  *
+  * @param message - message throws by the exception.
+  */
+case class WrongInputParameterException(val message: String = "") extends Exception(message)
