@@ -6,7 +6,9 @@ import client.model.gameElement.Eatable;
 import java.util.List;
 
 /**
- * Created by chiaravarini on 06/07/17.
+ * A Playground where you can view
+ * all the labyrinths and elements in one shot
+ * Created by Chiara Varini on 06/07/17.
  */
 public interface PlaygroundView extends BasePlaygroundView {
 
