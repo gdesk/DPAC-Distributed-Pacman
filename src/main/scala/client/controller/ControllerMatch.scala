@@ -2,10 +2,14 @@ package client.controller
 
 import java.awt.Image
 import java.util.{Observable, Observer}
+import javax.swing.ImageIcon
 
 import client.communication.model.ToClientCommunication
 import client.model._
 import client.view._
+
+import scala.collection.mutable.HashMap
+
 
 
 /**
@@ -43,8 +47,8 @@ trait ControllerMatch {
 
 case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
-  private val gameMatch: Match = MatchImpl instance()
-  private val playground: Playground = PlaygroundImpl instance()
+  private val gameMatch: Match = MatchImpl.instance()
+  private val playground: Playground = PlaygroundImpl.instance()
   private var _loadingView: LoadingView = null
   private var _teamView: CreateTeamView = null
   private var _model: ToClientCommunication = null
@@ -61,13 +65,22 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
   override def getCharacters = _model.getCharactersToChoose
 
+
   override def chooseCharacter(characterName: String) = _model.chooseCharacter(characterName)
 
-  override def getPlaygrounds = _model.getPlaygrounds
+  override def getPlaygrounds = {
+    val grounds: Int = _model.getPlaygrounds
+    val playgrounds: HashMap[Int, Image] = HashMap.empty
+    for(i <- 0 to grounds) {
+      playgrounds += (i -> new ImageIcon("resources/playground/images/" + i + ".png").getImage)
+    }
+    playgrounds.toMap
+  }
+
 
   override def choosePlayground(playground: Int) = _model.choosePlayground(playground)
 
-  override def MatchResul(result: MatchResult, user: String) = _model.MatchResult(result, user)
+  override def MatchResul(result: MatchResult, user: String) = _model.matchResult(result, user)
 
   override def sendRequestAt(username: String) = _model.sendRequest(username)
 

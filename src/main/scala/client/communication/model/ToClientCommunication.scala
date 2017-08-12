@@ -1,7 +1,6 @@
 package client.communication.model
 
 import java.awt.Image
-import java.io.File
 
 import client.model.{Direction, MatchResult}
 
@@ -49,20 +48,23 @@ trait ToClientCommunication {
     * @return list of range to players' game
     */
   def getRanges: List[Range]
+
+  /**
+    * Send to server the selected range
+    *
+    * @param range the range selected by player
+    */
+  def selectRange(range: Range): Unit
+
   /**
     * Receives from server the available character.
     *
     * @return list of all character to choose in team's creation.
     */
-
-  def selectRange(range: Range): Unit
-
-  //todo:fai scala doc
   def getCharactersToChoose: Map[String, Image]
 
   /**
     * Receives from server the characters playing in the current match
-    * NON SONO RICHIAMATI DAL CONTROLLER
     *
     * @return list of current match's characters.
     *         The Map has the name of character as key and, as value, a Map with direction and Image.
@@ -81,10 +83,9 @@ trait ToClientCommunication {
 
   /**
     * Receives from server the List of available playgrounds.
-    *
-    * @return list of available playgrounds
+
     */
-  def getPlaygrounds: Map[Int, Image]
+  def getPlaygrounds: Int
 
   /**
     * Send to server the playground chosen. It's recall when the player choose the playground of current match.
@@ -101,14 +102,7 @@ trait ToClientCommunication {
     * @param result  The MatchResult with date and score of the ended match
     * @param user id of characters.
     */
-  def MatchResult(result: MatchResult, user: String): Unit
-
-  /**
-    * Receives from server playgrond's string, corresponding to chosen playground.
-    * SONO  SERVE AL CONTROLLER
-    * @return Playground chosen in current match
-    */
-  def playgroundChosen(): String
+  def matchResult(result: MatchResult, user: String): Unit
 
   /**
     * Receives from server all the played matches of selected username
