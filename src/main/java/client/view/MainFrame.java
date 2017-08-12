@@ -1,6 +1,9 @@
 package client.view;
 
 
+import client.view.base.LoginPanel;
+import client.view.base.RequestDialog;
+
 import javax.swing.*;
 import java.awt.*;
 

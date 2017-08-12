@@ -1,4 +1,4 @@
-package client.view;
+package client.view.base;
 
 /**
  * Interface that allows you to view the playground for a match

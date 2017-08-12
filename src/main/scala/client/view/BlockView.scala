@@ -1,7 +1,7 @@
 package client.view
 
 import java.awt.Image
-import client.view.utils.BlocksImages._
+import client.view.utils.enumerations.BlocksImages._
 
 /**
   * Wrapper for the specific images of each block.

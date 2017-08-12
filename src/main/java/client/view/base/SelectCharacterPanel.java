@@ -1,9 +1,10 @@
-package client.view;
+package client.view.base;
 
 import client.controller.BaseControllerMatch;
 import client.controller.BaseControllerUser;
 import client.controller.ControllerMatch;
-import client.view.utils.ImagesUtils;
+import client.view.MainFrame;
+import client.view.Utils;
 import client.view.utils.JComponentsUtils;
 
 import javax.swing.*;
@@ -50,7 +51,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         JPanel characterPanel = JComponentsUtils.createBackgroundColorPanel();
         characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.X_AXIS));
 
-        Utils.getJavaMap(controller.getCharacters()).forEach((name,image) -> {
+        Utils.getJavaMap(controller.getCharacters()).forEach((name, image) -> {
             characterPanel.add(createImagePanel(image, name, CHARACTER_IMAGE_DIMENSION));
         });
         JScrollPane characterScroll = new JScrollPane(characterPanel);
@@ -109,7 +110,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         JButton imageButton = new JButton();
         imageButton.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        ImageIcon icon = new ImageIcon(ImagesUtils.getScaledImage(image, (int)dim.getWidth(), (int)dim.getHeight()));
+        ImageIcon icon = new ImageIcon(Utils.getScaledImage(image, (int)dim.getWidth(), (int)dim.getHeight()));
         icon.setDescription(str);
         imageButton.setIcon(icon);
         iconPanel.add(imageButton);

@@ -4,9 +4,8 @@ import client.view.GameObjectView;
 import client.view.GameObjectViewImpl;
 import client.view.Res;
 import client.view.Utils;
-import client.view.utils.BlocksImages;
-import client.view.utils.FruitsImages;
-import client.view.utils.ImagesUtils;
+import client.view.utils.enumerations.BlocksImages;
+import client.view.utils.enumerations.FruitsImages;
 
 import javax.swing.*;
 import java.awt.*;
@@ -191,10 +190,10 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     }
 
     private ImageIcon getImageIcon(final Image image){
-        return new ImageIcon(ImagesUtils.getScaledImage(image, settings.getCellSize(), settings.getCellSize()));
+        return new ImageIcon(Utils.getScaledImage(image, settings.getCellSize(), settings.getCellSize()));
     }
 
     private ImageIcon getImageIconSmall(final Image image, final int divider){
-        return new ImageIcon(ImagesUtils.getScaledImage(image, settings.getCellSize()/divider, settings.getCellSize()/divider));
+        return new ImageIcon(Utils.getScaledImage(image, settings.getCellSize()/divider, settings.getCellSize()/divider));
     }
 }

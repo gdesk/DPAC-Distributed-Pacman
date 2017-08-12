@@ -1,4 +1,4 @@
-package client.view;
+package client.view.base;
 
 import client.controller.BaseControllerMatch;
 import client.controller.ControllerMatch;

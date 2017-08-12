@@ -7,6 +7,8 @@ import javax.swing.ImageIcon
 import client.communication.model.ToClientCommunication
 import client.model._
 import client.view._
+import client.view.`match`.CreateTeamView
+import client.view.base.LoadingView
 
 import scala.collection.mutable.HashMap
 

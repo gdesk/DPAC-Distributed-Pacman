@@ -1,10 +1,12 @@
-package client.view;
+package client.view.match;
 
 import client.model.PlaygroundImpl;
 import client.model.utils.Point;
+import client.view.MainFrame;
+import client.view.PacmanView;
+import client.view.Utils;
 import client.view.playground.MicroMapPanel;
 import client.view.playground.PlaygroundView;
-import client.view.utils.ImagesUtils;
 import client.view.utils.JComponentsUtils;
 
 import javax.swing.*;
@@ -109,7 +111,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
         for (int i=0; i<livesNumber;i++){
             JLabel pacLive = new JLabel();
-            ImageIcon icon = new ImageIcon(ImagesUtils.getScaledImage(new PacmanView().getCharacterRight(),LIVES_IMAGE_DIM,LIVES_IMAGE_DIM));
+            ImageIcon icon = new ImageIcon(Utils.getScaledImage(new PacmanView().getCharacterRight(),LIVES_IMAGE_DIM,LIVES_IMAGE_DIM));
             pacLive.setIcon(icon);
             livesPanel.add(pacLive);
         }

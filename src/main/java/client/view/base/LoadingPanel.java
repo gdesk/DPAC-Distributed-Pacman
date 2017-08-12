@@ -1,8 +1,13 @@
-package client.view;
+package client.view.base;
 
 import client.controller.BaseControllerCharacter;
 import client.model.Playground;
 import client.model.PlaygroundImpl;
+import client.view.MainFrame;
+import client.view.Res;
+import client.view.UserInputController;
+import client.view.Utils;
+import client.view.match.GamePanelImpl;
 import client.view.playground.PlaygroundBuilderImpl;
 import client.view.playground.PlaygroundPanel;
 import client.view.playground.PlaygroundView;

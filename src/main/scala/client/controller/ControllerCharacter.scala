@@ -6,7 +6,7 @@ import java.util.{Observable, Observer}
 import client.model._
 import client.model.character.Character
 import client.model.utils.Point
-import client.view.GamePanel
+import client.view.`match`.GamePanel
 
 /**
   * Represents the controller for characters' management.

@@ -1,6 +1,7 @@
-package client.view;
+package client.view.match;
 
 import client.model.PlayerImpl;
+import client.view.base.HomePanel;
 
 import javax.swing.*;
 import java.awt.*;

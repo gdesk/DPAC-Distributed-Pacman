@@ -1,8 +1,10 @@
-package client.view;
+package client.view.match;
 
 import client.controller.BaseControllerMatch;
 import client.controller.ControllerMatch;
-import client.view.utils.ImagesUtils;
+import client.view.Res;
+import client.view.Utils;
+import client.view.base.SelectCharacterPanel;
 import client.view.utils.Range;
 
 import javax.swing.*;
@@ -111,7 +113,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             for(int i = 0; i<rangePlayers.getMax()+1; i++) {
                 JLabel l = new JLabel();
                 imgDim = width / (rangePlayers.getMax()+2);
-                l.setIcon(new ImageIcon(ImagesUtils.getScaledImage(Utils.getImage(Res.PLAYER_BUTTON()), imgDim, imgDim)));
+                l.setIcon(new ImageIcon(Utils.getScaledImage(Utils.getImage(Res.PLAYER_BUTTON()), imgDim, imgDim)));
                 icons.add(l);
                 add(l);
             }
@@ -121,7 +123,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
 
         private synchronized void markOK(){
             System.out.println(index);
-            icons.get(index).setIcon(new ImageIcon(ImagesUtils.getScaledImage(Utils.getImage(Res.PLAYER_OK()), imgDim, imgDim)));
+            icons.get(index).setIcon(new ImageIcon(Utils.getScaledImage(Utils.getImage(Res.PLAYER_OK()), imgDim, imgDim)));
             index = index+1%numPlayer;
             numPlayerOK ++;
             if(numPlayerOK<=rangePlayers.getMin()){
@@ -132,7 +134,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
         }
 
         private synchronized void markNO(){
-            icons.get(index).setIcon(new ImageIcon(ImagesUtils.getScaledImage(Utils.getImage(Res.PLAYER_NO()), imgDim, imgDim)));
+            icons.get(index).setIcon(new ImageIcon(Utils.getScaledImage(Utils.getImage(Res.PLAYER_NO()), imgDim, imgDim)));
             index = index+1%numPlayer;
             revalidate();
             repaint();

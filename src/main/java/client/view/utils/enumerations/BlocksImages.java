@@ -1,11 +1,11 @@
-package client.view.utils;
+package client.view.utils.enumerations;
 
 import client.view.Utils;
 
 import java.awt.*;
 
 /**
- * Created by chiaravarini on 05/07/17.
+ * Created by Chiara Varini on 05/07/17.
  */
 public enum BlocksImages {
 

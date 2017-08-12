@@ -1,7 +1,7 @@
 package client.view.playground;
 
-import client.view.utils.BlocksImages;
-import client.view.utils.FruitsImages;
+import client.view.utils.enumerations.BlocksImages;
+import client.view.utils.enumerations.FruitsImages;
 
 import java.awt.*;
 

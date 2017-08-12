@@ -1,4 +1,4 @@
-package client.view;
+package client.view.match;
 
 /**
  * Functional interface with which it's possiblev renders

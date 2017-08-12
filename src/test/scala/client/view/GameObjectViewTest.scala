@@ -1,7 +1,7 @@
 package client.view
 
 import org.scalatest.FunSuite
-import client.view.utils.FruitsImages._
+import client.view.utils.enumerations.FruitsImages._
 
 /**
   * Created by chiaravarini on 03/07/17.
