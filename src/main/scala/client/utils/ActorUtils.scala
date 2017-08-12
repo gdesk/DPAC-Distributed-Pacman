@@ -1,7 +1,9 @@
 package client.utils
 
 /**
-  * Created by lucch on 27/07/2017.
+  * This object includes client actors' paths to improve code
+  *
+  * @author Giulia Lucchi
   */
 object ActorUtils {
   val INBOX_ACTOR : String = "/system/dsl/inbox-1"
