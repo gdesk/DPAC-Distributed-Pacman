@@ -1,24 +1,21 @@
 package client.view;
 
-import client.controller.BaseControllerMatch;
-import client.controller.BaseControllerMatch$;
-import client.controller.ControllerMatch;
 import client.model.PlaygroundImpl;
 import client.model.utils.Point;
 import client.view.playground.MicroMapPanel;
 import client.view.playground.PlaygroundView;
 import client.view.utils.ImagesUtils;
 import client.view.utils.JComponentsUtils;
-//import controller.FakeController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.stream.Collectors;
 
 import static client.view.utils.JComponentsUtils.BACKGROUND_COLOR;
 import static client.view.utils.JComponentsUtils.FONT_SIZE;
 
 /**
- * Created by chiaravarini on 10/07/17.
+ * Created by Chiara Varini on 10/07/17.
  */
 public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
@@ -58,12 +55,17 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
     @Override
     public void move(final Image characterImage, final Point<Integer,Integer> oldPosition, final Point<Integer,Integer> newPosition) {
-
         if (playground != null) {
             playground.removeCharacter(oldPosition.x(), oldPosition.y());
             playground.renderCharacter(newPosition.x(), newPosition.y(), characterImage);
             microMap.moveCharacter(Color.red, newPosition, oldPosition);
         }
+        playground.renderEatableList(Utils.getJavaList(PlaygroundImpl.instance()
+                .eatables())
+                .stream()
+                .filter(e->e.position().x()==oldPosition.x() && e.position().y()==oldPosition.y())
+                .collect(Collectors.toList()));
+
         revalidate();
         repaint();
     }
@@ -93,7 +95,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
     }
 
     @Override
-    public void updateScore(final int score){
+    public void renderScore(final int score){
         this.score.setText("Score: "+score);
         revalidate();
         repaint();

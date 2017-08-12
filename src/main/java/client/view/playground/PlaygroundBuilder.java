@@ -10,10 +10,34 @@ import java.awt.*;
  */
 public interface PlaygroundBuilder {
 
+    /**
+     *Set the number of playground columns
+     * @param columns
+     */
     PlaygroundBuilder setColumns(final int columns);
+
+    /**
+     *Set the number of playground rows
+     * @param rows
+     */
     PlaygroundBuilder setRows(final int rows);
+
+    /**
+     *Set the background color of playground
+     * @param backgroundColor
+     */
     PlaygroundBuilder setBackground(final Color backgroundColor);
-    PlaygroundBuilder setBackground(final Image backgroundImage);
+
+    /**
+     *Set the background image of playground
+     * @param backgroundImage
+     */
+    PlaygroundBuilder setImageBackground(final Image backgroundImage);
+
+    /**
+     * Creates a PlaygroundView with the specified parameters
+     * @return a PlaygroundView
+     */
     PlaygroundView createPlayground();
 
 }

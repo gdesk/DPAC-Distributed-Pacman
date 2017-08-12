@@ -86,7 +86,7 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
       if(game != null) {
         game._1 match {
           case "GameRequest" => MainFrame.getInstance().showRequest(game._2.asInstanceOf[String])
-          case "GameResponse" => _teamView.playerResponse(game._2.asInstanceOf[Boolean])
+          case "GameResponse" => _teamView.renderPlayerResponse(game._2.asInstanceOf[Boolean])
         }
       }
     }

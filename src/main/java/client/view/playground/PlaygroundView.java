@@ -12,7 +12,16 @@ import java.util.List;
  */
 public interface PlaygroundView extends BasePlaygroundView {
 
+    /**
+     * Renders all block present in the blocksList
+     * @param blocksList
+     */
     void renderBlockList(final List<Block> blocksList);
-    void renderEatableList(final List<Eatable> blocksList);
+
+    /**
+     * Renders all etable elements present in the eatableList
+     * @param eatableList
+     */
+    void renderEatableList(final List<Eatable> eatableList);
 
 }

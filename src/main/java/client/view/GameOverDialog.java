@@ -7,6 +7,7 @@ import static client.view.utils.JComponentsUtils.FONT_SIZE;
 
 /**
  * This class represents the panel displayed when you lose
+ * in wich you can return to your home
  * Created by chiaravarini on 26/07/17.
  */
 

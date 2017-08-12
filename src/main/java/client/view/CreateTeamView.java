@@ -5,5 +5,10 @@ package client.view;
  */
 public interface CreateTeamView {
 
-    void playerResponse(final Boolean response);
+    /**
+     *Renders the response of a player
+     * already invited to the match
+     * @param response
+     */
+    void renderPlayerResponse(final Boolean response);
 }

@@ -81,7 +81,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
     }
 
     @Override
-    public void playerResponse(final Boolean response){
+    public void renderPlayerResponse(final Boolean response){
         if(response){
             playerPanel.markOK();
         } else {
