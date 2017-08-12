@@ -31,7 +31,7 @@ public class PlaygroundBuilderImpl implements PlaygroundBuilder {
     }
 
     @Override
-    public PlaygroundBuilder setBackground(Image backgroundImage) {
+    public PlaygroundBuilder setImageBackground(Image backgroundImage) {
         this.image = backgroundImage;
         return this;
     }
