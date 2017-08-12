@@ -89,7 +89,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     ))
 
     val response = getJSONMessage(message)
-    println("ricevuto")
     val list = response.obj("list").asInstanceOf[Option[List[Map[String, Any]]]]
     if (list.isEmpty) return false
     val allMatches = wrapperAllMatches(list.get)
@@ -167,12 +166,12 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
   /**
     * Send to server the character chosen. It's recall when the player choose him character.
+    * The images .png are saved in the resources directory.
     *
     * @param character character chosen from single player
     * @return true  if character has been already chosen
     *         false otherwise
     */
-  //todo:sistema scaladoc e rifattorizza con metodi privati
   override def chooseCharacter(character: String): Boolean = {
     val message = JSONObject(Map[String, String](
       "object" -> "chooseCharacter",
@@ -184,23 +183,18 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     if (isAvailable) {
       val images = response.obj("map").asInstanceOf[Map[String,Array[Byte]]]
       images.keySet.foreach(path =>{
-        val outputfile = new File(path.toString)
-        outputfile.mkdirs()
-        outputfile.createNewFile()
-        val inputStream: InputStream = new ByteArrayInputStream(images(path))
-        val bufferedImage: BufferedImage = ImageIO.read(inputStream)
-        ImageIO.write(bufferedImage, "png", outputfile)
+        saveImageToResources(path, images(path))
       })
     }
     isAvailable
   }
 
   /**
-    * Receives from server the List of available playgrounds.
+    * Receives from server the List of available playgrounds, saving to resources directory
+    * the image.
     *
+    * @return number of available playground
     */
-  //todo: devi dire alla marghe che ritorna Int
-  //todo : scala doc
   override def getPlaygrounds: Int = {
     val message = JSONObject(Map[String, String](
       "object" -> "playgrounds",
@@ -209,12 +203,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val response = getJSONMessage(message)
     val map = response.obj("list").asInstanceOf[Map[Int, Array[Byte]]]
     map.keySet.foreach(id =>{
-      val outputfile = new File("src/main/resources/playground/images/"+ id.toString+".png")
-      outputfile.mkdirs()
-      outputfile.createNewFile()
-      val inputStream: InputStream = new ByteArrayInputStream(map(id))
-      val bufferedImage: BufferedImage = ImageIO.read(inputStream)
-      ImageIO.write(bufferedImage, "png", outputfile)
+      saveImageToResources("src/main/resources/playground/images/"+ id.toString+".png", map(id))
     })
     map.size
   }
@@ -262,7 +251,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     * @param username username of player
     * @return list of all match with its result
     */
-  //todo: guarda login() ... uguale
   override def getAllMatchesResults(username: String): List[MatchResult] = {
     val message = JSONObject(Map[String, String](
       "object" -> "allMatchResult",
@@ -270,7 +258,9 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "username" -> username
     ))
     val response = getJSONMessage(message)
-    response.obj("list").asInstanceOf[List[MatchResult]]
+    val list = response.obj("list").asInstanceOf[List[Map[String, Any]]]
+    val allMatches = wrapperAllMatches(list)
+    allMatches
   }
 
   /**
@@ -368,5 +358,13 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     allMatches
   }
 
+  private def saveImageToResources(path: String, image: Array[Byte]): Unit ={
+    val outputfile = new File(path)
+    outputfile.mkdirs()
+    outputfile.createNewFile()
+    val inputStream: InputStream = new ByteArrayInputStream(image)
+    val bufferedImage: BufferedImage = ImageIO.read(inputStream)
+    ImageIO.write(bufferedImage, "png", outputfile)
+  }
 }
 

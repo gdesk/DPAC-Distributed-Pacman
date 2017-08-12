@@ -26,5 +26,10 @@ object ControllerObservable extends Observable{
       o.update(this,(message, response))
     })
   }
+  def exceptionMotivation(message: String, motivation: String): Unit ={
+    observers.foreach(o =>{
+      o.update(this,(message, motivation))
+    })
+  }
 
 }
