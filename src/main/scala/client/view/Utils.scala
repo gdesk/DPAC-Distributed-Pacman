@@ -7,7 +7,6 @@ import javafx.scene.media.{Media, MediaPlayer}
 import javax.sound.sampled.AudioSystem
 import javax.swing.ImageIcon
 
-import client.view.utils.ImagesResolutions
 import Res._
 import client.model.gameElement.Eatable
 import client.view.utils.enumerations.{FruitsImages, ImagesResolutions}

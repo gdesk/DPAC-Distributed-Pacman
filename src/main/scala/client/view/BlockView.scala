@@ -6,7 +6,7 @@ import client.view.utils.enumerations.BlocksImages._
 /**
   * Wrapper for the specific images of each block.
   *
-  * Created by chiaravarini on 03/07/17.
+  * Created by Chiara Varini on 03/07/17.
   */
 trait BlockView {
 
