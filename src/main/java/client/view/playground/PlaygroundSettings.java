@@ -5,20 +5,22 @@ import java.awt.*;
 import static client.view.MainFrame.DIMENSION;
 
 /**
- * Created by Manuel Bottax on 04/07/2017.
+ * This class represent the configuration
+ * of all the elements of a PlaygroundView
+ * Created by Chiara Varini on 04/07/2017.
  */
 public class PlaygroundSettings {
 
     private final static int DEFAULT_COLUMS_TO_RENDER = 30;
     private final static int DEFAULT_ROWS_TO_RENDER = 30;
 
-    private int columnsToRender;
-    private int rowsToRender;
+    private final int columnsToRender;
+    private final int rowsToRender;
 
-    private int columns;
-    private int rows;
-    private int cellSize;
-    private Dimension cellDim;
+    private final int columns;
+    private final int rows;
+    private final int cellSize;
+    private final Dimension cellDim;
 
     private Color backgroundColor;
     private Image backgroundImage;
@@ -65,15 +67,8 @@ public class PlaygroundSettings {
         return columnsToRender;
     }
 
-    public void setColumnsToRender(int columnsToRender) {
-        this.columnsToRender = columnsToRender;
-    }
-
     public int getRowsToRender() {
         return rowsToRender;
     }
 
-    public void setRowsToRender(int rowsToRender) {
-        this.rowsToRender = rowsToRender;
-    }
 }

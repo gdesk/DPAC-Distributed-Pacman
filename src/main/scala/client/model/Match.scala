@@ -7,7 +7,7 @@ import scala.collection.mutable.HashMap
 import scala.collection.mutable.ListBuffer
 
 /**
-  * Represent the current match status, holding some information about the game.
+  * Represents the current match status, holding some information about the game.
   *
   * @author Margherita Pecorelli
   */

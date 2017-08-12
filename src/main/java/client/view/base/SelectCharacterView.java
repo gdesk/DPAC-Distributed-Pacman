@@ -1,4 +1,4 @@
-package client.view;
+package client.view.base;
 
 /**
  * Panel interface where you can choose

@@ -2,14 +2,14 @@ package client.view.playground;
 
 import client.model.gameElement.*;
 import client.model.utils.Point;
-import client.view.utils.BlocksImages;
-import client.view.utils.ImagesUtils;
+import client.view.Utils;
+import client.view.utils.enumerations.BlocksImages;
 
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static client.view.utils.BlocksImages.*;
+import static client.view.utils.enumerations.BlocksImages.*;
 
 /**
  * This class strengthens the BasePlayground
@@ -48,7 +48,7 @@ public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundVi
                 super.renderPill((int) e.position().x(), (int) e.position().y());
             }
             else if (e instanceof Fruit) {
-                super.renderFruit((int) e.position().x(), (int) e.position().y(), ImagesUtils.getFruitsImage(e));
+                super.renderFruit((int) e.position().x(), (int) e.position().y(), Utils.getFruitsImage(e));
             }
         }
     }

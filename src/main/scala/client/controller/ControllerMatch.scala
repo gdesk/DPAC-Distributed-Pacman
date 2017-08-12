@@ -2,10 +2,16 @@ package client.controller
 
 import java.awt.Image
 import java.util.{Observable, Observer}
+import javax.swing.ImageIcon
 
 import client.communication.model.ToClientCommunication
 import client.model._
 import client.view._
+import client.view.`match`.CreateTeamView
+import client.view.base.LoadingView
+
+import scala.collection.mutable.HashMap
+
 
 
 /**
@@ -43,8 +49,8 @@ trait ControllerMatch {
 
 case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
-  private val gameMatch: Match = MatchImpl instance()
-  private val playground: Playground = PlaygroundImpl instance()
+  private val gameMatch: Match = MatchImpl.instance()
+  private val playground: Playground = PlaygroundImpl.instance()
   private var _loadingView: LoadingView = null
   private var _teamView: CreateTeamView = null
   private var _model: ToClientCommunication = null
@@ -59,17 +65,19 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
   override def rangeChoosed(range: client.view.utils.Range) = _model.selectRange(Range(range.getMin,range.getMax))
 
-// override def getPlaygrounds = null//model getPlaygrounds
-
   override def getCharacters = _model.getCharactersToChoose
 
 
   override def chooseCharacter(characterName: String) = _model.chooseCharacter(characterName)
 
-
- // override def MatchResult(result: MatchResult, user: String) = _model.matchResult (result, user)
-
-  override def getPlaygrounds = null//_model.getPlaygrounds DA PRENDERE DA RESOURCES
+  override def getPlaygrounds = {
+    val grounds: Int = _model.getPlaygrounds
+    val playgrounds: HashMap[Int, Image] = HashMap.empty
+    for(i <- 0 to grounds) {
+      playgrounds += (i -> new ImageIcon("resources/playground/images/" + i + ".png").getImage)
+    }
+    playgrounds.toMap
+  }
 
 
   override def choosePlayground(playground: Int) = _model.choosePlayground(playground)
@@ -93,7 +101,7 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
       if(game != null) {
         game._1 match {
           case "GameRequest" => MainFrame.getInstance().showRequest(game._2.asInstanceOf[String])
-          case "GameResponse" => _teamView.playerResponse(game._2.asInstanceOf[Boolean])
+          case "GameResponse" => _teamView.renderPlayerResponse(game._2.asInstanceOf[Boolean])
         }
       }
     }
