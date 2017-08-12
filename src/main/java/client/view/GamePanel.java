@@ -31,10 +31,11 @@ public interface GamePanel {
     /**
      * Render the characterImage in newPosition and delete the image present in oldPosition
      * @param characterImage
+     * @param characterColor
      * @param oldPosition
      * @param newPosition
      */
-    void move(final Image characterImage, final Point<Integer,Integer> oldPosition, final Point<Integer,Integer> newPosition);
+    void move(final Image characterImage, final Color characterColor, final Point<Integer,Integer> oldPosition, final Point<Integer,Integer> newPosition);
 
     /**
      * Render the player's final result

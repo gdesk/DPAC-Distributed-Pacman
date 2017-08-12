@@ -11,8 +11,9 @@ import static client.view.utils.JComponentsUtils.FONT_SIZE;
 import static client.view.utils.JComponentsUtils.createBackgroundColorPanel;
 
 /**
- * This class presents the panel to be displayed when a match request is recieved
- * Created by chiaravarini on 30/07/17.
+ * This class presents the panel to be displayed
+ * when a match request is recieved
+ * Created by Chiara Varini on 30/07/17.
  */
 public class RequestDialog extends JDialog {
 
@@ -20,7 +21,6 @@ public class RequestDialog extends JDialog {
     private final ControllerMatch controller = BaseControllerMatch.instance();
 
     public RequestDialog(final JFrame frame, final String username){
-
         super(frame, "Create Team", true);
 
         JPanel p = createBackgroundColorPanel();

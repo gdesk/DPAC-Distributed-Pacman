@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
 
 /**
  * Panel used to register a new user
- * Created by chiaravarini on 12/07/17.
+ * Created by Chiara Varini on 12/07/17.
  */
 public class RegistrationDialog extends JDialog {
 
@@ -59,15 +59,12 @@ public class RegistrationDialog extends JDialog {
             registration.addActionListener(e -> {
                 boolean registrationResult = controller.registration(name.getText(), username.getText(), email.getText(),
                         Utils.transformInString(password.getPassword()), Utils.transformInString(confPassword.getPassword()));
-
-                if(!registrationResult){           //!registrationResult.isCorrect
-                    errLabel.setVisible(true);   //registrationResult.getMessageError()
+                if(!registrationResult){
+                    errLabel.setVisible(true);
                     revalidate();
                     repaint();
 
-                } else {
-                    //TODO mandare mail di notifica di registrazione?
-
+                } else { //TODO mandare mail di notifica di registrazione?
                     MainFrame.getInstance().setContentPane(new HomePanel(username.getText()));
                     dispose();
                 }

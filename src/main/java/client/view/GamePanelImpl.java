@@ -56,11 +56,11 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
     }
 
     @Override
-    public void move(final Image characterImage, final Point<Integer,Integer> oldPosition, final Point<Integer,Integer> newPosition) {
+    public void move(final Image characterImage, final Color characterColor, final Point<Integer,Integer> oldPosition, final Point<Integer,Integer> newPosition) {
         if (playground != null) {
             playground.removeCharacter(oldPosition.x(), oldPosition.y());
             playground.renderCharacter(newPosition.x(), newPosition.y(), characterImage);
-            microMap.moveCharacter(Color.red, newPosition, oldPosition);
+            microMap.moveCharacter(characterColor, newPosition, oldPosition);
         }
         playground.renderEatableList(Utils.getJavaList(PlaygroundImpl.instance()
                 .eatables())

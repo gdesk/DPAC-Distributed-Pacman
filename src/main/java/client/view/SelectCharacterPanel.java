@@ -15,12 +15,11 @@ import static client.view.utils.JComponentsUtils.*;
 
 /**
  * Concrete class that implements SelectCharacterView interface
- *
  * Created by Chiara Varini on 14/07/17.
  */
 public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
 
-    private final Dimension CHARACTER_IMAGE_DIMENSION = calculatedImageCharDimension(10);//new Dimension(100,100);
+    private final Dimension CHARACTER_IMAGE_DIMENSION = calculatedImageCharDimension(10);
     private final Dimension PLAYGROUND_IMAGE_DIMENSION = calculatedImageCharDimension(2.2);
 
     private final ControllerMatch controller = BaseControllerMatch.instance();

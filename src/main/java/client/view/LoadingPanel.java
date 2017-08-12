@@ -14,6 +14,7 @@ import static client.view.utils.JComponentsUtils.*;
 
 /**
  * Panel displayed while loading all the game data
+ * and renders the playground once you've uploaded all the info
  * Created by Chiara Varini on 14/07/17.
  */
 public class LoadingPanel extends JPanel implements LoadingView {
@@ -56,7 +57,7 @@ public class LoadingPanel extends JPanel implements LoadingView {
         view.renderBlockList(Utils.getJavaList(playground.blocks()));
         view.renderEatableList(Utils.getJavaList(playground.eatables()));
 
-        GamePanelImpl gp = new GamePanelImpl((PlaygroundPanel)view);
+        GamePanelImpl gp = new GamePanelImpl(view);
 
         UserInputController keyboardController = new UserInputController(BaseControllerCharacter.instance());
         ((PlaygroundPanel)view).addKeyListener(keyboardController);
