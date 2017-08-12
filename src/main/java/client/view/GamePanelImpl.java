@@ -15,28 +15,30 @@ import static client.view.utils.JComponentsUtils.BACKGROUND_COLOR;
 import static client.view.utils.JComponentsUtils.FONT_SIZE;
 
 /**
+ * A class wich implements the GamePanel interface
  * Created by Chiara Varini on 10/07/17.
  */
 public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
+    private static final int BOUNDS = 100;
+    private static final int LIVES_IMAGE_DIM = 40;
+
     private PlaygroundView playground;
 
-    private final JLabel score = new JLabel("Score: 0");
-    private int livesNum = 3;
     private final MicroMapPanel microMap = new MicroMapPanel(PlaygroundImpl.instance());
+    private final JLabel score = new JLabel("Score: 0");
+    private JPanel livesPanel = new JPanel();
 
-    public GamePanelImpl(final Container playground) {
-
-        this.playground = (PlaygroundView) playground;
-        this.add(playground, 0);
+    public GamePanelImpl(final PlaygroundView playground) {
+        this.playground = playground;
+        this.add((Container)playground, 0);
         add(microMap, 1);
         addScorePanel();
         addLivesPanel(3);
     }
 
-
+    @Override
     public void showResult(final String result) {
-
         JPanel victoryPanel = JComponentsUtils.createTrasparentPanel();
         victoryPanel.setLayout(new GridBagLayout());
         victoryPanel.setBounds(0, 0, (int) MainFrame.DIMENSION.getWidth(), (int) MainFrame.DIMENSION.getHeight());
@@ -47,7 +49,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
         JLabel l = new JLabel(result);
         l.setForeground(BACKGROUND_COLOR);
-        l.setFont(new Font(l.getFont().getName(), Font.BOLD, FONT_SIZE * 3));
+        l.setFont(new Font(l.getFont().getName(), Font.BOLD, FONT_SIZE*3));
 
         victoryPanel.add(l, gbc);
         add(victoryPanel, 1);
@@ -70,30 +72,6 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
         repaint();
     }
 
-    private void addScorePanel(){
-        score.setForeground(BACKGROUND_COLOR);
-        score.setFont(new Font(score.getFont().getName(), Font.BOLD, FONT_SIZE ));
-        score.setBounds(0,0, 100,50);
-        add(score, 1);
-    }
-
-    private void addLivesPanel(final int livesNumber){
-
-        JPanel livesPanel = JComponentsUtils.createTrasparentPanel();
-        livesPanel.setLayout(new BoxLayout(livesPanel, BoxLayout.Y_AXIS));
-
-        for (int i=0; i<livesNumber;i++){
-            JLabel pacLive = new JLabel();
-            ImageIcon icon = new ImageIcon(ImagesUtils.getScaledImage(new PacmanView().getCharacterRight(),40,40));
-            pacLive.setIcon(icon);
-            livesPanel.add(pacLive);
-        }
-
-        livesPanel.setBounds(0,50,100, (int)MainFrame.DIMENSION.getWidth());
-
-        add(livesPanel, 1);
-    }
-
     @Override
     public void renderScore(final int score){
         this.score.setText("Score: "+score);
@@ -103,7 +81,8 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
     @Override
     public void updateLives(final int livesNumber){
-        this.livesNum = livesNumber;
+        remove(livesPanel);
+        addLivesPanel(livesNumber);
     }
 
     @Override
@@ -117,5 +96,25 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
         playground.removeCharacter(characterToDeletePosition.x(), characterToDeletePosition.y());
     }
 
+    private void addScorePanel(){
+        score.setForeground(BACKGROUND_COLOR);
+        score.setFont(new Font(score.getFont().getName(), Font.BOLD, FONT_SIZE));
+        score.setBounds(0,0, BOUNDS,BOUNDS/2);
+        add(score, 1);
+    }
 
+    private void addLivesPanel(final int livesNumber){
+        livesPanel = JComponentsUtils.createTrasparentPanel();
+        livesPanel.setLayout(new BoxLayout(livesPanel, BoxLayout.Y_AXIS));
+
+        for (int i=0; i<livesNumber;i++){
+            JLabel pacLive = new JLabel();
+            ImageIcon icon = new ImageIcon(ImagesUtils.getScaledImage(new PacmanView().getCharacterRight(),LIVES_IMAGE_DIM,LIVES_IMAGE_DIM));
+            pacLive.setIcon(icon);
+            livesPanel.add(pacLive);
+        }
+
+        livesPanel.setBounds(0,BOUNDS/2,BOUNDS, (int)MainFrame.DIMENSION.getWidth());
+        add(livesPanel, 1);
+    }
 }

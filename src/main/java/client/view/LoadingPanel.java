@@ -14,7 +14,7 @@ import static client.view.utils.JComponentsUtils.*;
 
 /**
  * Panel displayed while loading all the game data
- * Created by chiaravarini on 14/07/17.
+ * Created by Chiara Varini on 14/07/17.
  */
 public class LoadingPanel extends JPanel implements LoadingView {
 
@@ -45,7 +45,6 @@ public class LoadingPanel extends JPanel implements LoadingView {
     }
 
     public void renderGamePanel(){
-
         Playground playground = PlaygroundImpl.instance();
 
         PlaygroundView view = new PlaygroundBuilderImpl()

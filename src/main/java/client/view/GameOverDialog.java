@@ -1,5 +1,7 @@
 package client.view;
 
+import client.model.PlayerImpl;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,10 +10,13 @@ import static client.view.utils.JComponentsUtils.FONT_SIZE;
 /**
  * This class represents the panel displayed when you lose
  * in wich you can return to your home
- * Created by chiaravarini on 26/07/17.
+ * Created by Chiara Varini on 26/07/17.
  */
 
 public class GameOverDialog extends JDialog {
+
+    private static final Color BACKGOURND_COLOR = new Color(150,150,150);
+    private static final Double BACKGROUND_OPACITY = 0.7;
 
     public GameOverDialog(final JFrame frame){
         super(frame, "GAME OVER", true);
@@ -30,13 +35,13 @@ public class GameOverDialog extends JDialog {
         quit.setFont(new Font(quit.getFont().getName(), Font.BOLD, FONT_SIZE*3));
         quit.setForeground(Color.BLACK);
         quit.addActionListener(e->{
-            frame.setContentPane(new HomePanel("chia")); //TODO controller
+            frame.setContentPane(new HomePanel(PlayerImpl.instance().username()));
             dispose();
         });
 
         setUndecorated(true);
-        getContentPane().setBackground(new Color(150,150,150));
-        setOpacity(new Float(0.7));
+        getContentPane().setBackground(BACKGOURND_COLOR);
+        setOpacity(BACKGROUND_OPACITY.floatValue());
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;

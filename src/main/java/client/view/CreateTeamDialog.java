@@ -15,18 +15,20 @@ import static client.view.utils.JComponentsUtils.createBackgroundColorPanel;
 
 /**
  * Panel used to create a new play team
- * Created by chiaravarini on 12/07/17.
+ * Created by Chiara Varini on 12/07/17.
  */
 public class CreateTeamDialog extends JDialog implements CreateTeamView{
 
+    private static final int BOUNDS = 10;
+
     private final SelectCharacterPanel nextView = new SelectCharacterPanel();
     private final ControllerMatch controller = BaseControllerMatch.instance();
-
     private final PlayersPanel playerPanel = new PlayersPanel();
-    private int width = 1;
     private final JButton starGame = new JButton("START");
 
+    private int width = 1;
     private  int numPlayer  = 1;
+
     public CreateTeamDialog(final JFrame frame){
 
         super(frame, "Create Team", true);
@@ -43,8 +45,8 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             setLocationRelativeTo(null);
 
             JPanel buttonPanel = createBackgroundColorPanel();
-            buttonPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-            starGame.setEnabled(true); //TODO cambia mettere false
+            buttonPanel.setBorder(BorderFactory.createEmptyBorder(BOUNDS,BOUNDS,BOUNDS,BOUNDS));
+            starGame.setEnabled(false);
             starGame.addActionListener(e->{
                 dispose();
                 frame.setContentPane(nextView);
@@ -59,7 +61,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             buttonPanel.add(addFiends);
 
             JPanel numberPlayerPanel = createBackgroundColorPanel();
-            numberPlayerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+            numberPlayerPanel.setBorder(BorderFactory.createEmptyBorder(BOUNDS,BOUNDS,BOUNDS,BOUNDS));
 
             List<Range> ranges = Utils.scalaRangeToString(controller.getRanges());
             JComboBox comboRange = new JComboBox();
@@ -97,7 +99,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
         private int numPlayerOK = 1;
         private List<JLabel> icons = new ArrayList<>();
 
-        public PlayersPanel(){
+        PlayersPanel(){
             setBackground(BACKGROUND_COLOR);
         }
 

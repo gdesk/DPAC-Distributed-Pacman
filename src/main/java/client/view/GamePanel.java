@@ -37,6 +37,12 @@ public interface GamePanel {
     void move(final Image characterImage, final Point<Integer,Integer> oldPosition, final Point<Integer,Integer> newPosition);
 
     /**
+     * Render the player's final result
+     * @param result
+     */
+    void showResult(final String result);
+
+    /**
      * Terminates the match and renders the GameOverDialog
      */
     void gameOver();

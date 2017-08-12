@@ -12,8 +12,9 @@ import java.util.List;
 import static client.view.utils.JComponentsUtils.*;
 
 /**
- * Home panel where user data is displayed and where you can start a new game
- * Created by chiaravarini on 11/07/17.
+ * Home panel where user data is displayed
+ * and where you can start a new game
+ * Created by Chiara Varini on 11/07/17.
  */
 public class HomePanel extends JPanel {
 
@@ -86,6 +87,4 @@ public class HomePanel extends JPanel {
 
         return table;
     }
-
-
 }
