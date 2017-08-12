@@ -11,7 +11,7 @@ import static client.view.utils.JComponentsUtils.LOGIN_COLOR;
 
 /**
  * Panel that allows you to login and register a user
- * Created by chiaravarini on 11/07/17.
+ * Created by Chiara Varini on 11/07/17.
  */
 public class LoginPanel extends JPanel {
 
@@ -20,7 +20,6 @@ public class LoginPanel extends JPanel {
     private final static ControllerUser controller = BaseControllerUser.instance();
 
     public LoginPanel() {
-
         setLayout(new BorderLayout());
         setBackground(LOGIN_COLOR);
 

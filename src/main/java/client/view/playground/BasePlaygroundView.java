@@ -6,7 +6,9 @@ import client.view.utils.FruitsImages;
 import java.awt.*;
 
 /**
- * Created by Manuel Bottax on 04/07/2017.
+ * A base playground panel of Distributed Pacman game
+ * which can render the whole labyrinth in which the game will take place
+ * Created by Chiara Varini on 04/07/2017.
  */
 public interface BasePlaygroundView {
 
