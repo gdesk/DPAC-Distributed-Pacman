@@ -1,6 +1,7 @@
 package client.communication.model.actor
 
 import akka.actor.UntypedAbstractActor
+import client.controller.BaseControllerMatch
 import client.utils.{ActorUtils, ControllerObservable}
 
 import scala.util.parsing.json.JSONObject
@@ -12,6 +13,7 @@ import scala.util.parsing.json.JSONObject
   */
 class FromServerCommunication extends UntypedAbstractActor{
   val controllerObservable = ControllerObservable
+  controllerObservable.addObserver(BaseControllerMatch.instance())
 
   override def onReceive(message: Any): Unit = message match {
     case msg: JSONObject => msg.obj("object") match {
