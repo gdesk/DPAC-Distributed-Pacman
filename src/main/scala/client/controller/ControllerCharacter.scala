@@ -7,6 +7,7 @@ import client.model._
 import client.model.character.Character
 import client.model.utils.Point
 import client.view.`match`.GamePanel
+import io.reactivex.Flowable
 
 /**
   * Represents the controller for characters' management.
@@ -106,23 +107,25 @@ case class BaseControllerCharacter private() extends ControllerCharacter {
     * @throws ThisIpDoesNotExistException when the given ip doesn't belong to the current match's ips.
     */
   override def update(observable: Observable, arg: scala.Any) = {
-    val tris: (String, String, _) = if(arg.isInstanceOf[(String, String, _)]) {arg.asInstanceOf[(String, String, _)]} else {null}
-    if(tris == null) {
-      throw WrongInputParameterException("The input parameter must be a tris of: character user's ip (String), message about what had changed (String), a boolean is case of death (true if is dead) or a direction in case of movement (Boolean/Direction)!")
-    } else {
+    val flowable = arg.asInstanceOf[Flowable[Object]]
+    val ip = flowable.elementAt(0).blockingGet().asInstanceOf[String]
+    val message = flowable.elementAt(1).blockingGet().asInstanceOf[String]
+    //if(tris == null) {
+      //throw WrongInputParameterException("The input parameter must be a tris of: character user's ip (String), message about what had changed (String), a boolean is case of death (true if is dead) or a direction in case of movement (Boolean/Direction)!")
+    //} else {
       var characterToUpdate: Character = null
-      val player = gameMatch.allPlayersIp.find(ip => ip equals tris._1)
+      val player = gameMatch.allPlayersIp.find(ip => ip equals ip)
       if(player isEmpty) {
-        throw ThisIpDoesNotExistException("Ip:" + tris._1 + " doesn't exist!")
+        throw ThisIpDoesNotExistException("Ip:" + ip + " doesn't exist!")
       } else {
         characterToUpdate = gameMatch.character(player.get).get
       }
-      tris._2 match {
+      message match {
         case "isDead" =>
-          characterToUpdate.isAlive = !tris._3.asInstanceOf[Boolean]
+          characterToUpdate.isAlive = !flowable.elementAt(2).blockingGet().asInstanceOf[Boolean]
           if(!characterToUpdate.isAlive) _view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer,Integer]])
         case "direction" =>
-          val direction = tris._3.asInstanceOf[Direction]
+          val direction = flowable.elementAt(2).blockingGet().asInstanceOf[Direction]
 
           val prePosition: Point[Int, Int] = characterToUpdate.position
           val preLives: Int = gameMatch.myCharacter.lives.remainingLives
@@ -145,7 +148,7 @@ case class BaseControllerCharacter private() extends ControllerCharacter {
 
           if(!(preScore equals postScore)) _view.updateLives(postScore)
       }
-    }
+    //}
   }
 
 }
