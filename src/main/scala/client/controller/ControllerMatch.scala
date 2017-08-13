@@ -7,6 +7,8 @@ import javax.swing.ImageIcon
 import client.communication.model.ToClientCommunication
 import client.model._
 import client.view._
+import client.view.`match`.CreateTeamView
+import client.view.base.LoadingView
 
 import scala.collection.mutable.HashMap
 
@@ -99,7 +101,7 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
       if(game != null) {
         game._1 match {
           case "GameRequest" => MainFrame.getInstance().showRequest(game._2.asInstanceOf[String])
-          case "GameResponse" => _teamView.playerResponse(game._2.asInstanceOf[Boolean])
+          case "GameResponse" => _teamView.renderPlayerResponse(game._2.asInstanceOf[Boolean])
         }
       }
     }

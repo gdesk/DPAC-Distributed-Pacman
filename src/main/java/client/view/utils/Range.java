@@ -1,7 +1,8 @@
 package client.view.utils;
 
 /**
- * Created by chiaravarini on 30/07/17.
+ * Wrapper for scala Range class
+ * Created by Chiara Varini on 30/07/17.
  */
 public class Range {
 

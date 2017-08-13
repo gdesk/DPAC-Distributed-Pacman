@@ -1,9 +1,10 @@
-package client.view;
+package client.view.base;
 
 import client.controller.BaseControllerMatch;
 import client.controller.BaseControllerUser;
 import client.controller.ControllerMatch;
-import client.view.utils.ImagesUtils;
+import client.view.MainFrame;
+import client.view.Utils;
 import client.view.utils.JComponentsUtils;
 
 import javax.swing.*;
@@ -15,12 +16,11 @@ import static client.view.utils.JComponentsUtils.*;
 
 /**
  * Concrete class that implements SelectCharacterView interface
- *
  * Created by Chiara Varini on 14/07/17.
  */
 public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
 
-    private final Dimension CHARACTER_IMAGE_DIMENSION = calculatedImageCharDimension(10);//new Dimension(100,100);
+    private final Dimension CHARACTER_IMAGE_DIMENSION = calculatedImageCharDimension(10);
     private final Dimension PLAYGROUND_IMAGE_DIMENSION = calculatedImageCharDimension(2.2);
 
     private final ControllerMatch controller = BaseControllerMatch.instance();
@@ -51,7 +51,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         JPanel characterPanel = JComponentsUtils.createBackgroundColorPanel();
         characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.X_AXIS));
 
-        Utils.getJavaMap(controller.getCharacters()).forEach((name,image) -> {
+        Utils.getJavaMap(controller.getCharacters()).forEach((name, image) -> {
             characterPanel.add(createImagePanel(image, name, CHARACTER_IMAGE_DIMENSION));
         });
         JScrollPane characterScroll = new JScrollPane(characterPanel);
@@ -110,7 +110,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         JButton imageButton = new JButton();
         imageButton.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        ImageIcon icon = new ImageIcon(ImagesUtils.getScaledImage(image, (int)dim.getWidth(), (int)dim.getHeight()));
+        ImageIcon icon = new ImageIcon(Utils.getScaledImage(image, (int)dim.getWidth(), (int)dim.getHeight()));
         icon.setDescription(str);
         imageButton.setIcon(icon);
         iconPanel.add(imageButton);

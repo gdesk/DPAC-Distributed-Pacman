@@ -1,4 +1,6 @@
-package client.view;
+package client.view.match;
+
+import client.controller.BaseControllerMatch;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,14 +10,11 @@ import static client.view.utils.JComponentsUtils.createBackgroundColorPanel;
 
 /**
  * Panel used to invite a player to your match
- * Created by chiaravarini on 13/07/17.
+ * Created by Chiara Varini on 13/07/17.
  */
 public class AddFriendsDialog extends JDialog {
 
     private final JTextField username = new JTextField(FONT_SIZE);
-    private final JButton send = new JButton("Send Request");
-    private final JButton cancel = new JButton("Cancel");
-
     private int friendsAdded = 0;
 
     public AddFriendsDialog(final JDialog parent){
@@ -33,6 +32,8 @@ public class AddFriendsDialog extends JDialog {
         p.add(textFieldPanel);
 
         JPanel buttonPanel = createBackgroundColorPanel();
+        JButton send = new JButton("Send Request");
+        JButton cancel = new JButton("Cancel");
         buttonPanel.add(cancel);
         buttonPanel.add(send);
         p.add(buttonPanel);
@@ -44,12 +45,14 @@ public class AddFriendsDialog extends JDialog {
 
         add(p);
         pack();
+
         cancel.addActionListener(e->dispose());
+
         send.addActionListener(e->{
             friendsAdded++;
             username.setText("");
             friendsAddedCounter.setText("Firends added: "+friendsAdded);
-            //controller.sendRequest(username.getText());
+            BaseControllerMatch.instance().sendRequestAt(username.getText());
         });
     }
 }

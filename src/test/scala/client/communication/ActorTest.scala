@@ -6,7 +6,8 @@ import client.communication.model.{ToClientCommunication, ToClientCommunicationI
 import client.model.{Match, MatchImpl, MatchResultImpl, PlayerImpl}
 
 /**
-  * Test of client-server architecture
+  * Test of client-server architecture.
+  * This is execute executable only with the server.
   *
   * @author Giulia Lucchi
   */
@@ -15,21 +16,26 @@ object ActorTest extends App {
   val matchGame: Match = MatchImpl.instance()
   val player = PlayerImpl()
 
+
   //registration
   /*println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciaonoo"))
   println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao"))
 
 
-  //login
+  println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciaonoo")) //false
+  println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao")) //true
+
   println(model.login("giulia", "ciaogiulia"))
+
 
 
   //logout
   //println(model.logout())
 
+
   println(model.getRanges)
 
-  //selectRange
+
   println(model.selectRange(Range(3,5)))
 
   println(model.getCharactersToChoose)
@@ -37,8 +43,8 @@ object ActorTest extends App {
   println(model.chooseCharacter("pacman"))
 
   println(model.getPlaygrounds)
-
   println(model.choosePlayground(1))
+
   println(model.choosePlayground(1))
   //println(matchGame.playground)
 
@@ -48,6 +54,7 @@ object ActorTest extends App {
 
   //println("model.startMatch()")*/
   model.startMatch()
+
 
 
 

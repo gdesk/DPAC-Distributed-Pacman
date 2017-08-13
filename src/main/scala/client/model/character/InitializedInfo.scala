@@ -38,7 +38,7 @@ object InitializedInfoImpl extends InitializedInfo{
     * Extracts from the logic of the game implemented in prolog
     * the ghost's or pacman's number of lives
     *
-    * @param characterName the name of client.model.character.gameElement.character
+    * @param characterName the name of character
     * @return number of lives of ghost
     **/
   override def getCharacterLives(characterName: String): Int = {
@@ -57,14 +57,6 @@ object InitializedInfoImpl extends InitializedInfo{
     * @return the coordinate of pacman's starting position
     */
   override def getStartPosition(characterName: String): Point[Int, Int] ={
-    /*
-    characterName match {
-      case "pacman" => term =
-      case CharactersNames.BlueGhost.getName => term =
-      case CharactersNames.RedGhost.getName => term =
-      ...
-    }
-     */
     val term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("pacman_initial_position(X,X)"), "X")
     val value: Int = valueOf(term.toString)
     PointImpl[Int, Int](value, value)

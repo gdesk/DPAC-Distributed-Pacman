@@ -1,12 +1,12 @@
 package client.controller
 
-import java.awt.Image
+import java.awt.{Color, Image}
 import java.util.{Observable, Observer}
 
 import client.model._
 import client.model.character.Character
 import client.model.utils.Point
-import client.view.GamePanel
+import client.view.`match`.GamePanel
 
 /**
   * Represents the controller for characters' management.
@@ -69,7 +69,7 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
     val postLives: Int = character.lives.remainingLives
     val postScore: Int = character.score
 
-    if(!(prePosition equals postPosition)) _view.move(characterImages.get(character.name).get(direction),
+    if(!(prePosition equals postPosition)) _view.move(characterImages.get(character.name).get(direction), Color.red,
       prePosition.asInstanceOf[Point[Integer,Integer]],
       postPosition.asInstanceOf[Point[Integer,Integer]])
 
@@ -134,7 +134,7 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
           val postLives: Int = gameMatch.myCharacter.lives.remainingLives
           val postScore: Int = gameMatch.myCharacter.score
 
-          if(!(prePosition equals postPosition)) _view.move(characterImages.get(characterToUpdate.name).get(direction),
+          if(!(prePosition equals postPosition)) _view.move(characterImages.get(characterToUpdate.name).get(direction), Color.red,
             prePosition.asInstanceOf[Point[Integer,Integer]],
             postPosition.asInstanceOf[Point[Integer,Integer]])
 

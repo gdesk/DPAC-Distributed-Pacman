@@ -1,10 +1,11 @@
 package client.view.playground;
 
-import client.model.Direction;
-import client.view.*;
-import client.view.utils.BlocksImages;
-import client.view.utils.FruitsImages;
-import client.view.utils.ImagesUtils;
+import client.view.GameObjectView;
+import client.view.GameObjectViewImpl;
+import client.view.Res;
+import client.view.Utils;
+import client.view.utils.enumerations.BlocksImages;
+import client.view.utils.enumerations.FruitsImages;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,39 +13,59 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * This class represent the base playground panel of Distributed Pacman game
  * Created by Manuel Bottax and Chiara Varini on 01/07/17.
  */
 
-
 public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
 
-    private final JLabel[][] cells;
+    private JLabel[][] cells = new JLabel[0][0];
     private final List<JLabel> renderedCells = new ArrayList<>();
     private final GridBagConstraints gbc = new GridBagConstraints();
     private final GameObjectView gameObjectImages = new GameObjectViewImpl();
     private final PlaygroundSettings settings;
 
     public BasePlaygroundPanel(PlaygroundSettings playgroundSetting){
-
         settings = playgroundSetting;
         setLayout(new GridBagLayout());
         setBackground(settings.getBackgroundColor());
-        cells = new JLabel[settings.getColumns()+1][settings.getRows()+1];
-
-        for (int i = 0; i <= settings.getColumns(); ++i) {
-            for (int j = 0; j <= settings.getRows(); ++j) {
-                cells[i][j] = new JLabel();
-                //cells[i][j].setBorder(BorderFactory.createLineBorder(Color.white));
-                cells[i][j].setMaximumSize(settings.getCellDim());
-                cells[i][j].setMinimumSize(settings.getCellDim());
-                cells[i][j].setPreferredSize(settings.getCellDim());
-            }
-        }
-
+        initLabyrinth();
         this.setFocusable(true);
+    }
+
+    @Override
+    public void renderBlock(int x, int y, BlocksImages blocksImage){ insertImage(x,y,getImageIcon(blocksImage.getImage())); }
+
+    @Override
+    public void renderDot(int x, int y){
+        insertImage(x,y,getImageIconSmall(gameObjectImages.getDot(),4));
+    }
+
+    @Override
+    public void renderPill(int x, int y){
+        insertImage(x,y,getImageIconSmall(gameObjectImages.getPill(),2));
+    }
+
+    @Override
+    public void renderFruit(int x, int y, FruitsImages type){ insertImage(x,y,getImageIcon(gameObjectImages.getFruit(type))); }
+
+    @Override
+    public void renderCharacter(int x, int y, Image characterView){
+        if (characterView != null) {
+            insertImage(x,y, new ImageIcon(characterView));
+            drawMap(x,y);
+        }
+    }
+
+    @Override
+    public void removeCharacter (int x, int y) {
+        ImageIcon img = new ImageIcon(Utils.getImage(Res.EMPTY()));
+        cells[x][y].setIcon(img);
+        gbc.gridx = x;
+        gbc.gridy = y;
+        revalidate();
+        repaint();
     }
 
     @Override
@@ -54,70 +75,20 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        this.requestFocus();
+        requestFocus();
         super.addKeyListener(listener);
-        this.revalidate();
+        revalidate();
     }
 
-    /**
-     * Shows a labyrinth block in the specified position
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     */
-    public void renderBlock(int x, int y, BlocksImages blocksImage){
-        insertImage(x,y,getImageIcon(blocksImage.getImage()));
-    }
-
-    /**
-     * Shows a dot in the specified position
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     */
-    public void renderDot(int x, int y){
-        insertImage(x,y,getImageIconSmall(gameObjectImages.getDot(),4));
-    }
-
-    /**
-     * Shows a pill in the specified position
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     */
-    public void renderPill(int x, int y){
-        insertImage(x,y,getImageIconSmall(gameObjectImages.getPill(),2));
-    }
-
-    /**
-     * Shows a fruit in the specified position
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     * @param type The fruit type to be rendered.
-     */
-    public void renderFruit(int x, int y, FruitsImages type){
-        insertImage(x,y,getImageIcon(gameObjectImages.getFruit(type)));
-    }
-
-    /**
-     * Shows the specified client.model.character.gameElement.character in the specified position and direction
-     * @param x Horizontal position on grid
-     * @param y Vertical position on grid
-     */
-    public void renderCharacter(int x, int y, Image characterView){
-
-        if (characterView != null) {
-            insertImage(x,y, new ImageIcon(characterView));
-            drawMap(x,y);
-        }
-    }
-
-    public void removeCharacter (int x, int y) {
-
-        if(characterIsPresent(x,y)){
-            ImageIcon img = new ImageIcon(Utils.getImage("empty"));
-            cells[x][y].setIcon(img);
-            gbc.gridx = x;
-            gbc.gridy = y;
-            revalidate();
-            repaint();
+    private void initLabyrinth(){
+        cells = new JLabel[settings.getColumns()+1][settings.getRows()+1];
+        for (int i = 0; i <= settings.getColumns(); ++i) {
+            for (int j = 0; j <= settings.getRows(); ++j) {
+                cells[i][j] = new JLabel();
+                cells[i][j].setMaximumSize(settings.getCellDim());
+                cells[i][j].setMinimumSize(settings.getCellDim());
+                cells[i][j].setPreferredSize(settings.getCellDim());
+            }
         }
     }
 
@@ -181,7 +152,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     private void renderAllCells(int ColumnsIndex, int RowsIndex){
         int c = settings.getColumnsToRender();
         int r = settings.getRowsToRender();
-        for (int i = 0; i <= c; i++) {  //TODO perchè le colonne si e le righe no??
+        for (int i = 0; i <= c; i++) {
             for (int j = 0; j < r; j++) {
                 int x = ColumnsIndex + i;
                 int y = RowsIndex + j;
@@ -218,22 +189,11 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         }
     }
 
-    private boolean characterIsPresent(final int x, final int y){
-
-        if (checkBorder(x, y)) {
-
-           // CharacterView characterView = new CharacterViewImpl(new CharacterPathImpl(settings.getMyCharacter()));
-           // getImageIcon(characterView.getCharacterLeft());   //TODO implementa
-
-        }
-        return true;
-    }
-
     private ImageIcon getImageIcon(final Image image){
-        return new ImageIcon(ImagesUtils.getScaledImage(image, settings.getCellSize(), settings.getCellSize()));
+        return new ImageIcon(Utils.getScaledImage(image, settings.getCellSize(), settings.getCellSize()));
     }
 
     private ImageIcon getImageIconSmall(final Image image, final int divider){
-        return new ImageIcon(ImagesUtils.getScaledImage(image, settings.getCellSize()/divider, settings.getCellSize()/divider));
+        return new ImageIcon(Utils.getScaledImage(image, settings.getCellSize()/divider, settings.getCellSize()/divider));
     }
 }

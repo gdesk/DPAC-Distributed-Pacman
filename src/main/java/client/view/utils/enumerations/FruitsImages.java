@@ -1,7 +1,7 @@
-package client.view.utils;
+package client.view.utils.enumerations;
 
 /**
- * Created by chiaravarini on 03/07/17.
+ * Created by Chiara Varini on 03/07/17.
  */
 public enum FruitsImages {
 
