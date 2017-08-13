@@ -29,6 +29,9 @@ class FromServerCommunication extends UntypedAbstractActor{
           controllerObservable.exceptionMotivation("Motivation", motivation)
         }
       }
+      case "playerInMatch" =>{
+        controllerObservable.gameResponse("playerInMatch", true)
+      }
       case _ => { val receiver = context actorSelection ActorUtils.INBOX_ACTOR
         receiver ! msg.asInstanceOf[JSONObject]
 
