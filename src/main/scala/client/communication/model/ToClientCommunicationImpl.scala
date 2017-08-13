@@ -287,7 +287,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
     val response = getJSONMessage(message)
     val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
-   // var players :mutable.Map[client.model.character.Character, String] = null
+    // var players :mutable.Map[client.model.character.Character, String] = null
     typeCharacters.keySet.foreach(x =>{
       val singleCharacter = typeCharacters(x)
       singleCharacter(1) match {
@@ -318,7 +318,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     * @param username username of player to invite
     * @return boolean the invite's response
     */
-  override def sendRequest(username: String): Unit = {
+   def sendRequest(username: String): Unit = {
     val message = JSONObject(Map[String,String](
       "object" -> "addFriend",
       "senderIP" -> player.ip,
@@ -333,7 +333,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     *
     * @param response the invite's response to current match
     */
-  override def sendResponse(response: Boolean): Unit = {
+   def sendResponse(response: Boolean): Unit = {
     val message = JSONObject(Map[String,Any](
       "object" -> "responseFriend",
       "senderIP" -> player.ip,
@@ -369,4 +369,3 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
 }
-

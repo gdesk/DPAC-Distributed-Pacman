@@ -83,7 +83,6 @@ trait ToClientCommunication {
 
   /**
     * Receives from server the List of available playgrounds.
-
     */
   def getPlaygrounds: Int
 

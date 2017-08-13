@@ -22,6 +22,9 @@ dependencies {
     // https://mvnrepository.com/artifact/com.typesafe.play/play-json_2.10
     compile group: 'com.typesafe.play', name: 'play-json_2.10', version: '2.4.0-M1'
 
+    compile 'io.reactivex.rxjava2:rxjava:2.1.2'
+    compile 'junit:junit:4.12'
+
 
 }
 

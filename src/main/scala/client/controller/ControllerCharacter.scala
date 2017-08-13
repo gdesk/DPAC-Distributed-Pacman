@@ -70,8 +70,8 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
     val postScore: Int = character.score
 
     if(!(prePosition equals postPosition)) _view.move(characterImages.get(character.name).get(direction),
-                                                      prePosition.asInstanceOf[Point[Integer,Integer]],
-                                                      postPosition.asInstanceOf[Point[Integer,Integer]])
+      prePosition.asInstanceOf[Point[Integer,Integer]],
+      postPosition.asInstanceOf[Point[Integer,Integer]])
 
     if(!(preLives equals postLives)) {
       _view.updateLives(postLives)
@@ -135,8 +135,8 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
           val postScore: Int = gameMatch.myCharacter.score
 
           if(!(prePosition equals postPosition)) _view.move(characterImages.get(characterToUpdate.name).get(direction),
-                                                            prePosition.asInstanceOf[Point[Integer,Integer]],
-                                                            postPosition.asInstanceOf[Point[Integer,Integer]])
+            prePosition.asInstanceOf[Point[Integer,Integer]],
+            postPosition.asInstanceOf[Point[Integer,Integer]])
 
           if(!(preLives equals postLives)) {
             _view.updateLives(postLives)

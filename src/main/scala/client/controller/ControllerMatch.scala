@@ -93,7 +93,7 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
   override def update(o:Observable, arg: scala.Any) = {
     if(arg equals "StartMatch") {
-     _loadingView renderGamePanel
+      _loadingView renderGamePanel
     } else {
       val game: (String, _) = if(arg.isInstanceOf[(String, _)]) {arg.asInstanceOf[(String, _)]} else {null}
       if(game != null) {
