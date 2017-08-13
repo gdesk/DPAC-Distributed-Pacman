@@ -67,13 +67,14 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
 
             List<Range> ranges = Utils.scalaRangeToString(controller.getRanges());
             JComboBox comboRange = new JComboBox();
+            comboRange.addItem("");
             ranges.forEach(r -> comboRange.addItem(r.getMin() + "-"+ (r.getMax()+1)));
             comboRange.addActionListener(e->{
-                Range rangeSelected = ranges.get(comboRange.getSelectedIndex());
+                Range rangeSelected = ranges.get(comboRange.getSelectedIndex()-1);
                 playerPanel.init(rangeSelected);
-                controller.rangeChoosed(ranges.get(comboRange.getSelectedIndex()));
+                controller.rangeChoosed(ranges.get(comboRange.getSelectedIndex()-1));
             });
-
+            
             numberPlayerPanel.add(comboRange);
             numberPlayerPanel.add(new JLabel("Select the number of players"));
             p.add(numberPlayerPanel);
