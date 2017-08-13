@@ -16,9 +16,9 @@ class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingM
     * as observer of this class model (observable)
     * @param observer
     */
-  def addObserver(observer: Any): Unit =
+  override def addObserver(observer: Observer): Unit =
     if (observer.isInstanceOf[ControllerMatch]) {
-      this.addObserver(observer)
+      super.addObserver(observer)
     }
 
   /**
