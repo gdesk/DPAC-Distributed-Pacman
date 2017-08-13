@@ -17,7 +17,7 @@ import scala.collection.mutable.HashMap
 /**
   * Created by margherita on 11/07/17.
   */
-trait ControllerMatch {
+trait ControllerMatch extends Observer {
 
   def getRanges: List[Range]
 
@@ -47,7 +47,7 @@ trait ControllerMatch {
 
 }
 
-case class BaseControllerMatch private() extends ControllerMatch with Observer {
+case class BaseControllerMatch private() extends ControllerMatch {
 
   private val gameMatch: Match = MatchImpl.instance()
   private val playground: Playground = PlaygroundImpl.instance()

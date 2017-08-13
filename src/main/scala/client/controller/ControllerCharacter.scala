@@ -13,7 +13,7 @@ import client.view.`match`.GamePanel
   *
   * @author Margherita Pecorelli
   */
-trait ControllerCharacter {
+trait ControllerCharacter extends Observer {
 
   /**
     * Moves the computer user's character in the specified direction.
@@ -44,7 +44,7 @@ trait ControllerCharacter {
   *
   * @author Margherita Pecorelli
   */
-case class BaseControllerCharacter private() extends ControllerCharacter with Observer {
+case class BaseControllerCharacter private() extends ControllerCharacter {
 
   private val gameMatch: Match = MatchImpl.instance()
   private val playground: Playground = PlaygroundImpl.instance()
