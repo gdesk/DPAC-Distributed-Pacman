@@ -1,7 +1,16 @@
 package client.communication.model.actor
 
+
+import java.net.InetAddress
+import java.rmi.registry.{LocateRegistry, Registry}
+
 import akka.actor.UntypedAbstractActor
+import client.model.{MatchImpl, PlayerImpl}
+import client.model.peerCommunication.{ClientIncomingMessageHandlerImpl, ClientOutcomingMessageHandlerImpl}
 import client.utils.ActorUtils
+import network.client.P2P.bootstrap.{ClientBootstrap, ServerBootstrap}
+import network.client.P2P.utils.ExecutorServiceUtility
+import network.client.rxJava.OtherCharacterInfo
 
 import scala.util.parsing.json.JSONObject
 
@@ -12,19 +21,50 @@ import scala.util.parsing.json.JSONObject
   *         Federica Pecci
   */
 class P2PCommunication extends UntypedAbstractActor {
-  override def onReceive(message: Any): Unit = message match{
-    case msg: JSONObject => msg.obj("object") match{
-      case "startGame" => {
-        //CONFIGURAZIONE SERVER DEL PEER (FEDE)
-        context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! msg.asInstanceOf[JSONObject]
-      }
-      case "otherPlayerIP" => {
-        val IPList = msg.obj("playerList").asInstanceOf[List[String]] // lista con ip
-        //poi fai le tue cose
-      }
 
-    }
 
-  }
+  val executor = new ExecutorServiceUtility
+
+
+  override def onReceive(message: Any): Unit = //message match{
+
+    println(message.toString)
+  context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! JSONObject(Map[String,String](
+    "object" -> "serverIsRunning",
+    "senderIP" -> "192.168.43.135"
+  ))
+    /*case msg: JSONObject => msg.obj("object") match{
+      case "startGame" =>
+
+        //ricevo messaggio contente l'IP con cui configurare server
+        val ip = PlayerImpl.instance().ip
+        val server = ServerBootstrap.getIstance(ip)
+
+        //executor.initServerPlayingWorkerThread(ip, server.getRegistry, server.getRmiPort)
+
+        context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! JSONObject(Map[String,String](
+          "object" -> "serverIsRunning",
+          "senderIP" -> ip
+        ))
+
+      case "clientCanConnect" => //todo change name
+
+        val info = new OtherCharacterInfo
+        val matchHandler = new ClientOutcomingMessageHandlerImpl
+        val IPList = MatchImpl.instance().allPlayersIp
+
+        for(ip <- IPList){
+          val registry = LocateRegistry.getRegistry(ip)
+          new ClientBootstrap(ip)
+          executor.initClientPlayingWorkerThread(ip, registry)
+
+        }
+        //notifico controller match
+        matchHandler.startMatch();
+
+
+    }*/
+
+  //}
 }
 

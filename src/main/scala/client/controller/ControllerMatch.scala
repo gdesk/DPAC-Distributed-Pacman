@@ -17,7 +17,7 @@ import scala.collection.mutable.HashMap
 /**
   * Created by margherita on 11/07/17.
   */
-trait ControllerMatch {
+trait ControllerMatch extends Observer {
 
   def getRanges: List[Range]
 
@@ -47,7 +47,7 @@ trait ControllerMatch {
 
 }
 
-case class BaseControllerMatch private() extends ControllerMatch with Observer {
+case class BaseControllerMatch private() extends ControllerMatch {
 
   private val gameMatch: Match = MatchImpl.instance()
   private val playground: Playground = PlaygroundImpl.instance()
@@ -95,7 +95,7 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
   override def update(o:Observable, arg: scala.Any) = {
     if(arg equals "StartMatch") {
-     _loadingView renderGamePanel
+      _loadingView renderGamePanel
     } else {
       val game: (String, _) = if(arg.isInstanceOf[(String, _)]) {arg.asInstanceOf[(String, _)]} else {null}
       if(game != null) {

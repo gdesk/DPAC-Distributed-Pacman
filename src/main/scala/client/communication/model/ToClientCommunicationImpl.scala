@@ -277,7 +277,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
     val response = getJSONMessage(message)
     val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
-   // var players :mutable.Map[client.model.character.Character, String] = null
+    // var players :mutable.Map[client.model.character.Character, String] = null
     typeCharacters.keySet.foreach(x =>{
       val singleCharacter = typeCharacters(x)
       singleCharacter(1) match {
@@ -367,10 +367,10 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     ImageIO.write(bufferedImage, "png", outputfile)
   }
 
+
   private def getSHA1(data: String): String = {
     val md = java.security.MessageDigest.getInstance("SHA-1")
     val ha = new sun.misc.BASE64Encoder().encode(md.digest(data.getBytes))
     ha
   }
 }
-

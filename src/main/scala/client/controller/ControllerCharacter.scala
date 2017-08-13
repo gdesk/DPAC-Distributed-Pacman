@@ -13,7 +13,7 @@ import client.view.`match`.GamePanel
   *
   * @author Margherita Pecorelli
   */
-trait ControllerCharacter {
+trait ControllerCharacter extends Observer {
 
   /**
     * Moves the computer user's character in the specified direction.
@@ -44,7 +44,7 @@ trait ControllerCharacter {
   *
   * @author Margherita Pecorelli
   */
-case class BaseControllerCharacter private() extends ControllerCharacter with Observer {
+case class BaseControllerCharacter private() extends ControllerCharacter {
 
   private val gameMatch: Match = MatchImpl.instance()
   private val playground: Playground = PlaygroundImpl.instance()
@@ -70,8 +70,8 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
     val postScore: Int = character.score
 
     if(!(prePosition equals postPosition)) _view.move(characterImages.get(character.name).get(direction), Color.red,
-                                                      prePosition.asInstanceOf[Point[Integer,Integer]],
-                                                      postPosition.asInstanceOf[Point[Integer,Integer]])
+      prePosition.asInstanceOf[Point[Integer,Integer]],
+      postPosition.asInstanceOf[Point[Integer,Integer]])
 
     if(!(preLives equals postLives)) {
       _view.updateLives(postLives)
@@ -135,8 +135,8 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
           val postScore: Int = gameMatch.myCharacter.score
 
           if(!(prePosition equals postPosition)) _view.move(characterImages.get(characterToUpdate.name).get(direction), Color.red,
-                                                            prePosition.asInstanceOf[Point[Integer,Integer]],
-                                                            postPosition.asInstanceOf[Point[Integer,Integer]])
+            prePosition.asInstanceOf[Point[Integer,Integer]],
+            postPosition.asInstanceOf[Point[Integer,Integer]])
 
           if(!(preLives equals postLives)) {
             _view.updateLives(postLives)
