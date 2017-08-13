@@ -68,6 +68,7 @@ public class RegistrationDialog extends JDialog {
 
                 } else { //TODO mandare mail di notifica di registrazione?
                     MainFrame.getInstance().setContentPane(new HomePanel(username.getText()));
+                    controller.login(username.getText(),Utils.transformInString(password.getPassword()));
                     dispose();
                 }
             });

@@ -22,7 +22,7 @@ class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMes
     */
   override def addObserver(observer: Observer) {
     if (observer.isInstanceOf[ControllerCharacter]) {
-      this.addObserver(observer)
+      super.addObserver(observer)
     }
   }
 
