@@ -16,7 +16,7 @@ object ActorTest extends App {
 
 
   //registration
-  /*println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciaonoo"))
+  println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciaonoo"))
   println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao"))
 
 
