@@ -85,9 +85,9 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         doneButton.addActionListener(e->{
             LoadingPanel loadingPanel = new LoadingPanel();
             MainFrame.getInstance().setContentPane(loadingPanel);
-            controller.loadingView(loadingPanel);
-            controller.chooseCharacter(((ImageIcon)characterChoosed.getIcon()).getDescription());
-            controller.choosePlayground(Integer.parseInt(((ImageIcon)playgroundChoosed.getIcon()).getDescription()));
+            controller.setLoadingView(loadingPanel);
+            controller.characterChosen(((ImageIcon)characterChoosed.getIcon()).getDescription());
+            controller.playgroundChosen(Integer.parseInt(((ImageIcon)playgroundChoosed.getIcon()).getDescription()));
             controller.startMatch();
         });
     }
@@ -127,7 +127,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
                 this.characterChoosed.setEnabled(true);
                 this.characterChoosed = button;
                 this.isCharacterChoosed = true;
-                controller.chooseCharacter(((ImageIcon)button.getIcon()).getDescription());
+                controller.characterChosen(((ImageIcon)button.getIcon()).getDescription());
                 checkDone();
             });
 

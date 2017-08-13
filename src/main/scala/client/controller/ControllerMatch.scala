@@ -8,40 +8,105 @@ import client.communication.model.ToClientCommunication
 import client.model._
 import client.view._
 
+
 import scala.collection.mutable.HashMap
 
-
-
 /**
-  * Created by margherita on 11/07/17.
+  * Represents the controller for the match management and initialization.
+  *
+  * @author Margherita Pecorelli
   */
 trait ControllerMatch {
 
+  /**
+    * Returns all ranges of players that can play in the same match.
+    *
+    * @return a list of all possible ranges of players that can play in the same match.
+    */
   def getRanges: List[Range]
 
-  def rangeChoosed(range: client.view.utils.Range): Unit
+  /**
+    * Tells the model the chosen range.
+    *
+    * @param range - the range chosen.
+    */
+  def rangeChosen(range: client.view.utils.Range): Unit
 
+  /**
+    * Returns all characters that can be chosen and their image.
+    *
+    * @return a map of all characters and their image.
+    */
   def getCharacters: Map[String, Image]
 
-  def chooseCharacter(characterName: String): Boolean
+  /**
+    * Tells the model the chosen character.
+    *
+    * @param characterName - the chosen character.
+    */
+  def characterChosen(characterName: String): Boolean
 
+  /**
+    * Returns all playgrounds that can be chosen.
+    *
+    * @return a map of all playgrounds (identify by the number of their position in the Map) and their image.
+    */
   def getPlaygrounds: Map[Int, Image]
 
-  def choosePlayground(playgroundId: Int): Unit
+  /**
+    * Tells the model the chosen playground.
+    *
+    * @param playgroundId - the chosen playground identify by its id (the number of its position in the map given by method getPlaygrounds).
+    */
+  def playgroundChosen(playgroundId: Int): Unit
 
-  def MatchResul(result: MatchResult, user: String): Unit
-
-  def loadingView(view: LoadingView): Unit
-
-  def teamView(view: CreateTeamView): Unit
-
-  def model(model: ToClientCommunication): Unit
-
+  /**
+    * Sends to model an invitation for playing with another user in the same match.
+    *
+    * @param username - the username of the user to play with.
+    */
   def sendRequestAt(username: String): Unit
 
+  /**
+    * Sends to model a response of an invitation from another player to play in the same match.
+    *
+    * @param response - the response of an invitation from another player.
+    */
   def sendResponse(response: Boolean): Unit
 
+  /**
+    * Tells the model to start the match.
+    */
   def startMatch: Unit
+
+  /**
+    * Sends to model the match result to save in the user's profile.
+    *
+    * @param result - the match result to save.
+    * @param user - the user who has achieved the result.
+    */
+  def loadMatchResul(result: MatchResult, user: String): Unit
+
+  /**
+    * Sets the view to be called when the match is ready to start.
+    *
+    * @param view - the view to be called when the match is ready to start.
+    */
+  def setLoadingView(view: LoadingView): Unit
+
+  /**
+    * Sets the view to be called when the response of an invitation arrives.
+    *
+    * @param view - the view to be called when the response of an invitation arrives.
+    */
+  def setTeamView(view: CreateTeamView): Unit
+
+  /**
+    * Sets the model to be called.
+    *
+    * @param model - the model to be called.
+    */
+  def setModel(model: ToClientCommunication): Unit
 
 }
 
@@ -49,27 +114,20 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
 
   private val gameMatch: Match = MatchImpl.instance()
   private val playground: Playground = PlaygroundImpl.instance()
-  private var _loadingView: LoadingView = null
-  private var _teamView: CreateTeamView = null
-  private var _model: ToClientCommunication = null
+  private var loadingView: LoadingView = null
+  private var teamView: CreateTeamView = null
+  private var model: ToClientCommunication = null
 
-  override def model(model: ToClientCommunication) = _model = model
+  override def getRanges = model.getRanges
 
-  override def loadingView(view: LoadingView): Unit = _loadingView = view
+  override def rangeChosen(range: client.view.utils.Range) = model.selectRange(Range(range.getMin,range.getMax))
 
-  override def teamView(view: CreateTeamView): Unit = _teamView = view
+  override def getCharacters = model.getCharactersToChoose
 
-  override def getRanges = _model.getRanges
-
-  override def rangeChoosed(range: client.view.utils.Range) = _model.selectRange(Range(range.getMin,range.getMax))
-
-  override def getCharacters = _model.getCharactersToChoose
-
-
-  override def chooseCharacter(characterName: String) = _model.chooseCharacter(characterName)
+  override def characterChosen(characterName: String) = model.chooseCharacter(characterName)
 
   override def getPlaygrounds = {
-    val grounds: Int = _model.getPlaygrounds
+    val grounds: Int = model.getPlaygrounds
     val playgrounds: HashMap[Int, Image] = HashMap.empty
     for(i <- 0 to grounds) {
       playgrounds += (i -> new ImageIcon("resources/playground/images/" + i + ".png").getImage)
@@ -77,33 +135,39 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
     playgrounds.toMap
   }
 
+  override def playgroundChosen(playground: Int) = model.choosePlayground(playground)
 
-  override def choosePlayground(playground: Int) = _model.choosePlayground(playground)
+  override def sendRequestAt(username: String) = model.sendRequest(username)
 
-  override def MatchResul(result: MatchResult, user: String) = _model.matchResult(result, user)
-
-  override def sendRequestAt(username: String) = _model.sendRequest(username)
-
-  override def sendResponse(response: Boolean) = _model.sendResponse(response)
+  override def sendResponse(response: Boolean) = model.sendResponse(response)
 
   override def startMatch = {
-    _model.startMatch;
-    BaseControllerCharacter.instance().setCharacterImages(_model.getTeamCharacter)
+    model.startMatch;
+    BaseControllerCharacter.instance().setCharacterImages(model.getTeamCharacter)
   }
+
+  override def loadMatchResul(result: MatchResult, user: String) = model.matchResult(result, user)
+
+  override def setLoadingView(view: LoadingView): Unit = loadingView = view
+
+  override def setTeamView(view: CreateTeamView): Unit = teamView = view
+
+  override def setModel(mod: ToClientCommunication) = model = mod
 
   override def update(o:Observable, arg: scala.Any) = {
     if(arg equals "StartMatch") {
-     _loadingView renderGamePanel
+     loadingView renderGamePanel
     } else {
       val game: (String, _) = if(arg.isInstanceOf[(String, _)]) {arg.asInstanceOf[(String, _)]} else {null}
       if(game != null) {
         game._1 match {
           case "GameRequest" => MainFrame.getInstance().showRequest(game._2.asInstanceOf[String])
-          case "GameResponse" => _teamView.playerResponse(game._2.asInstanceOf[Boolean])
+          case "GameResponse" => teamView.playerResponse(game._2.asInstanceOf[Boolean])
         }
       }
     }
   }
+
 }
 
 object BaseControllerMatch {

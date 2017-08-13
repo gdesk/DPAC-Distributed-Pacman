@@ -31,7 +31,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
 
         super(frame, "Create Team", true);
 
-        controller.teamView(this);
+        controller.setTeamView(this);
 
         JPanel p = createBackgroundColorPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
@@ -67,7 +67,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             comboRange.addActionListener(e->{
                 Range rangeSelected = ranges.get(comboRange.getSelectedIndex());
                 playerPanel.init(rangeSelected);
-                controller.rangeChoosed(ranges.get(comboRange.getSelectedIndex()));
+                controller.rangeChosen(ranges.get(comboRange.getSelectedIndex()));
             });
 
             numberPlayerPanel.add(comboRange);

@@ -9,14 +9,14 @@ import client.model.utils.Point
 import client.view.GamePanel
 
 /**
-  * Represents the controller for characters' management.
+  * Represents the controller for characters management.
   *
   * @author Margherita Pecorelli
   */
 trait ControllerCharacter {
 
   /**
-    * Moves the computer user's character in the specified direction.
+    * Moves the principal user's character in the specified direction.
     *
     * @param direction - the direction of the movement.
     */
@@ -30,11 +30,11 @@ trait ControllerCharacter {
   def setCharacterImages(mapCharacterImages: Map[String, Map[Direction, Image]]): Unit
 
   /**
-    * Sets the view to be recalled.
+    * Sets the view to be called when somethings changes about characters.
     *
-    * @param view - view to be recalled.
+    * @param view - view to be called.
     */
-  def view(view: GamePanel): Unit
+  def setView(view: GamePanel): Unit
 
 }
 
@@ -93,7 +93,7 @@ case class BaseControllerCharacter private() extends ControllerCharacter with Ob
     *
     * @param view - view to be recalled.
     */
-  override def view(view: GamePanel): Unit = this._view = view
+  override def setView(view: GamePanel): Unit = this._view = view
 
   /**
     * Called when other character moves or dies.

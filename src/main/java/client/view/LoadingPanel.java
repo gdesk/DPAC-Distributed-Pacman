@@ -63,6 +63,6 @@ public class LoadingPanel extends JPanel implements LoadingView {
         ((PlaygroundPanel)view).addKeyListener(keyboardController);
 
         MainFrame.getInstance().setContentPane(gp);
-        BaseControllerCharacter.instance().view(gp);
+        BaseControllerCharacter.instance().setView(gp);
     }
 }
