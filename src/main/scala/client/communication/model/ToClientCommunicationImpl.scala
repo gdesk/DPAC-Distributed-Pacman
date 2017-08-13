@@ -63,7 +63,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "name" -> name,
       "username" -> username,
       "email" -> email,
-      "password" -> password
+      "password" -> getSHA1(password)
     ))
 
     player.username = username
@@ -85,7 +85,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "object" -> "login",
       "senderIP" -> player.ip,
       "username" -> username,
-      "password" -> password
+      "password" -> getSHA1(password)
     ))
 
     val response = getJSONMessage(message)
@@ -365,6 +365,12 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val inputStream: InputStream = new ByteArrayInputStream(image)
     val bufferedImage: BufferedImage = ImageIO.read(inputStream)
     ImageIO.write(bufferedImage, "png", outputfile)
+  }
+
+  private def getSHA1(data: String): String = {
+    val md = java.security.MessageDigest.getInstance("SHA-1")
+    val ha = new sun.misc.BASE64Encoder().encode(md.digest(data.getBytes))
+    ha
   }
 }
 

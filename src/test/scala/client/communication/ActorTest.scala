@@ -1,9 +1,7 @@
 package client.communication
 
-import java.util.Calendar
-
 import client.communication.model.{ToClientCommunication, ToClientCommunicationImpl}
-import client.model.{Match, MatchImpl, MatchResultImpl, PlayerImpl}
+import client.model.{Match, MatchImpl, PlayerImpl}
 
 /**
   * Test of client-server architecture.
@@ -19,7 +17,7 @@ object ActorTest extends App {
   println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciaonoo")) //false
   println(model.registration("giulia","giuls","lucchigiulia@libero.it","ciao", "ciao")) //true
 
-  println(model.login("giulia", "ciaogiulia"))
+ /* println(model.login("giulia", "ciaogiulia"))
 
   println(model.logout())
 
@@ -40,5 +38,5 @@ object ActorTest extends App {
   game.result= true
   game.score =123
   game.date = Calendar.getInstance()
-  println(model.matchResult(game, player.username))
+  println(model.matchResult(game, player.username))*/
 }
