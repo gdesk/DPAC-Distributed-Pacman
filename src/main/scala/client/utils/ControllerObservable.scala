@@ -21,7 +21,7 @@ object ControllerObservable extends Observable{
     })
   }
 
-  def gameResponse(message: String, response: Boolean): Unit = {
+  def gameResponse(message: String, response: Any): Unit = {
     observers.foreach(o =>{
       o.update(this,(message, response))
     })
