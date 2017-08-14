@@ -38,14 +38,14 @@ trait ControllerUser {
     *
     * @return true if the logout is successful, false otherwise.
     */
-  def logout(): Boolean
+  def logout: Boolean
 
   /**
     * Returns the player of the user.
     *
     * @return the player of the user.
     */
-  def player(): Player
+  def player: Player
 
   /**
     * Setsthe model to be called.
@@ -93,14 +93,14 @@ object BaseControllerUser extends ControllerUser {
     *
     * @return true if the logout is successful, false otherwise.
     */
-  override def logout = _model logout()
+  override def logout = _model.logout
 
   /**
     * Returns the player of the user.
     *
     * @return the player of the user.
     */
-  override def player = PlayerImpl instance()
+  override def player = PlayerImpl.instance
 
   /**
     * Setsthe model to be called.
