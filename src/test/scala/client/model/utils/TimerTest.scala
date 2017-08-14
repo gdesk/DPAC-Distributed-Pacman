@@ -14,7 +14,8 @@ class TimerTest extends FunSuite {
   }
 
   val observer = MyObserver()
-  val timer = TimerImpl(observer)
+  val timer = TimerImpl()
+  timer.addObserver(observer)
   var isObserverUpdate = false
 
   test("counts") {

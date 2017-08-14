@@ -1,5 +1,6 @@
 package client.model.utils
 
+import scala.collection.mutable.ListBuffer
 import java.util.{Observable, Observer}
 
 /**
@@ -7,7 +8,7 @@ import java.util.{Observable, Observer}
   *
   * @author Margherita Pecorelli
   */
-trait Timer {
+trait Timer extends Observable{
 
   /**
     *Counts for X milliseconds (input parameter) without doing anything.
@@ -15,6 +16,8 @@ trait Timer {
     * @param milliseconds - milliseconds to wait
     */
   def counts(milliseconds: Long): Unit
+
+  override def addObserver(o: Observer): Unit
 }
 
 /**
@@ -22,7 +25,9 @@ trait Timer {
   *
   * @author Margherita Pecorelli
   */
-case class TimerImpl(val observer: Observer) extends Observable with Timer{
+case class TimerImpl() extends Timer{
+
+  private val observers = ListBuffer.empty[Observer]
 
   val observable = this
 
@@ -36,10 +41,12 @@ case class TimerImpl(val observer: Observer) extends Observable with Timer{
       override def run = {
         val time = System.currentTimeMillis()
         while(System.currentTimeMillis() < time + milliseconds) {}
-        observer.update(observable,"")
+        observers.foreach(o => o.update(observable,""))
       }
     }
     thread.start
   }
+
+  override def addObserver(observer: Observer) =  observers += observer
 
 }

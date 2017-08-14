@@ -27,19 +27,19 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
     * Manages the strategy of game, that is based on who is the killer and who is killable.
     *
     */
-  override def checkAllPositions() = {
+  override def checkAllPositions = {
     val ghosts = super.prologGhostsList
     val pacmans: List[Character] = game.allCharacters.filter(c => (c.isInstanceOf[Pacman]));
     if(isKillable) {
       pacmans.foreach(p => p.checkAllPositions)
     } else {
       pacmans.foreach { p =>
-        val solveInfo = PrologConfig.getPrologEngine() solve (s"eat_pacman(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score.toString}), ${ghosts}, NL, GS, CG).")
-        val killerGhost = game.allCharacters.find(c => c.name equals (solveInfo getTerm ("CG") toString))
+        val solveInfo = PrologConfig.getPrologEngine.solve(s"eat_pacman(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score.toString}), ${ghosts}, NL, GS, CG).")
+        val killerGhost = game.allCharacters.find(c => c.name equals solveInfo.getTerm("CG").toString)
         if(killerGhost.nonEmpty && (killerGhost.get equals this)) {
-          p.lives.remainingLives = valueOf(solveInfo getTerm ("NL") toString)
+          p.lives.remainingLives = valueOf(solveInfo.getTerm("NL").toString)
           if (p.lives.remainingLives == 0) p.isAlive = false
-          score = valueOf(solveInfo getTerm ("GS") toString)
+          score = valueOf(solveInfo.getTerm("GS").toString)
         }
       }
     }
