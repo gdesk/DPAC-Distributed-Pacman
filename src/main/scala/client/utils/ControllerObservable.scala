@@ -22,9 +22,8 @@ object ControllerObservable extends Observable{
   }
 
   def gameResponse(message: String, response: Boolean): Unit = {
-    println(""+observers.size);
     observers.foreach(o =>{
-      println("controllerObservable newpalyerinmatch");
+      println("controllerObservable newpalyerinmatch")
       o.update(this,(message, response))
     })
   }

@@ -6,6 +6,7 @@ import client.view.Res;
 import client.view.Utils;
 import client.view.base.SelectCharacterPanel;
 import client.view.utils.Range;
+import scala.Int;
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,12 +87,11 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
     }
 
     @Override
-    public void renderPlayerResponse(final Boolean response){
-        if(response){
+    public void renderPlayerResponse(final Integer response){
+        for(int x=0; x<response; x++) {
             playerPanel.markOK();
-        } else {
-            playerPanel.markNO();
         }
+        playerPanel.resetIndex();
     }
 
     private class PlayersPanel extends JPanel{
@@ -123,11 +123,9 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
         }
 
         private synchronized void markOK(){
-            System.out.println(index);
             icons.get(index).setIcon(new ImageIcon(Utils.getScaledImage(Utils.getImage(Res.PLAYER_OK()), imgDim, imgDim)));
-            index = index+1%numPlayer;
-            numPlayerOK ++;
-            if(numPlayerOK<=rangePlayers.getMin()){
+            index = index+1;
+            if(index<=rangePlayers.getMin()){
                 starGame.setEnabled(true);
             }
             revalidate();
@@ -136,9 +134,13 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
 
         private synchronized void markNO(){
             icons.get(index).setIcon(new ImageIcon(Utils.getScaledImage(Utils.getImage(Res.PLAYER_NO()), imgDim, imgDim)));
-            index = index+1%numPlayer;
+            index = index+1;
             revalidate();
             repaint();
+        }
+
+        private void resetIndex(){
+            this.index = 0;
         }
     }
 }
