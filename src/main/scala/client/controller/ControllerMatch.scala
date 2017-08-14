@@ -97,7 +97,7 @@ case class BaseControllerMatch private() extends ControllerMatch {
     if(arg equals "StartMatch") {
       _loadingView renderGamePanel
     } else {
-      val game: (String, _) = if(arg.isInstanceOf[(String, _)]) {arg.asInstanceOf[(String, _)]} else {null}
+      val game: (String, scala.Any) = if(arg.isInstanceOf[(String, scala.Any)]) {arg.asInstanceOf[(String, scala.Any)]} else {null}
       if(game != null) {
         game._1 match {
           case "GameRequest" => MainFrame.getInstance().showRequest(game._2.asInstanceOf[String])
