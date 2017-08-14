@@ -74,7 +74,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
                 playerPanel.init(rangeSelected);
                 controller.rangeChoosed(ranges.get(comboRange.getSelectedIndex()-1));
             });
-            
+
             numberPlayerPanel.add(comboRange);
             numberPlayerPanel.add(new JLabel("Select the number of players"));
             p.add(numberPlayerPanel);
