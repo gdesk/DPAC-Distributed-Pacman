@@ -133,7 +133,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
         private synchronized void markOK(){
             icons.get(index).setIcon(new ImageIcon(Utils.getScaledImage(Utils.getImage(Res.PLAYER_OK()), imgDim, imgDim)));
             index = index+1;
-            if(index<=rangePlayers.getMin()){
+            if(index>=rangePlayers.getMin()){
                 starGame.setEnabled(true);
             }
             revalidate();

@@ -6,7 +6,7 @@ import java.io._
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.imageio.ImageIO
-import javax.swing.ImageIcon
+import javax.swing.{ImageIcon, JFrame}
 
 import akka.actor.{ActorSystem, Inbox, Props}
 import client.communication.model.actor.{FromServerCommunication, P2PCommunication, ToServerCommunication}
@@ -179,6 +179,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     fileMap.keySet.foreach(name =>{
       characterToChoose += ((name, new ImageIcon(fileMap(name).getPath).getImage))
     })
+
     characterToChoose
   }
 
