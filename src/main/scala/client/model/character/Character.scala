@@ -110,7 +110,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
 
   private var pos: Point[Int, Int] = PointImpl(0,0)
   private val playground: Playground = PlaygroundImpl instance()
-  private val game: Match = MatchImpl instance()
+  private val game: Match = MatchImpl
   private var _isAlive = true
 
   override var direction: Direction = Direction.START

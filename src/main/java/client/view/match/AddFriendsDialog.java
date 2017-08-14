@@ -52,7 +52,7 @@ public class AddFriendsDialog extends JDialog {
             friendsAdded++;
             username.setText("");
             friendsAddedCounter.setText("Firends added: "+friendsAdded);
-            BaseControllerMatch.instance().sendRequestAt(username.getText());
+            BaseControllerMatch.sendRequestAt(username.getText());
         });
     }
 }

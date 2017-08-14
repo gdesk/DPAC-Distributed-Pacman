@@ -13,7 +13,7 @@ import scala.util.parsing.json.JSONObject
   */
 class FromServerCommunication extends UntypedAbstractActor{
   val controllerObservable = ControllerObservable
-  controllerObservable.addObserver(BaseControllerMatch.instance())
+  controllerObservable.addObserver(BaseControllerMatch)
 
   override def onReceive(message: Any): Unit = message match {
     case msg: JSONObject => msg.obj("object") match {

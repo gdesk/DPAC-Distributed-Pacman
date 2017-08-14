@@ -7,10 +7,10 @@ import org.scalatest.FunSuite
 
 class ControllerCharacterTest() extends FunSuite {
 
-  val controller: ControllerMatch = BaseControllerMatch.instance()
+  val controller: ControllerMatch = BaseControllerMatch
 
   test("singleton") {
-    assert(controller == BaseControllerMatch.instance())
+    assert(controller == BaseControllerMatch)
   }
 
   test("getPlaygrounds") {

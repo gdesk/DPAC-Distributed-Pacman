@@ -64,10 +64,10 @@ public class LoadingPanel extends JPanel implements LoadingView {
 
         GamePanelImpl gp = new GamePanelImpl(view);
 
-        UserInputController keyboardController = new UserInputController(BaseControllerCharacter.instance());
+        UserInputController keyboardController = new UserInputController();
         ((PlaygroundPanel)view).addKeyListener(keyboardController);
 
         MainFrame.getInstance().setContentPane(gp);
-        BaseControllerCharacter.instance().setView(gp);
+        BaseControllerCharacter.setView(gp);
     }
 }

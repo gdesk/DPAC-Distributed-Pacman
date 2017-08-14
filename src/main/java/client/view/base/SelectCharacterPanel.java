@@ -23,7 +23,6 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     private final Dimension CHARACTER_IMAGE_DIMENSION = calculatedImageCharDimension(10);
     private final Dimension PLAYGROUND_IMAGE_DIMENSION = calculatedImageCharDimension(2.2);
 
-    private final ControllerMatch controller = BaseControllerMatch.instance();
     private final JButton doneButton = createButton("DONE");
 
     private JButton characterChoosed = new JButton();
@@ -51,7 +50,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         JPanel characterPanel = JComponentsUtils.createBackgroundColorPanel();
         characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.X_AXIS));
 
-        Utils.getJavaMap(controller.getCharacters()).forEach((name, image) -> {
+        Utils.getJavaMap(BaseControllerMatch.getCharacters()).forEach((name, image) -> {
             characterPanel.add(createImagePanel(image, name, CHARACTER_IMAGE_DIMENSION));
         });
         JScrollPane characterScroll = new JScrollPane(characterPanel);
@@ -65,7 +64,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         JPanel playgroundPanel = JComponentsUtils.createBackgroundColorPanel();
         playgroundPanel.setLayout(new BoxLayout(playgroundPanel, BoxLayout.X_AXIS));
 
-        Utils.getJavaMap(controller.getPlaygrounds()).forEach((index,image) -> {
+        Utils.getJavaMap(BaseControllerMatch.getPlaygrounds()).forEach((index,image) -> {
             playgroundPanel.add(createImagePanel(image, index.toString(), PLAYGROUND_IMAGE_DIMENSION));
         });
 
@@ -79,16 +78,16 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         add(south, BorderLayout.SOUTH);
 
         exitButton.addActionListener(e->{
-            MainFrame.getInstance().setContentPane(new HomePanel(BaseControllerUser.instance().player().username()));
+            MainFrame.getInstance().setContentPane(new HomePanel(BaseControllerUser.player().username()));
         });
 
         doneButton.addActionListener(e->{
             LoadingPanel loadingPanel = new LoadingPanel();
             MainFrame.getInstance().setContentPane(loadingPanel);
-            controller.setLoadingView(loadingPanel);
-            controller.characterChosen(((ImageIcon)characterChoosed.getIcon()).getDescription());
-            controller.playgroundChosen(Integer.parseInt(((ImageIcon)playgroundChoosed.getIcon()).getDescription()));
-            controller.startMatch();
+            BaseControllerMatch.setLoadingView(loadingPanel);
+            BaseControllerMatch.chosenCharacter(((ImageIcon)characterChoosed.getIcon()).getDescription());
+            BaseControllerMatch.chosenPlayground(Integer.parseInt(((ImageIcon)playgroundChoosed.getIcon()).getDescription()));
+            BaseControllerMatch.startMatch();
         });
     }
 
@@ -127,7 +126,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
                 this.characterChoosed.setEnabled(true);
                 this.characterChoosed = button;
                 this.isCharacterChoosed = true;
-                controller.characterChosen(((ImageIcon)button.getIcon()).getDescription());
+                BaseControllerMatch.chosenCharacter(((ImageIcon)button.getIcon()).getDescription());
                 checkDone();
             });
 

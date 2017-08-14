@@ -20,7 +20,6 @@ public class LoginPanel extends JPanel {
 
     private final static int JTEXTEFIELD_COLUMNS = 20;
     private final static int TOP_BORDER_PADDING = 30;
-    private final static ControllerUser controller = BaseControllerUser.instance();
 
     public LoginPanel() {
         setLayout(new BorderLayout());
@@ -83,7 +82,7 @@ public class LoginPanel extends JPanel {
         east.add(userErr, gbc);
 
         login.addActionListener(e->{
-            boolean loginCorrect = controller.login(userInput.getText(), Utils.transformInString(passwordInput.getPassword()));
+            boolean loginCorrect = BaseControllerUser.login(userInput.getText(), Utils.transformInString(passwordInput.getPassword()));
             if(!loginCorrect){
                 userErr.setVisible(true);
             }else {

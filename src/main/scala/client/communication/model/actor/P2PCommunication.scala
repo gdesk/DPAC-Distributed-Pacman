@@ -46,7 +46,7 @@ class P2PCommunication extends UntypedAbstractActor {
 
         val info = new OtherCharacterInfo
         val matchHandler = new ClientOutcomingMessageHandlerImpl
-        val IPList = MatchImpl.instance().allPlayersIp
+        val IPList = MatchImpl.allPlayersIp
 
         for(ip <- IPList){
           val registry = LocateRegistry.getRegistry(ip)

@@ -23,12 +23,11 @@ import static client.view.utils.JComponentsUtils.*;
 public class HomePanel extends JPanel {
 
     private final List<MatchResult> matches;
-    private final ControllerUser controller = BaseControllerUser.instance();
     private final JButton startGame =  createBlackButton("START GAME");
 
     public HomePanel(final String username){
 
-        this.matches = Utils.getJavaList(controller.player().allMatchesResults());
+        this.matches = Utils.getJavaList(BaseControllerUser.player().allMatchesResults());
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         final JButton exit = createBlackButton("EXIT");
@@ -64,7 +63,7 @@ public class HomePanel extends JPanel {
         });
 
         exit.addActionListener(e->{
-            controller.logout();
+            BaseControllerUser.logout();
             MainFrame.getInstance().setContentPane(new LoginPanel());
         });
     }

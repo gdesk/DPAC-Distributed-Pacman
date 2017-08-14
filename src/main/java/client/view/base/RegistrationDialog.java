@@ -21,7 +21,6 @@ public class RegistrationDialog extends JDialog {
     private final int lenghtTextField = 30;
     private final JPanel infoPanel = new JPanel(new GridBagLayout());
     private final GridBagConstraints gbc = new GridBagConstraints();
-    private final ControllerUser controller = BaseControllerUser.instance();
 
     public RegistrationDialog(final JFrame frame){
         super(frame, "Registration", true);
@@ -59,7 +58,7 @@ public class RegistrationDialog extends JDialog {
             infoPanel.add(registration, gbc);
 
             registration.addActionListener(e -> {
-                boolean registrationResult = controller.registration(name.getText(), username.getText(), email.getText(),
+                boolean registrationResult = BaseControllerUser.registration(name.getText(), username.getText(), email.getText(),
                         Utils.transformInString(password.getPassword()), Utils.transformInString(confPassword.getPassword()));
                 if(!registrationResult){
                     errLabel.setVisible(true);
@@ -68,7 +67,7 @@ public class RegistrationDialog extends JDialog {
 
                 } else { //TODO mandare mail di notifica di registrazione?
                     MainFrame.getInstance().setContentPane(new HomePanel(username.getText()));
-                    controller.login(username.getText(),Utils.transformInString(password.getPassword()));
+                    BaseControllerUser.login(username.getText(),Utils.transformInString(password.getPassword()));
                     dispose();
                 }
             });

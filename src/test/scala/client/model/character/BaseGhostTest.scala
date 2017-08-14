@@ -21,7 +21,7 @@ class BaseGhostTest extends FunSuite {
   val playground = PlaygroundImpl instance()
   playground dimension = Dimension(35,35)
 
-  val gameMatch = MatchImpl instance()
+  val gameMatch = MatchImpl
 
   val redGhost = BaseGhost("Red")
 

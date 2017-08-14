@@ -20,7 +20,7 @@ class BaseEatObjectStrategyTest extends FunSuite {
 
   val strategy = BaseEatObjectStrategy()
 
-  val gameMatch: Match = MatchImpl instance()
+  val gameMatch: Match = MatchImpl
 
   val playground: PlaygroundImpl = PlaygroundImpl instance()
   playground dimension = Dimension(35,35)
