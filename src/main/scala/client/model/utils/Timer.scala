@@ -29,7 +29,7 @@ case class TimerImpl() extends Timer{
 
   private val observers = ListBuffer.empty[Observer]
 
-  val observable = this
+  private val observable = this
 
   /**
     *Counts for X milliseconds (input parameter) without doing anything. When it ends, notify the observer.
