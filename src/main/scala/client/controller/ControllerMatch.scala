@@ -7,6 +7,8 @@ import javax.swing.ImageIcon
 import client.communication.model.ToClientCommunication
 import client.model._
 import client.view._
+import client.view.`match`.CreateTeamView
+import client.view.base.{LoadingView, SelectCharacterView}
 
 
 import scala.collection.mutable.HashMap
@@ -16,7 +18,7 @@ import scala.collection.mutable.HashMap
   *
   * @author Margherita Pecorelli
   */
-trait ControllerMatch {
+trait ControllerMatch extends Observer {
 
   /**
     * Returns all ranges of players that can play in the same match.
@@ -110,7 +112,7 @@ trait ControllerMatch {
 
 }
 
-case class BaseControllerMatch private() extends ControllerMatch with Observer {
+case class BaseControllerMatch private() extends ControllerMatch {
 
   private val gameMatch: Match = MatchImpl.instance()
   private val playground: Playground = PlaygroundImpl.instance()
@@ -158,11 +160,13 @@ case class BaseControllerMatch private() extends ControllerMatch with Observer {
     if(arg equals "StartMatch") {
      loadingView renderGamePanel
     } else {
-      val game: (String, _) = if(arg.isInstanceOf[(String, _)]) {arg.asInstanceOf[(String, _)]} else {null}
+      val game: (String, scala.Any) = if(arg.isInstanceOf[(String, scala.Any)]) {arg.asInstanceOf[(String, scala.Any)]} else {null}
       if(game != null) {
         game._1 match {
           case "GameRequest" => MainFrame.getInstance().showRequest(game._2.asInstanceOf[String])
-          case "GameResponse" => teamView.playerResponse(game._2.asInstanceOf[Boolean])
+          case "GameResponse" => teamView.renderPlayerResponse(game._2.asInstanceOf[Boolean])
+          case "playerInMatch" => teamView.renderPlayerInMatch(Integer.valueOf(game._2.asInstanceOf[Int]))
+          case "notifySelection" => MainFrame.getInstance().getContentPane.asInstanceOf[SelectCharacterView].disableCharacter(game._2.asInstanceOf[String])
         }
       }
     }

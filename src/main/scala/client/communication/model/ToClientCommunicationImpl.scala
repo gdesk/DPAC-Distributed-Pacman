@@ -6,7 +6,7 @@ import java.io._
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.imageio.ImageIO
-import javax.swing.ImageIcon
+import javax.swing.{ImageIcon, JFrame}
 
 import akka.actor.{ActorSystem, Inbox, Props}
 import client.communication.model.actor.{FromServerCommunication, P2PCommunication, ToServerCommunication}
@@ -28,17 +28,35 @@ import scala.util.parsing.json.JSONObject
   */
 
 case class ToClientCommunicationImpl() extends ToClientCommunication{
+  println("-- Client configuration --")
+  println()
 
-  private val config: Config = ConfigFactory.parseFile(new File("src/main/resources/communication/configuration.conf"))
+  private val player: Player = PlayerImpl.instance()
+  private val config: Config = ConfigFactory.parseString(
+    " akka { \n" +
+      " actor { \n" +
+      " provider = remote\n" +
+      "}\n" +
+      " remote { \n" +
+      " enabled-transports = [\"akka.remote.netty.tcp\"]\n" +
+      " netty.tcp { \n" +
+      " hostname = \"" + player.ip +"\"\n" +
+      " port = 2554\n" +
+      "}\n" +
+      "}\n" +
+      "}\n")
+  //ConfigFactory.parseFile(new File("src/main/resources/communication/configuration.conf"))
   private val system: ActorSystem = ActorSystem.create("DpacClient", config)
   private val inbox = Inbox.create(system)
 
+  println()
+  println("-- Actors Creation --")
+  println()
   private val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
   private val fromServerCommunication = system.actorOf(Props[FromServerCommunication], "fromServerCommunication")
   private val P2PCommunication = system actorOf(Props[P2PCommunication], "P2PCommunication")
 
   private val currentMatch: Match = MatchImpl.instance()
-  private var player: Player = PlayerImpl.instance()
 
   /**
     * Send the message to actor AccessManager with the registration's data and
@@ -63,7 +81,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "name" -> name,
       "username" -> username,
       "email" -> email,
-      "password" -> password
+      "password" -> getSHA1(password)
     ))
 
     player.username = username
@@ -85,11 +103,10 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "object" -> "login",
       "senderIP" -> player.ip,
       "username" -> username,
-      "password" -> password
+      "password" -> getSHA1(password)
     ))
 
     val response = getJSONMessage(message)
-    println("ricevuto")
     val list = response.obj("list").asInstanceOf[Option[List[Map[String, Any]]]]
     if (list.isEmpty) return false
     val allMatches = wrapperAllMatches(list.get)
@@ -162,17 +179,18 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     fileMap.keySet.foreach(name =>{
       characterToChoose += ((name, new ImageIcon(fileMap(name).getPath).getImage))
     })
+
     characterToChoose
   }
 
   /**
     * Send to server the character chosen. It's recall when the player choose him character.
+    * The images .png are saved in the resources directory.
     *
     * @param character character chosen from single player
     * @return true  if character has been already chosen
     *         false otherwise
     */
-  //todo:sistema scaladoc e rifattorizza con metodi privati
   override def chooseCharacter(character: String): Boolean = {
     val message = JSONObject(Map[String, String](
       "object" -> "chooseCharacter",
@@ -184,23 +202,18 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     if (isAvailable) {
       val images = response.obj("map").asInstanceOf[Map[String,Array[Byte]]]
       images.keySet.foreach(path =>{
-        val outputfile = new File(path.toString)
-        outputfile.mkdirs()
-        outputfile.createNewFile()
-        val inputStream: InputStream = new ByteArrayInputStream(images(path))
-        val bufferedImage: BufferedImage = ImageIO.read(inputStream)
-        ImageIO.write(bufferedImage, "png", outputfile)
+        saveImageToResources(path, images(path))
       })
     }
     isAvailable
   }
 
   /**
-    * Receives from server the List of available playgrounds.
+    * Receives from server the List of available playgrounds, saving to resources directory
+    * the image.
     *
+    * @return number of available playground
     */
-  //todo: devi dire alla marghe che ritorna Int
-  //todo : scala doc
   override def getPlaygrounds: Int = {
     val message = JSONObject(Map[String, String](
       "object" -> "playgrounds",
@@ -209,12 +222,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val response = getJSONMessage(message)
     val map = response.obj("list").asInstanceOf[Map[Int, Array[Byte]]]
     map.keySet.foreach(id =>{
-      val outputfile = new File("src/main/resources/playground/images/"+ id.toString+".png")
-      outputfile.mkdirs()
-      outputfile.createNewFile()
-      val inputStream: InputStream = new ByteArrayInputStream(map(id))
-      val bufferedImage: BufferedImage = ImageIO.read(inputStream)
-      ImageIO.write(bufferedImage, "png", outputfile)
+      saveImageToResources("src/main/resources/playground/images/"+ id.toString+".png", map(id))
     })
     map.size
   }
@@ -262,7 +270,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     * @param username username of player
     * @return list of all match with its result
     */
-  //todo: guarda login() ... uguale
   override def getAllMatchesResults(username: String): List[MatchResult] = {
     val message = JSONObject(Map[String, String](
       "object" -> "allMatchResult",
@@ -270,7 +277,9 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "username" -> username
     ))
     val response = getJSONMessage(message)
-    response.obj("list").asInstanceOf[List[MatchResult]]
+    val list = response.obj("list").asInstanceOf[List[Map[String, Any]]]
+    val allMatches = wrapperAllMatches(list)
+    allMatches
   }
 
   /**
@@ -287,7 +296,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
     val response = getJSONMessage(message)
     val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
-   // var players :mutable.Map[client.model.character.Character, String] = null
+    // var players :mutable.Map[client.model.character.Character, String] = null
     typeCharacters.keySet.foreach(x =>{
       val singleCharacter = typeCharacters(x)
       singleCharacter(1) match {
@@ -368,5 +377,19 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     allMatches
   }
 
-}
+  private def saveImageToResources(path: String, image: Array[Byte]): Unit ={
+    val outputfile = new File(path)
+    outputfile.mkdirs()
+    outputfile.createNewFile()
+    val inputStream: InputStream = new ByteArrayInputStream(image)
+    val bufferedImage: BufferedImage = ImageIO.read(inputStream)
+    ImageIO.write(bufferedImage, "png", outputfile)
+  }
 
+
+  private def getSHA1(data: String): String = {
+    val md = java.security.MessageDigest.getInstance("SHA-1")
+    val ha = new sun.misc.BASE64Encoder().encode(md.digest(data.getBytes))
+    ha
+  }
+}

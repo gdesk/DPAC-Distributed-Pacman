@@ -5,7 +5,7 @@ import java.awt.Image
 /**
   * Wrapper for the specific images of each client.model.character.gameElement.character.
   *
-  * Created by chiaravarini on 01/07/17.
+  * Created by Chiara Varini on 01/07/17.
   */
 trait CharacterView {
 

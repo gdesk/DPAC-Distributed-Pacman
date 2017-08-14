@@ -1,13 +1,16 @@
 package client.view;
 
 
+import client.view.base.LoginPanel;
+import client.view.base.RequestDialog;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * MainFrame of Distributed Pacman game
  *
- * Created by chiaravarini on 30/06/17.
+ * Created by Chiara Varini on 30/06/17.
  */
 public class MainFrame extends JFrame {
 
@@ -38,6 +41,11 @@ public class MainFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * Render the request to play a match
+     * sent by another player
+     * @param username
+     */
     public void showRequest(final String username){
         RequestDialog requestDialog = new RequestDialog(this, username);
         requestDialog.setVisible(true);

@@ -2,7 +2,7 @@ package client.view
 
 import java.awt.Image
 
-import client.view.utils.FruitsImages
+import client.view.utils.enumerations.FruitsImages
 
 /**
   * Wrapper for the specific images of dots, pills and fruits

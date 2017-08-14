@@ -4,14 +4,13 @@ import alice.tuprolog.{Prolog, SolveInfo, Term, Theory}
 
 
 /**
-  * Created by Federica on 03/07/17.
+  * @author Federica Pecci
   */
 object PrologUtility {
 
   implicit def stringToTerm(s: String): Term = Term.createTerm(s)
   implicit def listToTerm[T](l: List[T]): Term = l.mkString("[",",","]")
   implicit def stringToTheory[T](s: String): Theory = new Theory(s)
-  //implicit def termToString(t: Term): String = t.toString
 
   var engine = new Prolog
 

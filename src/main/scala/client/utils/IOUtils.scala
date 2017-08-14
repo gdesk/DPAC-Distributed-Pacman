@@ -46,7 +46,7 @@ object IOUtils {
     * 'a' -> apple
     * 'b' -> bell
     * 'c' -> cherry
-    * 's' -> Galaxian Ship
+    * 'h' -> Galaxian Ship
     * 'g' -> grapes
     * 'k' -> key
     * 'o' -> orange
@@ -95,7 +95,7 @@ object IOUtils {
     * 'a' -> apple
     * 'b' -> bell
     * 'c' -> cherry
-    * 's' -> Galaxian Ship
+    * 'h' -> Galaxian Ship
     * 'g' -> grapes
     * 'k' -> key
     * 'o' -> orange
@@ -173,7 +173,7 @@ object IOUtils {
           xPosition = xPosition + 1
           eatableList.+=(Cherry("",PointImpl (xPosition,yPosition)))
         }
-        case 's' => {
+        case 'h' => {
           //println("I'm a galaxian Ship at pos [" + xPosition + " | " + yPosition + " ]")
           xPosition = xPosition + 1
           eatableList.+=(GalaxianShip("",PointImpl (xPosition,yPosition)))
@@ -193,7 +193,7 @@ object IOUtils {
           xPosition = xPosition + 1
           eatableList.+=(Orange("",PointImpl (xPosition,yPosition)))
         }
-        case 'a' => {
+        case 's' => {
          //println("I'm an apple at pos [" + xPosition + " | " + yPosition + " ]")
           xPosition = xPosition + 1
           eatableList.+=(Strawberry("",PointImpl (xPosition,yPosition)))
