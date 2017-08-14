@@ -102,8 +102,7 @@ case class BaseControllerMatch private() extends ControllerMatch {
         game._1 match {
           case "GameRequest" => MainFrame.getInstance().showRequest(game._2.asInstanceOf[String])
           case "GameResponse" => _teamView.renderPlayerResponse(game._2.asInstanceOf[Boolean])
-          case "playerInMatch" => _teamView.renderPlayerInMatch(game._2.asInstanceOf[Int])
-
+          case "playerInMatch" => _teamView.renderPlayerInMatch(Integer.valueOf(game._2.asInstanceOf[Int]))
         }
       }
     }
