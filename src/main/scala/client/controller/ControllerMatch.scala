@@ -79,7 +79,6 @@ case class BaseControllerMatch private() extends ControllerMatch {
     playgrounds.toMap
   }
 
-
   override def choosePlayground(playground: Int) = _model.choosePlayground(playground)
 
   override def MatchResul(result: MatchResult, user: String) = _model.matchResult(result, user)

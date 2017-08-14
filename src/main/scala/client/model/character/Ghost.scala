@@ -24,13 +24,6 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
   override val lives = LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))
 
   /**
-    * Manages the client.model.character.gameElement.character's movement.
-    *
-    * @param direction - client.model.character.gameElement.character's of direction
-    */
-  override def go(direction: Direction) = super.go(direction)
-
-  /**
     * Manages the strategy of game, that is based on who is the killer and who is killable.
     *
     */
