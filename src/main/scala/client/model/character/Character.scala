@@ -122,6 +122,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     * @param direction - client.model.character.gameElement.character's direction
     */
   override def go(direction: Direction) = {
+    this.direction = direction
     val point: Option[Point[Int, Int]] = move(direction)
     if(point nonEmpty) {
       setPosition(point get)
