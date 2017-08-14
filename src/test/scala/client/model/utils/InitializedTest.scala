@@ -1,12 +1,10 @@
 package client.model.utils
 
 import client.model.character.InitializedInfoImpl
-import client.model.utils.Point
 
-/**
-  *  Created by Giulia on 03/07/2017.
+/**  Testing of initialized information from logical part made of prolog.
   *
-  *  Testing of initialized information from logical part made of prolog.
+  * @author Giulia Lucchi
   */
 object InitializedTest extends App {
 

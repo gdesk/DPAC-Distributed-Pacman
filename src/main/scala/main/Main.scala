@@ -8,6 +8,12 @@ import client.model.peerCommunication.{ClientIncomingMessageHandler, ClientIncom
 import client.view.MainFrame
 
 object Main extends App {
+  println("[ DPACS - Distributed Pacman ]")
+  println("[ Version 1.0.0 - August 2017 ]")
+  println()
+  println("[ Project for Software System Development course @ Unibo - Ingegneria e Scienze Informatiche - A.Y. 2016/17 ]")
+  println("[ Developed by Manuel Bottazzi, Giulia Lucchi, Federica Pecci, Margherita Pecorelli & Chiara Varini ]")
+  println()
 
   val controllerCharacter: ControllerCharacter = BaseControllerCharacter.instance
   val controllerMatch: ControllerMatch = BaseControllerMatch.instance

@@ -28,17 +28,35 @@ import scala.util.parsing.json.JSONObject
   */
 
 case class ToClientCommunicationImpl() extends ToClientCommunication{
+  println("-- Client configuration --")
+  println()
 
-  private val config: Config = ConfigFactory.parseFile(new File("src/main/resources/communication/configuration.conf"))
+  private val player: Player = PlayerImpl.instance()
+  private val config: Config = ConfigFactory.parseString(
+    " akka { \n" +
+      " actor { \n" +
+      " provider = remote\n" +
+      "}\n" +
+      " remote { \n" +
+      " enabled-transports = [\"akka.remote.netty.tcp\"]\n" +
+      " netty.tcp { \n" +
+      " hostname = \"" + player.ip +"\"\n" +
+      " port = 2554\n" +
+      "}\n" +
+      "}\n" +
+      "}\n")
+  //ConfigFactory.parseFile(new File("src/main/resources/communication/configuration.conf"))
   private val system: ActorSystem = ActorSystem.create("DpacClient", config)
   private val inbox = Inbox.create(system)
 
+  println()
+  println("-- Actors Creation --")
+  println()
   private val toServerCommunication = system.actorOf(Props[ToServerCommunication], "toServerCommunication")
   private val fromServerCommunication = system.actorOf(Props[FromServerCommunication], "fromServerCommunication")
   private val P2PCommunication = system actorOf(Props[P2PCommunication], "P2PCommunication")
 
   private val currentMatch: Match = MatchImpl.instance()
-  private var player: Player = PlayerImpl.instance()
 
   /**
     * Send the message to actor AccessManager with the registration's data and

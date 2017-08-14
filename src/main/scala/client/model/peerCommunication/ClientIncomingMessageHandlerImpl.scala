@@ -33,7 +33,7 @@ class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMes
     * @param arg
     */
   def updateGameView(arg: Any): Unit =
-    notifyObservers(arg: Any)
+    notifyObservers(this, arg: Any)
 
 
 }
