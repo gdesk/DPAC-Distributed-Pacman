@@ -12,7 +12,7 @@ object ControllerObservable extends Observable{
   var observers: List[Observer]= List.empty
 
   override def addObserver(observer: Observer): Unit ={
-    observer :: observers
+    observers = observer :: observers
   }
 
   def gameRequest(message: String, username: String): Unit = {
