@@ -8,7 +8,7 @@ import client.communication.model.ToClientCommunication
 import client.model._
 import client.view._
 import client.view.`match`.CreateTeamView
-import client.view.base.LoadingView
+import client.view.base.{LoadingView, SelectCharacterView}
 
 import scala.collection.mutable.HashMap
 
@@ -103,6 +103,7 @@ case class BaseControllerMatch private() extends ControllerMatch {
           case "GameRequest" => MainFrame.getInstance().showRequest(game._2.asInstanceOf[String])
           case "GameResponse" => _teamView.renderPlayerResponse(game._2.asInstanceOf[Boolean])
           case "playerInMatch" => _teamView.renderPlayerInMatch(Integer.valueOf(game._2.asInstanceOf[Int]))
+          case "notifySelection" => MainFrame.getInstance().getContentPane.asInstanceOf[SelectCharacterView].disableCharacter(game._2.asInstanceOf[String])
         }
       }
     }
