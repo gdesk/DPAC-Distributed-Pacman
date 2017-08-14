@@ -87,11 +87,20 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
     }
 
     @Override
-    public void renderPlayerResponse(final Integer response){
+    public void renderPlayerInMatch(final Integer response){
         for(int x=0; x<response; x++) {
             playerPanel.markOK();
         }
         playerPanel.resetIndex();
+    }
+
+    @Override
+    public void renderPlayerResponse(Boolean response) {
+        if(response) {
+            playerPanel.markOK();
+        } else {
+            playerPanel.markNO();
+        }
     }
 
     private class PlayersPanel extends JPanel{

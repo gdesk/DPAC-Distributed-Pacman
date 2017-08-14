@@ -14,5 +14,7 @@ public interface CreateTeamView {
      * already invited to the match
      * @param response
      */
-    void renderPlayerResponse(final Integer response);
+    void renderPlayerResponse(final Boolean response);
+
+    void renderPlayerInMatch(final Integer response);
 }
