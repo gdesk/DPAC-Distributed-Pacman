@@ -30,6 +30,7 @@ class FromServerCommunication extends UntypedAbstractActor{
         }
       }
       case "playerInMatch" =>{
+        println("fromservercommunication playerinmatch")
         controllerObservable.gameResponse("playerInMatch", true)
       }
       case _ => { val receiver = context actorSelection ActorUtils.INBOX_ACTOR
