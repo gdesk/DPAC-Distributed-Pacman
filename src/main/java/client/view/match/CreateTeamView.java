@@ -1,7 +1,5 @@
 package client.view.match;
 
-import scala.Int;
-
 /**
  * Functional interface with which it's possiblev renders
  * the response of a player already invited to the match
@@ -14,5 +12,7 @@ public interface CreateTeamView {
      * already invited to the match
      * @param response
      */
-    void renderPlayerResponse(final Integer response);
+    void renderPlayerResponse(final Boolean response);
+
+    void renderPlayerInMatch(final Integer response);
 }
