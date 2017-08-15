@@ -81,13 +81,15 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
             MainFrame.getInstance().setContentPane(new HomePanel(BaseControllerUser.player().username()));
         });
 
-        doneButton.addActionListener(e->{
+        doneButton.addActionListener(e-> {
             LoadingPanel loadingPanel = new LoadingPanel();
             MainFrame.getInstance().setContentPane(loadingPanel);
-            BaseControllerMatch.setLoadingView(loadingPanel);
-            BaseControllerMatch.chosenCharacter(((ImageIcon)characterChoosed.getIcon()).getDescription());
-            BaseControllerMatch.chosenPlayground(Integer.parseInt(((ImageIcon)playgroundChoosed.getIcon()).getDescription()));
-            BaseControllerMatch.startMatch();
+            new Thread(() -> {
+                BaseControllerMatch.setLoadingView(loadingPanel);
+                BaseControllerMatch.chosenCharacter(((ImageIcon) characterChoosed.getIcon()).getDescription());
+                BaseControllerMatch.chosenPlayground(Integer.parseInt(((ImageIcon) playgroundChoosed.getIcon()).getDescription()));
+                BaseControllerMatch.startMatch();
+            }).start();
         });
     }
 
