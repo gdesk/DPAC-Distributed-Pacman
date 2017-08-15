@@ -59,7 +59,7 @@ trait ControllerCharacter extends Observer {
 object BaseControllerCharacter extends ControllerCharacter {
 
   private val gameMatch: Match = MatchImpl
-  private val playground: Playground = PlaygroundImpl.instance
+  private val playground: Playground = PlaygroundImpl
   private var view: GamePanel = null
   private var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 

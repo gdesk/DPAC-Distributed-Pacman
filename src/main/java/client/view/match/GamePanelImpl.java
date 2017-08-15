@@ -27,7 +27,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
     private PlaygroundView playground;
 
-    private final MicroMapPanel microMap = new MicroMapPanel(PlaygroundImpl.instance());
+    private final MicroMapPanel microMap = new MicroMapPanel();
     private final JLabel score = new JLabel("Score: 0");
     private JPanel livesPanel = new JPanel();
 
@@ -64,7 +64,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
             playground.renderCharacter(newPosition.x(), newPosition.y(), characterImage);
             microMap.moveCharacter(characterColor, newPosition, oldPosition);
         }
-        playground.renderEatableList(Utils.getJavaList(PlaygroundImpl.instance()
+        playground.renderEatableList(Utils.getJavaList(PlaygroundImpl
                 .eatables())
                 .stream()
                 .filter(e->e.position().x()==oldPosition.x() && e.position().y()==oldPosition.y())

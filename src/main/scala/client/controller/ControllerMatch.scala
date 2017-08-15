@@ -129,7 +129,7 @@ trait ControllerMatch extends Observer {
 object BaseControllerMatch extends ControllerMatch {
 
   private val gameMatch: Match = MatchImpl
-  private val playground: Playground = PlaygroundImpl.instance
+  private val playground: Playground = PlaygroundImpl
   private var loadingView: LoadingView = null
   private var teamView: CreateTeamView = null
   private var model: ToClientCommunication = null

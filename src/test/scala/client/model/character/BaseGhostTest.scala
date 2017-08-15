@@ -18,7 +18,7 @@ class BaseGhostTest extends FunSuite {
   private var ip4: String = "10.200.300.403"
 
 
-  val playground = PlaygroundImpl instance()
+  val playground = PlaygroundImpl
   playground dimension = Dimension(35,35)
 
   val gameMatch = MatchImpl

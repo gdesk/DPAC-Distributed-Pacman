@@ -1,6 +1,7 @@
 package client.view.playground;
 
 import client.model.Playground;
+import client.model.PlaygroundImpl;
 import client.model.gameElement.Block;
 import client.model.utils.Point;
 import client.model.utils.PointImpl;
@@ -19,14 +20,12 @@ public class MicroMapPanel extends JPanel {
 
     private final static int DIMENTION_DIVIDER = 3;
     private final static int BOUND = 30;
-    private final Playground playground;
     private final GridBagConstraints gbc = new GridBagConstraints();
     private final MazePecePanel[][] panles;
 
-    public MicroMapPanel(Playground playground){
-        this.playground = playground;
-        int columns = playground.dimension().x();
-        int rows = playground.dimension().y();
+    public MicroMapPanel(){
+        int columns = PlaygroundImpl.dimension().x();
+        int rows = PlaygroundImpl.dimension().y();
         this.panles = new MazePecePanel[columns+1][rows];
 
         setSize(new Dimension(new MazePecePanel().getPreferredSize().width*columns+BOUND/2, new MazePecePanel().getPreferredSize().width*rows+BOUND/2));
@@ -63,7 +62,7 @@ public class MicroMapPanel extends JPanel {
 
         private MazePecePanel(){
             Block fakeBlock = new Block(new PointImpl<Object, Object>(gbc.gridx,gbc.gridy));
-            if( Utils.getJavaList(playground.blocks()).contains(fakeBlock)) {
+            if( Utils.getJavaList(PlaygroundImpl.blocks()).contains(fakeBlock)) {
                 this.setBackground(Color.BLACK);
             } else {
                 this.setBackground(Color.WHITE);
@@ -73,7 +72,7 @@ public class MicroMapPanel extends JPanel {
         @Override
         public Dimension getPreferredSize() {
             int shortedSide = (int)Math.min(MainFrame.DIMENSION.getWidth()/DIMENTION_DIVIDER, MainFrame.DIMENSION.getHeight()/DIMENTION_DIVIDER);
-            int panelDimention = Math.min(shortedSide/playground.dimension().x(),shortedSide/playground.dimension().y());
+            int panelDimention = Math.min(shortedSide/PlaygroundImpl.dimension().x(),shortedSide/PlaygroundImpl.dimension().y());
             return new Dimension(panelDimention,panelDimention);
         }
     }

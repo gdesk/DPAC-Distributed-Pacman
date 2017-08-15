@@ -11,7 +11,7 @@ import org.scalatest.FunSuite
 
 class PlaygroundTest extends FunSuite{
 
-  val playground: PlaygroundImpl = PlaygroundImpl instance()
+  val playground: Playground = PlaygroundImpl
 
   test("Dimention"){
     assert ((playground.dimension.x equals 0) && (playground.dimension.y equals 0))
@@ -162,7 +162,7 @@ class PlaygroundTest extends FunSuite{
   }
 
   test ("singleton"){
-   val pg = PlaygroundImpl instance()
+   val pg = PlaygroundImpl
     assert(playground == pg)
   }
 

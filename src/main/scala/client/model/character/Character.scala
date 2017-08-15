@@ -110,7 +110,7 @@ trait Character extends GameItem{
 abstract class CharacterImpl(override var isKillable: Boolean) extends Character {
 
   private var pos: Point[Int, Int] = PointImpl(0,0)
-  private val playground: Playground = PlaygroundImpl instance()
+  private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
   private var _isAlive = true
 

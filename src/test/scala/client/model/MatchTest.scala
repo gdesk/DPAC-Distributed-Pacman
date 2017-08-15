@@ -22,7 +22,7 @@ class MatchTest extends FunSuite {
 
   val gameMatch: Match = MatchImpl
 
-  val playground: PlaygroundImpl = PlaygroundImpl instance()
+  val playground: Playground = PlaygroundImpl
   playground dimension = Dimension(35,35)
 
   val pacman = BasePacman("Pacman", BaseEatObjectStrategy())

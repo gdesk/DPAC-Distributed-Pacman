@@ -1,6 +1,6 @@
 package client.model.utils
 
-import client.model.{Match, MatchImpl, PlaygroundImpl}
+import client.model.{Match, MatchImpl, Playground, PlaygroundImpl}
 import client.model.character.{BaseGhost, BasePacman, Character}
 import client.model.gameElement.{Apple, Pill}
 import org.scalatest.FunSuite
@@ -22,7 +22,7 @@ class BaseEatObjectStrategyTest extends FunSuite {
 
   val gameMatch: Match = MatchImpl
 
-  val playground: PlaygroundImpl = PlaygroundImpl instance()
+  val playground: Playground = PlaygroundImpl
   playground dimension = Dimension(35,35)
 
   val redGhost = BaseGhost("Red")
