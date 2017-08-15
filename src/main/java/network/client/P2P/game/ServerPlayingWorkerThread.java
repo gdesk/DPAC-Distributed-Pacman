@@ -92,11 +92,11 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
         this.objects.put("direction", new ServerObjects());
         this.objects.put("isAlive", new ServerObjects());
 
-
         int i = 0;
+
         for(Map.Entry<String, ServerObjects> pair: objects.entrySet()){
             try {
-
+                System.out.println("entro nel for" + i++);
                 stub =  UnicastRemoteObject.exportObject(pair.getValue(), this.rmiPort);
                 registry.bind(pair.getKey(), stub);
 

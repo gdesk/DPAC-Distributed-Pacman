@@ -43,10 +43,15 @@ class P2PCommunication extends UntypedAbstractActor {
 
       case "clientCanConnect" => {
         //todo change name
+        System.out.print("------------------INIZIO CLIENT-------------------")
 
         val info = new OtherCharacterInfo
         val matchHandler = new ClientOutcomingMessageHandlerImpl
         val IPList = MatchImpl.allPlayersIp
+
+
+        System.out.print("------------------LISTA IP-------------------")
+        IPList.foreach(println)
 
         for (ip <- IPList) {
           val registry = LocateRegistry.getRegistry(ip)
@@ -55,7 +60,6 @@ class P2PCommunication extends UntypedAbstractActor {
 
         }
 
-        println("PRIMA DI START MATCH")
         //notifico controller match
         matchHandler.startMatch();
 
