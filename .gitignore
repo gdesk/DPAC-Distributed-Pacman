@@ -1,5 +1,5 @@
 .idea
-/src/main/resources/characters
+src\\main\\resources\\characters\\ghosts\\*.png
 
 # Compiled class file
 *.class
