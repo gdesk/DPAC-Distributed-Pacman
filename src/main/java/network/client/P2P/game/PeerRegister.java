@@ -9,7 +9,8 @@ import java.rmi.RemoteException;
 
 public interface PeerRegister extends Remote {
 
-    //Point<Object, Object> getPosition();
+
+    Remote getRemote() throws RemoteException;;
 
     Direction getDirection() throws RemoteException;
 

@@ -21,7 +21,7 @@ import java.util.Map;
  * (so that other peers can take updated values
  * when they need to refresh character info in their gui)
  */
-public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
+public class ServerPlayingWorkerThread implements Runnable {
 
     private ExecutorServiceUtility executor;
     private int rmiPort;
@@ -47,7 +47,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
     }
 
-    public static ServerPlayingWorkerThread getIstance(ExecutorServiceUtility executor, String ip, Registry registry, int rmiPort){
+    public static ServerPlayingWorkerThread getIstance(ExecutorServiceUtility executor, Registry registry, int rmiPort){
         if(SINGLETON == null){
             SINGLETON = new ServerPlayingWorkerThread();
             SINGLETON.init(executor, registry, rmiPort);
@@ -59,7 +59,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
         return this.direction;
     }
 
-    @Override
+
     public Boolean isAlive() {
         return this.isAlive;
     }
@@ -67,9 +67,8 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     @Override
     public void run() {
 
-
+        System.out.println("ServerPlayingWorkerThread");
         initializeObjectBinding();
-
 
         //per far terminare questo while basta chiamare shutdown
         while (!Thread.currentThread().isInterrupted()) {

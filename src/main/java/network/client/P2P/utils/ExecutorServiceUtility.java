@@ -18,9 +18,9 @@ public class ExecutorServiceUtility {
     private ExecutorService executor;
     private Runnable worker;
     private Future<?> future;
+    private static ExecutorServiceUtility SINGLETON = null;
 
-
-    public ExecutorServiceUtility(){
+    private ExecutorServiceUtility(){
 
         this.poolSize = Runtime.getRuntime().availableProcessors()+1;
         this.executor = Executors.newFixedThreadPool(poolSize);
@@ -29,15 +29,23 @@ public class ExecutorServiceUtility {
     }
 
 
+    public static ExecutorServiceUtility getIstance(){
+        if(SINGLETON == null){
+            SINGLETON = new ExecutorServiceUtility();
+        }
+        return SINGLETON;
+    }
+
+
     public void initServerPlayingWorkerThread(String ip, Registry registry, int rmiPort){
-        this.worker = ServerPlayingWorkerThread.getIstance(this, ip, registry, rmiPort);
+        this.worker = ServerPlayingWorkerThread.getIstance(this, registry, rmiPort);
         executor.execute(worker);
     }
 
     public void initClientPlayingWorkerThread(String ip, Registry registry){
-        //this.worker = new ClientPlayingWorkerThread(this);
-        this.future = executor.submit(new ClientPlayingWorkerThread(this, ip, registry));
-
+        this.worker = new ClientPlayingWorkerThread(this, ip, registry);
+        //this.future = executor.submit(new ClientPlayingWorkerThread(this, ip, registry));
+        System.out.println("prima di executor.execute(worker)");
         executor.execute(worker);
     }
 

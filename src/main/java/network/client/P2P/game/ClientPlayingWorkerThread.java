@@ -49,6 +49,8 @@ public class ClientPlayingWorkerThread implements Runnable {
 
     @Override
     public void run() {
+
+        System.out.println("ClientPlayingWorkerThread");
         PeerRegister stub;
         Object response;
         List<Object> tris = new LinkedList<>();
@@ -58,7 +60,7 @@ public class ClientPlayingWorkerThread implements Runnable {
             try {
                 for (Map.Entry<String, Object> pair : responses.entrySet()) {
 
-                    stub = (PeerRegister) registry.lookup(pair.getKey());
+                    stub = (PeerRegisterImlp) registry.lookup(pair.getKey());
                     switch (pair.getKey()) {
                         case "direction":
                             response = stub.getDirection();

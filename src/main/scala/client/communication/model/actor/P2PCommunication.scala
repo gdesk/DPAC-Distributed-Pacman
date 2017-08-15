@@ -1,6 +1,7 @@
 package client.communication.model.actor
 
 
+import java.net.InetAddress
 import java.rmi.registry.LocateRegistry
 
 import akka.actor.UntypedAbstractActor
@@ -22,7 +23,7 @@ import scala.util.parsing.json.JSONObject
 class P2PCommunication extends UntypedAbstractActor {
 
 
-  val executor = new ExecutorServiceUtility
+  val executor = ExecutorServiceUtility.getIstance
 
 
   override def onReceive(message: Any): Unit = message match{
@@ -43,25 +44,27 @@ class P2PCommunication extends UntypedAbstractActor {
 
       case "clientCanConnect" => {
         //todo change name
-        System.out.print("------------------INIZIO CLIENT-------------------")
+        System.out.println("--INIZIO CLIENT--")
 
         val info = new OtherCharacterInfo
         val matchHandler = new ClientOutcomingMessageHandlerImpl
         val IPList = MatchImpl.allPlayersIp
 
+        val filteredIpLis = IPList.filter(clientIp => !clientIp.equals(InetAddress.getLocalHost.toString))
 
-        System.out.print("------------------LISTA IP-------------------")
-        IPList.foreach(println)
+        filteredIpLis.foreach(println)
+        System.out.println("--LISTA IP--")
 
-        for (ip <- IPList) {
-          val registry = LocateRegistry.getRegistry(ip)
-          new ClientBootstrap(ip)
-          executor.initClientPlayingWorkerThread(ip, registry)
 
-        }
+        filteredIpLis.foreach(clientIp => {
+          val registry = LocateRegistry.getRegistry(clientIp)
+          new ClientBootstrap(clientIp)
+          executor.initClientPlayingWorkerThread(clientIp, registry)
+
+        })
 
         //notifico controller match
-        matchHandler.startMatch();
+        matchHandler.startMatch()
 
       }
       case _ =>{}
