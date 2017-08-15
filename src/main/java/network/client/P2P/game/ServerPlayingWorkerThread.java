@@ -71,9 +71,9 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 updateObjects();
-                wait(1000);
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
+             //   wait(1000);
+           // } catch (InterruptedException ex) {
+           //     Thread.currentThread().interrupt();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
