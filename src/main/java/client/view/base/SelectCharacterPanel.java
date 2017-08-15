@@ -144,7 +144,6 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
             playgroundsButton.add(button);
             button.addActionListener(e-> {
                 if (!isPlaygroundChoosed) {
-
                     //this.playgroundChoosed.setEnabled(true);
                     this.playgroundChoosed = button;
                     this.isPlaygroundChoosed = true;

@@ -1,7 +1,6 @@
 package client.view.match;
 
 import client.controller.BaseControllerMatch;
-import client.controller.ControllerMatch;
 import client.view.Res;
 import client.view.Utils;
 import client.view.base.SelectCharacterPanel;
