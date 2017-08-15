@@ -43,6 +43,7 @@ class P2PCommunication extends UntypedAbstractActor {
 
       case "clientCanConnect" => {
         //todo change name
+
         val info = new OtherCharacterInfo
         val matchHandler = new ClientOutcomingMessageHandlerImpl
         val IPList = MatchImpl.allPlayersIp
@@ -54,6 +55,7 @@ class P2PCommunication extends UntypedAbstractActor {
 
         }
 
+        println("PRIMA DI START MATCH")
         //notifico controller match
         matchHandler.startMatch();
 

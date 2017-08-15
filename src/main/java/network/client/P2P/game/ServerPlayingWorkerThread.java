@@ -7,6 +7,7 @@ import client.model.character.Character;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
 import java.rmi.AlreadyBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -25,7 +26,7 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
     private ExecutorServiceUtility executor;
     private int rmiPort;
     private Registry registry;
-    private Map<String, ServerPlayingWorkerThread> objects;
+    private Map<String, ServerObjects> objects;
 
     private Match match;
     private Character character;
@@ -65,7 +66,10 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
     @Override
     public void run() {
+
+
         initializeObjectBinding();
+
 
         //per far terminare questo while basta chiamare shutdown
         while (!Thread.currentThread().isInterrupted()) {
@@ -83,15 +87,17 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
 
     private void initializeObjectBinding(){
-        PeerRegister stub;
+        Remote stub;
 
-        //this.objects.put("currentPosition", new ServerPlayingWorkerThread());
-        this.objects.put("direction", new ServerPlayingWorkerThread());
-        this.objects.put("isAlive", new ServerPlayingWorkerThread());
+        this.objects.put("direction", new ServerObjects());
+        this.objects.put("isAlive", new ServerObjects());
 
-        for(Map.Entry<String, ServerPlayingWorkerThread> pair: objects.entrySet()){
+
+        int i = 0;
+        for(Map.Entry<String, ServerObjects> pair: objects.entrySet()){
             try {
-                stub = (PeerRegister) UnicastRemoteObject.exportObject(pair.getValue(), this.rmiPort);
+
+                stub =  UnicastRemoteObject.exportObject(pair.getValue(), this.rmiPort);
                 registry.bind(pair.getKey(), stub);
 
             } catch (RemoteException | AlreadyBoundException e) {
@@ -105,11 +111,6 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
 
     private void updateObjects() throws RemoteException {
-        /*if(!character.position().equals(currentPosition)){
-            registry.rebind("currentPosition", objects.get("currentPosition"));
-             this.currentPosition = new PointImpl<>(character.position().x(),character.position().y());
-
-        }*/
         if(character.direction().equals(direction)){
             registry.rebind("direction", objects.get("direction"));
             this.direction = character.direction();

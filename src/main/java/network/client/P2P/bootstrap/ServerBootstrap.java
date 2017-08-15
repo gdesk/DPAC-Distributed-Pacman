@@ -59,14 +59,15 @@ public class ServerBootstrap {
      * this method creates an rmiregistry on a
      * given port
      */
-    private void setUpRmiregistry() throws RemoteException{
+    private void setUpRmiregistry(String ip) throws RemoteException{
         try {
-            registry = LocateRegistry.createRegistry(rmiPort);
+            System.setProperty("Djava.rmi.server.codebase", "out/");
+            System.setProperty("Djava.rmi.server.hostname", ip);
+            registry = LocateRegistry.createRegistry(this.rmiPort);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        System.setProperty("Djava.rmi.server.codebase", "out/");
-        System.setProperty("Djava.rmi.server.hostname", ip);
+
 
     }
 
@@ -79,16 +80,16 @@ public class ServerBootstrap {
     }
 
     private void init(String ip){
-        this.ip = ip;
+
         this.portRangeHandler = new PortRangeHandler();
         int count = 0;
         int maxTries = 5;
 
         while (true) {
             //seleziono porta disponibile
-            rmiPort = portRangeHandler.getFirstAvailablePortNumber();
+            this.rmiPort = portRangeHandler.getFirstAvailablePortNumber();
             try {
-                setUpRmiregistry(); //provo a settare il registro con porta scelta
+                setUpRmiregistry(ip); //provo a settare il registro con porta scelta
                 break;
             }catch (RemoteException ex) {
                 if (++count == maxTries) { //provo per un massimo di 4 tentativi
