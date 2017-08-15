@@ -82,6 +82,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         });
 
         doneButton.addActionListener(e-> {
+            System.out.println("done");
             LoadingPanel loadingPanel = new LoadingPanel();
             MainFrame.getInstance().setContentPane(loadingPanel);
             new Thread(() -> {
@@ -89,6 +90,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
                 BaseControllerMatch.chosenCharacter(((ImageIcon) characterChoosed.getIcon()).getDescription());
                 BaseControllerMatch.chosenPlayground(Integer.parseInt(((ImageIcon) playgroundChoosed.getIcon()).getDescription()));
                 BaseControllerMatch.startMatch();
+                System.out.println("chiamata asincrona");
             }).start();
         });
     }

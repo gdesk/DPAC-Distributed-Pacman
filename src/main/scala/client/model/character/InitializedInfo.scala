@@ -76,7 +76,7 @@ object InitializedInfoImpl extends InitializedInfo{
 
   override def getGhostStartPosition(): Point[Int,Int] ={
 
-    val term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("next_position("+xPosition+","+yPosition+")"), "X")
+    val term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("next_position("+xPosition+","+yPosition+",X,Y)"), "X")
     val value: Int = valueOf(term.toString)
     xPosition = value
     PointImpl[Int, Int](value, yPosition)

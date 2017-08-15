@@ -6,6 +6,7 @@ import java.io.FileInputStream
 import alice.tuprolog.Theory
 import client.model.gameElement.{Block, Eatable, GameItem}
 import client.model.utils.{Dimension, Point, PointImpl, ScalaProlog}
+import client.utils.PrologUtility
 import client.utils.PrologUtility._
 
 import scala.collection.mutable.ListBuffer
@@ -149,8 +150,9 @@ object  PlaygroundImpl extends Playground{
     blocks
     streetPositions
     var theory = ""
-    _streetPositions foreach (s => theory = theory + "street(" + s.x + "," + s.y + ").")
-    engine = modifyPrologEngine(theory)
+    _streetPositions foreach { println }
+    _streetPositions foreach (s => theory = theory + "street("+s.x+","+s.y+")." + "\n")
+    PrologUtility.modifyPrologEngine(theory)
   }
 
   /**
