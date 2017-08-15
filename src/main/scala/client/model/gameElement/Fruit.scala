@@ -3,8 +3,8 @@ package client.model.gameElement
 import client.model.utils.Point
 
 /**
-  * Created by margherita on 10/07/17.
+  * Represents all fruits in the game.
+  *
+  * @author Margherita Pecorelli
   */
-trait Fruit extends Eatable {
-
-}
+trait Fruit extends Eatable {}

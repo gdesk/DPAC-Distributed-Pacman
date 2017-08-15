@@ -3,17 +3,26 @@ package client.model.gameElement
 import client.model.utils.Point
 
 /**
-  * Created by margherita on 10/07/17.
+  * Represents all cherries.
+  *
+  * @author Margherita Pecorelli
   */
 case class Cherry(override val id: String, override val position: Point[Int, Int]) extends Fruit {
+
   /**
-    * Returns the value that is given as score when Pacman eat that item.
+    * Returns the eatable object's score given to a character when it eats that eatable.
     *
-    * @return the score value.
+    * @return eatable object's score.
     */
   override def score: Int = Cherry.score
 }
 
-object Cherry {
+
+/**
+  * Represents the static Cherry's values.
+  */
+private object Cherry {
+
   private val score = 100
+
 }

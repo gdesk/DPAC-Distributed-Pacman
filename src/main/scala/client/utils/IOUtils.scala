@@ -173,7 +173,7 @@ object IOUtils {
         }
         case 'g' => {
           //println("I'm a grapes at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Grapes("",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Grape("",PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'k' => {
@@ -230,4 +230,5 @@ object IOUtils {
 
     Dimension(xDim,yDim)
   }
+
 }

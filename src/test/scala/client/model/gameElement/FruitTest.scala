@@ -10,7 +10,7 @@ class FruitTest extends FunSuite {
 
   val apple = Apple("Apple", PointImpl(0,0))
   val cherry = Cherry("Cherry", PointImpl(0,2))
-  val grapes = Grapes("Grapes", PointImpl(1,0))
+  val grapes = Grape("Grapes", PointImpl(1,0))
   val orange = Orange("Orange", PointImpl(1,2))
   val strawberry = Strawberry("Strawberry", PointImpl(1,4))
 

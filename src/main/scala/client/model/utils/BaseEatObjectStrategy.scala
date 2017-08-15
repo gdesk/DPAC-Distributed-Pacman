@@ -7,41 +7,47 @@ import client.model.gameElement.{Eatable, Pill}
 import client.model.{Match, MatchImpl, Playground, PlaygroundImpl}
 
 /**
-  * Created by margherita on 11/07/17.
+  * Represents the implementation of the strategy to use when a character eats an eatable object.
+  *
+  * @author Margherita Pecorelli
   */
 case class BaseEatObjectStrategy() extends EatObjectStrategy with Observer{
 
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
   private val timer: Timer = new TimerImpl
+
   timer.addObserver(this)
 
   /**
-    * It's the method that deals with the strategy to use when Pacman eats an object.
+    * Implements the strategy to use when a character eats an eatable object.
     *
-    * @param eatenObject - the Eatable eaten.
+    * @param eatenObject - the eatable object eaten by th character.
     */
-  override def eat(eatenObject: Eatable) = eatenObject.isInstanceOf[Pill] match {
-    case true =>
-      game.allCharacters.foreach(c => c.isInstanceOf[Pacman] match {
-        case true => c.isKillable = false
-        case _ => c.isKillable = true
-      })
+  override def eat(eatenObject: Eatable) = {
+    if(eatenObject.isInstanceOf[Pill]) {
+      game.allCharacters.foreach(c => c.isKillable = !c.isInstanceOf[Pacman])
       timer.counts(BaseEatObjectStrategy.getMillisecondsToWait)
-    case _ =>
+    }
   }
 
-  override def update(observable: Observable, arg: scala.Any) = {
-    game.allCharacters.foreach(c => c.isInstanceOf[Pacman] match {
-      case true => c.isKillable = true
-      case _ => c.isKillable = false
-    })
-  }
+  /**
+    * Called when timer has ended up counting.
+    *
+    * @param observable - the observable who notified me.
+    * @param arg - not used
+    */
+  override def update(observable: Observable, arg: scala.Any) = game.allCharacters.foreach(c => c.isKillable = c.isInstanceOf[Pacman])
 
 }
 
+/**
+  * Represents the static BaseEatObjectStrategy's values.
+  */
 object BaseEatObjectStrategy {
+
   private val millisecondsToWait = 10000
 
   def getMillisecondsToWait: Long = millisecondsToWait
+
 }

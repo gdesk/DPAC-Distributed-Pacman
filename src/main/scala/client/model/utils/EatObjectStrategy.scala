@@ -3,16 +3,16 @@ package client.model.utils
 import client.model.gameElement.Eatable
 
 /**
-  * Rapresents the strategy to use when {@Pacman} eats an object
+  * Represents the strategy to use when a character eats an eatable object.
   *
   * @author Margherita Pecorelli
   */
 trait EatObjectStrategy {
 
   /**
-    * It's the method that deals with the strategy to use when Pacman eats an object.
+    * Implements the strategy to use when a character eats an eatable object.
     *
-    * @param eatenObject - the Eatable eaten.
+    * @param eatenObject - the eatable object eaten by the character.
     */
   def eat(eatenObject: Eatable): Unit
 
