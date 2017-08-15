@@ -2,7 +2,6 @@ package client.view.base;
 
 import client.controller.BaseControllerMatch;
 import client.controller.BaseControllerUser;
-import client.controller.ControllerMatch;
 import client.view.MainFrame;
 import client.view.Utils;
 import client.view.utils.JComponentsUtils;
@@ -30,7 +29,8 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     private JButton playgroundChoosed = new JButton();
     private boolean isPlaygroundChoosed = false;
 
-    private final List<JButton> characterButton = new ArrayList<>();
+    private final List<JButton> charactersButton = new ArrayList<>();
+    private final List<JButton> playgroundsButton = new ArrayList<>();
 
     public SelectCharacterPanel(){
         setLayout(new BorderLayout());
@@ -113,7 +113,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         icon.setDescription(str);
         imageButton.setIcon(icon);
         iconPanel.add(imageButton);
-        characterButton.add(imageButton);
+
         addActionListenerToButton(imageButton);
 
         return iconPanel;
@@ -121,22 +121,31 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
 
     private void addActionListenerToButton(final JButton button){
         if(button.getIcon().getIconWidth() == CHARACTER_IMAGE_DIMENSION.getWidth()){
-            button.addActionListener(e->{
-                button.setEnabled(false);
-                this.characterChoosed.setEnabled(true);
-                this.characterChoosed = button;
-                this.isCharacterChoosed = true;
-                BaseControllerMatch.chosenCharacter(((ImageIcon)button.getIcon()).getDescription());
-                checkDone();
+            charactersButton.add(button);
+            button.addActionListener(e-> {
+                if (!isCharacterChoosed){
+                    // button.setEnabled(false);
+                    this.characterChoosed.setEnabled(true);
+                    this.characterChoosed = button;
+                    this.isCharacterChoosed = true;
+                    if (BaseControllerMatch.chosenCharacter(((ImageIcon) button.getIcon()).getDescription())) {
+                        charactersButton.forEach(c -> c.setEnabled(false));
+                    }
+                    checkDone();
+                }
             });
 
         } else {
-            button.addActionListener(e->{
-                button.setEnabled(false);
-                this.playgroundChoosed.setEnabled(true);
-                this.playgroundChoosed = button;
-                this.isPlaygroundChoosed = true;
-                checkDone();
+            playgroundsButton.add(button);
+            button.addActionListener(e-> {
+                if (isPlaygroundChoosed) {
+                    //button.setEnabled(false);
+                    this.playgroundChoosed.setEnabled(true);
+                    this.playgroundChoosed = button;
+                    this.isPlaygroundChoosed = true;
+                    playgroundsButton.forEach(c -> c.setEnabled(false));
+                    checkDone();
+                }
             });
         }
     }
@@ -157,7 +166,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     }
 
     private void  modifyStatusButton(final boolean status, final String nameImage){
-        characterButton.forEach(b->{
+        charactersButton.forEach(b->{
             if( ((ImageIcon)b.getIcon()).getDescription().equals(nameImage)){
                 b.setEnabled(status);
             }

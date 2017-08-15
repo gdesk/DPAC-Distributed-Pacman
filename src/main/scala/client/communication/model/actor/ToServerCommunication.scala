@@ -10,7 +10,7 @@ import scala.util.parsing.json.JSONObject
   * @author Giulia Lucchi
   */
 class ToServerCommunication extends UntypedAbstractActor{
-  val server: ActorSelection = context actorSelection "akka.tcp://DpacServer@192.168.1.17:2552/user/messageReceiver"
+  val server: ActorSelection = context actorSelection "akka.tcp://DpacServer@192.168.1.21:2552/user/messageReceiver"
 
   override def onReceive(message: Any): Unit = message match{
     case msg :JSONObject => server ! msg.asInstanceOf[JSONObject]

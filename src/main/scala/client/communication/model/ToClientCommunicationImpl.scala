@@ -177,7 +177,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val fileMap = response.obj("map").asInstanceOf[Map[String, Array[Byte]]]
     var characterToChoose: Map[String, Image]= Map.empty
     fileMap.keySet.foreach(name =>{
-      val path = "src/resources/characters/selection/"+name+".png"
+      val path = "src/main/resources/characters/selection/"+name+".png"
       saveImageToResources(path, fileMap(name))
       characterToChoose += ((name, new ImageIcon(path).getImage))
     })
