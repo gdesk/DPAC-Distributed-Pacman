@@ -356,6 +356,20 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
+    *
+    * @return
+    */
+  override def getPlayersIp(): List[String] ={
+    val message = JSONObject(Map[String,Any](
+      "object" -> "playersIP",
+      "senderIP" -> player.ip
+    ))
+
+    val response = getJSONMessage(message)
+    val listIP = response.obj("list").asInstanceOf[List[String]]
+    listIP
+  }
+  /**
     * This private method due to encapsulate the send and receive of the messages.
     *
     * @param message  message to send

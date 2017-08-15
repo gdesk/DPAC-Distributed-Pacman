@@ -133,4 +133,10 @@ trait ToClientCommunication {
     * @param response the invite's response to current match
     */
   def sendResponse(response: Boolean): Unit
+
+  /**
+    *
+    * @return list of all the players
+    */
+  def getPlayersIp(): List[String]
 }
