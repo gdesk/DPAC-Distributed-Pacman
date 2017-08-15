@@ -1,5 +1,5 @@
 %pacman_initial_position(-XPosition, -YPosition).
-pacman_initial_position(30,30).
+pacman_initial_position(3,3).
 
 %ghost_initial_position(-XPosition, -YPosition).
 ghost_initial_position(15,5).

@@ -4,14 +4,15 @@ package network.client.P2P.game;
 import client.model.Direction;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 
 public interface PeerRegister extends Remote {
 
     //Point<Object, Object> getPosition();
 
-    Direction getDirection();
+    Direction getDirection() throws RemoteException;
 
-    Boolean isAlive();
+    Boolean isAlive() throws RemoteException;
 
 }
