@@ -150,7 +150,6 @@ object  PlaygroundImpl extends Playground{
     blocks
     streetPositions
     var theory = ""
-    _streetPositions foreach { println }
     _streetPositions foreach (s => theory = theory + "street("+s.x+","+s.y+")." + "\n")
     PrologUtility.modifyPrologEngine(theory)
   }

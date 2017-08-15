@@ -13,7 +13,7 @@ import client.communication.model.actor.{FromServerCommunication, P2PCommunicati
 import client.model._
 import client.model.character.{BaseGhost, BasePacman}
 import client.model.utils.BaseEatObjectStrategy
-import client.utils.{IOUtils, PrologUtility}
+import client.utils.IOUtils
 import com.typesafe.config.{Config, ConfigFactory}
 
 import scala.concurrent.duration.Duration
@@ -292,7 +292,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     */
   override def getTeamCharacter: Map[String, Map[Direction, Image]] = {
     val message = JSONObject(Map[String, String](
-      "object" -> "teamCharacterRequest ",
+      "object" -> "teamCharacterRequest",
       "senderIP" -> player.ip
     ))
 
@@ -302,9 +302,9 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
     typeCharacters.keySet.foreach(x =>{
       val singleCharacter = typeCharacters(x)
-      singleCharacter(1) match {
-        case "pacman" => currentMatch.addCharactersAndPlayersIp(BasePacman(singleCharacter(2), BaseEatObjectStrategy()), x)
-        case "ghost" => currentMatch.addCharactersAndPlayersIp(BaseGhost(singleCharacter(2)), x)
+      singleCharacter(0) match {
+        case "pacman" => currentMatch.addCharactersAndPlayersIp(BasePacman(singleCharacter(1), BaseEatObjectStrategy()), x)
+        case "ghost" => currentMatch.addCharactersAndPlayersIp(BaseGhost(singleCharacter(1)), x)
       }
     })
 

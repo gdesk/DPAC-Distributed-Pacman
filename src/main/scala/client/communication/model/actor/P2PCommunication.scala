@@ -1,12 +1,11 @@
 package client.communication.model.actor
 
 
-import java.net.InetAddress
-import java.rmi.registry.{LocateRegistry, Registry}
+import java.rmi.registry.LocateRegistry
 
 import akka.actor.UntypedAbstractActor
+import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl
 import client.model.{MatchImpl, PlayerImpl}
-import client.model.peerCommunication.{ClientIncomingMessageHandlerImpl, ClientOutcomingMessageHandlerImpl}
 import client.utils.ActorUtils
 import network.client.P2P.bootstrap.{ClientBootstrap, ServerBootstrap}
 import network.client.P2P.utils.ExecutorServiceUtility
@@ -35,7 +34,7 @@ class P2PCommunication extends UntypedAbstractActor {
         val ip = PlayerImpl.ip
         val server = ServerBootstrap.getIstance(ip)
 
-        //executor.initServerPlayingWorkerThread(ip, server.getRegistry, server.getRmiPort)
+        executor.initServerPlayingWorkerThread(ip, server.getRegistry, server.getRmiPort)
 
         context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! JSONObject(Map[String,String](
           "object" -> "serverIsRunning",
