@@ -16,7 +16,7 @@ trait Ghost extends Character
 case class BaseGhost(override val name: String) extends CharacterImpl(false) with Ghost {
 
   private val playground: Playground = PlaygroundImpl instance()
-  private val game: Match = MatchImpl instance()
+  private val game: Match = MatchImpl
 
   setPosition(PointImpl[Int, Int](20, 20))
   //setPosition(InitializedInfoImpl.getStartPosition("ghost"))

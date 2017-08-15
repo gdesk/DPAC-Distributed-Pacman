@@ -19,7 +19,7 @@ class BasePacmanTest extends FunSuite {
   val playground = PlaygroundImpl instance()
   playground dimension = Dimension(35,35)
 
-  val gameMatch = MatchImpl instance()
+  val gameMatch = MatchImpl
 
   val pacman = BasePacman("Pacman", BaseEatObjectStrategy())
 

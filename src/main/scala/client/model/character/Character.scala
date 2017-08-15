@@ -5,21 +5,22 @@ import client.model.gameElement.GameItem
 import client.model.utils.{Lives, Point, PointImpl}
 
 /**
-  * Manages the base model of client.model.character.gameElement.character.
+  * Represents all base characters behaviors.
   *
   * @author Giulia Lucchi
   * @author Margherita Pecorelli
   */
 trait Character extends GameItem{
+
   /**
-    * Manages the client.model.character.gameElement.character's movement and consequently the contact with other item of the game.
+    * Manages character's movement and consequently the contact with other item of the game.
     *
-    * @param direction    client.model.character.gameElement.character's of direction
+    * @param direction - direction of character's movement.
     */
   def go(direction: Direction): Unit
 
   /**
-    * Manage the the strategy of game, that is based on who the killer is and who the killable
+    * Manages the strategy of game, that is based on who the killer is and who the killable
     */
   def checkAllPositions: Unit
 
@@ -110,7 +111,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
 
   private var pos: Point[Int, Int] = PointImpl(0,0)
   private val playground: Playground = PlaygroundImpl instance()
-  private val game: Match = MatchImpl instance()
+  private val game: Match = MatchImpl
   private var _isAlive = true
 
   override var direction: Direction = Direction.START

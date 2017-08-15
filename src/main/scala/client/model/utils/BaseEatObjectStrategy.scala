@@ -12,7 +12,7 @@ import client.model.{Match, MatchImpl, Playground, PlaygroundImpl}
 case class BaseEatObjectStrategy() extends EatObjectStrategy with Observer{
 
   private val playground: Playground = PlaygroundImpl instance()
-  private val game: Match = MatchImpl instance()
+  private val game: Match = MatchImpl
   private val timer: Timer = new TimerImpl
   timer.addObserver(this)
 

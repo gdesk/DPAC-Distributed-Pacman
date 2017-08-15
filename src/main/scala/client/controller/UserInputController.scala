@@ -2,14 +2,15 @@ package client.view
 
 import java.awt.event.{KeyEvent, KeyListener}
 
-import client.controller.ControllerCharacter
+import client.controller.BaseControllerCharacter
 import client.model.Direction
 
 /**
   * Created by Manuel Bottax on 06/07/2017.
   */
-class UserInputController (val controller: ControllerCharacter) extends KeyListener{
+class UserInputController () extends KeyListener{
 
+  val controller = BaseControllerCharacter
 
   override def keyPressed(e: KeyEvent): Unit = {
 

@@ -4,44 +4,108 @@ import client.communication.model.ToClientCommunication
 import client.model._
 
 /**
-  * This trait represents the controller's interface with which the view can interact.
+  * Represents the controller for the user management.
+  *
+  * @author Margherita Pecorelli
   */
 trait ControllerUser {
 
+  /**
+    * Tells the model all parameters for a new registration.
+    *
+    * @param name - the user'a name.
+    * @param username - the user's username.
+    * @param email - the user'a mail.
+    * @param password - the user's accont password.
+    * @param confirmPassword - the confirm of the password.
+    *
+    * @return true if the registration is successful, false otherwise.
+    */
   def registration(name: String, username: String, email: String, password: String, confirmPassword: String): Boolean
 
+  /**
+    * Tells the model all parameters for a login.
+    *
+    * @param username - the account's username.
+    * @param password - the account's password.
+    *
+    * @return true if the login is successful, false otherwise.
+    */
   def login(username: String, password: String): Boolean
 
-  def logout(): Boolean
+  /**
+    * Tells the model to logout the user.
+    *
+    * @return true if the logout is successful, false otherwise.
+    */
+  def logout: Boolean
 
-  def player(): Player
+  /**
+    * Returns the player of the user.
+    *
+    * @return the player of the user.
+    */
+  def player: Player
 
-  def model(model: ToClientCommunication): Unit
+  /**
+    * Setsthe model to be called.
+    *
+    * @param model - the model to be called.
+    */
+  def setModel(model: ToClientCommunication): Unit
 
 }
 
-case class BaseControllerUser private() extends ControllerUser {
+/**
+  * Represents the implementation of the controller for the user management.
+  *
+  * @author Margherita Pecorelli
+  */
+object BaseControllerUser extends ControllerUser {
 
   private var _model: ToClientCommunication = null
 
+  /**
+    * Tells the model all parameters for a new registration.
+    *
+    * @param name - the user'a name.
+    * @param username - the user's username.
+    * @param email - the user'a mail.
+    * @param password - the user's accont password.
+    * @param confirmPassword - the confirm of the password.
+    *
+    * @return true if the registration is successful, false otherwise.
+    */
   override def registration(name: String, username: String, email: String, password: String, confirmPassword: String) = _model registration (name, username, email, password, confirmPassword)
 
+  /**
+    * Tells the model all parameters for a login.
+    *
+    * @param username - the account's username.
+    * @param password - the account's password.
+    *
+    * @return true if the login is successful, false otherwise.
+    */
   override def login(username: String, password: String) = _model login (username, password)
 
-  override def logout = _model logout()
+  /**
+    * Tells the model to logout the user.
+    *
+    * @return true if the logout is successful, false otherwise.
+    */
+  override def logout = _model.logout
 
-  override def player = PlayerImpl instance()
+  /**
+    * Returns the player of the user.
+    *
+    * @return the player of the user.
+    */
+  override def player = PlayerImpl.instance
 
-  override def model(model: ToClientCommunication) = _model = model
-}
-
-object BaseControllerUser {
-
-  private var _instance: BaseControllerUser = null
-
-  def instance(): BaseControllerUser = {
-    if(_instance == null) _instance = BaseControllerUser()
-    _instance
-  }
-
+  /**
+    * Setsthe model to be called.
+    *
+    * @param model - the model to be called.
+    */
+  override def setModel(model: ToClientCommunication) = _model = model
 }

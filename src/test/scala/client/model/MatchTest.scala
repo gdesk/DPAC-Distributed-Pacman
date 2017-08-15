@@ -20,7 +20,7 @@ class MatchTest extends FunSuite {
   private var ip2: String = "10.200.300.401"
   private var ip3: String = "10.200.300.402"
 
-  val gameMatch: Match = MatchImpl instance()
+  val gameMatch: Match = MatchImpl
 
   val playground: PlaygroundImpl = PlaygroundImpl instance()
   playground dimension = Dimension(35,35)
@@ -123,7 +123,7 @@ class MatchTest extends FunSuite {
   }
 
   test ("singleton"){
-    assert(gameMatch == MatchImpl.instance())
+    assert(gameMatch == MatchImpl)
   }
 
 }

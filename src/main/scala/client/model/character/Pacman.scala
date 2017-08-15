@@ -25,7 +25,7 @@ trait Pacman extends Character {
 case class BasePacman(override val name: String, val strategy: EatObjectStrategy) extends CharacterImpl(true) with Pacman {
 
   private val playground: Playground = PlaygroundImpl instance()
-  private val game: Match = MatchImpl instance()
+  private val game: Match = MatchImpl
 
   setPosition(InitializedInfoImpl.getStartPosition("pacman"))
 

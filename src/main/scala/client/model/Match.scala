@@ -79,7 +79,7 @@ trait Match {
   *
   *
   */
-case class MatchImpl private() extends Match {
+object MatchImpl extends Match {
 
   private var _deadCharacters: ListBuffer[Character] = ListBuffer empty
   private var charactersPlayersIp: HashMap[Character, String] = HashMap empty
@@ -135,22 +135,6 @@ case class MatchImpl private() extends Match {
     _deadCharacters += deadCharacter
     charactersPlayersIp -=  deadCharacter
   }
-}
-
-object MatchImpl {
-
-  private var _instance: MatchImpl = null
-
-  /**
-    * Returns the only {@MatchImpl}'s instance. Pattern Singleton.
-    *
-    * @return the only MatchImpl's instance.
-    */
-  def instance(): MatchImpl = {
-    if(_instance == null) _instance = MatchImpl()
-    _instance
-  }
-
 }
 
 case class CharacterDoesNotExistException(private val message: String = "") extends Exception(message)
