@@ -20,16 +20,9 @@ class CharacterImplTest(character: Character) extends FunSuite {
     }
 
     test("position and setPosition") {
-      /*
-      assert(character.position equals (InitializedInfoImpl.getStartPosition(character.isInstanceOf[Pacman] match {
-        case true => "pacman"
-        case false => "ghost"
-      })))
-      */
-      //DA TOGLIERE QUANDO SCOMMENTIAMO LA PARTE SOPRA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       assert(character.position equals (character.isInstanceOf[Pacman] match {
-        case true => InitializedInfoImpl.getPacmanStartPosition("pacman")
-        case false => PointImpl(20, 20)
+        case true => InitializedInfoImpl.getPacmanStartPosition()
+        case false => InitializedInfoImpl.getGhostStartPosition()
       }))
 
       character setPosition PointImpl(10, 10)

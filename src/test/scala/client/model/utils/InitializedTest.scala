@@ -9,7 +9,7 @@ import client.model.character.InitializedInfoImpl
 object InitializedTest extends App {
 
   /* Verify the extraction of pacman's start position from prolog*/
-  var pacmanStartPosition : Point[Int,Int] = InitializedInfoImpl.getPacmanStartPosition("pacman")
+  var pacmanStartPosition : Point[Int,Int] = InitializedInfoImpl.getPacmanStartPosition()
   var x: Int = 30
   var y: Int = 30
   assert( pacmanStartPosition.x equals x)
