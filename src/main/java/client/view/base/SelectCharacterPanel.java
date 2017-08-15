@@ -124,13 +124,14 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
             charactersButton.add(button);
             button.addActionListener(e-> {
                 if (!isCharacterChoosed){
-                    button.setEnabled(true);
-                    this.characterChoosed.setEnabled(true);
+
+                    //this.characterChoosed.setEnabled(true);
                     this.characterChoosed = button;
                     this.isCharacterChoosed = true;
                     if (BaseControllerMatch.chosenCharacter(((ImageIcon) button.getIcon()).getDescription())) {
                         charactersButton.forEach(c -> c.setEnabled(false));
                     }
+                    button.setEnabled(true);
                     checkDone();
                 }
             });
@@ -139,11 +140,11 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
             playgroundsButton.add(button);
             button.addActionListener(e-> {
                 if (isPlaygroundChoosed) {
-                    button.setEnabled(true);
-                    this.playgroundChoosed.setEnabled(true);
+                    //this.playgroundChoosed.setEnabled(true);
                     this.playgroundChoosed = button;
                     this.isPlaygroundChoosed = true;
                     playgroundsButton.forEach(c -> c.setEnabled(false));
+                    button.setEnabled(true);
                     checkDone();
                 }
             });

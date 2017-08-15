@@ -170,8 +170,8 @@ object BaseControllerMatch extends ControllerMatch {
   override def getPlaygrounds = {
     val grounds: Int = model.getPlaygrounds
     val playgrounds: HashMap[Int, Image] = HashMap.empty
-    for(i <- 0 to grounds) {
-      playgrounds += (i -> new ImageIcon("resources/playground/images/" + i + ".png").getImage)
+    for(i <- 0 until grounds) {
+      playgrounds += (i -> new ImageIcon("src/main/resources/playground/images/" + i + ".png").getImage)
     }
     playgrounds.toMap
   }
