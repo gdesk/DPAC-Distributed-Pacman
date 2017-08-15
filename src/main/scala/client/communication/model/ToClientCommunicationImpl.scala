@@ -290,11 +290,13 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     * @return list of current match's characters.
     *         The Map has the IP address of character as key and, as value, a Map with direction and Image.
     */
-  override def getTeamCharacter: Map[String, Map[Direction, Image]] = {
+  override def getTeamCharacter(ip: String):  Map[Direction, Image] = {
     val message = JSONObject(Map[String, String](
       "object" -> "teamCharacterRequest",
-      "senderIP" -> player.ip
+      "senderIP" -> player.ip,
+      "requestIP" -> ip
     ))
+
 
     val response = getJSONMessage(message)
     val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
@@ -306,7 +308,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       }
     })
 
-    response.obj("map").asInstanceOf[Map[String, Map[Direction, Image]]]
+    response.obj("map").asInstanceOf[Map[Direction, Image]]
   }
 
   /**
