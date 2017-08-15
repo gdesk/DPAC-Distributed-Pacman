@@ -11,11 +11,13 @@ import client.model.utils.ScalaProlog
 object PrologConfig {
 
   private val FILE_NAME = "src/main/prolog/dpac-prolog.pl"
-  private val theory: Theory =  new Theory(new FileInputStream(FILE_NAME))
+  private val _theory: Theory =  new Theory(new FileInputStream(FILE_NAME))
 
-  val ENGINE = ScalaProlog.mkPrologEngine(theory)
+  val ENGINE = ScalaProlog.mkPrologEngine(_theory)
 
-  def getPrologEngine(): Prolog = ScalaProlog.getPrologEngine(theory)
+  def getPrologEngine: Prolog = ScalaProlog.getPrologEngine(_theory)
+
+  def theory: Theory = _theory
 
 
 }

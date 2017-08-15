@@ -140,7 +140,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     * @return the new client.model.character.gameElement.character's position after the movement
     */
   private def move(direction: Direction) = {
-    val solveInfo = PrologConfig.getPrologEngine().solve(s"move(${pos x}, ${pos y},${direction getDirection}, X, Y).")
+    val solveInfo = PrologConfig.getPrologEngine.solve(s"move(${pos x}, ${pos y},${direction getDirection}, X, Y).")
     if (solveInfo isSuccess) {
       val x = Integer.valueOf(solveInfo.getTerm("X").toString)
       val y = Integer.valueOf(solveInfo.getTerm("Y").toString)

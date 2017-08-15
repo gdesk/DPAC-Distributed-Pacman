@@ -28,7 +28,15 @@ trait InitializedInfo{
     *
     * @return the coordinate of pacman's starting position
     */
-  def getStartPosition(characterName: String): Point[Int, Int]
+  def getPacmanStartPosition(): Point[Int, Int]
+
+  /**
+    * Extracts from the logic of the game implemented in prolog
+    * the ghost's starting position
+    *
+    * @return the coordinate of ghost's starting position
+    */
+  def getGhostStartPosition(): Point[Int,Int]
 }
 
 object InitializedInfoImpl extends InitializedInfo{
@@ -56,10 +64,22 @@ object InitializedInfoImpl extends InitializedInfo{
     *
     * @return the coordinate of pacman's starting position
     */
-  override def getStartPosition(characterName: String): Point[Int, Int] ={
+  override def getPacmanStartPosition(): Point[Int, Int] ={
     val term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("pacman_initial_position(X,X)"), "X")
     val value: Int = valueOf(term.toString)
     PointImpl[Int, Int](value, value)
+  }
+
+  val previousPosition =  ScalaProlog.multipleOutput(PrologConfig.theory , "ghost_initial_position(X,Y).")
+  var xPosition =  valueOf(previousPosition.getTerm("X").toString)
+  var yPosition = valueOf(previousPosition.getTerm("Y").toString)
+
+  override def getGhostStartPosition(): Point[Int,Int] ={
+
+    val term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("next_position("+xPosition+","+yPosition+")"), "X")
+    val value: Int = valueOf(term.toString)
+    xPosition = value
+    PointImpl[Int, Int](value, yPosition)
   }
 
 }

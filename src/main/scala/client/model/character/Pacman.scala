@@ -27,7 +27,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
 
-  setPosition(InitializedInfoImpl.getStartPosition("pacman"))
+  setPosition(InitializedInfoImpl.getPacmanStartPosition())
 
   override val lives = LivesImpl(InitializedInfoImpl.getCharacterLives("pacman"))
 
@@ -42,7 +42,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     eatables = eatables.substring(0,(eatables size)-1)
     eatables = eatables + "]"
 
-    val solveInfo = PrologConfig.getPrologEngine().solve(s"eat_object(pacman(${position x},${position y},${lives remainingLives},${score toString}), ${eatables}, NS, L, N).")
+    val solveInfo = PrologConfig.getPrologEngine.solve(s"eat_object(pacman(${position x},${position y},${lives remainingLives},${score toString}), ${eatables}, NS, L, N).")
     val remainingEatableObjectsId: List[String] = ScalaProlog.prologToScalaList(solveInfo.getTerm("L").toString)
     val remainingEatableObjects: List[Eatable] = List()
     remainingEatableObjectsId.foreach(r => playground.eatables.find(e => e.id equals r).get :: remainingEatableObjects)

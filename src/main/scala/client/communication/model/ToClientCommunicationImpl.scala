@@ -13,7 +13,7 @@ import client.communication.model.actor.{FromServerCommunication, P2PCommunicati
 import client.model._
 import client.model.character.{BaseGhost, BasePacman}
 import client.model.utils.BaseEatObjectStrategy
-import client.utils.IOUtils
+import client.utils.{IOUtils, PrologUtility}
 import com.typesafe.config.{Config, ConfigFactory}
 
 import scala.concurrent.duration.Duration
@@ -297,6 +297,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val response = getJSONMessage(message)
     val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
     // var players :mutable.Map[client.model.character.Character, String] = null
+
     typeCharacters.keySet.foreach(x =>{
       val singleCharacter = typeCharacters(x)
       singleCharacter(1) match {

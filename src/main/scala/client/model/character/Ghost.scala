@@ -18,8 +18,7 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
 
-  setPosition(PointImpl[Int, Int](20, 20))
-  //setPosition(InitializedInfoImpl.getStartPosition("ghost"))
+  setPosition(InitializedInfoImpl.getGhostStartPosition())
 
   override val lives = LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))
 
@@ -29,7 +28,7 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
     */
   override def checkAllPositions = {
     val ghosts = super.prologGhostsList
-    val pacmans: List[Character] = game.allCharacters.filter(c => (c.isInstanceOf[Pacman]));
+    val pacmans: List[Character] = game.allCharacters.filter(c => (c.isInstanceOf[Pacman]))
     if(isKillable) {
       pacmans.foreach(p => p.checkAllPositions)
     } else {

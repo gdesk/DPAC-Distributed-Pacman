@@ -28,7 +28,7 @@ class CharacterImplTest(character: Character) extends FunSuite {
       */
       //DA TOGLIERE QUANDO SCOMMENTIAMO LA PARTE SOPRA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       assert(character.position equals (character.isInstanceOf[Pacman] match {
-        case true => InitializedInfoImpl.getStartPosition("pacman")
+        case true => InitializedInfoImpl.getPacmanStartPosition("pacman")
         case false => PointImpl(20, 20)
       }))
 

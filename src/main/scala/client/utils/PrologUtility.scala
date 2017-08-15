@@ -50,5 +50,4 @@ object PrologUtility {
   def solveWithSuccess(engine: Term => Stream[SolveInfo], goal: Term): Boolean =
     engine(goal).map(_.isSuccess).headOption == Some(true)
 
-
 }
