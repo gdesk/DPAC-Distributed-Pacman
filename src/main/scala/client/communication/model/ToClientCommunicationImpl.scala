@@ -298,8 +298,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
     val response = getJSONMessage(message)
     val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
-    // var players :mutable.Map[client.model.character.Character, String] = null
-
     typeCharacters.keySet.foreach(x =>{
       val singleCharacter = typeCharacters(x)
       singleCharacter(0) match {

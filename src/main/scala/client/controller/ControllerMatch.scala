@@ -201,8 +201,8 @@ object BaseControllerMatch extends ControllerMatch {
     * Tells the model to start the match.
     */
   override def startMatch = {
-    model.startMatch;
     BaseControllerCharacter.setCharacterImages(model.getTeamCharacter)
+    model.startMatch;
   }
 
   /**
