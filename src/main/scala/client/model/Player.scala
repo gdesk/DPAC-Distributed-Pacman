@@ -25,7 +25,7 @@ trait Player {
 
 }
 
-case class PlayerImpl private() extends Player {
+object PlayerImpl extends Player {
 
   private var matchesResults: ListBuffer[MatchResult] = ListBuffer empty
 
@@ -41,15 +41,4 @@ case class PlayerImpl private() extends Player {
   }
 
   override def addAMatchResult(matchResult: MatchResult)= matchesResults += matchResult
-}
-
-object PlayerImpl {
-
-  private var _instance: PlayerImpl = null
-
-  def instance(): PlayerImpl = {
-    if(_instance == null) _instance = PlayerImpl()
-    _instance
-  }
-
 }

@@ -32,7 +32,7 @@ class P2PCommunication extends UntypedAbstractActor {
       case "startGame" =>
 
         //ricevo messaggio contente l'IP con cui configurare server
-        val ip = PlayerImpl.instance().ip
+        val ip = PlayerImpl.ip
         val server = ServerBootstrap.getIstance(ip)
 
         //executor.initServerPlayingWorkerThread(ip, server.getRegistry, server.getRmiPort)

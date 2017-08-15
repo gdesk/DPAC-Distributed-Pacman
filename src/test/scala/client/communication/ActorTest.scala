@@ -12,7 +12,7 @@ import client.model.{Match, MatchImpl, PlayerImpl}
 object ActorTest extends App {
   val model: ToClientCommunication = ToClientCommunicationImpl()
   val matchGame: Match = MatchImpl
-  val player = PlayerImpl()
+  val player = PlayerImpl
 
 
   //registration

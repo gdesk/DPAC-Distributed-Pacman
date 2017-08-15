@@ -100,7 +100,7 @@ object BaseControllerUser extends ControllerUser {
     *
     * @return the player of the user.
     */
-  override def player = PlayerImpl.instance
+  override def player = PlayerImpl
 
   /**
     * Setsthe model to be called.

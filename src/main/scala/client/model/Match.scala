@@ -88,7 +88,7 @@ object MatchImpl extends Match {
   override var playground: Playground = _
 
   override def myCharacter: Character = {
-    if(_myCharacter == null) _myCharacter = character(PlayerImpl.instance().ip).get
+    if(_myCharacter == null) _myCharacter = character(PlayerImpl.ip).get
     _myCharacter
   }
 

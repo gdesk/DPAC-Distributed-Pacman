@@ -15,7 +15,7 @@ import scala.collection.mutable.Map
   */
 class MatchTest extends FunSuite {
 
-  private val myPlayer: Player = PlayerImpl.instance()
+  private val myPlayer: Player = PlayerImpl
   private var ip1: String = "10.200.300.400"
   private var ip2: String = "10.200.300.401"
   private var ip3: String = "10.200.300.402"
