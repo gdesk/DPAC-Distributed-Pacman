@@ -6,7 +6,7 @@ import java.io._
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.imageio.ImageIO
-import javax.swing.{ImageIcon, JFrame}
+import javax.swing.ImageIcon
 
 import akka.actor.{ActorSystem, Inbox, Props}
 import client.communication.model.actor.{FromServerCommunication, P2PCommunication, ToServerCommunication}
@@ -174,10 +174,12 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     ))
 
     val response = getJSONMessage(message)
-    val fileMap = response.obj("map").asInstanceOf[Map[String, File]]
+    val fileMap = response.obj("map").asInstanceOf[Map[String, Array[Byte]]]
     var characterToChoose: Map[String, Image]= Map.empty
     fileMap.keySet.foreach(name =>{
-      characterToChoose += ((name, new ImageIcon(fileMap(name).getPath).getImage))
+      val path = "src/resources/characters/selection/"+name+".png"
+      saveImageToResources(path, fileMap(name))
+      characterToChoose += ((name, new ImageIcon(path).getImage))
     })
 
     characterToChoose

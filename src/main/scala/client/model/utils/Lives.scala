@@ -3,6 +3,7 @@ package client.model.utils
 /**
   * Created by Giulia Lucchi on 28/06/2017.
   */
+//todo:sistemare scala doc
 trait Lives {
   /**
     * Decrement of one the remaining lives

@@ -2,7 +2,7 @@ package client.model.character
 
 import client.model._
 import client.model.gameElement.GameItem
-import client.model.utils.{Lives, Point, PointImpl}
+import client.model.utils.{Lives, Point, PointImpl, PrologConfig}
 
 /**
   * Manages the base model of client.model.character.gameElement.character.

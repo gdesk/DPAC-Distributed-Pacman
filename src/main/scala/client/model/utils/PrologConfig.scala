@@ -1,13 +1,13 @@
-package client.model.character
+package client.model.utils
 
 import java.io.FileInputStream
 
 import alice.tuprolog.{Prolog, Theory}
-import client.model.utils.ScalaProlog
 
 /**
   * Created by lucch on 03/07/2017.
   */
+//todo: scala doc da fare
 object PrologConfig {
 
   private val FILE_NAME = "src/main/prolog/dpac-prolog.pl"

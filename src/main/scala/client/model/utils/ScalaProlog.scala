@@ -7,6 +7,7 @@ import alice.tuprolog._
   *
   * @author Giulia Lucchi
   */
+//todo: scaladoc fare
 object ScalaProlog {
 
   def extractTerm(solveInfo:SolveInfo, i:Integer): Term =
@@ -70,7 +71,6 @@ object ScalaProlog {
     val list = prologList.replace("[","").replace("]","").replace(" ","")
     list.split(",").toList
   }
-
 
   def solveOneAndGetTerm(engine: Term => Stream[SolveInfo], goal: Term, term: String): Term =
     engine(goal).headOption map (extractTerm(_,term)) get

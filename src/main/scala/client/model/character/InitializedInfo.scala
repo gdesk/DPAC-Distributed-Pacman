@@ -3,7 +3,7 @@ package client.model.character
 import java.lang.Integer.valueOf
 
 import alice.tuprolog.Term
-import client.model.utils.{Point, PointImpl, ScalaProlog}
+import client.model.utils.{Point, PointImpl, PrologConfig, ScalaProlog}
 
 /**
   * Extraction of starting information of the game
