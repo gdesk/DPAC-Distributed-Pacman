@@ -1,6 +1,7 @@
 package client.view;
 
 
+import client.controller.BaseControllerUser;
 import client.view.base.LoginPanel;
 import client.view.base.RequestDialog;
 
@@ -28,11 +29,21 @@ public class MainFrame extends JFrame {
         super();
 
         setSize(DIMENSION);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setContentPane(new LoginPanel());
         setResizable(false);
         setVisible(true);
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                BaseControllerUser.logout();
+                System.exit(0);
+            }
+        });
     }
+
+
 
     @Override
     public void setContentPane(Container contentPane) {
