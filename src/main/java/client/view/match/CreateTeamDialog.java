@@ -24,7 +24,6 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
     private static final int BOUNDS = 10;
 
     private final SelectCharacterPanel nextView = new SelectCharacterPanel();
-    private final ControllerMatch controller = BaseControllerMatch.instance();
     private final PlayersPanel playerPanel = new PlayersPanel();
     private final JButton starGame = new JButton("START");
 
@@ -35,7 +34,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
 
         super(frame, "Create Team", true);
 
-        controller.teamView(this);
+        BaseControllerMatch.setTeamView(this);
 
         JPanel p = createBackgroundColorPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
@@ -65,14 +64,14 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             JPanel numberPlayerPanel = createBackgroundColorPanel();
             numberPlayerPanel.setBorder(BorderFactory.createEmptyBorder(BOUNDS,BOUNDS,BOUNDS,BOUNDS));
 
-            List<Range> ranges = Utils.scalaRangeToString(controller.getRanges());
+            List<Range> ranges = Utils.scalaRangeToString(BaseControllerMatch.getRanges());
             JComboBox comboRange = new JComboBox();
             comboRange.addItem("");
             ranges.forEach(r -> comboRange.addItem(r.getMin() + "-"+ (r.getMax()+1)));
             comboRange.addActionListener(e->{
                 Range rangeSelected = ranges.get(comboRange.getSelectedIndex()-1);
                 playerPanel.init(rangeSelected);
-                controller.rangeChoosed(ranges.get(comboRange.getSelectedIndex()-1));
+                BaseControllerMatch.chosenRange(ranges.get(comboRange.getSelectedIndex()-1));
             });
 
             numberPlayerPanel.add(comboRange);

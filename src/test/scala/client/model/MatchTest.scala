@@ -15,14 +15,14 @@ import scala.collection.mutable.Map
   */
 class MatchTest extends FunSuite {
 
-  private val myPlayer: Player = PlayerImpl.instance()
+  private val myPlayer: Player = PlayerImpl
   private var ip1: String = "10.200.300.400"
   private var ip2: String = "10.200.300.401"
   private var ip3: String = "10.200.300.402"
 
-  val gameMatch: Match = MatchImpl instance()
+  val gameMatch: Match = MatchImpl
 
-  val playground: PlaygroundImpl = PlaygroundImpl instance()
+  val playground: Playground = PlaygroundImpl
   playground dimension = Dimension(35,35)
 
   val pacman = BasePacman("Pacman", BaseEatObjectStrategy())
@@ -123,7 +123,7 @@ class MatchTest extends FunSuite {
   }
 
   test ("singleton"){
-    assert(gameMatch == MatchImpl.instance())
+    assert(gameMatch == MatchImpl)
   }
 
 }

@@ -1,11 +1,9 @@
 package client.model.utils
 
-import client.model.{Match, MatchImpl, PlaygroundImpl}
-import client.model.character.{BaseGhost, BasePacman, Character}
+import client.model.{Match, MatchImpl, Playground, PlaygroundImpl}
+import client.model.character.{BaseGhost, BasePacman}
 import client.model.gameElement.{Apple, Pill}
 import org.scalatest.FunSuite
-
-import scala.collection.mutable.{HashMap, Map}
 
 /**
   * Created by margherita on 18/07/17.
@@ -20,9 +18,9 @@ class BaseEatObjectStrategyTest extends FunSuite {
 
   val strategy = BaseEatObjectStrategy()
 
-  val gameMatch: Match = MatchImpl instance()
+  val gameMatch: Match = MatchImpl
 
-  val playground: PlaygroundImpl = PlaygroundImpl instance()
+  val playground: Playground = PlaygroundImpl
   playground dimension = Dimension(35,35)
 
   val redGhost = BaseGhost("Red")
@@ -40,7 +38,7 @@ class BaseEatObjectStrategyTest extends FunSuite {
     strategy.eat(Pill("pill", PointImpl(0,1)))
     assert(!(pacman.isKillable) && redGhost.isKillable && blueGhost.isKillable)
     val time = System.currentTimeMillis()
-    while(System.currentTimeMillis() <= time + millisecondsToWait) {}
+    while(System.currentTimeMillis() <= time + millisecondsToWait)
     assert(pacman.isKillable && !(redGhost.isKillable) && !(blueGhost.isKillable))
   }
 

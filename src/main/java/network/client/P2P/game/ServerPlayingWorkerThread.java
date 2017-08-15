@@ -37,9 +37,8 @@ public class ServerPlayingWorkerThread implements Runnable, PeerRegister {
 
 
     private ServerPlayingWorkerThread(){
-        this.match = MatchImpl.instance();
-        this.character = match.myCharacter();
-        this.characterName =  match.myCharacter().name();
+        this.character = MatchImpl.myCharacter();
+        this.characterName = MatchImpl.myCharacter().name();
 
         this.direction = character.direction();
         this.isAlive = character.isAlive();

@@ -112,7 +112,7 @@ trait Playground {
 
 
 
-case class PlaygroundImpl private() extends Playground{
+object  PlaygroundImpl extends Playground{
 
   private var engine = ScalaProlog.mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/dpac-prolog.pl")))
 
@@ -269,22 +269,6 @@ case class PlaygroundImpl private() extends Playground{
     if(!(position.x < dimension.x && position.y < dimension.y && position.x >= 0 && position.y >= 0)) {
       throw new OutOfPlaygroundBoundAccessException("Position ("+ position.x + "," + position.y + ") is out of playground!")
     }
-  }
-
-}
-
-object PlaygroundImpl {
-
-  private var _instance: PlaygroundImpl = null
-
-  /**
-    * Returns the only {@PlaygroundImpl}'s instance. Pattern Singleton.
-    *
-    * @return the only PlaygroundImpl's instance.
-    */
-  def instance(): PlaygroundImpl = {
-    if(_instance == null) _instance = PlaygroundImpl()
-    _instance
   }
 
 }

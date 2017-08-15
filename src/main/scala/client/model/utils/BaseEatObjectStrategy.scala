@@ -11,9 +11,10 @@ import client.model.{Match, MatchImpl, Playground, PlaygroundImpl}
   */
 case class BaseEatObjectStrategy() extends EatObjectStrategy with Observer{
 
-  private val playground: Playground = PlaygroundImpl instance()
-  private val game: Match = MatchImpl instance()
-  private val timer: Timer = TimerImpl(this)
+  private val playground: Playground = PlaygroundImpl
+  private val game: Match = MatchImpl
+  private val timer: Timer = new TimerImpl
+  timer.addObserver(this)
 
   /**
     * It's the method that deals with the strategy to use when Pacman eats an object.
@@ -31,7 +32,7 @@ case class BaseEatObjectStrategy() extends EatObjectStrategy with Observer{
   }
 
   override def update(observable: Observable, arg: scala.Any) = {
-    game.allCharacters.foreach (c => c.isInstanceOf[Pacman] match {
+    game.allCharacters.foreach(c => c.isInstanceOf[Pacman] match {
       case true => c.isKillable = true
       case _ => c.isKillable = false
     })

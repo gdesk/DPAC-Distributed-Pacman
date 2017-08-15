@@ -15,17 +15,17 @@ object Main extends App {
   println("[ Developed by Manuel Bottazzi, Giulia Lucchi, Federica Pecci, Margherita Pecorelli & Chiara Varini ]")
   println()
 
-  val controllerCharacter: ControllerCharacter = BaseControllerCharacter.instance
-  val controllerMatch: ControllerMatch = BaseControllerMatch.instance
-  val controllerUser: ControllerUser = BaseControllerUser.instance
+  val controllerCharacter: ControllerCharacter = BaseControllerCharacter
+  val controllerMatch: ControllerMatch = BaseControllerMatch
+  val controllerUser: ControllerUser = BaseControllerUser
 
   val model = ToClientCommunicationImpl()
 
   val ci: ClientIncomingMessageHandler = new ClientIncomingMessageHandlerImpl
   val co: ClientOutcomingMessageHandler = new ClientOutcomingMessageHandlerImpl
 
-  controllerMatch.model(model)
-  controllerUser.model(model)
+  controllerMatch.setModel(model)
+  controllerUser.setModel(model)
 
   ci.addObserver(controllerCharacter)
   co.addObserver(controllerMatch)

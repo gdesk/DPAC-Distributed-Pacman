@@ -61,7 +61,7 @@ object IOUtils {
     *
     */
   def getPlaygroundFromFile(file: File) : Playground = {
-    val playground: Playground = PlaygroundImpl.instance()
+    val playground: Playground = PlaygroundImpl
 
     if (file.canRead) {
       val block: List[Block] = parseBlock(file)

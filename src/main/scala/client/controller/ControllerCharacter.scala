@@ -10,14 +10,15 @@ import client.view.`match`.GamePanel
 import io.reactivex.Flowable
 
 /**
-  * Represents the controller for characters' management.
+  * Represents the controller for characters management.
+  * Implements Observer since it has to be notify when other characters move or die.
   *
   * @author Margherita Pecorelli
   */
 trait ControllerCharacter extends Observer {
 
   /**
-    * Moves the computer user's character in the specified direction.
+    * Moves the principal user's character in the specified direction.
     *
     * @param direction - the direction of the movement.
     */
@@ -31,25 +32,35 @@ trait ControllerCharacter extends Observer {
   def setCharacterImages(mapCharacterImages: Map[String, Map[Direction, Image]]): Unit
 
   /**
-    * Sets the view to be recalled.
+    * Sets the view to be called when somethings changes about characters.
     *
-    * @param view - view to be recalled.
+    * @param view - view to be called.
     */
-  def view(view: GamePanel): Unit
+  def setView(view: GamePanel): Unit
+
+  /**
+    * Called when other character moves or dies.
+    * Invokes the model to perform actions that result from the changes of the character and notifies the view of changes.
+    *
+    * @param observable - the observable who notified me.
+    * @param arg - a flowable with: character user's ip, message about what had changed, a boolean is case of death (true if is dead) or a direction in case of movement.
+    *
+    * @throws ThisIpDoesNotExistException when the given ip doesn't belong to the current match's ips.
+    */
+  override def update(observable: Observable, arg: scala.Any)
 
 }
 
 /**
-  * Represents the implementation of the controller for characters' magamenagement.
-  * Implements also Observer since it has to be notify when other characters move or die.
+  * Represents the implementation of the controller for characters' management.
   *
   * @author Margherita Pecorelli
   */
-case class BaseControllerCharacter private() extends ControllerCharacter {
+object BaseControllerCharacter extends ControllerCharacter {
 
-  private val gameMatch: Match = MatchImpl.instance()
-  private val playground: Playground = PlaygroundImpl.instance()
-  private var _view: GamePanel = null
+  private val gameMatch: Match = MatchImpl
+  private val playground: Playground = PlaygroundImpl
+  private var view: GamePanel = null
   private var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
   /**
@@ -70,16 +81,16 @@ case class BaseControllerCharacter private() extends ControllerCharacter {
     val postLives: Int = character.lives.remainingLives
     val postScore: Int = character.score
 
-    if(!(prePosition equals postPosition)) _view.move(characterImages.get(character.name).get(direction), Color.red,
+    if(!(prePosition equals postPosition)) view.move(characterImages.get(character.name).get(direction), Color.red,
       prePosition.asInstanceOf[Point[Integer,Integer]],
       postPosition.asInstanceOf[Point[Integer,Integer]])
 
     if(!(preLives equals postLives)) {
-      _view.updateLives(postLives)
-      if(postLives <= 0) _view.gameOver()
+      view.updateLives(postLives)
+      if(postLives <= 0) view.gameOver
     }
 
-    if(!(preScore equals postScore)) _view.updateLives(postScore)
+    if(!(preScore equals postScore)) view.updateLives(postScore)
   }
 
   /**
@@ -94,82 +105,57 @@ case class BaseControllerCharacter private() extends ControllerCharacter {
     *
     * @param view - view to be recalled.
     */
-  override def view(view: GamePanel): Unit = this._view = view
+  override def setView(view: GamePanel): Unit = this.view = view
 
   /**
     * Called when other character moves or dies.
     * Invokes the model to perform actions that result from the changes of the character and notifies the view of changes.
     *
     * @param observable - the observable who notified me.
-    * @param arg - a tris of: character user's ip, message about what had changed, a boolean is case of death (true if is dead) or a direction in case of movement.
+    * @param arg - a flowable with: character user's ip, message about what had changed, a boolean is case of death (true if is dead) or a direction in case of movement.
     *
-    * @throws WrongInputParameterException when input parameter is incorrect.
     * @throws ThisIpDoesNotExistException when the given ip doesn't belong to the current match's ips.
     */
   override def update(observable: Observable, arg: scala.Any) = {
     val flowable = arg.asInstanceOf[Flowable[Object]]
-    val ip = flowable.elementAt(0).blockingGet().asInstanceOf[String]
-    val message = flowable.elementAt(1).blockingGet().asInstanceOf[String]
-    //if(tris == null) {
-      //throw WrongInputParameterException("The input parameter must be a tris of: character user's ip (String), message about what had changed (String), a boolean is case of death (true if is dead) or a direction in case of movement (Boolean/Direction)!")
-    //} else {
-      var characterToUpdate: Character = null
-      val player = gameMatch.allPlayersIp.find(ip => ip equals ip)
-      if(player isEmpty) {
-        throw ThisIpDoesNotExistException("Ip:" + ip + " doesn't exist!")
-      } else {
-        characterToUpdate = gameMatch.character(player.get).get
-      }
-      message match {
-        case "isDead" =>
-          characterToUpdate.isAlive = !flowable.elementAt(2).blockingGet().asInstanceOf[Boolean]
-          if(!characterToUpdate.isAlive) _view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer,Integer]])
-        case "direction" =>
-          val direction = flowable.elementAt(2).blockingGet().asInstanceOf[Direction]
+    val ip = flowable.elementAt(0).blockingGet.asInstanceOf[String]
+    val message = flowable.elementAt(1).blockingGet.asInstanceOf[String]
 
-          val prePosition: Point[Int, Int] = characterToUpdate.position
-          val preLives: Int = gameMatch.myCharacter.lives.remainingLives
-          val preScore: Int = gameMatch.myCharacter.score
+    var characterToUpdate: Character = null
+    val player = gameMatch.allPlayersIp.find(i => i equals ip)
+    if(player isEmpty) {
+      throw ThisIpDoesNotExistException("Ip:" + ip + " doesn't exist!")
+    } else {
+      characterToUpdate = gameMatch.character(player.get).get
+    }
+    message match {
+      case "isDead" =>
+        characterToUpdate.isAlive = !flowable.elementAt(2).blockingGet.asInstanceOf[Boolean]
+        if(!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer,Integer]])
+      case "direction" =>
+        val direction = flowable.elementAt(2).blockingGet.asInstanceOf[Direction]
 
-          characterToUpdate.go(direction)
+        val prePosition: Point[Int, Int] = characterToUpdate.position
+        val preLives: Int = gameMatch.myCharacter.lives.remainingLives
+        val preScore: Int = gameMatch.myCharacter.score
 
-          val postPosition: Point[Int, Int] = characterToUpdate.position
-          val postLives: Int = gameMatch.myCharacter.lives.remainingLives
-          val postScore: Int = gameMatch.myCharacter.score
+        characterToUpdate.go(direction)
 
-          if(!(prePosition equals postPosition)) _view.move(characterImages.get(characterToUpdate.name).get(direction), Color.red,
-            prePosition.asInstanceOf[Point[Integer,Integer]],
-            postPosition.asInstanceOf[Point[Integer,Integer]])
+        val postPosition: Point[Int, Int] = characterToUpdate.position
+        val postLives: Int = gameMatch.myCharacter.lives.remainingLives
+        val postScore: Int = gameMatch.myCharacter.score
 
-          if(!(preLives equals postLives)) {
-            _view.updateLives(postLives)
-            if(postLives <= 0) _view.gameOver()
-          }
+        if(!(prePosition equals postPosition)) view.move(characterImages.get(characterToUpdate.name).get(direction), Color.red,
+          prePosition.asInstanceOf[Point[Integer,Integer]],
+          postPosition.asInstanceOf[Point[Integer,Integer]])
 
-          if(!(preScore equals postScore)) _view.updateLives(postScore)
-      }
-    //}
-  }
+        if(!(preLives equals postLives)) {
+          view.updateLives(postLives)
+          if(postLives <= 0) view.gameOver
+        }
 
-}
-
-/**
-  * Represents the singleton of BaseControllerCharacter.
-  *
-  * @author Margherita Pecorelli
-  */
-object BaseControllerCharacter {
-
-  private var _instance: BaseControllerCharacter = null
-
-  /**
-    * Returns the only one instance of the class BaseControllerCharacter (pattern singleton).
-    *
-    * @return the only one instance of the class BaseControllerCharacter.
-    */
-  def instance(): BaseControllerCharacter = {
-    if(_instance == null) _instance = BaseControllerCharacter()
-    _instance
+        if(!(preScore equals postScore)) view.updateLives(postScore)
+    }
   }
 
 }
@@ -180,10 +166,3 @@ object BaseControllerCharacter {
   * @param message - message throws by the exception.
   */
 case class ThisIpDoesNotExistException(val message: String = "") extends Exception(message)
-
-/**
-  * Represents the excetpion throws when a method's input parameter is incorrect.
-  *
-  * @param message - message throws by the exception.
-  */
-case class WrongInputParameterException(val message: String = "") extends Exception(message)

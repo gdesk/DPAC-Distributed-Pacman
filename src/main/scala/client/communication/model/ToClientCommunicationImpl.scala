@@ -31,7 +31,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   println("-- Client configuration --")
   println()
 
-  private val player: Player = PlayerImpl.instance()
+  private val player: Player = PlayerImpl
   private val config: Config = ConfigFactory.parseString(
     " akka { \n" +
       " actor { \n" +
@@ -56,7 +56,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   private val fromServerCommunication = system.actorOf(Props[FromServerCommunication], "fromServerCommunication")
   private val P2PCommunication = system actorOf(Props[P2PCommunication], "P2PCommunication")
 
-  private val currentMatch: Match = MatchImpl.instance()
+  private val currentMatch: Match = MatchImpl
 
   /**
     * Send the message to actor AccessManager with the registration's data and

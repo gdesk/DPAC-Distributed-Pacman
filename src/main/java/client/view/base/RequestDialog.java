@@ -18,7 +18,6 @@ import static client.view.utils.JComponentsUtils.createBackgroundColorPanel;
 public class RequestDialog extends JDialog {
 
     private final SelectCharacterPanel nextView = new SelectCharacterPanel();
-    private final ControllerMatch controller = BaseControllerMatch.instance();
 
     public RequestDialog(final JFrame frame, final String username){
         super(frame, "Create Team", true);
@@ -35,14 +34,14 @@ public class RequestDialog extends JDialog {
             JPanel buttonPanel = JComponentsUtils.createBackgroundColorPanel();
             JButton yes = JComponentsUtils.createBlackButton("YES");
             yes.addActionListener(e->{
-                controller.sendResponse(true);
+                BaseControllerMatch.sendResponse(true);
                 frame.setContentPane(nextView);
                 dispose();
             });
 
             JButton no = JComponentsUtils.createBlackButton("NO");
             no.addActionListener(e->{
-                controller.sendResponse(false);
+                BaseControllerMatch.sendResponse(false);
                 frame.setContentPane(nextView);
                 dispose();
             });
