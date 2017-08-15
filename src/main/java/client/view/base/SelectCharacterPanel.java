@@ -113,7 +113,11 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         icon.setDescription(str);
         imageButton.setIcon(icon);
         iconPanel.add(imageButton);
-
+        if(imageButton.getIcon().getIconWidth() == CHARACTER_IMAGE_DIMENSION.getWidth()){
+            charactersButton.add(imageButton);
+        } else {
+            playgroundsButton.add(imageButton);
+        }
         addActionListenerToButton(imageButton);
 
         return iconPanel;
@@ -121,10 +125,10 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
 
     private void addActionListenerToButton(final JButton button){
         if(button.getIcon().getIconWidth() == CHARACTER_IMAGE_DIMENSION.getWidth()){
+
             charactersButton.add(button);
             button.addActionListener(e-> {
                 if (!isCharacterChoosed){
-
                     //this.characterChoosed.setEnabled(true);
                     this.characterChoosed = button;
                     this.isCharacterChoosed = true;
@@ -139,7 +143,8 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         } else {
             playgroundsButton.add(button);
             button.addActionListener(e-> {
-                if (isPlaygroundChoosed) {
+                if (!isPlaygroundChoosed) {
+
                     //this.playgroundChoosed.setEnabled(true);
                     this.playgroundChoosed = button;
                     this.isPlaygroundChoosed = true;
