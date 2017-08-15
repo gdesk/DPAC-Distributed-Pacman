@@ -1,8 +1,10 @@
 %pacman_initial_position(-XPosition, -YPosition).
 pacman_initial_position(30,30).
 
-    ghost_initial_position(15,5).
-%nextPosition(-XPosition, -YPosition, +NewXPosition, +NewYPosition)
+%ghost_initial_position(-XPosition, -YPosition).
+ghost_initial_position(15,5).
+
+%next_position(-XPosition, -YPosition, +NewXPosition, +NewYPosition).
 next_position(XPosition, YPosition, NewXPosition, YPosition):- NewXPosition is XPosition+1.
 
 %pacman_lives(-Lives).
