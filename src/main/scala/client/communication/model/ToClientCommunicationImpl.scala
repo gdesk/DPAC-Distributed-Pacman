@@ -31,7 +31,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   println("-- Client configuration --")
   println()
 
-  private val player: Player = PlayerImpl.instance()
+  private val player: Player = PlayerImpl
   private val config: Config = ConfigFactory.parseString(
     " akka { \n" +
       " actor { \n" +

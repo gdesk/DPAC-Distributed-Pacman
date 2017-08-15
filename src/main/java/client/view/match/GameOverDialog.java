@@ -36,7 +36,7 @@ public class GameOverDialog extends JDialog {
         quit.setFont(new Font(quit.getFont().getName(), Font.BOLD, FONT_SIZE*3));
         quit.setForeground(Color.BLACK);
         quit.addActionListener(e->{
-            frame.setContentPane(new HomePanel(PlayerImpl.instance().username()));
+            frame.setContentPane(new HomePanel(PlayerImpl.username()));
             dispose();
         });
 
