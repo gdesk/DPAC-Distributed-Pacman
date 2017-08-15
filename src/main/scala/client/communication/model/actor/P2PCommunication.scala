@@ -27,7 +27,7 @@ class P2PCommunication extends UntypedAbstractActor {
 
   override def onReceive(message: Any): Unit = message match{
 
-    case msg: JSONObject => msg.obj("object") match {
+    case msg: JSONObject => msg.obj("object") match{
       case "startGame" =>
 
         //ricevo messaggio contente l'IP con cui configurare server
@@ -36,8 +36,13 @@ class P2PCommunication extends UntypedAbstractActor {
 
         executor.initServerPlayingWorkerThread(ip, server.getRegistry, server.getRmiPort)
 
-        context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! JSONObject(Map[String, String]("object" -> "serverIsRunning", "senderIP" -> ip))
-      case "clientCanConnect" => //todo change name
+        context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! JSONObject(Map[String,String](
+          "object" -> "serverIsRunning",
+          "senderIP" -> ip
+        ))
+
+      case "clientCanConnect" => {
+        //todo change name
         val info = new OtherCharacterInfo
         val matchHandler = new ClientOutcomingMessageHandlerImpl
         val IPList = MatchImpl.allPlayersIp
@@ -48,13 +53,12 @@ class P2PCommunication extends UntypedAbstractActor {
           executor.initClientPlayingWorkerThread(ip, registry)
 
         }
-      case _ =>{}
-    }
 
         //notifico controller match
         matchHandler.startMatch();
 
-
+      }
+      case _ =>{}
     }
 
   }
