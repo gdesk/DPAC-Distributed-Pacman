@@ -38,7 +38,7 @@ public class AddFriendsDialog extends JDialog {
         buttonPanel.add(send);
         p.add(buttonPanel);
 
-        JLabel friendsAddedCounter = new JLabel("Firends added: 0");
+        JLabel friendsAddedCounter = new JLabel("Friends added: 0");
         JPanel friendsAddedPanel = createBackgroundColorPanel();
         friendsAddedPanel.add(friendsAddedCounter);
         p.add(friendsAddedPanel);

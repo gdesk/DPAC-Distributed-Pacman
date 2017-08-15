@@ -2,6 +2,7 @@ package client.view;
 
 
 import client.controller.BaseControllerUser;
+import client.model.PlayerImpl;
 import client.view.base.LoginPanel;
 import client.view.base.RequestDialog;
 
@@ -37,7 +38,9 @@ public class MainFrame extends JFrame {
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                BaseControllerUser.logout();
+                if(!PlayerImpl.username().equals("")) {
+                    BaseControllerUser.logout();
+                }
                 System.exit(0);
             }
         });
