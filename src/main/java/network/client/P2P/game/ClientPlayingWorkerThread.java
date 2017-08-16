@@ -6,13 +6,9 @@ import network.client.P2P.toyEx.Hello;
 import network.client.P2P.utils.ExecutorServiceUtility;
 import network.client.rxJava.ObservableCharacter;
 
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -104,9 +100,9 @@ public class ClientPlayingWorkerThread implements Runnable {
 
             }*/
                       
-        System.setProperty("Djava.rmi.server.hostname", "192.168.1.12");
+        System.setProperty("Djava.rmi.server.hostname", "192.168.1.16");
         //String host = (args.length < 1) ? null : args[0];
-        String host = "192.168.1.12";
+        String host = "192.168.1.16";
         try {
             Registry registry = LocateRegistry.getRegistry(host);
             Hello stub = (Hello) registry.lookup("Hello");
@@ -117,6 +113,6 @@ public class ClientPlayingWorkerThread implements Runnable {
             e.printStackTrace();
         }
 
-        }
+
     }
 }

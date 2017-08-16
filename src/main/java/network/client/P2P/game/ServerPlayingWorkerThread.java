@@ -6,7 +6,6 @@ import client.model.MatchImpl;
 import client.model.PlayerImpl;
 import client.model.character.Character;
 import network.client.P2P.toyEx.Hello;
-import network.client.P2P.toyEx.PeerServer;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
 import java.rmi.AlreadyBoundException;
@@ -25,7 +24,7 @@ import java.util.Map;
  * (so that other peers can take updated values
  * when they need to refresh character info in their gui)
  */
-public class ServerPlayingWorkerThread implements Remote, Runnable  {
+public class ServerPlayingWorkerThread implements Hello, Runnable  {
 
     private ExecutorServiceUtility executor;
     private int rmiPort;
@@ -151,5 +150,8 @@ public class ServerPlayingWorkerThread implements Remote, Runnable  {
     }
 
 
-
+    @Override
+    public String sayHello() throws RemoteException {
+        return "Hello, world!";
+    }
 }
