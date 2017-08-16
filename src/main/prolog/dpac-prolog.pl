@@ -47,11 +47,11 @@ eat_object(pacman(PX,PY,_,S),[H|T],NS,[H|L1],N):- eat_object(pacman(PX,PY,_,S),T
 %pacman_victory(+pacman(_,_,Lives,_), +ListOfRemainingEatableObject).
 pacman_victory(pacman(_,_,L,_),[]):- L>=1.
 
-%pacman_death checks if pacman has dead.
+%ghosts_victory checks if pacman has dead, then ghosts won.
 % Input parameters:
 % 	-pacman with this structur: pacman(X,Y,Lives,Score).
-%pacman_death(+pacman(_,_,Lives,_)).
-pacman_death(pacman(_,_,0,_)).
+%ghosts_victory(+pacman(_,_,Lives,_)).
+ghosts_victory(pacman(_,_,0,_)).
 
 %ghost_defeat checks if one or more ghosts have been eaten from pacman.
 %Input parameters:

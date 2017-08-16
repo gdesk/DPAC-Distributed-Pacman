@@ -17,6 +17,7 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
 
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
+  private var _won = false
 
   setPosition(InitializedInfoImpl.getGhostStartPosition())
 
@@ -40,9 +41,17 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
           if (p.lives.remainingLives == 0) p.isAlive = false
           score = valueOf(solveInfo.getTerm("GS").toString)
         }
+        _won = PrologConfig.getPrologEngine.solve(s"ghosts_victory(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score.toString}).").isSuccess
       }
     }
   }
+  
+  /**
+    * Returns if the character won.
+    *
+    * @return true if the character won, false otherwise.
+    */
+  def won: Boolean = _won
 
 }
 

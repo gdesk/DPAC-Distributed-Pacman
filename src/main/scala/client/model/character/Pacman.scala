@@ -26,6 +26,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
 
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
+  private var _won = false
 
   setPosition(InitializedInfoImpl.getPacmanStartPosition())
 
@@ -78,6 +79,17 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
           }
         }
     }
+  }
+
+  /**
+    * Returns if the character won.
+    *
+    * @return true if the character won, false otherwise.
+    */
+  override def won = {
+    val eatens = super.prologEatablesList
+    _won = PrologConfig.getPrologEngine.solve(s"pacman_victory(pacman(${position.x},${position.y},${lives.remainingLives},${score.toString}),${eatens}).").isSuccess
+    _won
   }
 
   /**
