@@ -65,7 +65,6 @@ class P2PCommunication() extends UntypedAbstractActor {
         })
 
         //notifico controller match
-        System.out.println("matchHandler.startMatch() - 1")
         matchHandler.startMatch()
 
       }

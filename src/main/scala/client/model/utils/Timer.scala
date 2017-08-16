@@ -4,7 +4,7 @@ import scala.collection.mutable.ListBuffer
 import java.util.{Observable, Observer}
 
 /**
-  * This trait represent a timer.
+  * Represents a timer.
   *
   * @author Margherita Pecorelli
   */
@@ -17,18 +17,22 @@ trait Timer extends Observable{
     */
   def counts(milliseconds: Long): Unit
 
-  override def addObserver(o: Observer): Unit
+  /**
+    * Adds an observer to the observers list.
+    *
+    * @param observer - the observer to add.
+    */
+  override def addObserver(observer: Observer): Unit
 }
 
 /**
-  * This class represent a timer. When it finish to count, he notify the observer registered.
+  * Represents the implementation of a timer.
   *
   * @author Margherita Pecorelli
   */
 case class TimerImpl() extends Timer{
 
   private val observers = ListBuffer.empty[Observer]
-
   private val observable = this
 
   /**
@@ -36,17 +40,21 @@ case class TimerImpl() extends Timer{
     *
     * @param milliseconds - milliseconds to wait
     */
-  override def counts(milliseconds: Long): Unit = {
-    val thread = new Thread {
+  override def counts(milliseconds: Long) = {
+    new Thread {
       override def run = {
-        val time = System.currentTimeMillis()
-        while(System.currentTimeMillis() < time + milliseconds) {}
+        val time = System.currentTimeMillis
+        while(System.currentTimeMillis < time + milliseconds) {}
         observers.foreach(o => o.update(observable,""))
       }
-    }
-    thread.start
+    }.start
   }
 
+  /**
+    * Adds an observer to the observers list.
+    *
+    * @param observer - the observer to add.
+    */
   override def addObserver(observer: Observer) =  observers += observer
 
 }

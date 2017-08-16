@@ -3,18 +3,26 @@ package client.model.gameElement
 import client.model.utils.Point
 
 /**
-  * Created by margherita on 10/07/17.
+  * Represents all bells.
+  *
+  * @author Margherita Pecorelli
   */
 case class Bell(override val id: String, override val position: Point[Int, Int]) extends Eatable {
+
   /**
-    * Returns the value that is given as score when Pacman eat that item.
+    * Returns the eatable object's score given to a character when it eats that eatable.
     *
-    * @return the score value.
+    * @return eatable object's score.
     */
   override def score: Int = Bell.score
 
 }
 
+/**
+  * Represents the static Bell's values.
+  */
 object Bell {
+
   private val score = 3000
+
 }

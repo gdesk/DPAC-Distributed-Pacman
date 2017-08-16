@@ -36,7 +36,7 @@ class MatchTest extends FunSuite {
                              (Cherry("Cherry", PointImpl(0,2))),
                              (Dot("Dot", PointImpl(0,3))),
                              (GalaxianShip("Galaxian Ship", PointImpl(0,4))),
-                             (Grapes("Grapes", PointImpl(1,0))),
+                             (Grape("Grapes", PointImpl(1,0))),
                              (Key("Key", PointImpl(1,1))),
                              (Orange("Orange", PointImpl(1,2))),
                              (Pill("Pill", PointImpl(1,3))),

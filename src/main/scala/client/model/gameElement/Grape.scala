@@ -3,26 +3,26 @@ package client.model.gameElement
 import client.model.utils.Point
 
 /**
-  * Represents all cherries.
+  * Represents all grapes.
   *
   * @author Margherita Pecorelli
   */
-case class Cherry(override val id: String, override val position: Point[Int, Int]) extends Fruit {
+case class Grape(override val id: String, override val position: Point[Int, Int]) extends Fruit {
 
   /**
     * Returns the eatable object's score given to a character when it eats that eatable.
     *
     * @return eatable object's score.
     */
-  override def score: Int = Cherry.score
+  override def score: Int = Grape.score
 
 }
 
 /**
-  * Represents the static Cherry's values.
+  * Represents the static Grape's values.
   */
-object Cherry {
+object Grape {
 
-  private val score = 100
+  private val score = 1000
 
 }

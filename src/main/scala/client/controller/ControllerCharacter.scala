@@ -5,11 +5,10 @@ import java.util.{Observable, Observer}
 
 import client.model._
 import client.model.character.Character
-import client.model.peerCommunication.ClientIncomingMessageHandler
 import client.model.utils.Point
 import client.view.`match`.GamePanel
 import io.reactivex.Flowable
-import network.client.P2P.game.{ClientPlayingWorkerThread, PeerRegisterHandler, ServerPlayingWorkerThread}
+import network.client.P2P.game.PeerRegisterHandler
 
 /**
   * Represents the controller for characters management.
@@ -95,15 +94,22 @@ object BaseControllerCharacter extends ControllerCharacter {
       view.move(characterImages.get(character.name).get(direction), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
-      model.updateRegisterObj()
+      model.updateRegisterObj
     }
 
     if(!(preLives equals postLives)) {
       view.updateLives(postLives)
-      if(postLives <= 0) {
+      if(character.hasLost) {
         view.gameOver
-        model.updateRegisterObj()
+        model.updateRegisterObj
       }
+    }
+
+    if(character.won) view.showResult(postScore.toString)
+
+    if(postLives <= 0) {
+      view.gameOver
+      model.updateRegisterObj
     }
 
     if(!(preScore equals postScore)) view.renderScore(postScore)
@@ -121,7 +127,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     *
     * @param view - view to be recalled.
     */
-  override def setView(view: GamePanel): Unit = this.view = view
+  override def setView(view: GamePanel) = this.view = view
 
   /**
     * Called when other character moves or dies.
@@ -133,7 +139,6 @@ object BaseControllerCharacter extends ControllerCharacter {
     * @throws ThisIpDoesNotExistException when the given ip doesn't belong to the current match's ips.
     */
   override def update(observable: Observable, arg: scala.Any) = {
-    System.out.println("matchHandler.startMatch() - 3")
     val flowable = arg.asInstanceOf[Flowable[Object]]
     val ip = flowable.elementAt(0).blockingGet.asInstanceOf[String]
     val message = flowable.elementAt(1).blockingGet.asInstanceOf[String]
@@ -170,9 +175,13 @@ object BaseControllerCharacter extends ControllerCharacter {
           view.updateLives(postLives)
           if(postLives <= 0) {
             view.gameOver
-            model.updateRegisterObj()
+            model.updateRegisterObj
           }
         }
+
+        if(!(preScore equals postScore)) view.updateLives(postScore)
+
+        if(gameMatch.myCharacter.won) view.showResult(postScore.toString)
 
         if(!(preScore equals postScore)) view.renderScore(postScore)
     }
@@ -183,11 +192,11 @@ object BaseControllerCharacter extends ControllerCharacter {
     *
     * @param model - model to be called.
     */
-  override def setModel(model: PeerRegisterHandler): Unit = this.model = model
+  override def setModel(model: PeerRegisterHandler) = this.model = model
 }
 
 /**
-  * Represents the excetpion throws when the given ip doesn't belong to the current match's ips.
+  * Represents the exception throws when the given ip doesn't belong to the current match's ips.
   *
   * @param message - message throws by the exception.
   */

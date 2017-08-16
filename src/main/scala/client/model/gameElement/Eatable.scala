@@ -1,28 +1,24 @@
 package client.model.gameElement
 
 /**
-  * Trait that specify an item as eatable by Pacman.
+  * Represents all eatable items in the game.
+  *
+  * @author Margherita Pecorelli
   */
 trait Eatable extends GameItem {
 
     /**
-      * Returns the value that is given as score when Pacman eat that item.
+      * Returns the eatable object's score given to a character when it eats that eatable.
       *
-      * @return the score value.
+      * @return eatable object's score.
       */
     def score: Int
 
     /**
       * Returns the identifier of the eatable object.
       *
-      * @return the object's identifier.
+      * @return the eatable object's identifier.
       */
     def id: String
+
 }
-
-//case class EatableImpl(override val id: String, override val position: Point[Int, Int]) extends Eatable {
-//}
-
-
-
-

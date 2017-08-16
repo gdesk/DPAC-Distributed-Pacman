@@ -64,7 +64,7 @@ class PlaygroundTest extends FunSuite{
                              (Cherry("Cherry", PointImpl(0,2))),
                              (Dot("Dot", PointImpl(0,3))),
                              (GalaxianShip("apGalaxianShipple", PointImpl(0,4))),
-                             (Grapes("Grapes", PointImpl(1,0))),
+                             (Grape("Grapes", PointImpl(1,0))),
                              (Key("Key", PointImpl(1,1))),
                              (Orange("Orange", PointImpl(1,2))),
                              (Pill("Pill", PointImpl(1,3))),
@@ -84,7 +84,7 @@ class PlaygroundTest extends FunSuite{
     assert(playground.eatables contains((Cherry("Cherry", PointImpl(0,2)))))
     assert(playground.eatables contains((Dot("Dot", PointImpl(0,3)))))
     assert(playground.eatables contains((GalaxianShip("apGalaxianShipple", PointImpl(0,4)))))
-    assert(playground.eatables contains((Grapes("Grapes", PointImpl(1,0)))))
+    assert(playground.eatables contains((Grape("Grapes", PointImpl(1,0)))))
     assert(playground.eatables contains((Key("Key", PointImpl(1,1)))))
     assert(playground.eatables contains((Orange("Orange", PointImpl(1,2)))))
     assert(playground.eatables contains((Pill("Pill", PointImpl(1,3)))))

@@ -5,7 +5,7 @@ import client.model.gameElement.GameItem
 import client.model.utils.{Lives, Point, PointImpl, PrologConfig}
 
 /**
-  * Represents all base characters behaviors.
+  * Represents all characters' behaviors.
   *
   * @author Giulia Lucchi
   * @author Margherita Pecorelli
@@ -20,89 +20,84 @@ trait Character extends GameItem{
   def go(direction: Direction): Unit
 
   /**
-    * Manages the strategy of game, that is based on who the killer is and who the killable
+    * Checks if the character can eat another character or if it can be eaten by another character.
     */
   def checkAllPositions: Unit
 
   /**
-    * setter client.model.character.gameElement.character's position
+    * Sets character's position.
     *
-    * @param point    a point of client.model.character.gameElement.character within the game map.
-    * @throws OutOfPlaygroundBoundAccessException when the position is out of the ground.
-    * */
-  def setPosition(point: Point[Int,Int]): Unit
+    * @param position - the new position.
+    */
+  def setPosition(position: Point[Int,Int]): Unit
 
   /**
-    * getter of client.model.character.gameElement.character's direction
+    * Returns last character's direction.
     *
-    * @return direction   a direction of client.model.character.gameElement.character
-    * */
+    * @return last character's direction.
+    */
   def direction: Direction
 
   /**
-    * setter of client.model.character.gameElement.character's direction
+    * Sets direction of the character's movement.
     *
-    * @param direction    a direction of client.model.character.gameElement.character
-    * */
+    * @param direction - movement's direction.
+    */
   def direction_=(direction: Direction): Unit
 
   /**
-    * getter of client.model.character.gameElement.character's state of its life
+    * Returns if character is alive.
     *
-    * @return true    if client.model.character.gameElement.character is alive
-    *         false   otherwise
-    * */
+    * @return true if character is alive, false otherwise.
+    */
   def isAlive: Boolean
 
   /**
-    * setter of client.model.character.gameElement.character's state of its life
+    * Sets if charater is alive.
     *
-    * @param isAlive   true    if client.model.character.gameElement.character is alive
-    *                  false   otherwise
-    * */
+    * @param isAlive - true if character is alive, false otherwise.
+    */
   def isAlive_=(isAlive: Boolean): Unit
 
   /**
-    * getter if the client.model.character.gameElement.character is killer or killable
+    * Returns if character is killable. If it is not, then it is a killer.
     *
-    * @return true    if client.model.character.gameElement.character is killable of other client.model.character.gameElement.character
-    *         false   otherwise
-    * */
+    * @return true if character is killable, false if it is a killer.
+    */
   def isKillable: Boolean
 
   /**
-    * setter if the client.model.character.gameElement.character is killer or killable
+    * Sets if the character is killable.
     *
-    * @return true    if client.model.character.gameElement.character is killable of other client.model.character.gameElement.character
-    *         false   otherwise
-    * */
+    * @param isKillable - true if character is killable, false if it is a killer.
+    */
   def isKillable_=(isKillable: Boolean): Unit
 
   /**
-    * getter of client.model.character.gameElement.character's name
+    * Returns character's name.
     *
-    * @return name    client.model.character.gameElement.character's name
+    * @return character's name.
     */
   def name: String
 
   /**
-    * getter of lives in the single match
+    * Returns character's lives.
     *
-    * @return lives   lives of the game in the sigle match
+    * @return character's lives.
     */
   def lives: Lives
 
   /**
-    * getter of current client.model.character.gameElement.character's score
+    * Returns character's score.
     *
-    * @return current client.model.character.gameElement.character's score
+    * @return character's score.
     */
   def score: Int
 
   /**
-    * Setter of current chararcter's score
+    * Sets character's score.
     *
-    * @param score incremented score
+    * @param score - the new character's score.
     */
   def score_=(score: Int): Unit
 
@@ -119,11 +114,18 @@ trait Character extends GameItem{
     * @return true if the character had lost, false otherwise.
     */
   def hasLost: Boolean
+
 }
 
+/**
+  * Represents the implementation of all characters' behaviors.
+  *
+  * @author Giulia Lucchi
+  * @author Margherita Pecorelli
+  */
 abstract class CharacterImpl(override var isKillable: Boolean) extends Character {
 
-  private var pos: Point[Int, Int] = PointImpl(0,0)
+  private var _position: Point[Int, Int] = PointImpl(0,0)
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
   private var _isAlive = true
@@ -132,34 +134,38 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
   override var score: Int = 0
 
   /**
-    * Manages the client.model.character.gameElement.character's movement.
+    * Manages character's movement and consequently the contact with other item of the game.
     *
-    * @param direction - client.model.character.gameElement.character's direction
+    * @param direction - direction of character's movement.
     */
   override def go(direction: Direction) = {
     this.direction = direction
     val point: Option[Point[Int, Int]] = move(direction)
-    if(point nonEmpty) {
-      setPosition(point get)
-      checkAllPositions
-    } else {
-      println("NO. it hit the wall.")
+    point nonEmpty match {
+      case true =>
+        setPosition(point.get)
+        checkAllPositions
+      case false =>
+        println("Can't go in that direction")
     }
   }
 
   /**
-    * Recall the predicate about the client.model.character.gameElement.character's movement .
+    * Returns an Option containing character's new position if the movement is allowed, containing None otherwise.
     *
-    * @param direction the client.model.character.gameElement.character's direction during the movement
-    * @return the new client.model.character.gameElement.character's position after the movement
+    * @param direction - the direction of character's movement.
+    * @return an Option containing character's new position if the movement is allowed, containing None otherwise.
     */
-  private def move(direction: Direction) = {
-    val solveInfo = PrologConfig.getPrologEngine.solve(s"move(${pos x}, ${pos y},${direction getDirection}, X, Y).")
-    if (solveInfo isSuccess) {
-      val x = Integer.valueOf(solveInfo.getTerm("X").toString)
-      val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
-      Option(PointImpl[Int, Int](x, y))
-    }else{None}
+  private def move(direction: Direction): Option[Point[Int, Int]] = {
+    val solveInfo = PrologConfig.getPrologEngine.solve(s"move(${_position x}, ${_position y},${direction getDirection}, X, Y).")
+    solveInfo isSuccess match {
+      case true =>
+        val x = Integer.valueOf(solveInfo.getTerm("X").toString)
+        val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
+        Option(PointImpl[Int, Int](x, y))
+      case _ =>
+        None
+    }
   }
 
   /**
@@ -167,24 +173,33 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     *
     * @return item's position.
     */
-  override def position = pos
+  override def position = _position
 
-   /**
-     * Sets character's position.
-     *
-     * @param position a point of client.model.character.gameElement.character within the game map.
-     * @throws OutOfPlaygroundBoundAccessException when the position is out of the ground.
-     **/
+  /**
+    * Sets character's position.
+    *
+    * @param position - the new position.
+    */
   override def setPosition(position: Point[Int, Int]) = {
-    playground checkPosition position
-    pos = position
+    playground.checkPosition(position)
+    _position = position
   }
 
-  def isAlive = _isAlive
+  /**
+    * Returns if character is alive.
+    *
+    * @return true if character is alive, false otherwise.
+    */
+  override def isAlive = _isAlive
 
-  def isAlive_=(alive: Boolean) = {
+  /**
+    * Sets if charater is alive.
+    *
+    * @param alive - true if character is alive, false otherwise.
+    */
+  override def isAlive_=(alive: Boolean) = {
     _isAlive = alive
-    if(!_isAlive) println("GAME OVER!")
+    if(hasLost) println("GAME OVER!")
   }
 
   /**
@@ -194,24 +209,19 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     */
   override def hasLost = !isAlive
 
+  /**
+    * Returns a string representing the prolog ghosts list containing all match's ghosts. It can be pass as Term in prolog.
+    *
+    * @return a string representing the prolog ghosts list containing all match's ghosts.
+    */
   protected def prologGhostsList: String = {
     var ghosts: String = "["
-    game.allCharacters.filter(c => !(c.isInstanceOf[Pacman])).foreach{e =>
-      ghosts = ghosts + "eatens(),"
+    game.allCharacters.filter(c => !(c.isInstanceOf[Pacman])).foreach{ e =>
+      ghosts = ghosts + "ghost(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.name + "),"
     }
-    ghosts = ghosts substring (0,(ghosts size)-1)
+    ghosts = ghosts.substring(0,ghosts.size-1)
     ghosts = ghosts + "]"
     ghosts
   }
 
-  protected def prologEatablesList: String = {
-    var eatens: String = "["
-    playground.eatenObjects.foreach{e =>
-      eatens = eatens + "eatable(),"
-    }
-    eatens = eatens.substring(0,eatens.size-1)
-    eatens = eatens + "]"
-    eatens
-  }
-
- }
+}
