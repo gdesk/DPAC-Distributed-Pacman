@@ -15,13 +15,13 @@ case class Orange(override val id: String, override val position: Point[Int, Int
     * @return eatable object's score.
     */
   override def score: Int = Orange.score
-}
 
+}
 
 /**
   * Represents the static Orange's values.
   */
-private object Orange {
+object Orange {
 
   private val score = 500
 

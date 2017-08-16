@@ -17,7 +17,12 @@ trait Timer extends Observable{
     */
   def counts(milliseconds: Long): Unit
 
-  override def addObserver(o: Observer): Unit
+  /**
+    * Adds an observer to the observers list.
+    *
+    * @param observer - the observer to add.
+    */
+  override def addObserver(observer: Observer): Unit
 }
 
 /**
@@ -45,6 +50,11 @@ case class TimerImpl() extends Timer{
     }.start
   }
 
+  /**
+    * Adds an observer to the observers list.
+    *
+    * @param observer - the observer to add.
+    */
   override def addObserver(observer: Observer) =  observers += observer
 
 }

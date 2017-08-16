@@ -18,11 +18,10 @@ case class Bell(override val id: String, override val position: Point[Int, Int])
 
 }
 
-
 /**
   * Represents the static Bell's values.
   */
-private object Bell {
+object Bell {
 
   private val score = 3000
 

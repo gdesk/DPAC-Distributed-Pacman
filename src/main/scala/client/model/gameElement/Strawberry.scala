@@ -15,13 +15,13 @@ case class Strawberry(override val id: String, override val position: Point[Int,
     * @return eatable object's score.
     */
   override def score: Int = Strawberry.score
-}
 
+}
 
 /**
   * Represents the static Strawberry's values.
   */
-private object Strawberry {
+object Strawberry {
 
   private val score = 300
 

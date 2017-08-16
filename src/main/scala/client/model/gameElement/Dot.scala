@@ -18,11 +18,10 @@ case class Dot(override val id: String, override val position: Point[Int, Int]) 
 
 }
 
-
 /**
   * Represents the static Dot's values.
   */
-private object Dot {
+object Dot {
 
   private val score = 10
 

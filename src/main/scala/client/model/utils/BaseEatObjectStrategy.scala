@@ -48,6 +48,11 @@ object BaseEatObjectStrategy {
 
   private val millisecondsToWait = 10000
 
+  /**
+    * Returns milliseconds to wait before returning everything as before.
+    *
+    * @return milliseconds to wait.
+    */
   def getMillisecondsToWait: Long = millisecondsToWait
 
 }

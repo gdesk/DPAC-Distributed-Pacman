@@ -6,7 +6,6 @@ import client.model._
 import client.model.gameElement.Eatable
 import client.model.utils._
 
-
 /**
   * Represents all pacman' behaviors.
   *
@@ -22,6 +21,12 @@ trait Pacman extends Character {
 
 }
 
+/**
+  * Represents the implementation of all pacman' behaviors.
+  *
+  * @author Giulia Lucchi
+  * @author Margherita Pecorelli
+  */
 case class BasePacman(override val name: String, val strategy: EatObjectStrategy) extends CharacterImpl(true) with Pacman {
 
   private val playground: Playground = PlaygroundImpl
@@ -36,13 +41,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     * Checks if Pacman can eat some eatable object.
     */
   override def eatObject = {
-    var eatables: String = "["
-    playground.eatables.foreach{ e =>
-      eatables = eatables + "eatable_object(" + e.position.x + "," + e.position.y + "," + e.score + "," + "," + e.id + "),"
-    }
-    eatables = eatables.substring(0,eatables.size-1)
-    eatables = eatables + "]"
-
+    val eatables = prologEatablesList
     val solveInfo = PrologConfig.getPrologEngine.solve(s"eat_object(pacman(${position x},${position y},${lives remainingLives},${score toString}), ${eatables}, NS, L).")
     val remainingEatableObjectsId: List[String] = ScalaProlog.prologToScalaList(solveInfo.getTerm("L").toString)
     val remainingEatableObjects: List[Eatable] = List.empty
@@ -97,9 +96,24 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     * @return true if the character won, false otherwise.
     */
   override def won = {
-    val eatens = super.prologEatablesList
+    val eatens = prologEatablesList
     _won = PrologConfig.getPrologEngine.solve(s"pacman_victory(pacman(${position.x},${position.y},${lives.remainingLives},${score.toString}),${eatens}).").isSuccess
     _won
+  }
+
+  /**
+    * Returns a string representing the prolog eatable objects list containing all match's eatable objects. It can be pass as Term in prolog.
+    *
+    * @return a string representing the prolog eatable objects list containing all match's eatable objects.
+    */
+  protected def prologEatablesList: String = {
+    var eatables: String = "["
+    playground.eatables.foreach{ e =>
+      eatables = eatables + "eatable_object(" + e.position.x + "," + e.position.y + "," + e.score + "," + "," + e.id + "),"
+    }
+    eatables = eatables.substring(0,eatables.size-1)
+    eatables = eatables + "]"
+    eatables
   }
 
 }

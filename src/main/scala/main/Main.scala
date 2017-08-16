@@ -4,13 +4,13 @@ import javax.swing.SwingUtilities
 
 import client.communication.model.ToClientCommunicationImpl
 import client.controller._
-import client.model.PlayerImpl
 import client.model.peerCommunication.{ClientIncomingMessageHandler, ClientIncomingMessageHandlerImpl, ClientOutcomingMessageHandler, ClientOutcomingMessageHandlerImpl}
 import client.view.MainFrame
-import network.client.P2P.bootstrap.ServerBootstrap
-import network.client.P2P.game.{PeerRegisterHandlerImpl, ServerPlayingWorkerThread}
-import network.client.P2P.utils.ExecutorServiceUtility
+import network.client.P2P.game.PeerRegisterHandlerImpl
 
+/**
+  * Application main.
+  */
 object Main extends App {
   println("[ DPACS - Distributed Pacman ]")
   println("[ Version 1.0.0 - August 2017 ]")

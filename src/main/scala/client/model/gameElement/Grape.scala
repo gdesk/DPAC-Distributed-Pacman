@@ -15,13 +15,13 @@ case class Grape(override val id: String, override val position: Point[Int, Int]
     * @return eatable object's score.
     */
   override def score: Int = Grape.score
-}
 
+}
 
 /**
   * Represents the static Grape's values.
   */
-private object Grape {
+object Grape {
 
   private val score = 1000
 

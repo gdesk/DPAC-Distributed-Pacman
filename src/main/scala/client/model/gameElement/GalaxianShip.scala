@@ -18,11 +18,10 @@ case class GalaxianShip(override val id: String, override val position: Point[In
 
 }
 
-
 /**
   * Represents the static GalaxianShip's values.
   */
-private object GalaxianShip {
+object GalaxianShip {
 
   private val score = 2000
 

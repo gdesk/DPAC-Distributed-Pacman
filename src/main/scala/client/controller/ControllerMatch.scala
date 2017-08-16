@@ -202,7 +202,7 @@ object BaseControllerMatch extends ControllerMatch {
     */
   override def startMatch = {
     var characterMap: Map[String, Map[Direction, Image]] = Map.empty
-    model.getPlayersIp().foreach(ip => characterMap += (ip -> model.getTeamCharacter(ip)))
+    model.getPlayersIp.foreach(ip => characterMap += (ip -> model.getTeamCharacter(ip)))
     BaseControllerCharacter.setCharacterImages(characterMap)
     model.startMatch
   }
@@ -220,14 +220,14 @@ object BaseControllerMatch extends ControllerMatch {
     *
     * @param view - the view to be called when the match is ready to start.
     */
-  override def setLoadingView(view: LoadingView): Unit = loadingView = view
+  override def setLoadingView(view: LoadingView) = loadingView = view
 
   /**
     * Sets the view to be called when the response of an invitation arrives.
     *
     * @param view - the view to be called when the response of an invitation arrives.
     */
-  override def setTeamView(view: CreateTeamView): Unit = teamView = view
+  override def setTeamView(view: CreateTeamView) = teamView = view
 
   /**
     * Sets the model to be called.

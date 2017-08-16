@@ -20,4 +20,5 @@ trait Eatable extends GameItem {
       * @return the eatable object's identifier.
       */
     def id: String
+
 }

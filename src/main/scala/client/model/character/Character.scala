@@ -125,7 +125,7 @@ trait Character extends GameItem{
   */
 abstract class CharacterImpl(override var isKillable: Boolean) extends Character {
 
-  private var pos: Point[Int, Int] = PointImpl(0,0)
+  private var _position: Point[Int, Int] = PointImpl(0,0)
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
   private var _isAlive = true
@@ -143,7 +143,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     val point: Option[Point[Int, Int]] = move(direction)
     point nonEmpty match {
       case true =>
-        setPosition(point get)
+        setPosition(point.get)
         checkAllPositions
       case false =>
         println("Can't go in that direction")
@@ -157,7 +157,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     * @return an Option containing character's new position if the movement is allowed, containing None otherwise.
     */
   private def move(direction: Direction): Option[Point[Int, Int]] = {
-    val solveInfo = PrologConfig.getPrologEngine.solve(s"move(${pos x}, ${pos y},${direction getDirection}, X, Y).")
+    val solveInfo = PrologConfig.getPrologEngine.solve(s"move(${_position x}, ${_position y},${direction getDirection}, X, Y).")
     solveInfo isSuccess match {
       case true =>
         val x = Integer.valueOf(solveInfo.getTerm("X").toString)
@@ -173,7 +173,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     *
     * @return item's position.
     */
-  override def position = pos
+  override def position = _position
 
   /**
     * Sets character's position.
@@ -182,7 +182,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     */
   override def setPosition(position: Point[Int, Int]) = {
     playground.checkPosition(position)
-    pos = position
+    _position = position
   }
 
   /**
@@ -199,7 +199,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     */
   override def isAlive_=(alive: Boolean) = {
     _isAlive = alive
-    if(!_isAlive) println("GAME OVER!")
+    if(hasLost) println("GAME OVER!")
   }
 
   /**
@@ -219,24 +219,9 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     game.allCharacters.filter(c => !(c.isInstanceOf[Pacman])).foreach{ e =>
       ghosts = ghosts + "ghost(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.name + "),"
     }
-    ghosts = ghosts substring (0,ghosts.size-1)
+    ghosts = ghosts.substring(0,ghosts.size-1)
     ghosts = ghosts + "]"
     ghosts
   }
 
-  /**
-    * Returns a string representing the prolog eaten objects list containing all match's eaten objects. It can be pass as Term in prolog.
-    *
-    * @return a string representing the prolog eaten objects list containing all match's eaten objects.
-    */
-  protected def prologEatablesList: String = {
-    var eatens: String = "["
-    playground.eatenObjects.foreach{e =>
-      eatens = eatens + "eatable(),"
-    }
-    eatens = eatens.substring(0,eatens.size-1)
-    eatens = eatens + "]"
-    eatens
-  }
-
- }
+}

@@ -15,13 +15,13 @@ case class Cherry(override val id: String, override val position: Point[Int, Int
     * @return eatable object's score.
     */
   override def score: Int = Cherry.score
-}
 
+}
 
 /**
   * Represents the static Cherry's values.
   */
-private object Cherry {
+object Cherry {
 
   private val score = 100
 

@@ -132,11 +132,11 @@ object  PlaygroundImpl extends Playground{
     * @throws OutOfPlaygroundBoundAccessException when the position is out of the ground.
     */
   override def ground_=(elements: List[GameItem]) = {
-    _ground clear;
-    _blocks clear;
-    _eatables clear;
-    _eatenObjects clear;
-    _streetPositions clear;
+    _ground.clear
+    _blocks.clear
+    _eatables.clear
+    _eatenObjects.clear
+    _streetPositions.clear
     elements.foreach(e => _ground += e)
     _ground.foreach(p => checkItemPosition(p))
 
@@ -242,7 +242,7 @@ object  PlaygroundImpl extends Playground{
     */
   override def elementAtPosition(position: Point[Int,Int]) = {
     checkPosition(position)
-    _ground find (e => e.position equals position)
+    _ground.find(e => e.position equals position)
   }
 
   /**

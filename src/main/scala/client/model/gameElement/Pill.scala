@@ -18,11 +18,10 @@ case class Pill(override val id: String, override val position: Point[Int, Int])
 
 }
 
-
 /**
   * Represents the static Pill's values.
   */
-private object Pill {
+object Pill {
 
   private val score = 50
 

@@ -18,11 +18,10 @@ case class Key(override val id: String, override val position: Point[Int, Int]) 
 
 }
 
-
 /**
   * Represents the static Key's values.
   */
-private object Key {
+object Key {
 
   private val score = 5000
 

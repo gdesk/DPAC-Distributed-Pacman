@@ -13,6 +13,12 @@ import client.model.utils.{LivesImpl, PrologConfig}
   */
 trait Ghost extends Character {}
 
+/**
+  * Represents the implementation of all ghosts' behaviors.
+  *
+  * @author Giulia Lucchi
+  * @author Margherita Pecorelli
+  */
 case class BaseGhost(override val name: String) extends CharacterImpl(false) with Ghost {
 
   private val playground: Playground = PlaygroundImpl
