@@ -73,24 +73,6 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
     public void run() {
 
         System.out.println("ServerPlayingWorkerThread");
-        initializeObjectBinding();
-
-        //per far terminare questo while basta chiamare shutdown
-        while (!Thread.currentThread().isInterrupted()) {
-            try {
-                updateObjects();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-
-
-    }
-
-
-    private void initializeObjectBinding(){
         try {
             registry = LocateRegistry.createRegistry(1099);
             System.setProperty("Djava.rmi.server.codebase", "out/");
@@ -110,8 +92,13 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
             System.err.println("Server exception: " + e.toString());
             // e.printStackTrace();
         }
-    }
 
+
+
+
+
+
+    }
 
 
     public void updateObjects() throws RemoteException {
