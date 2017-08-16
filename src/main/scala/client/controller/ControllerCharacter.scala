@@ -87,10 +87,12 @@ object BaseControllerCharacter extends ControllerCharacter {
 
     if(!(preLives equals postLives)) {
       view.updateLives(postLives)
-      if(postLives <= 0) view.gameOver
+      if(character.hasLost) view.gameOver
     }
 
     if(!(preScore equals postScore)) view.updateLives(postScore)
+
+    if(character.won) view.showResult(postScore.toString)
   }
 
   /**
@@ -151,10 +153,12 @@ object BaseControllerCharacter extends ControllerCharacter {
 
         if(!(preLives equals postLives)) {
           view.updateLives(postLives)
-          if(postLives <= 0) view.gameOver
+          if(gameMatch.myCharacter.hasLost) view.gameOver
         }
 
         if(!(preScore equals postScore)) view.updateLives(postScore)
+
+        if(gameMatch.myCharacter.won) view.showResult(postScore.toString)
     }
   }
 
