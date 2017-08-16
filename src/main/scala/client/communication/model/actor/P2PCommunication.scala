@@ -1,9 +1,11 @@
 package client.communication.model.actor
 
 
+import java.net.InetAddress
 import java.rmi.registry.LocateRegistry
 
 import akka.actor.UntypedAbstractActor
+import client.controller.BaseControllerMatch
 import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl
 import client.model.{MatchImpl, PlayerImpl}
 import client.utils.ActorUtils
@@ -19,10 +21,10 @@ import scala.util.parsing.json.JSONObject
   * @author Giulia Lucchi
   *         Federica Pecci
   */
-class P2PCommunication extends UntypedAbstractActor {
+class P2PCommunication() extends UntypedAbstractActor {
 
 
-  val executor = new ExecutorServiceUtility
+  val executor = ExecutorServiceUtility.getIstance
 
 
   override def onReceive(message: Any): Unit = message match{
@@ -46,16 +48,22 @@ class P2PCommunication extends UntypedAbstractActor {
 
         val info = new OtherCharacterInfo
         val matchHandler = new ClientOutcomingMessageHandlerImpl
+        matchHandler.addObserver(BaseControllerMatch)
         val IPList = MatchImpl.allPlayersIp
 
-        for (ip <- IPList) {
-          val registry = LocateRegistry.getRegistry(ip)
-          new ClientBootstrap(ip)
-          executor.initClientPlayingWorkerThread(ip, registry)
+        val filteredIpLis = IPList.filter(clientIp => clientIp != (PlayerImpl.ip))
 
-        }
 
-        println("PRIMA DI START MATCH")
+        System.out.println("--LISTA IP--")
+        filteredIpLis.foreach(println)
+
+        filteredIpLis.foreach(clientIp => {
+          new ClientBootstrap(clientIp)
+          val registry = LocateRegistry.getRegistry(clientIp)
+          executor.initClientPlayingWorkerThread(clientIp, registry)
+
+        })
+
         //notifico controller match
         matchHandler.startMatch()
 

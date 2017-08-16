@@ -42,10 +42,10 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
             score = valueOf(solveInfo.getTerm("GS").toString)
           }
           _won = PrologConfig.getPrologEngine.solve(s"ghosts_victory(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score.toString}).").isSuccess
-        }
+      }
     }
   }
-
+  
   /**
     * Returns if the character won.
     *

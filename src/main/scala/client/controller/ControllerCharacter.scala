@@ -5,9 +5,11 @@ import java.util.{Observable, Observer}
 
 import client.model._
 import client.model.character.Character
+import client.model.peerCommunication.ClientIncomingMessageHandler
 import client.model.utils.Point
 import client.view.`match`.GamePanel
 import io.reactivex.Flowable
+import network.client.P2P.game.{ClientPlayingWorkerThread, PeerRegisterHandler, ServerPlayingWorkerThread}
 
 /**
   * Represents the controller for characters management.
@@ -39,6 +41,13 @@ trait ControllerCharacter extends Observer {
   def setView(view: GamePanel): Unit
 
   /**
+    * Sets the model to be called when somethings changes about characters.
+    *
+    * @param model - model to be called.
+    */
+  def setModel(model: PeerRegisterHandler): Unit
+
+  /**
     * Called when other character moves or dies.
     * Invokes the model to perform actions that result from the changes of the character and notifies the view of changes.
     *
@@ -61,6 +70,7 @@ object BaseControllerCharacter extends ControllerCharacter {
   private val gameMatch: Match = MatchImpl
   private val playground: Playground = PlaygroundImpl
   private var view: GamePanel = null
+  private var model: PeerRegisterHandler = null
   private var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
   /**
@@ -81,18 +91,30 @@ object BaseControllerCharacter extends ControllerCharacter {
     val postLives: Int = character.lives.remainingLives
     val postScore: Int = character.score
 
-    if(!(prePosition equals postPosition)) view.move(characterImages.get(character.name).get(direction), Color.red,
-      prePosition.asInstanceOf[Point[Integer,Integer]],
-      postPosition.asInstanceOf[Point[Integer,Integer]])
+    if(!(prePosition equals postPosition)) {
+      view.move(characterImages.get(character.name).get(direction), Color.red,
+        prePosition.asInstanceOf[Point[Integer,Integer]],
+        postPosition.asInstanceOf[Point[Integer,Integer]])
+      model.updateRegisterObj()
+    }
 
     if(!(preLives equals postLives)) {
       view.updateLives(postLives)
-      if(character.hasLost) view.gameOver
+      if(character.hasLost) {
+        view.gameOver
+        model.updateRegisterObj()
+      }
     }
 
-    if(!(preScore equals postScore)) view.updateLives(postScore)
-
     if(character.won) view.showResult(postScore.toString)
+
+    if(postLives <= 0) {
+      view.gameOver
+      model.updateRegisterObj()
+
+    }
+
+    if(!(preScore equals postScore)) view.renderScore(postScore)
   }
 
   /**
@@ -119,6 +141,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     * @throws ThisIpDoesNotExistException when the given ip doesn't belong to the current match's ips.
     */
   override def update(observable: Observable, arg: scala.Any) = {
+    System.out.println("matchHandler.startMatch() - 3")
     val flowable = arg.asInstanceOf[Flowable[Object]]
     val ip = flowable.elementAt(0).blockingGet.asInstanceOf[String]
     val message = flowable.elementAt(1).blockingGet.asInstanceOf[String]
@@ -153,15 +176,26 @@ object BaseControllerCharacter extends ControllerCharacter {
 
         if(!(preLives equals postLives)) {
           view.updateLives(postLives)
-          if(gameMatch.myCharacter.hasLost) view.gameOver
+          if(postLives <= 0) {
+            view.gameOver
+            model.updateRegisterObj()
+          }
         }
 
         if(!(preScore equals postScore)) view.updateLives(postScore)
 
         if(gameMatch.myCharacter.won) view.showResult(postScore.toString)
+
+        if(!(preScore equals postScore)) view.renderScore(postScore)
     }
   }
 
+  /**
+    * Sets the model to be called when somethings changes about characters.
+    *
+    * @param model - model to be called.
+    */
+  override def setModel(model: PeerRegisterHandler): Unit = this.model = model
 }
 
 /**

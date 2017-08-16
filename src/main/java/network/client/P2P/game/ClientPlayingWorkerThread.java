@@ -5,12 +5,9 @@ import client.model.Direction;
 import network.client.P2P.utils.ExecutorServiceUtility;
 import network.client.rxJava.ObservableCharacter;
 
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,6 +46,8 @@ public class ClientPlayingWorkerThread implements Runnable {
 
     @Override
     public void run() {
+
+        /*System.out.println("ClientPlayingWorkerThread");
         PeerRegister stub;
         Object response;
         List<Object> tris = new LinkedList<>();
@@ -58,7 +57,7 @@ public class ClientPlayingWorkerThread implements Runnable {
             try {
                 for (Map.Entry<String, Object> pair : responses.entrySet()) {
 
-                    stub = (PeerRegister) registry.lookup(pair.getKey());
+                    stub = (PeerRegisterImlp) registry.lookup(pair.getKey());
                     switch (pair.getKey()) {
                         case "direction":
                             response = stub.getDirection();
@@ -86,19 +85,47 @@ public class ClientPlayingWorkerThread implements Runnable {
                          * STREAM -> ip, "move", currentPosition);
                          * this class is OBSERVABLE because creates a stream
                          */
-                        observableCharacter.subscribeObserver(tris);
+                      /*  observableCharacter.subscribeObserver(tris);
                     }
 
                     tris.clear();
 
                 }
 
-                wait(1000);
+                //wait(1000);
 
             } catch(RemoteException | NotBoundException | InterruptedException e){
                 e.printStackTrace();
 
+            }*/
+                      
+        System.setProperty("Djava.rmi.server.hostname", ip);
+
+        String host = ip;
+
+
+            try {
+
+                Registry registry = LocateRegistry.getRegistry(host);
+
+                PeerRegister stubDirection = (PeerRegister) registry.lookup("direction");
+                PeerRegister stubisAlive = (PeerRegister) registry.lookup("isAlive");
+
+                Direction direction = stubDirection.getDirection();
+                boolean isAlive = stubisAlive.isAlive();
+
+                System.out.println("direction: " + direction + " isAlive: " + isAlive);
+
+
+                
+            } catch (Exception e) {
+                System.err.println("Client "+ip+" exception: " + e.toString());
+                //e.printStackTrace();
             }
-        }
+
+            System.out.println("Client ready");
+
+
+
     }
 }
