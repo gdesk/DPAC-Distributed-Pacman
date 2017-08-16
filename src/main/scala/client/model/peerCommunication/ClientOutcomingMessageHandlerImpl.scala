@@ -25,8 +25,7 @@ class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingM
     */
 
   def startMatch(): Unit =
-    System.out.println("matchHandler.startMatch() - 2")
-    notifyObservers(this, "StartMatch")
+    observers.foreach(o => o.update(this, "StartMatch"))
 
 
 
