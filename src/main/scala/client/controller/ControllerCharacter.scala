@@ -199,7 +199,7 @@ object BaseControllerCharacter extends ControllerCharacter {
 }
 
 /**
-  * Represents the excetpion throws when the given ip doesn't belong to the current match's ips.
+  * Represents the exception throws when the given ip doesn't belong to the current match's ips.
   *
   * @param message - message throws by the exception.
   */
