@@ -11,15 +11,15 @@ import java.rmi.RemoteException;
  */
 public class PeerRegisterHandlerImpl implements  PeerRegisterHandler{
 
-
-
     private final ServerBootstrap serverBootstrap = ServerBootstrap.getIstance(PlayerImpl.ip());
-    private final ServerPlayingWorkerThread serverPlayingWorkerThread = ServerPlayingWorkerThread
-            .getIstance(ExecutorServiceUtility.getIstance(), serverBootstrap.getRegistry(), serverBootstrap.getRmiPort());
-
+    private ServerPlayingWorkerThread serverPlayingWorkerThread = null;
 
     @Override
     public void updateRegisterObj() {
+        if(serverPlayingWorkerThread == null) {
+            serverPlayingWorkerThread = ServerPlayingWorkerThread
+                    .getIstance(ExecutorServiceUtility.getIstance(), serverBootstrap.getRegistry(), serverBootstrap.getRmiPort());
+        }
         try {
             serverPlayingWorkerThread.updateObjects();
         } catch (RemoteException e) {
