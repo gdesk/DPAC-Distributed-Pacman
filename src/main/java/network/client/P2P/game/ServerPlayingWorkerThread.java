@@ -86,7 +86,7 @@ public class ServerPlayingWorkerThread implements Hello, Runnable  {
         }*/
         ServerPlayingWorkerThread obj = new ServerPlayingWorkerThread();
         try {
-            Registry registry = LocateRegistry.createRegistry(1099);
+            registry = LocateRegistry.createRegistry(1099);
             System.setProperty("Djava.rmi.server.codebase", "out/");
             System.setProperty("Djava.rmi.server.hostname", PlayerImpl.ip());
 
@@ -94,12 +94,12 @@ public class ServerPlayingWorkerThread implements Hello, Runnable  {
 
             // Bind the remote object's stub in the registry
             //registry = LocateRegistry.getRegistry();
-            registry.bind("Hello"+PlayerImpl.ip(), stub);
+            registry.bind("Hello", stub);
 
             System.err.println("Server ready");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
-            e.printStackTrace();
+           // e.printStackTrace();
         }
 
     }

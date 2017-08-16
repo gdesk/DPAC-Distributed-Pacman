@@ -106,7 +106,7 @@ public class ClientPlayingWorkerThread implements Runnable {
 
         boolean isrunning = true;
 
-        while(isrunning) {
+       // while(isrunning) {
             try {
 
                 Registry registry = LocateRegistry.getRegistry(host);
@@ -119,11 +119,10 @@ public class ClientPlayingWorkerThread implements Runnable {
                 isrunning = false;
                 
             } catch (Exception e) {
-                //System.err.println("Client exception: " + e.toString());
-                System.err.println(e.getClass());
-                e.printStackTrace();
+                System.err.println("Client "+ip+" exception: " + e.toString());
+                //e.printStackTrace();
             }
-        }
+      //  }
 
 
     }
