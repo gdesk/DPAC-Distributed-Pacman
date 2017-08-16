@@ -52,10 +52,10 @@ public class LoadingPanel extends JPanel implements LoadingView {
 
     public void renderGamePanel(){
 
-        PlaygroundPanel view = new PlaygroundBuilderImpl()
+        PlaygroundView view = new PlaygroundBuilderImpl()
                 .setColumns(PlaygroundImpl.dimension().x())
                 .setRows(PlaygroundImpl.dimension().y())
-                .setBackground(Color.WHITE)
+                .setBackground(Color.black)
                 .createPlayground();
 
         view.renderBlockList(Utils.getJavaList(PlaygroundImpl.blocks()));

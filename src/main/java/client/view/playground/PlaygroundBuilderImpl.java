@@ -37,7 +37,7 @@ public class PlaygroundBuilderImpl implements PlaygroundBuilder {
     }
 
     @Override
-    public PlaygroundPanel createPlayground(){
+    public PlaygroundView createPlayground(){
         PlaygroundSettings settings = new PlaygroundSettings(colums,rows);
         settings.setBackgroundColor(color);
         if(image!=null){

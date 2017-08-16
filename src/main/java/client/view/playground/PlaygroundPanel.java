@@ -29,6 +29,7 @@ public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundVi
      */
     @Override
     public void renderBlockList(List<Block> blockList){
+        System.out.println("renderBlock");
         for ( Block b : blockList) {
             super.renderBlock((int) b.position().x(), (int) b.position().y(), chooseBlockImage(b, blockList));
         }
@@ -40,6 +41,7 @@ public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundVi
      */
     @Override
     public void renderEatableList(List<Eatable> eatableList){
+        System.out.println("renderEatable");
         for (Eatable e : eatableList){
             if (e instanceof Dot){
                 super.renderDot((int) e.position().x(), (int) e.position().y());

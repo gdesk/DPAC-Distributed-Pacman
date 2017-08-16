@@ -6,7 +6,6 @@ import client.view.MainFrame;
 import client.view.PacmanView;
 import client.view.Utils;
 import client.view.playground.MicroMapPanel;
-import client.view.playground.PlaygroundPanel;
 import client.view.playground.PlaygroundView;
 import client.view.utils.JComponentsUtils;
 
@@ -26,22 +25,21 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
     private static final int BOUNDS = 100;
     private static final int LIVES_IMAGE_DIM = 40;
 
-    private PlaygroundPanel playground;
+    private PlaygroundView playground;
 
     private final MicroMapPanel microMap = new MicroMapPanel();
     private final JLabel score = new JLabel("Score: 0");
     private JPanel livesPanel = new JPanel();
 
-    public GamePanelImpl(final PlaygroundPanel playground) {
+    public GamePanelImpl(final PlaygroundView playground) {
+        System.out.println("gamePanelImpl");
         this.playground = playground;
-        JPanel jp = playground;
-        //this.add((Container)playground, 0);
-        this.add(jp, 0);
-        jp.setSize(1050,1000);
+        this.add((Container)playground, 0);
         add(microMap, 1);
         addScorePanel();
         addLivesPanel(3);
-        this.setVisible(true);
+        revalidate();
+        repaint();
     }
 
     @Override

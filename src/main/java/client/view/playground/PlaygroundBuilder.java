@@ -38,6 +38,6 @@ public interface PlaygroundBuilder {
      * Creates a PlaygroundView with the specified parameters
      * @return a PlaygroundView
      */
-    PlaygroundPanel createPlayground();
+    PlaygroundView createPlayground();
 
 }
