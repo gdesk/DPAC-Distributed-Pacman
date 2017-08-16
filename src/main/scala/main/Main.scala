@@ -8,7 +8,7 @@ import client.model.PlayerImpl
 import client.model.peerCommunication.{ClientIncomingMessageHandler, ClientIncomingMessageHandlerImpl, ClientOutcomingMessageHandler, ClientOutcomingMessageHandlerImpl}
 import client.view.MainFrame
 import network.client.P2P.bootstrap.ServerBootstrap
-import network.client.P2P.game.ServerPlayingWorkerThread
+import network.client.P2P.game.{PeerRegisterHandlerImpl, ServerPlayingWorkerThread}
 import network.client.P2P.utils.ExecutorServiceUtility
 
 object Main extends App {
@@ -25,14 +25,10 @@ object Main extends App {
 
   val model = ToClientCommunicationImpl()
 
-
-  val serverBootstrap: ServerBootstrap = ServerBootstrap.getIstance(PlayerImpl.ip)
-  val serverPlayingWorkerThread: ServerPlayingWorkerThread = ServerPlayingWorkerThread.getIstance(ExecutorServiceUtility.getIstance(), serverBootstrap.getRegistry(), serverBootstrap.getRmiPort())
-
   val ci: ClientIncomingMessageHandler = new ClientIncomingMessageHandlerImpl
   val co: ClientOutcomingMessageHandler = new ClientOutcomingMessageHandlerImpl
 
-  controllerCharacter.setModel(serverPlayingWorkerThread)
+  controllerCharacter.setModel(new PeerRegisterHandlerImpl)
   controllerMatch.setModel(model)
   controllerUser.setModel(model)
 

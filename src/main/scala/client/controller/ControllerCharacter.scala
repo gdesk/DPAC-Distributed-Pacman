@@ -9,7 +9,7 @@ import client.model.peerCommunication.ClientIncomingMessageHandler
 import client.model.utils.Point
 import client.view.`match`.GamePanel
 import io.reactivex.Flowable
-import network.client.P2P.game.{ClientPlayingWorkerThread, ServerPlayingWorkerThread}
+import network.client.P2P.game.{ClientPlayingWorkerThread, PeerRegisterHandler, ServerPlayingWorkerThread}
 
 /**
   * Represents the controller for characters management.
@@ -45,7 +45,7 @@ trait ControllerCharacter extends Observer {
     *
     * @param model - model to be called.
     */
-  def setModel(model: ServerPlayingWorkerThread): Unit
+  def setModel(model: PeerRegisterHandler): Unit
 
   /**
     * Called when other character moves or dies.
@@ -70,7 +70,7 @@ object BaseControllerCharacter extends ControllerCharacter {
   private val gameMatch: Match = MatchImpl
   private val playground: Playground = PlaygroundImpl
   private var view: GamePanel = null
-  private var model: ServerPlayingWorkerThread = null
+  private var model: PeerRegisterHandler = null
   private var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
   /**
@@ -95,14 +95,14 @@ object BaseControllerCharacter extends ControllerCharacter {
       view.move(characterImages.get(character.name).get(direction), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
-      model.updateObjects()
+      model.updateRegisterObj()
     }
 
     if(!(preLives equals postLives)) {
       view.updateLives(postLives)
       if(postLives <= 0) {
         view.gameOver
-        model.updateObjects()
+        model.updateRegisterObj()
       }
     }
 
@@ -169,7 +169,7 @@ object BaseControllerCharacter extends ControllerCharacter {
           view.updateLives(postLives)
           if(postLives <= 0) {
             view.gameOver
-            model.updateObjects()
+            model.updateRegisterObj()
           }
         }
 
@@ -182,7 +182,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     *
     * @param model - model to be called.
     */
-  override def setModel(model: ServerPlayingWorkerThread): Unit = this.model = model
+  override def setModel(model: PeerRegisterHandler): Unit = this.model = model
 }
 
 /**
