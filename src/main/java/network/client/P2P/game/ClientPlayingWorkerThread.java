@@ -114,7 +114,7 @@ public class ClientPlayingWorkerThread implements Runnable {
                 Direction direction = stubDirection.getDirection();
                 boolean isAlive = stubisAlive.isAlive();
 
-                System.out.println("direction: " + direction + "isAlive " + isAlive);
+                System.out.println("direction: " + direction + " isAlive: " + isAlive);
 
 
                 
@@ -122,6 +122,8 @@ public class ClientPlayingWorkerThread implements Runnable {
                 System.err.println("Client "+ip+" exception: " + e.toString());
                 //e.printStackTrace();
             }
+
+            System.out.println("Client ready");
 
 
 

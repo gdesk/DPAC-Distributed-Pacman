@@ -26,6 +26,7 @@ class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingM
     * every Peer has finished to be configured
     */
   def startMatch(): Unit =
+    System.out.println("matchHandler.startMatch() - 2")
     notifyObservers(this, "StartMatch")
 
 

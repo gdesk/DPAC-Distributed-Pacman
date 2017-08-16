@@ -45,7 +45,6 @@ public class ExecutorServiceUtility {
     public void initClientPlayingWorkerThread(String ip, Registry registry){
         workerClient = new ClientPlayingWorkerThread(this, ip, registry);
         //this.future = executor.submit(new ClientPlayingWorkerThread(this, ip, registry));
-        System.out.println("prima di executor.execute(worker)");
         executor.execute(workerClient);
     }
 

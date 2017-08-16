@@ -44,7 +44,6 @@ class P2PCommunication extends UntypedAbstractActor {
 
       case "clientCanConnect" => {
         //todo change name
-        System.out.println("--INIZIO CLIENT--")
 
         val info = new OtherCharacterInfo
         val matchHandler = new ClientOutcomingMessageHandlerImpl
@@ -52,9 +51,9 @@ class P2PCommunication extends UntypedAbstractActor {
 
         val filteredIpLis = IPList.filter(clientIp => clientIp != (PlayerImpl.ip))
 
-        filteredIpLis.foreach(println)
-        System.out.println("--LISTA IP--")
 
+        System.out.println("--LISTA IP--")
+        filteredIpLis.foreach(println)
 
         filteredIpLis.foreach(clientIp => {
           new ClientBootstrap(clientIp)
@@ -64,6 +63,7 @@ class P2PCommunication extends UntypedAbstractActor {
         })
 
         //notifico controller match
+        System.out.println("matchHandler.startMatch() - 1")
         matchHandler.startMatch()
 
       }

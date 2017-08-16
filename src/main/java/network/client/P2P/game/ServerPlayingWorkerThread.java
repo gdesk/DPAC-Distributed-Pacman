@@ -72,7 +72,7 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
     @Override
     public void run() {
 
-        System.out.println("ServerPlayingWorkerThread");
+
         try {
             registry = LocateRegistry.createRegistry(1099);
             System.setProperty("Djava.rmi.server.codebase", "out/");
@@ -87,7 +87,7 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
             registry.bind("direction", stubDirection);
             registry.bind("isAlive", stubIsAlive);
 
-            System.err.println("Server ready");
+            System.out.println("Server ready");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
             // e.printStackTrace();

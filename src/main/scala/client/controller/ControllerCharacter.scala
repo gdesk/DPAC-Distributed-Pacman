@@ -133,6 +133,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     * @throws ThisIpDoesNotExistException when the given ip doesn't belong to the current match's ips.
     */
   override def update(observable: Observable, arg: scala.Any) = {
+    System.out.println("matchHandler.startMatch() - 3")
     val flowable = arg.asInstanceOf[Flowable[Object]]
     val ip = flowable.elementAt(0).blockingGet.asInstanceOf[String]
     val message = flowable.elementAt(1).blockingGet.asInstanceOf[String]
