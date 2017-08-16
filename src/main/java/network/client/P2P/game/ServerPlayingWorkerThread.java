@@ -3,12 +3,16 @@ package network.client.P2P.game;
 import client.model.Direction;
 import client.model.Match;
 import client.model.MatchImpl;
+import client.model.PlayerImpl;
 import client.model.character.Character;
+import network.client.P2P.toyEx.Hello;
+import network.client.P2P.toyEx.PeerServer;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
@@ -21,7 +25,7 @@ import java.util.Map;
  * (so that other peers can take updated values
  * when they need to refresh character info in their gui)
  */
-public class ServerPlayingWorkerThread implements Runnable {
+public class ServerPlayingWorkerThread implements Remote, Runnable  {
 
     private ExecutorServiceUtility executor;
     private int rmiPort;
@@ -67,7 +71,7 @@ public class ServerPlayingWorkerThread implements Runnable {
     @Override
     public void run() {
 
-        System.out.println("ServerPlayingWorkerThread");
+        /*System.out.println("ServerPlayingWorkerThread");
         initializeObjectBinding();
 
         //per far terminare questo while basta chiamare shutdown
@@ -80,6 +84,23 @@ public class ServerPlayingWorkerThread implements Runnable {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+        }*/
+        ServerPlayingWorkerThread obj = new ServerPlayingWorkerThread();
+        try {
+            Registry registry = LocateRegistry.createRegistry(1099);
+            System.setProperty("Djava.rmi.server.codebase", "out/");
+            System.setProperty("Djava.rmi.server.hostname", PlayerImpl.ip());
+
+            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 1099);
+
+            // Bind the remote object's stub in the registry
+            //registry = LocateRegistry.getRegistry();
+            registry.bind("Hello", stub);
+
+            System.err.println("Server ready");
+        } catch (Exception e) {
+            System.err.println("Server exception: " + e.toString());
+            e.printStackTrace();
         }
 
     }
@@ -92,7 +113,6 @@ public class ServerPlayingWorkerThread implements Runnable {
         this.objects.put("isAlive", new ServerObjects());
 
         int i = 0;
-
         for(Map.Entry<String, ServerObjects> pair: objects.entrySet()){
             try {
                 System.out.println("entro nel for" + i++);

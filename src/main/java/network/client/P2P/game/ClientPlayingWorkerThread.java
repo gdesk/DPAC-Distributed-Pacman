@@ -2,11 +2,13 @@ package network.client.P2P.game;
 
 
 import client.model.Direction;
+import network.client.P2P.toyEx.Hello;
 import network.client.P2P.utils.ExecutorServiceUtility;
 import network.client.rxJava.ObservableCharacter;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -50,7 +52,7 @@ public class ClientPlayingWorkerThread implements Runnable {
     @Override
     public void run() {
 
-        System.out.println("ClientPlayingWorkerThread");
+        /*System.out.println("ClientPlayingWorkerThread");
         PeerRegister stub;
         Object response;
         List<Object> tris = new LinkedList<>();
@@ -88,19 +90,33 @@ public class ClientPlayingWorkerThread implements Runnable {
                          * STREAM -> ip, "move", currentPosition);
                          * this class is OBSERVABLE because creates a stream
                          */
-                        observableCharacter.subscribeObserver(tris);
+                      /*  observableCharacter.subscribeObserver(tris);
                     }
 
                     tris.clear();
 
                 }
 
-                wait(1000);
+                //wait(1000);
 
             } catch(RemoteException | NotBoundException | InterruptedException e){
                 e.printStackTrace();
 
-            }
+            }*/
+                      
+        System.setProperty("Djava.rmi.server.hostname", "192.168.1.12");
+        //String host = (args.length < 1) ? null : args[0];
+        String host = "192.168.1.12";
+        try {
+            Registry registry = LocateRegistry.getRegistry(host);
+            Hello stub = (Hello) registry.lookup("Hello");
+            String response = stub.sayHello();
+            System.out.println("response: " + response);
+        } catch (Exception e) {
+            System.err.println("Client exception: " + e.toString());
+            e.printStackTrace();
+        }
+
         }
     }
 }
