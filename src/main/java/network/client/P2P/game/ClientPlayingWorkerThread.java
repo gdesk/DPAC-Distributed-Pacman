@@ -107,13 +107,14 @@ public class ClientPlayingWorkerThread implements Runnable {
             try {
 
                 Registry registry = LocateRegistry.getRegistry(host);
+
                 PeerRegister stubDirection = (PeerRegister) registry.lookup("direction");
                 PeerRegister stubisAlive = (PeerRegister) registry.lookup("isAlive");
 
                 Direction direction = stubDirection.getDirection();
                 boolean isAlive = stubisAlive.isAlive();
 
-                System.out.println("direction: " + direction.getDirection() + "isAlive " + isAlive);
+                System.out.println("direction: " + direction + "isAlive " + isAlive);
 
 
 

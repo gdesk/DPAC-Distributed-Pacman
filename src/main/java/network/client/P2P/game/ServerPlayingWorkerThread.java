@@ -84,14 +84,15 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
             }
         }*/
 
+        ServerPlayingWorkerThread objDir = new ServerPlayingWorkerThread();
+        ServerPlayingWorkerThread objIsAlive = new ServerPlayingWorkerThread();
         try {
             registry = LocateRegistry.createRegistry(1099);
             System.setProperty("Djava.rmi.server.codebase", "out/");
             System.setProperty("Djava.rmi.server.hostname", PlayerImpl.ip());
 
-            PeerRegister stubDirection = (PeerRegister) UnicastRemoteObject.exportObject(new ServerPlayingWorkerThread(), 1099);
-            PeerRegister stubIsAlive = (PeerRegister) UnicastRemoteObject.exportObject(new ServerPlayingWorkerThread(), 1099);
-
+            PeerRegister stubDirection = (PeerRegister) UnicastRemoteObject.exportObject(objDir, 1099);
+            PeerRegister stubIsAlive = (PeerRegister) UnicastRemoteObject.exportObject(objIsAlive, 1099);
 
 
             // Bind the remote object's stub in the registry
