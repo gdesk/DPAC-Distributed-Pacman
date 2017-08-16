@@ -107,7 +107,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     */
   override def won = {
     val eatens = prologEatablesList
-    _won = PrologConfig.getPrologEngine.solve(s"pacman_victory(pacman(${position.x},${position.y},${lives.remainingLives},${score.toString}),${eatens}).").isSuccess
+    _won = PrologConfig.getPrologEngine.solve(s"pacman_victory(pacman(${position.x},${position.y},${lives.remainingLives},${score}),${eatens}).").isSuccess
     _won
   }
 
