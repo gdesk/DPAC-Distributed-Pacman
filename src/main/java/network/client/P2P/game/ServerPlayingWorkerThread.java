@@ -38,6 +38,8 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
     private static ServerPlayingWorkerThread SINGLETON = null;
 
+    private static ServerPlayingWorkerThread objDir;
+    private static ServerPlayingWorkerThread objIsAlive;
 
     private ServerPlayingWorkerThread(){
         this.character = MatchImpl.myCharacter();
@@ -46,7 +48,8 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
         this.direction = character.direction();
         this.isAlive = character.isAlive();
         this.objects = new HashMap<>();
-
+        objDir = new ServerPlayingWorkerThread();
+        objIsAlive = new ServerPlayingWorkerThread();
     }
 
     public static ServerPlayingWorkerThread getIstance(ExecutorServiceUtility executor, Registry registry, int rmiPort){
@@ -84,8 +87,7 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
             }
         }*/
 
-        ServerPlayingWorkerThread objDir = new ServerPlayingWorkerThread();
-        ServerPlayingWorkerThread objIsAlive = new ServerPlayingWorkerThread();
+
         try {
             registry = LocateRegistry.createRegistry(1099);
             System.setProperty("Djava.rmi.server.codebase", "out/");
