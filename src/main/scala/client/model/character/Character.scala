@@ -100,6 +100,21 @@ trait Character extends GameItem{
     * @param score - the new character's score.
     */
   def score_=(score: Int): Unit
+
+  /**
+    * Returns if the character won.
+    *
+    * @return true if the character won, false otherwise.
+    */
+  def won: Boolean
+
+  /**
+    * Returns if the character had lost.
+    *
+    * @return true if the character had lost, false otherwise.
+    */
+  def hasLost: Boolean
+
 }
 
 /**
@@ -188,9 +203,16 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
   }
 
   /**
-    * Returns a string representing the prolog ghosts' list containing all match's ghosts.It can be pass as Term in prolog.
+    * Returns if the character had lost.
     *
-    * @return a string representing the prolog ghosts' list containing all match's ghosts.
+    * @return true if the character had lost, false otherwise.
+    */
+  override def hasLost = !isAlive
+
+  /**
+    * Returns a string representing the prolog ghosts list containing all match's ghosts. It can be pass as Term in prolog.
+    *
+    * @return a string representing the prolog ghosts list containing all match's ghosts.
     */
   protected def prologGhostsList: String = {
     var ghosts: String = "["
@@ -200,6 +222,21 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     ghosts = ghosts substring (0,ghosts.size-1)
     ghosts = ghosts + "]"
     ghosts
+  }
+
+  /**
+    * Returns a string representing the prolog eaten objects list containing all match's eaten objects. It can be pass as Term in prolog.
+    *
+    * @return a string representing the prolog eaten objects list containing all match's eaten objects.
+    */
+  protected def prologEatablesList: String = {
+    var eatens: String = "["
+    playground.eatenObjects.foreach{e =>
+      eatens = eatens + "eatable(),"
+    }
+    eatens = eatens.substring(0,eatens.size-1)
+    eatens = eatens + "]"
+    eatens
   }
 
  }
