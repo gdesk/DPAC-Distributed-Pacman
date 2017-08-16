@@ -26,14 +26,12 @@ object Main extends App {
   val model = ToClientCommunicationImpl()
 
   val ci: ClientIncomingMessageHandler = new ClientIncomingMessageHandlerImpl
-  val co: ClientOutcomingMessageHandler = new ClientOutcomingMessageHandlerImpl
 
   controllerCharacter.setModel(new PeerRegisterHandlerImpl)
   controllerMatch.setModel(model)
   controllerUser.setModel(model)
 
   ci.addObserver(controllerCharacter)
-  co.addObserver(controllerMatch)
 
   SwingUtilities.invokeLater(new Runnable() {
     override def run(): Unit = {
