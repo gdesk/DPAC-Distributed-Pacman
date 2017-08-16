@@ -78,7 +78,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     * @param direction - the direction of the movement.
     */
   override def move(direction: Direction) = {
-    val character = gameMatch.myCharacter;
+    val character = gameMatch.myCharacter
 
     val prePosition: Point[Int, Int] = character.position
     val preLives: Int = character.lives.remainingLives
