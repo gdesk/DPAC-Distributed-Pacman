@@ -5,7 +5,6 @@ import client.model.Match;
 import client.model.MatchImpl;
 import client.model.PlayerImpl;
 import client.model.character.Character;
-import network.client.P2P.toyEx.Hello;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
 import java.rmi.AlreadyBoundException;
@@ -24,7 +23,7 @@ import java.util.Map;
  * (so that other peers can take updated values
  * when they need to refresh character info in their gui)
  */
-public class ServerPlayingWorkerThread implements Hello, Runnable  {
+public class ServerPlayingWorkerThread implements Remote, Runnable  {
 
     private ExecutorServiceUtility executor;
     private int rmiPort;
@@ -84,17 +83,19 @@ public class ServerPlayingWorkerThread implements Hello, Runnable  {
                 e.printStackTrace();
             }
         }*/
-        ServerPlayingWorkerThread obj = new ServerPlayingWorkerThread();
+
         try {
             registry = LocateRegistry.createRegistry(1099);
             System.setProperty("Djava.rmi.server.codebase", "out/");
             System.setProperty("Djava.rmi.server.hostname", PlayerImpl.ip());
 
-            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 1099);
+            ServerPlayingWorkerThread stub = (ServerPlayingWorkerThread) UnicastRemoteObject.exportObject(this, 1099);
+
+
 
             // Bind the remote object's stub in the registry
             //registry = LocateRegistry.getRegistry();
-            registry.bind("Hello", stub);
+            registry.bind("Player", stub);
 
             System.err.println("Server ready");
         } catch (Exception e) {
@@ -151,8 +152,4 @@ public class ServerPlayingWorkerThread implements Hello, Runnable  {
 
 
 
-    @Override
-    public String sayHello() throws RemoteException {
-        return "Hello, world!"+PlayerImpl.ip();
-    }
 }

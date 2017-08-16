@@ -2,7 +2,6 @@ package network.client.P2P.game;
 
 
 import client.model.Direction;
-import network.client.P2P.toyEx.Hello;
 import network.client.P2P.utils.ExecutorServiceUtility;
 import network.client.rxJava.ObservableCharacter;
 
@@ -110,10 +109,11 @@ public class ClientPlayingWorkerThread implements Runnable {
             try {
 
                 Registry registry = LocateRegistry.getRegistry(host);
-                Hello stub = (Hello) registry.lookup("Hello");
-                String response = stub.sayHello();
+                ServerPlayingWorkerThread stub = (ServerPlayingWorkerThread) registry.lookup("Player");
+                Direction direction = stub.getDirection();
+                boolean isAlive = stub.isAlive();
+                System.out.println("direction: " + direction.getDirection() + "isAlive " + isAlive);
 
-                System.out.println("response: " + response);
 
 
                 isrunning = false;
