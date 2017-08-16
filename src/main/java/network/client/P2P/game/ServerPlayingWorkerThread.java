@@ -87,7 +87,7 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
             registry.bind("direction", stubDirection);
             registry.bind("isAlive", stubIsAlive);
 
-            System.err.println("Server ready");
+            System.out.println("Server ready");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
             // e.printStackTrace();

@@ -5,6 +5,7 @@ import java.net.InetAddress
 import java.rmi.registry.LocateRegistry
 
 import akka.actor.UntypedAbstractActor
+import client.controller.BaseControllerMatch
 import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl
 import client.model.{MatchImpl, PlayerImpl}
 import client.utils.ActorUtils
@@ -20,7 +21,7 @@ import scala.util.parsing.json.JSONObject
   * @author Giulia Lucchi
   *         Federica Pecci
   */
-class P2PCommunication extends UntypedAbstractActor {
+class P2PCommunication() extends UntypedAbstractActor {
 
 
   val executor = ExecutorServiceUtility.getIstance
@@ -48,6 +49,7 @@ class P2PCommunication extends UntypedAbstractActor {
 
         val info = new OtherCharacterInfo
         val matchHandler = new ClientOutcomingMessageHandlerImpl
+        matchHandler.addObserver(BaseControllerMatch)
         val IPList = MatchImpl.allPlayersIp
 
         val filteredIpLis = IPList.filter(clientIp => clientIp != (PlayerImpl.ip))

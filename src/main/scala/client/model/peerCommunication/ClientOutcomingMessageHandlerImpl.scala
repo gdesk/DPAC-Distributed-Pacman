@@ -1,7 +1,6 @@
 package client.model.peerCommunication
 import java.util.{Observable, Observer}
 
-import client.controller.ControllerMatch
 
 
 /**
@@ -11,24 +10,19 @@ import client.controller.ControllerMatch
 
 class ClientOutcomingMessageHandlerImpl extends Observable with ClientOutcomingMessageHandler {
 
+  var observers : List[Observer] = List.empty
+
   /**
     * method to register controller match
     * as observer of this class model (observable)
     * @param observer
     */
-  override def addObserver(observer: Observer): Unit =
-    if (observer.isInstanceOf[ControllerMatch]) {
-      super.addObserver(observer)
-    }
+  override def addObserver(observer: Observer): Unit = observers = observer :: observers
 
   /**
     * method to notify controller match that
     * every Peer has finished to be configured
     */
-  def startMatch(): Unit =
-    notifyObservers(this, "StartMatch")
-
-
-
+  override def startMatch() = observers.foreach(o => o.update(this, "StartMatch"))
 
 }
