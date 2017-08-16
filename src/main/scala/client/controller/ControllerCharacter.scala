@@ -173,7 +173,7 @@ object BaseControllerCharacter extends ControllerCharacter {
           }
         }
 
-        if(!(preScore equals postScore)) view.updateLives(postScore)
+        if(!(preScore equals postScore)) view.renderScore(postScore)
     }
   }
 
