@@ -23,7 +23,7 @@ import java.util.Map;
  * (so that other peers can take updated values
  * when they need to refresh character info in their gui)
  */
-public class ServerPlayingWorkerThread implements Remote, Runnable  {
+public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
     private ExecutorServiceUtility executor;
     private int rmiPort;
@@ -89,13 +89,15 @@ public class ServerPlayingWorkerThread implements Remote, Runnable  {
             System.setProperty("Djava.rmi.server.codebase", "out/");
             System.setProperty("Djava.rmi.server.hostname", PlayerImpl.ip());
 
-            ServerPlayingWorkerThread stub = (ServerPlayingWorkerThread) UnicastRemoteObject.exportObject(this, 1099);
+            PeerRegister stubDirection = (PeerRegister) UnicastRemoteObject.exportObject(new ServerPlayingWorkerThread(), 1099);
+            PeerRegister stubIsAlive = (PeerRegister) UnicastRemoteObject.exportObject(new ServerPlayingWorkerThread(), 1099);
 
 
 
             // Bind the remote object's stub in the registry
             //registry = LocateRegistry.getRegistry();
-            registry.bind("Player", stub);
+            registry.bind("direction", stubDirection);
+            registry.bind("isAlive", stubIsAlive);
 
             System.err.println("Server ready");
         } catch (Exception e) {

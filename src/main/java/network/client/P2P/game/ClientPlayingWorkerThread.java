@@ -100,29 +100,30 @@ public class ClientPlayingWorkerThread implements Runnable {
             }*/
                       
         System.setProperty("Djava.rmi.server.hostname", ip);
-        //String host = (args.length < 1) ? null : args[0];
+
         String host = ip;
 
-        boolean isrunning = true;
 
-       // while(isrunning) {
             try {
 
                 Registry registry = LocateRegistry.getRegistry(host);
-                ServerPlayingWorkerThread stub = (ServerPlayingWorkerThread) registry.lookup("Player");
-                Direction direction = stub.getDirection();
-                boolean isAlive = stub.isAlive();
+                PeerRegister stubDirection = (PeerRegister) registry.lookup("direction");
+                PeerRegister stubisAlive = (PeerRegister) registry.lookup("isAlive");
+
+                Direction direction = stubDirection.getDirection();
+                boolean isAlive = stubisAlive.isAlive();
+
                 System.out.println("direction: " + direction.getDirection() + "isAlive " + isAlive);
 
 
 
-                isrunning = false;
+
                 
             } catch (Exception e) {
                 System.err.println("Client "+ip+" exception: " + e.toString());
                 //e.printStackTrace();
             }
-      //  }
+
 
 
     }

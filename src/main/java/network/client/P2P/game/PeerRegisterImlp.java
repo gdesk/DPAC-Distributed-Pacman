@@ -23,10 +23,7 @@ public class PeerRegisterImlp implements PeerRegister{
         this.obj = obj;
     }
 
-    @Override
-    public Remote getRemote() throws RemoteException {
-        return this.obj;
-    }
+
 
     @Override
     public Direction getDirection() throws RemoteException {
