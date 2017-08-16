@@ -36,8 +36,10 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
     private static ServerPlayingWorkerThread SINGLETON = null;
 
+
     private static ServerPlayingWorkerThread objDir = new ServerPlayingWorkerThread();
     private static ServerPlayingWorkerThread objIsAlive = new ServerPlayingWorkerThread();
+
 
     private ServerPlayingWorkerThread(){
         this.character = MatchImpl.myCharacter();
@@ -46,6 +48,8 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
         this.direction = character.direction();
         this.isAlive = character.isAlive();
         this.objects = new HashMap<>();
+
+
     }
 
     public static ServerPlayingWorkerThread getIstance(ExecutorServiceUtility executor, Registry registry, int rmiPort){
@@ -109,13 +113,14 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
     }
 
 
+
     public void updateObjects() throws RemoteException {
         if(character.direction().equals(direction)){
-            registry.rebind("direction", objects.get("direction"));
+            registry.rebind("direction", objDir);
             this.direction = character.direction();
 
         }else if(!character.isAlive() == isAlive){
-            registry.rebind("isAlive", objects.get("isAlive"));
+            registry.rebind("isAlive", objIsAlive);
             this.isAlive = character.isAlive();
             executor.stopServerPlayingWorkerThread();
 
