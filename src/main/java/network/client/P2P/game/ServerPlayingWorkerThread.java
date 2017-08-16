@@ -28,7 +28,7 @@ public class ServerPlayingWorkerThread implements Hello, Runnable  {
 
     private ExecutorServiceUtility executor;
     private int rmiPort;
-    private Registry registry;
+    private static Registry registry;
     private Map<String, ServerObjects> objects;
 
     private Match match;
@@ -94,7 +94,7 @@ public class ServerPlayingWorkerThread implements Hello, Runnable  {
 
             // Bind the remote object's stub in the registry
             //registry = LocateRegistry.getRegistry();
-            registry.bind("Hello", stub);
+            registry.bind("Hello"+PlayerImpl.ip(), stub);
 
             System.err.println("Server ready");
         } catch (Exception e) {
@@ -150,8 +150,9 @@ public class ServerPlayingWorkerThread implements Hello, Runnable  {
     }
 
 
+
     @Override
     public String sayHello() throws RemoteException {
-        return "Hello, world!";
+        return "Hello, world!"+PlayerImpl.ip();
     }
 }
