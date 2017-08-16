@@ -6,6 +6,7 @@ import client.communication.model.ToClientCommunicationImpl
 import client.controller._
 import client.model.peerCommunication.{ClientIncomingMessageHandler, ClientIncomingMessageHandlerImpl, ClientOutcomingMessageHandler, ClientOutcomingMessageHandlerImpl}
 import client.view.MainFrame
+import network.client.P2P.game.ServerPlayingWorkerThread
 
 object Main extends App {
   println("[ DPACS - Distributed Pacman ]")
@@ -24,6 +25,7 @@ object Main extends App {
   val ci: ClientIncomingMessageHandler = new ClientIncomingMessageHandlerImpl
   val co: ClientOutcomingMessageHandler = new ClientOutcomingMessageHandlerImpl
 
+  controllerCharacter.setModel(new ServerPlayingWorkerThread)
   controllerMatch.setModel(model)
   controllerUser.setModel(model)
 
