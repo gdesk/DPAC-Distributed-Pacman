@@ -32,6 +32,8 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         setBackground(settings.getBackgroundColor());
         initLabyrinth();
         this.setFocusable(true);
+        revalidate();
+        repaint();
     }
 
     @Override
@@ -82,7 +84,6 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
 
     private void initLabyrinth(){
         cells = new JLabel[settings.getColumns()+1][settings.getRows()+1];
-        System.out.println("InitLabyrinth");
         for (int i = 0; i <= settings.getColumns(); ++i) {
             for (int j = 0; j <= settings.getRows(); ++j) {
                 cells[i][j] = new JLabel();

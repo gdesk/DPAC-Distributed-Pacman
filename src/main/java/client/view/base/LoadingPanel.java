@@ -1,16 +1,13 @@
 package client.view.base;
 
 import client.controller.BaseControllerCharacter;
-import client.model.Playground;
+import client.model.MatchImpl;
 import client.model.PlaygroundImpl;
-import client.view.MainFrame;
-import client.view.Res;
-import client.view.UserInputController;
-import client.view.Utils;
+import client.model.character.Character;
+import client.view.*;
 import client.view.match.GamePanelImpl;
 import client.view.playground.PlaygroundBuilderImpl;
 import client.view.playground.PlaygroundPanel;
-import client.view.playground.PlaygroundView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,7 +49,7 @@ public class LoadingPanel extends JPanel implements LoadingView {
 
     public void renderGamePanel(){
 
-        PlaygroundView view = new PlaygroundBuilderImpl()
+        PlaygroundPanel view = new PlaygroundBuilderImpl()
                 .setColumns(PlaygroundImpl.dimension().x())
                 .setRows(PlaygroundImpl.dimension().y())
                 .setBackground(Color.black)
@@ -61,10 +58,14 @@ public class LoadingPanel extends JPanel implements LoadingView {
         view.renderBlockList(Utils.getJavaList(PlaygroundImpl.blocks()));
         view.renderEatableList(Utils.getJavaList(PlaygroundImpl.eatables()));
 
+        Character myChar = MatchImpl.myCharacter();
+
+        view.renderCharacter((int)myChar.position().x(), (int)myChar.position().y(), new CharacterFactory().createPacman().getCharacterRight());
+
         GamePanelImpl gp = new GamePanelImpl(view);
 
         UserInputController keyboardController = new UserInputController();
-        ((PlaygroundPanel)view).addKeyListener(keyboardController);
+        view.addKeyListener(keyboardController);
 
         MainFrame.getInstance().setContentPane(gp);
         BaseControllerCharacter.setView(gp);

@@ -6,6 +6,7 @@ import client.view.MainFrame;
 import client.view.PacmanView;
 import client.view.Utils;
 import client.view.playground.MicroMapPanel;
+import client.view.playground.PlaygroundPanel;
 import client.view.playground.PlaygroundView;
 import client.view.utils.JComponentsUtils;
 
@@ -31,15 +32,15 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
     private final JLabel score = new JLabel("Score: 0");
     private JPanel livesPanel = new JPanel();
 
-    public GamePanelImpl(final PlaygroundView playground) {
-        System.out.println("gamePanelImpl");
+    public GamePanelImpl(final PlaygroundPanel playground) {
         this.playground = playground;
-        this.add((Container)playground, 0);
-        add(microMap, 1);
+
+        playground.setBounds(0,0, (int)MainFrame.DIMENSION.getWidth(), (int)MainFrame.DIMENSION.getHeight());
+
+        add(playground, 1);
+        add(microMap, 0);
         addScorePanel();
         addLivesPanel(3);
-        revalidate();
-        repaint();
     }
 
     @Override
@@ -57,7 +58,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
         l.setFont(new Font(l.getFont().getName(), Font.BOLD, FONT_SIZE*3));
 
         victoryPanel.add(l, gbc);
-        add(victoryPanel, 1);
+        add(victoryPanel, 0);
     }
 
     @Override
@@ -120,6 +121,6 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
         }
 
         livesPanel.setBounds(0,BOUNDS/2,BOUNDS, (int)MainFrame.DIMENSION.getWidth());
-        add(livesPanel, 1);
+        add(livesPanel, 0);
     }
 }

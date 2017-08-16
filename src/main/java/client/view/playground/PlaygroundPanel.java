@@ -29,7 +29,6 @@ public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundVi
      */
     @Override
     public void renderBlockList(List<Block> blockList){
-        System.out.println("renderBlock");
         for ( Block b : blockList) {
             super.renderBlock((int) b.position().x(), (int) b.position().y(), chooseBlockImage(b, blockList));
         }
