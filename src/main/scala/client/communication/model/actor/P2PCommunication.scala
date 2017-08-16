@@ -57,7 +57,7 @@ class P2PCommunication extends UntypedAbstractActor {
 
         println("PRIMA DI START MATCH")
         //notifico controller match
-        matchHandler.startMatch();
+        matchHandler.startMatch()
 
       }
       case _ =>{}
