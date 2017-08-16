@@ -42,7 +42,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     */
   override def eatObject = {
     val eatables = prologEatablesList
-    val solveInfo = PrologConfig.getPrologEngine.solve(s"eat_object(pacman(${position x},${position y},${lives.remainingLives},${score}),${eatables},NS,N).")
+    val solveInfo = PrologConfig.getPrologEngine.solve(s"eat_object(pacman(${position.x},${position.y},${lives.remainingLives},${score}),${eatables},NS,N).")
     val eatenObjId: String = solveInfo.getTerm("N").toString
     /*
     val remainingEatableObjectsId: List[String] = ScalaProlog.prologToScalaList(solveInfo.getTerm("L").toString)
@@ -86,7 +86,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
         game.allCharacters.filter(c => !(c.isInstanceOf[Pacman])).foreach(g => g.checkAllPositions)
       case _ =>
         val numberOfGhostAlreadyEaten = game.deadCharacters.size
-        val solveInfo = PrologConfig.getPrologEngine.solve(s"ghost_defeat(pacman(${position x},${position y},${lives.remainingLives},${score}),${ghosts},${numberOfGhostAlreadyEaten},PS,EG).")
+        val solveInfo = PrologConfig.getPrologEngine.solve(s"ghost_defeat(pacman(${position.x},${position.y},${lives.remainingLives},${score}),${ghosts},${numberOfGhostAlreadyEaten},PS,EG).")
         score = valueOf(solveInfo.getTerm("PS").toString)
         val eatenGhost: List[String] = ScalaProlog.prologToScalaList(solveInfo.getTerm("EG").toString)
         if(eatenGhost nonEmpty) {
