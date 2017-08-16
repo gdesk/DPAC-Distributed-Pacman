@@ -5,9 +5,11 @@ import java.util.{Observable, Observer}
 
 import client.model._
 import client.model.character.Character
+import client.model.peerCommunication.ClientIncomingMessageHandler
 import client.model.utils.Point
 import client.view.`match`.GamePanel
 import io.reactivex.Flowable
+import network.client.P2P.game.{ClientPlayingWorkerThread, ServerPlayingWorkerThread}
 
 /**
   * Represents the controller for characters management.
@@ -39,6 +41,13 @@ trait ControllerCharacter extends Observer {
   def setView(view: GamePanel): Unit
 
   /**
+    * Sets the model to be called when somethings changes about characters.
+    *
+    * @param model - model to be called.
+    */
+  def setModel(model: ServerPlayingWorkerThread): Unit
+
+  /**
     * Called when other character moves or dies.
     * Invokes the model to perform actions that result from the changes of the character and notifies the view of changes.
     *
@@ -61,6 +70,7 @@ object BaseControllerCharacter extends ControllerCharacter {
   private val gameMatch: Match = MatchImpl
   private val playground: Playground = PlaygroundImpl
   private var view: GamePanel = null
+  private var model: ServerPlayingWorkerThread = null
   private var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
   /**
@@ -81,16 +91,22 @@ object BaseControllerCharacter extends ControllerCharacter {
     val postLives: Int = character.lives.remainingLives
     val postScore: Int = character.score
 
-    if(!(prePosition equals postPosition)) view.move(characterImages.get(character.name).get(direction), Color.red,
-      prePosition.asInstanceOf[Point[Integer,Integer]],
-      postPosition.asInstanceOf[Point[Integer,Integer]])
+    if(!(prePosition equals postPosition)) {
+      view.move(characterImages.get(character.name).get(direction), Color.red,
+        prePosition.asInstanceOf[Point[Integer,Integer]],
+        postPosition.asInstanceOf[Point[Integer,Integer]])
+      model.updateObjects()
+    }
 
     if(!(preLives equals postLives)) {
       view.updateLives(postLives)
-      if(postLives <= 0) view.gameOver
+      if(postLives <= 0) {
+        view.gameOver
+        model.updateObjects()
+      }
     }
 
-    if(!(preScore equals postScore)) view.updateLives(postScore)
+    if(!(preScore equals postScore)) view.renderScore(postScore)
   }
 
   /**
@@ -151,13 +167,22 @@ object BaseControllerCharacter extends ControllerCharacter {
 
         if(!(preLives equals postLives)) {
           view.updateLives(postLives)
-          if(postLives <= 0) view.gameOver
+          if(postLives <= 0) {
+            view.gameOver
+            model.updateObjects()
+          }
         }
 
         if(!(preScore equals postScore)) view.updateLives(postScore)
     }
   }
 
+  /**
+    * Sets the model to be called when somethings changes about characters.
+    *
+    * @param model - model to be called.
+    */
+  override def setModel(model: ServerPlayingWorkerThread): Unit = this.model = model
 }
 
 /**

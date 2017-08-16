@@ -7,8 +7,6 @@ import client.model.PlayerImpl;
 import client.model.character.Character;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
-import java.rmi.AlreadyBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -38,8 +36,8 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
     private static ServerPlayingWorkerThread SINGLETON = null;
 
-    private static ServerPlayingWorkerThread objDir;
-    private static ServerPlayingWorkerThread objIsAlive;
+    private static ServerPlayingWorkerThread objDir = new ServerPlayingWorkerThread();
+    private static ServerPlayingWorkerThread objIsAlive = new ServerPlayingWorkerThread();
 
     private ServerPlayingWorkerThread(){
         this.character = MatchImpl.myCharacter();
@@ -48,8 +46,6 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
         this.direction = character.direction();
         this.isAlive = character.isAlive();
         this.objects = new HashMap<>();
-        objDir = new ServerPlayingWorkerThread();
-        objIsAlive = new ServerPlayingWorkerThread();
     }
 
     public static ServerPlayingWorkerThread getIstance(ExecutorServiceUtility executor, Registry registry, int rmiPort){
@@ -72,22 +68,25 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
     @Override
     public void run() {
 
-        /*System.out.println("ServerPlayingWorkerThread");
+        System.out.println("ServerPlayingWorkerThread");
         initializeObjectBinding();
 
         //per far terminare questo while basta chiamare shutdown
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 updateObjects();
-             //   wait(1000);
-           // } catch (InterruptedException ex) {
-           //     Thread.currentThread().interrupt();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-        }*/
+        }
 
 
+
+
+    }
+
+
+    private void initializeObjectBinding(){
         try {
             registry = LocateRegistry.createRegistry(1099);
             System.setProperty("Djava.rmi.server.codebase", "out/");
@@ -105,36 +104,12 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
             System.err.println("Server ready");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
-           // e.printStackTrace();
+            // e.printStackTrace();
         }
-
     }
 
 
-    private void initializeObjectBinding(){
-        Remote stub;
-
-        this.objects.put("direction", new ServerObjects());
-        this.objects.put("isAlive", new ServerObjects());
-
-        int i = 0;
-        for(Map.Entry<String, ServerObjects> pair: objects.entrySet()){
-            try {
-                System.out.println("entro nel for" + i++);
-                stub =  UnicastRemoteObject.exportObject(pair.getValue(), this.rmiPort);
-                registry.bind(pair.getKey(), stub);
-
-            } catch (RemoteException | AlreadyBoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-        System.out.println("Server ready");
-
-    }
-
-
-    private void updateObjects() throws RemoteException {
+    public void updateObjects() throws RemoteException {
         if(character.direction().equals(direction)){
             registry.rebind("direction", objects.get("direction"));
             this.direction = character.direction();
