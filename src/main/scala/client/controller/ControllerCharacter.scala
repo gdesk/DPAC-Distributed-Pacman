@@ -84,7 +84,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     val preLives: Int = character.lives.remainingLives
     val preScore: Int = character.score
 
-    character go direction
+    character.go(direction)
 
     val postPosition: Point[Int, Int] = character.position
     val postLives: Int = character.lives.remainingLives

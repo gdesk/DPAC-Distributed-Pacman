@@ -34,11 +34,11 @@ move(X,Y,D,X1,Y1):-  D==down, X1 is X, Y1 is Y-1, street(X1,Y1).
 % 	-list of objects that can be eaten.
 % Output parameters:
 % 	-the new pacman's score resulting after summing eatable object value to pacman's score;
-% 	-list containing objects that have not been eaten yet.
-%eat_object(+pacman(X,Y,_,Score), +EatableObjectList, -NewScore, -ListOfRemainingEatableObject).
-eat_object(pacman(_,_,_,S),[],S,[],"").
-eat_object(pacman(PX,PY,_,S),[eatable_object(PX,PY,V,N)|T],NS,T,N):- NS is S+V,!.
-eat_object(pacman(PX,PY,_,S),[H|T],NS,[H|L1],N):- eat_object(pacman(PX,PY,_,S),T,NS,L1,N).
+% 	-id of the object that have been eaten by pacman.
+%eat_object(+pacman(X,Y,_,Score), +EatableObjectList, -NewScore, -EatenObjectId).
+eat_object(pacman(_,_,_,S),[],S,"").
+eat_object(pacman(PX,PY,_,S),[eatable_object(PX,PY,V,N)|T],NS,N):- NS is S+V,!.
+eat_object(pacman(PX,PY,_,S),[H|T],NS,N):- eat_object(pacman(PX,PY,_,S),T,NS,N).
 
 %pacman_victory checks if pacman has won.
 % Input parameters:

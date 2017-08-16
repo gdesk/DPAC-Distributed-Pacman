@@ -40,14 +40,14 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
         pacmans.foreach(p => p.checkAllPositions)
       case _ =>
         pacmans.foreach{ p =>
-          val solveInfo = PrologConfig.getPrologEngine.solve(s"eat_pacman(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score.toString}), ${ghosts}, NL, GS, CG).")
+          val solveInfo = PrologConfig.getPrologEngine.solve(s"eat_pacman(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score}),${ghosts},NL,GS,CG).")
           val killerGhost = game.allCharacters.find(c => c.name equals solveInfo.getTerm("CG").toString)
           if((killerGhost nonEmpty) && (killerGhost.get equals this)) {
             p.lives.remainingLives = valueOf(solveInfo.getTerm("NL").toString)
             if(p.lives.remainingLives == 0) p.isAlive = false
             score = valueOf(solveInfo.getTerm("GS").toString)
           }
-          _won = PrologConfig.getPrologEngine.solve(s"ghosts_victory(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score.toString}).").isSuccess
+          _won = PrologConfig.getPrologEngine.solve(s"ghosts_victory(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score}).").isSuccess
       }
     }
   }

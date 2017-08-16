@@ -76,8 +76,8 @@ class PacmanTest extends FunSuite {
   }
 
   test("Pacman eating the only eatable object left in list") {
-    map = scala.collection.mutable.Map("NS" -> "2100", "T" -> "[]", "N" -> "cherry")
-    goal = Some("eat_object(pacman(1,1,_,2000),[eatable_object(1,1,100,cherry)],NS,T,N)")
+    map = scala.collection.mutable.Map("NS" -> "2100", "N" -> "cherry")
+    goal = Some("eat_object(pacman(1,1,_,2000),[eatable_object(1,1,100,cherry)],NS,N)")
 
     for((k,v) <- map) {
       val ris = solveOneAndGetTerm(engine, goal.get, k).toString
