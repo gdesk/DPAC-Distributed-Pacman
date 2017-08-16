@@ -50,15 +50,15 @@ class P2PCommunication extends UntypedAbstractActor {
         val matchHandler = new ClientOutcomingMessageHandlerImpl
         val IPList = MatchImpl.allPlayersIp
 
-        val filteredIpLis = IPList.filter(clientIp => !clientIp.equals(InetAddress.getLocalHost.toString))
+        val filteredIpLis = IPList.filter(clientIp => clientIp != (PlayerImpl.ip))
 
         filteredIpLis.foreach(println)
         System.out.println("--LISTA IP--")
 
 
         filteredIpLis.foreach(clientIp => {
-          val registry = LocateRegistry.getRegistry(clientIp)
           new ClientBootstrap(clientIp)
+          val registry = LocateRegistry.getRegistry(clientIp)
           executor.initClientPlayingWorkerThread(clientIp, registry)
 
         })

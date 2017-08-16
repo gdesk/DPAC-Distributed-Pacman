@@ -105,6 +105,20 @@ trait Character extends GameItem{
     * @param score incremented score
     */
   def score_=(score: Int): Unit
+
+  /**
+    * Returns if the character won.
+    *
+    * @return true if the character won, false otherwise.
+    */
+  def won: Boolean
+
+  /**
+    * Returns if the character had lost.
+    *
+    * @return true if the character had lost, false otherwise.
+    */
+  def hasLost: Boolean
 }
 
 abstract class CharacterImpl(override var isKillable: Boolean) extends Character {
@@ -173,14 +187,31 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     if(!_isAlive) println("GAME OVER!")
   }
 
+  /**
+    * Returns if the character had lost.
+    *
+    * @return true if the character had lost, false otherwise.
+    */
+  override def hasLost = !isAlive
+
   protected def prologGhostsList: String = {
     var ghosts: String = "["
     game.allCharacters.filter(c => !(c.isInstanceOf[Pacman])).foreach{e =>
-      ghosts = ghosts + "ghost(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.name + "),"
+      ghosts = ghosts + "eatens(),"
     }
     ghosts = ghosts substring (0,(ghosts size)-1)
     ghosts = ghosts + "]"
     ghosts
+  }
+
+  protected def prologEatablesList: String = {
+    var eatens: String = "["
+    playground.eatenObjects.foreach{e =>
+      eatens = eatens + "eatable(),"
+    }
+    eatens = eatens.substring(0,eatens.size-1)
+    eatens = eatens + "]"
+    eatens
   }
 
  }
