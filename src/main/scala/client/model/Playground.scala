@@ -55,9 +55,9 @@ trait Playground {
   def blocks: List[Block]
 
   /**
-    * Returns the list of all the eatables in the current match.
+    * Returns the list of all the eatable objects in the current match.
     *
-    * @return the list of all eatables.
+    * @return the list of all eatable objects.
     */
   def eatables: List[Eatable]
 
@@ -70,9 +70,9 @@ trait Playground {
   def removeEatable(eatable: Eatable): Unit
 
   /**
-    * Returns the List of all the eaten objects in the current match.
+    * Returns the list of all the eaten objects in the current match.
     *
-    * @return the List of all the eaten objects.
+    * @return the list of all the eaten objects.
     */
   def eatenObjects: List[Eatable]
 
@@ -84,7 +84,7 @@ trait Playground {
   def streetPositions: List[Point[Int, Int]]
 
   /**
-    * Returns the [[GameItem]] found in a given position. If the position is free or invalid return an empty [[Option]].
+    * Returns the item found in a given position. If the position is free or invalid return an empty [[Option]].
     *
     * @param position the position of the object to be returned.
     * @return the object found at that position if it exist.
