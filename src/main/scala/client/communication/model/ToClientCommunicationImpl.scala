@@ -369,17 +369,23 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val listIP = response.obj("list").asInstanceOf[List[String]]
     listIP
   }
+
   /**
-    * This private method due to encapsulate the send and receive of the messages.
+    * Send to server the request to take the list og player's ip.
     *
-    * @param message  message to send
-    * @return         message to receive
+    * @return list of all the players's ip
     */
   private def getJSONMessage( message: JSONObject) : JSONObject = {
     inbox.send(toServerCommunication, message)
     inbox.receive(Duration.apply(10000,TimeUnit.SECONDS)).asInstanceOf[JSONObject]
   }
 
+  /**
+    * Convert the list, that is send from server to List of MatchResult object.
+    * @param list list with match information about single user
+    *
+    * @return list of user's result of match
+    */
   private def wrapperAllMatches(list : List[Map[String, Any]]): List[MatchResult] ={
     var allMatches: List[MatchResultImpl] = List.empty
     list.foreach(map =>{
@@ -394,6 +400,12 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     allMatches
   }
 
+  /**
+    * Convert the bytes's array to image, that is saved in the resources directory.
+    *
+    * @param path path of file to save
+    * @param image byte's array that represent the file
+    */
   private def saveImageToResources(path: String, image: Array[Byte]): Unit ={
     val outputfile = new File(path)
     outputfile.mkdirs()
@@ -403,7 +415,12 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     ImageIO.write(bufferedImage, "png", outputfile)
   }
 
-
+  /**
+    * Convert the password from string to encrypted string.
+    * @param data password to encrypt
+    *
+    * @return the encrypted password
+    */
   private def getSHA1(data: String): String = {
     val md = java.security.MessageDigest.getInstance("SHA-1")
     val ha = new sun.misc.BASE64Encoder().encode(md.digest(data.getBytes))

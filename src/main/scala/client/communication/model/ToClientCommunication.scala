@@ -94,7 +94,6 @@ trait ToClientCommunication {
     */
   def choosePlayground(idPlayground: Int): Unit
 
-
   /**
     * Send to server the match just ended.
     *
@@ -135,8 +134,9 @@ trait ToClientCommunication {
   def sendResponse(response: Boolean): Unit
 
   /**
+    * Send to server the request to take the list og player's ip.
     *
-    * @return list of all the players
+    * @return list of all the players's ip
     */
   def getPlayersIp(): List[String]
 }
