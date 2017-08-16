@@ -3,7 +3,6 @@ package client.model
 import java.io.FileInputStream
 
 import alice.tuprolog.Theory
-import client.model.PlaygroundImpl._ground
 import client.model.gameElement.{Block, Eatable, GameItem}
 import client.model.utils.{Dimension, Point, PointImpl, ScalaProlog}
 import client.utils.PrologUtility

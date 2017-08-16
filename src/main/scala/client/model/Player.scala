@@ -80,7 +80,7 @@ object PlayerImpl extends Player {
     *
     * @return a list with all previous matchs' results.
     */
-  override def allMatchesResults = _matchesResults toList
+  override def allMatchesResults = _matchesResults.toList
 
   /**
     * Sets all previous matchs' results.
