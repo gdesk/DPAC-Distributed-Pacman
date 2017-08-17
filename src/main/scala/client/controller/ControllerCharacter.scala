@@ -79,6 +79,7 @@ object BaseControllerCharacter extends ControllerCharacter {
   private val playground: Playground = PlaygroundImpl
   private var view: GamePanel = null
   private var model: PeerRegisterHandler = null
+
   override var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
   override def getCharacterImages(ip: String) = characterImages.get(ip).getOrElse(Map.empty)
