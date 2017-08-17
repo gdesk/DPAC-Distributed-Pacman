@@ -15,12 +15,15 @@ object PrologConfig {
   val engine = new Prolog
   engine.setTheory(_theory)
 
-  val ENGINE = engine
 
 
+def addStreets(streets: Theory): Unit ={
+  engine.clearTheory()
+  streets.append(_theory)
+  engine.setTheory(streets)
+}
   def getPrologEngine: Prolog = engine
 
-  def theory: Theory = _theory
   def scalaToPrologList(scalaList : List[String]): String = {
     var string : String  = "["
     scalaList.toStream.foreach(x =>

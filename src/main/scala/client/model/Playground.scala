@@ -1,8 +1,8 @@
 package client.model
 
+import alice.tuprolog.Theory
 import client.model.gameElement.{Block, Eatable, GameItem}
 import client.model.utils._
-import client.utils.PrologUtility._
 
 import scala.collection.mutable.ListBuffer
 
@@ -140,9 +140,8 @@ object  PlaygroundImpl extends Playground{
     streetPositions
     var theory = ""
     _streetPositions.foreach(s => theory = theory + "street("+s.x+","+s.y+")." + "\n")
-    PrologConfig.getPrologEngine.addTheory(theory)
-    println(PrologConfig.getPrologEngine.getTheory.toString)
-   // PrologUtility.modifyPrologEngine(theory)
+    PrologConfig.addStreets(new Theory(theory))
+    println("AGGIUNTA:"+PrologConfig.getPrologEngine.getTheory.toString)
   }
 
   /**

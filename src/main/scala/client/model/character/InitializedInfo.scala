@@ -52,8 +52,8 @@ object InitializedInfoImpl extends InitializedInfo{
   override def getCharacterLives(characterName: String): Int = {
     var term: Term =  null
     characterName match {
-      case "ghost" => term = PrologConfig.ENGINE.solve(Term.createTerm("ghost_lives(X)")).getTerm("X")
-      case "pacman" => term = PrologConfig.ENGINE.solve(Term.createTerm("pacman_lives(X)")).getTerm("X")
+      case "ghost" => term = PrologConfig.engine.solve(Term.createTerm("ghost_lives(X)")).getTerm("X")
+      case "pacman" => term = PrologConfig.engine.solve(Term.createTerm("pacman_lives(X)")).getTerm("X")
     }
     valueOf(term.toString)
   }
@@ -65,19 +65,19 @@ object InitializedInfoImpl extends InitializedInfo{
     * @return the coordinate of pacman's starting position
     */
   override def getPacmanStartPosition(): Point[Int, Int] ={
-    val position =  PrologConfig.ENGINE.solve("pacman_initial_position(X,Y).")
+    val position =  PrologConfig.engine.solve("pacman_initial_position(X,Y).")
     var xPos =  valueOf(position.getTerm("X").toString)
     var yPos = valueOf(position.getTerm("Y").toString)
     PointImpl[Int, Int](xPos, yPos)
   }
 
-  val previousPosition =   PrologConfig.ENGINE.solve("ghost_initial_position(X,Y).")
+  val previousPosition =   PrologConfig.engine.solve("ghost_initial_position(X,Y).")
   var xPosition =  valueOf(previousPosition.getTerm("X").toString)
   var yPosition = valueOf(previousPosition.getTerm("Y").toString)
 
   override def getGhostStartPosition(): Point[Int,Int] ={
 
-    val term = PrologConfig.ENGINE.solve(Term.createTerm("next_position("+xPosition+","+yPosition+",X,Y)")).getTerm("X")
+    val term = PrologConfig.engine.solve(Term.createTerm("next_position("+xPosition+","+yPosition+",X,Y)")).getTerm("X")
     val value: Int = valueOf(term.toString)
     xPosition = value
     PointImpl[Int, Int](value, yPosition)

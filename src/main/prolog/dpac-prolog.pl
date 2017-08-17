@@ -13,21 +13,6 @@ pacman_lives(3).
 %ghost_lives(-Lives).
 ghost_lives(1).
 
-%move is responsible for characters' movement; if character is moving himself into the
-%street, he can make the move, otherwhise he cannot.
-%	Input parameters:
-% 	-character's current X position;
-% 	-character's current Y position;
-% 	-direction of the movement (up, down, left, right).
-% Output parameters:
-% 	-character's X position after the movement (if the character is able to move himself);
-% 	-character's Y position after the movement (if the character is able to move himself).
-%move(+XCurrentPosition, +YCurrentPosition, +Direction, -NewXPosition, -NewYPosition).
-move(X,Y,D,X1,Y1):-  D==left, X1 is X-1, Y1 is Y, street(X1,Y1),!.
-move(X,Y,D,X1,Y1):-  D==right, X1 is X+1, Y1 is Y, street(X1,Y1),!.
-move(X,Y,D,X1,Y1):-  D==up, X1 is X, Y1 is Y+1, street(X1,Y1),!.
-move(X,Y,D,X1,Y1):-  D==down, X1 is X, Y1 is Y-1, street(X1,Y1).
-
 %eat_object allows pacman to eat objects.
 %	Input parameters:
 % 	-pacman with this structure: pacman(X,Y,Lives,Score);
@@ -78,3 +63,19 @@ ghost_defeat(pacman(PX,PY,_,PS),[_|T],N,NPS,L1):- ghost_defeat(pacman(PX,PY,_,PS
 eat_pacman(pacman(_,_,NL,_),[],NL,0,"").
 eat_pacman(pacman(PX,PY,NL,_),[ghost(PX,PY,GS,GN)|T],NL1,NGS,GN):- NL1 is NL-1, NGS is GS+500, !.
 eat_pacman(pacman(PX,PY,NL,_),[_|T],NL1,NGS,GN):- eat_pacman(pacman(PX,PY,NL,_),T,NL1,NGS,GN).
+
+
+%move is responsible for characters' movement; if character is moving himself into the
+                        %street, he can make the move, otherwhise he cannot.
+                                                %	Input parameters:
+% 	-character's current X position;
+% 	-character's current Y position;
+% 	-direction of the movement (up, down, left, right).
+                % Output parameters:
+% 	-character's X position after the movement (if the character is able to move himself);
+% 	-character's Y position after the movement (if the character is able to move himself).
+%move(+XCurrentPosition, +YCurrentPosition, +Direction, -NewXPosition, -NewYPosition).
+    move(X,Y,D,X1,Y1):-  D==left, X1 is X-1, Y1 is Y, street(X1,Y1),!.
+                        move(X,Y,D,X1,Y1):-  D==right, X1 is X+1, Y1 is Y, street(X1,Y1),!.
+                        move(X,Y,D,X1,Y1):-  D==up, X1 is X, Y1 is Y+1, street(X1,Y1),!.
+                        move(X,Y,D,X1,Y1):-  D==down, X1 is X, Y1 is Y-1, street(X1,Y1).
