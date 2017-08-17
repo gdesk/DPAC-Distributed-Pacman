@@ -47,7 +47,7 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
             if(p.lives.remainingLives == 0) p.isAlive = false
             score = valueOf(solveInfo.getTerm("GS").toString)
           }
-          _won = PrologConfig.getPrologEngine.solve(s"ghosts_victory(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score}).").isSuccess
+          _won = PrologConfig.getPrologEngine.solve(s"ghosts_victory(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score})).").isSuccess
       }
     }
   }

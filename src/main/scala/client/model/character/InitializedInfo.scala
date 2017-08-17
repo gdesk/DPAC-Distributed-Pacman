@@ -3,7 +3,7 @@ package client.model.character
 import java.lang.Integer.valueOf
 
 import alice.tuprolog.Term
-import client.model.utils.{Point, PointImpl, PrologConfig, ScalaProlog}
+import client.model.utils.{Point, PointImpl, PrologConfig}
 
 /**
   * Extraction of starting information of the game
@@ -52,8 +52,8 @@ object InitializedInfoImpl extends InitializedInfo{
   override def getCharacterLives(characterName: String): Int = {
     var term: Term =  null
     characterName match {
-      case "ghost" => term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("ghost_lives(X)"), "X")
-      case "pacman" => term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("pacman_lives(X)"), "X")
+      case "ghost" => term = PrologConfig.ENGINE.solve(Term.createTerm("ghost_lives(X)")).getTerm("X")
+      case "pacman" => term = PrologConfig.ENGINE.solve(Term.createTerm("pacman_lives(X)")).getTerm("X")
     }
     valueOf(term.toString)
   }
@@ -65,19 +65,19 @@ object InitializedInfoImpl extends InitializedInfo{
     * @return the coordinate of pacman's starting position
     */
   override def getPacmanStartPosition(): Point[Int, Int] ={
-    val position =  ScalaProlog.multipleOutput(PrologConfig.theory, "pacman_initial_position(X,Y).")
+    val position =  PrologConfig.ENGINE.solve("pacman_initial_position(X,Y).")
     var xPos =  valueOf(position.getTerm("X").toString)
     var yPos = valueOf(position.getTerm("Y").toString)
     PointImpl[Int, Int](xPos, yPos)
   }
 
-  val previousPosition =  ScalaProlog.multipleOutput(PrologConfig.theory, "ghost_initial_position(X,Y).")
+  val previousPosition =   PrologConfig.ENGINE.solve("ghost_initial_position(X,Y).")
   var xPosition =  valueOf(previousPosition.getTerm("X").toString)
   var yPosition = valueOf(previousPosition.getTerm("Y").toString)
 
   override def getGhostStartPosition(): Point[Int,Int] ={
 
-    val term = ScalaProlog.solveOneAndGetTerm(PrologConfig.ENGINE, Term.createTerm("next_position("+xPosition+","+yPosition+",X,Y)"), "X")
+    val term = PrologConfig.ENGINE.solve(Term.createTerm("next_position("+xPosition+","+yPosition+",X,Y)")).getTerm("X")
     val value: Int = valueOf(term.toString)
     xPosition = value
     PointImpl[Int, Int](value, yPosition)

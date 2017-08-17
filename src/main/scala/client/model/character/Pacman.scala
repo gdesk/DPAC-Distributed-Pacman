@@ -87,7 +87,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
         val numberOfGhostAlreadyEaten = game.deadCharacters.size
         val solveInfo = PrologConfig.getPrologEngine.solve(s"ghost_defeat(pacman(${position.x},${position.y},${lives.remainingLives},${score}),${ghosts},${numberOfGhostAlreadyEaten},PS,EG).")
         score = valueOf(solveInfo.getTerm("PS").toString)
-        val eatenGhost: List[String] = ScalaProlog.prologToScalaList(solveInfo.getTerm("EG").toString)
+        val eatenGhost: List[String] = PrologConfig.prologToScalaList(solveInfo.getTerm("EG").toString)
         if(eatenGhost nonEmpty) {
           eatenGhost.foreach{ g =>
             val ghost = game.allCharacters.find(c => c.name equals g).get

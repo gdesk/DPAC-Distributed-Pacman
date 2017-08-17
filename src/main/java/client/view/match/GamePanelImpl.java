@@ -37,7 +37,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
         playground.setBounds(0,0, (int)MainFrame.DIMENSION.getWidth(), (int)MainFrame.DIMENSION.getHeight());
 
-        add(playground, 0);
+        add(playground, 1);
         add(microMap, 0);
         addScorePanel();
         addLivesPanel(3);

@@ -1,11 +1,7 @@
 package client.model
 
-import java.io.FileInputStream
-
-import alice.tuprolog.Theory
 import client.model.gameElement.{Block, Eatable, GameItem}
-import client.model.utils.{Dimension, Point, PointImpl, ScalaProlog}
-import client.utils.PrologUtility
+import client.model.utils._
 import client.utils.PrologUtility._
 
 import scala.collection.mutable.ListBuffer
@@ -108,7 +104,7 @@ trait Playground {
   */
 object  PlaygroundImpl extends Playground{
 
-  private var engine = ScalaProlog.mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/dpac-prolog.pl")))
+ // private var engine = ScalaProlog.mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/dpac-prolog.pl")))
   private var _blocks: ListBuffer[Block] = ListBuffer empty
   private var _eatables: ListBuffer[Eatable] = ListBuffer empty
   private var _eatenObjects: ListBuffer[Eatable] = ListBuffer empty
@@ -144,7 +140,9 @@ object  PlaygroundImpl extends Playground{
     streetPositions
     var theory = ""
     _streetPositions.foreach(s => theory = theory + "street("+s.x+","+s.y+")." + "\n")
-    PrologUtility.modifyPrologEngine(theory)
+    PrologConfig.getPrologEngine.addTheory(theory)
+    println(PrologConfig.getPrologEngine.getTheory.toString)
+   // PrologUtility.modifyPrologEngine(theory)
   }
 
   /**

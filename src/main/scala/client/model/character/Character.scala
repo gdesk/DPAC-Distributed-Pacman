@@ -2,7 +2,7 @@ package client.model.character
 
 import client.model._
 import client.model.gameElement.GameItem
-import client.model.utils.{Lives, Point, PointImpl, PrologConfig}
+import client.model.utils._
 
 /**
   * Represents all characters' behaviors.
@@ -159,6 +159,7 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
   private def move(direction: Direction): Option[Point[Int, Int]] = {
     println("X move :  "+_position.x)
     println("Y move :   "+_position.y )
+    println(PrologConfig.getPrologEngine.getTheory)
     val solveInfo = PrologConfig.getPrologEngine.solve(s"move(${_position.x.toString},${_position.y.toString},${direction.getDirection},X,Y).")
     solveInfo isSuccess match {
       case true =>
