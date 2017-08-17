@@ -38,7 +38,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
         playground.setBounds(0,0, (int)MainFrame.DIMENSION.getWidth(), (int)MainFrame.DIMENSION.getHeight());
 
         add(playground, 0);
-        add(microMap, 1);
+        add(microMap, 0);
         addScorePanel();
         addLivesPanel(3);
     }
@@ -106,7 +106,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
         score.setForeground(BACKGROUND_COLOR);
         score.setFont(new Font(score.getFont().getName(), Font.BOLD, FONT_SIZE));
         score.setBounds(0,0, BOUNDS,BOUNDS/2);
-        add(score, 1);
+        add(score, 0);
     }
 
     private void addLivesPanel(final int livesNumber){

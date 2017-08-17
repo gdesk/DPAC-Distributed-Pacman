@@ -1,7 +1,9 @@
 package client.view.base;
 
 import client.controller.BaseControllerCharacter;
+import client.model.Direction;
 import client.model.MatchImpl;
+import client.model.PlayerImpl;
 import client.model.PlaygroundImpl;
 import client.model.character.Character;
 import client.view.*;
@@ -59,8 +61,8 @@ public class LoadingPanel extends JPanel implements LoadingView {
         view.renderEatableList(Utils.getJavaList(PlaygroundImpl.eatables()));
 
         Character myChar = MatchImpl.myCharacter();
-
-        view.renderCharacter((int)myChar.position().x(), (int)myChar.position().y(), new CharacterFactory().createPacman().getCharacterRight());
+        Image myView = Utils.getJavaMap(BaseControllerCharacter.getCharacterImage(PlayerImpl.ip())).get(Direction.RIGHT);
+        view.renderCharacter((int)myChar.position().x(), (int)myChar.position().y(), myView);
 
         GamePanelImpl gp = new GamePanelImpl(view);
 

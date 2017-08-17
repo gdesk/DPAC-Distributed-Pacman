@@ -25,12 +25,8 @@ trait ControllerCharacter extends Observer {
     */
   def move(direction: Direction): Unit
 
-  /**
-    *Returns the map containing images for each direction of all characters.
-    *
-    * @return map of images for each direction of all characters.
-    */
-  def characterImages: Map[String, Map[Direction, Image]]
+
+  def getCharacterImage(ip: String): Map[Direction, Image]
 
   /**
     *Sets the map containing images for each direction of all characters.
@@ -77,8 +73,9 @@ object BaseControllerCharacter extends ControllerCharacter {
   private val playground: Playground = PlaygroundImpl
   private var view: GamePanel = null
   private var model: PeerRegisterHandler = null
+  private var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
-  override var characterImages: Map[String, Map[Direction, Image]] = Map.empty
+  override def getCharacterImage(ip: String): Map[Direction, Image] = characterImages.get(ip).getOrElse(Map.empty)
 
   /**
     * Moves the computer user's character in the specified direction.
