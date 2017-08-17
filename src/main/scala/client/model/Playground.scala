@@ -141,7 +141,7 @@ object  PlaygroundImpl extends Playground{
     var theory = ""
     _streetPositions.foreach(s => theory = theory + "street("+s.x+","+s.y+")." + "\n")
     PrologConfig.addStreets(new Theory(theory))
-    println("AGGIUNTA:"+PrologConfig.getPrologEngine.getTheory.toString)
+    //println("AGGIUNTA:"+PrologConfig.getPrologEngine.getTheory.toString)
   }
 
   /**

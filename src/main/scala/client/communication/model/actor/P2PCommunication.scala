@@ -1,7 +1,6 @@
 package client.communication.model.actor
 
 
-import java.net.InetAddress
 import java.rmi.registry.LocateRegistry
 
 import akka.actor.UntypedAbstractActor
@@ -30,19 +29,15 @@ class P2PCommunication() extends UntypedAbstractActor {
   override def onReceive(message: Any): Unit = message match{
 
     case msg: JSONObject => msg.obj("object") match{
-      case "startGame" =>
-
+      case "startGame" => {
         //ricevo messaggio contente l'IP con cui configurare server
         val ip = PlayerImpl.ip
         val server = ServerBootstrap.getIstance(ip)
 
         executor.initServerPlayingWorkerThread(ip, server.getRegistry, server.getRmiPort)
 
-        context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! JSONObject(Map[String,String](
-          "object" -> "serverIsRunning",
-          "senderIP" -> ip
-        ))
-
+        context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! JSONObject(Map[String, String]("object" -> "serverIsRunning", "senderIP" -> ip))
+      }
       case "clientCanConnect" => {
         //todo change name
 

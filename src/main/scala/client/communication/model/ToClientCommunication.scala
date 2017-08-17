@@ -69,7 +69,7 @@ trait ToClientCommunication {
     * @return list of current match's characters.
     *         The Map has the name of character as key and, as value, a Map with direction and Image.
     */
-  def getTeamCharacter(ip: String): Map[Direction, Image]
+  def getTeamCharacter(ip: String):  Map[Direction, Image]
 
   /**
     * Send to server the character chosen. It's recall when the player choose him character.

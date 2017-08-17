@@ -15,6 +15,7 @@ import client.model.character.{BaseGhost, BasePacman}
 import client.model.utils.BaseEatObjectStrategy
 import client.utils.IOUtils
 import com.typesafe.config.{Config, ConfigFactory}
+import org.apache.commons.lang3.StringEscapeUtils
 
 import scala.concurrent.duration.Duration
 import scala.util.parsing.json.JSONObject
@@ -177,7 +178,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val fileMap = response.obj("map").asInstanceOf[Map[String, Array[Byte]]]
     var characterToChoose: Map[String, Image]= Map.empty
     fileMap.keySet.foreach(name =>{
-      val path = "src/main/resources/characters/selection/"+name+".png"
+      val path = "src/main/resources/characteTrs/selection/"+name+".png"
       saveImageToResources(path, fileMap(name))
       characterToChoose += ((name, new ImageIcon(path).getImage))
     })
@@ -297,18 +298,41 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "requestIP" -> ip
     ))
 
-
     val response = getJSONMessage(message)
     val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
+    println("messaggio arrivato!"+typeCharacters)
     typeCharacters.keySet.foreach(x =>{
       val singleCharacter = typeCharacters(x)
+      println("sono estrata nella lista!" + singleCharacter(0))
       singleCharacter(0) match {
         case "pacman" => currentMatch.addCharactersAndPlayersIp(BasePacman(singleCharacter(1), BaseEatObjectStrategy()), x)
         case "ghost" => currentMatch.addCharactersAndPlayersIp(BaseGhost(singleCharacter(1)), x)
       }
     })
 
-    response.obj("map").asInstanceOf[Map[Direction, Image]]
+    val ImageDirectionMap = response.obj("map").asInstanceOf[Map[String, Map[String, Array[Byte]]]]
+    var mapToReturn : scala.collection.mutable.Map[String, Map[Direction, Image]] = scala.collection.mutable.Map.empty
+var current: String= ""
+    ImageDirectionMap.keySet.foreach(character=>{
+      current = character
+      mapToReturn += (character->Map.empty)
+      val map = ImageDirectionMap(character)
+      map.keySet.foreach(path=>{
+        println("PATH: "+path)
+        val s: Array[String]  = path.split(StringEscapeUtils.escapeJava("\\"))
+        var direction = s(s.size-1)
+        direction = direction.substring(0,direction.size-4)
+       println(direction)
+        direction match{
+          case "left" => mapToReturn(character) += (Direction.LEFT -> new ImageIcon(map(path)).getImage)
+          case "right" => mapToReturn(character) += (Direction.RIGHT -> new ImageIcon(map(path)).getImage)
+          case "up" => mapToReturn(character) += (Direction.UP -> new ImageIcon(map(path)).getImage)
+          case "down" => mapToReturn(character) += (Direction.DOWN -> new ImageIcon(map(path)).getImage)
+        }
+      })
+    })
+println(mapToReturn)
+    mapToReturn(current)
   }
 
   /**

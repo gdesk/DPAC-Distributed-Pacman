@@ -38,13 +38,14 @@ public class ExecutorServiceUtility {
 
 
     public void initServerPlayingWorkerThread(String ip, Registry registry, int rmiPort){
+        System.out.println(registry);
         workerServer = ServerPlayingWorkerThread.getIstance(this, registry, rmiPort);
         executor.execute(workerServer);
     }
 
     public void initClientPlayingWorkerThread(String ip, Registry registry){
         workerClient = new ClientPlayingWorkerThread(this, ip, registry);
-        //this.future = executor.submit(new ClientPlayingWorkerThread(this, ip, registry));
+        this.future = executor.submit(new ClientPlayingWorkerThread(this, ip, registry));
         executor.execute(workerClient);
     }
 

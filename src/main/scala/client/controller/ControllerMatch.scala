@@ -5,6 +5,7 @@ import java.util.{Observable, Observer}
 import javax.swing.ImageIcon
 
 import client.communication.model.ToClientCommunication
+import client.controller.BaseControllerCharacter.characterImages
 import client.model._
 import client.view._
 import client.view.`match`.CreateTeamView
@@ -201,10 +202,15 @@ object BaseControllerMatch extends ControllerMatch {
     * Tells the model to start the match.
     */
   override def startMatch = {
-    var characterMap: Map[String, Map[Direction, Image]] = Map.empty
-    model.getPlayersIp.foreach(ip => characterMap += (ip -> model.getTeamCharacter(ip)))
-    BaseControllerCharacter.characterImages = characterMap
+    var characterMap: scala.collection.mutable.Map[String, Map[Direction, Image]] = scala.collection.mutable.Map.empty
+    MatchImpl.allCharacters.foreach(c => characterMap += ((c.name, model.getTeamCharacter(c.name))))
+    BaseControllerCharacter.characterImages = characterMap.toMap
+    println("MAPPA DI IMMAGINI size: " + characterMap.size)
+    println("SETTAGGIO DELLA MIA MAPPA DI IMMAGINI size: " + characterImages.size)
+    println("SETTAGGIO DELLA MIA MAPPA DI IMMAGINI: ")
+    characterImages.keySet.foreach(println)
     model.startMatch
+
   }
 
   /**

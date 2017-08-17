@@ -82,7 +82,7 @@ object BaseControllerCharacter extends ControllerCharacter {
 
   override var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
-  override def getCharacterImages(ip: String) = characterImages.get(ip).getOrElse(Map.empty)
+  override def getCharacterImages(ip: String) = characterImages.get(MatchImpl.myCharacter.name).get
   /**
     * Moves the computer user's character in the specified direction.
     *
@@ -102,6 +102,9 @@ object BaseControllerCharacter extends ControllerCharacter {
     val postScore: Int = character.score
 
     if(!(prePosition equals postPosition)) {
+      println("IL MIO NOME è: " + character.name)
+      println("I NOMI NELLA MAPPA SONO: ")
+      characterImages.keySet.foreach(println)
       view.move(characterImages.get(character.name).get(direction), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
