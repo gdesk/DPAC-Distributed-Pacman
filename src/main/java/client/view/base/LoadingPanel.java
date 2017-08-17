@@ -6,10 +6,7 @@ import client.model.MatchImpl;
 import client.model.PlayerImpl;
 import client.model.PlaygroundImpl;
 import client.model.character.Character;
-import client.view.MainFrame;
-import client.view.Res;
-import client.view.UserInputController;
-import client.view.Utils;
+import client.view.*;
 import client.view.match.GamePanelImpl;
 import client.view.playground.PlaygroundBuilderImpl;
 import client.view.playground.PlaygroundPanel;
@@ -64,7 +61,7 @@ public class LoadingPanel extends JPanel implements LoadingView {
         view.renderEatableList(Utils.getJavaList(PlaygroundImpl.eatables()));
 
         Character myChar = MatchImpl.myCharacter();
-        Image myView = Utils.getJavaMap(BaseControllerCharacter.getCharacterImages(PlayerImpl.ip())).get(Direction.RIGHT);
+        Image myView = new CharacterFactory().createPacman().getCharacterRight();//Utils.getJavaMap(BaseControllerCharacter.getCharacterImages(PlayerImpl.ip())).get(Direction.RIGHT);
         view.renderCharacter((int)myChar.position().x(), (int)myChar.position().y(), myView);
 
         GamePanelImpl gp = new GamePanelImpl(view);
