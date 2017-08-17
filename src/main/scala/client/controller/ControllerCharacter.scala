@@ -26,14 +26,19 @@ trait ControllerCharacter extends Observer {
   def move(direction: Direction): Unit
 
   /**
+    *Returns, given the name of the character, the map containing images for each direction of the character.
+    *
+    * @param characterName - the name of the character of which you want the pictures.
+    * @return map of images for each direction of the character.
+    */
+  def getCharacterImages(characterName: String): Map[Direction, Image]
+
+  /**
     *Returns the map containing images for each direction of all characters.
     *
     * @return map of images for each direction of all characters.
     */
   def characterImages: Map[String, Map[Direction, Image]]
-
-  def getCharacterImages(ip: String): Map[Direction, Image]
-
   /**
     *Sets the map containing images for each direction of all characters.
     *
@@ -82,7 +87,15 @@ object BaseControllerCharacter extends ControllerCharacter {
 
   override var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
-  override def getCharacterImages(ip: String) = characterImages.get(MatchImpl.myCharacter.name).get
+  /**
+    *Returns, given the name of the character, the map containing images for each direction of the character.
+    *
+    * @param characterName - the name of the character of which you want the pictures.
+    * @return map of images for each direction of the character.
+    */
+  override def getCharacterImages(characterName: String) = characterImages.get(characterName).getOrElse(Map.empty)
+
+
   /**
     * Moves the computer user's character in the specified direction.
     *
