@@ -203,7 +203,7 @@ object BaseControllerMatch extends ControllerMatch {
   override def startMatch = {
     var characterMap: Map[String, Map[Direction, Image]] = Map.empty
     model.getPlayersIp.foreach(ip => characterMap += (ip -> model.getTeamCharacter(ip)))
-    BaseControllerCharacter.setCharacterImages(characterMap)
+    BaseControllerCharacter.characterImages = characterMap
     model.startMatch
   }
 

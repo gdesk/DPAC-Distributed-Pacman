@@ -65,13 +65,13 @@ object InitializedInfoImpl extends InitializedInfo{
     * @return the coordinate of pacman's starting position
     */
   override def getPacmanStartPosition(): Point[Int, Int] ={
-    val position =  ScalaProlog.multipleOutput(PrologConfig.theory, "pacman_initial_position(X,Y)")
+    val position =  ScalaProlog.multipleOutput(PrologConfig.theory, "pacman_initial_position(X,Y).")
     var xPos =  valueOf(position.getTerm("X").toString)
     var yPos = valueOf(position.getTerm("Y").toString)
     PointImpl[Int, Int](xPos, yPos)
   }
 
-  val previousPosition =  ScalaProlog.multipleOutput(PrologConfig.theory , "ghost_initial_position(X,Y)")
+  val previousPosition =  ScalaProlog.multipleOutput(PrologConfig.theory, "ghost_initial_position(X,Y).")
   var xPosition =  valueOf(previousPosition.getTerm("X").toString)
   var yPosition = valueOf(previousPosition.getTerm("Y").toString)
 

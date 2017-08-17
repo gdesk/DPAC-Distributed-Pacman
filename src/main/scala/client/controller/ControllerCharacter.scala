@@ -26,11 +26,18 @@ trait ControllerCharacter extends Observer {
   def move(direction: Direction): Unit
 
   /**
+    *Returns the map containing images for each direction of all characters.
+    *
+    * @return map of images for each direction of all characters.
+    */
+  def characterImages: Map[String, Map[Direction, Image]]
+
+  /**
     *Sets the map containing images for each direction of all characters.
     *
     * @param mapCharacterImages - map of images for each direction of all characters.
     */
-  def setCharacterImages(mapCharacterImages: Map[String, Map[Direction, Image]]): Unit
+  def characterImages_=(mapCharacterImages: Map[String, Map[Direction, Image]]): Unit
 
   /**
     * Sets the view to be called when somethings changes about characters.
@@ -70,7 +77,8 @@ object BaseControllerCharacter extends ControllerCharacter {
   private val playground: Playground = PlaygroundImpl
   private var view: GamePanel = null
   private var model: PeerRegisterHandler = null
-  private var characterImages: Map[String, Map[Direction, Image]] = Map.empty
+
+  override var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
   /**
     * Moves the computer user's character in the specified direction.
@@ -114,13 +122,6 @@ object BaseControllerCharacter extends ControllerCharacter {
 
     if(!(preScore equals postScore)) view.renderScore(postScore)
   }
-
-  /**
-    *Sets the map containing images for each direction of all characters.
-    *
-    * @param mapCharacterImages - map of images for each direction of all characters.
-    */
-  override def setCharacterImages(mapCharacterImages: Map[String, Map[Direction, Image]]) = characterImages = mapCharacterImages
 
   /**
     * Sets the view to be recalled.
