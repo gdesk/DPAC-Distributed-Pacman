@@ -244,8 +244,13 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     ))
 
     val response = getJSONMessage(message)
-    val playgroundFile = response.obj("playground").asInstanceOf[File]
-    val playground = IOUtils.getPlaygroundFromFile(playgroundFile)
+    val playgroundFile = response.obj("playground").asInstanceOf[Array[Byte]]
+
+    //val inputStream: InputStream = new ByteArrayInputStream(playgroundFile)
+    val fos = new FileOutputStream("srcresources/playground/playground.txt")
+    fos.write(playgroundFile)
+    fos.close()
+    val playground = IOUtils.getPlaygroundFromPath("src/resources/playground/playground.txt")
     currentMatch.playground_=(playground)
   }
 

@@ -63,7 +63,7 @@ public class LoadingPanel extends JPanel implements LoadingView {
         Character myChar = MatchImpl.myCharacter();
         Image myView = new CharacterFactory().createPacman().getCharacterRight();//Utils.getJavaMap(BaseControllerCharacter.getCharacterImages(PlayerImpl.ip())).get(Direction.RIGHT);
         view.renderCharacter((int)myChar.position().x(), (int)myChar.position().y(), myView);
-
+        
         GamePanelImpl gp = new GamePanelImpl(view);
 
         UserInputController keyboardController = new UserInputController();
