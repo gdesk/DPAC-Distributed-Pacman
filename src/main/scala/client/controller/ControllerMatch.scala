@@ -202,6 +202,7 @@ object BaseControllerMatch extends ControllerMatch {
     * Tells the model to start the match.
     */
   override def startMatch = {
+    model.initializedCharatcter()
     var characterMap: scala.collection.mutable.Map[String, Map[Direction, Image]] = scala.collection.mutable.Map.empty
     MatchImpl.allCharacters.foreach(c => characterMap += ((c.name, model.getTeamCharacter(c.name))))
     BaseControllerCharacter.characterImages = characterMap.toMap
@@ -210,7 +211,6 @@ object BaseControllerMatch extends ControllerMatch {
     println("SETTAGGIO DELLA MIA MAPPA DI IMMAGINI: ")
     characterImages.keySet.foreach(println)
     model.startMatch
-
   }
 
   /**

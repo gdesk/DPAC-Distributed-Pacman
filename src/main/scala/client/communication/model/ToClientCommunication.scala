@@ -139,4 +139,6 @@ trait ToClientCommunication {
     * @return list of all the players's ip
     */
   def getPlayersIp(): List[String]
+
+  def initializedCharatcter(): Unit
 }

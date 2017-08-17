@@ -285,17 +285,10 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     allMatches
   }
 
-  /**
-    * Receives from server the characters playing in the current match
-    *
-    * @return list of current match's characters.
-    *         The Map has the IP address of character as key and, as value, a Map with direction and Image.
-    */
-  override def getTeamCharacter(ip: String):  Map[Direction, Image] = {
+  def initializedCharatcter(): Unit ={
     val message = JSONObject(Map[String, String](
-      "object" -> "teamCharacterRequest",
-      "senderIP" -> player.ip,
-      "requestIP" -> ip
+      "object" -> "initCharacter",
+      "senderIP" -> player.ip
     ))
 
     val response = getJSONMessage(message)
@@ -309,10 +302,36 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
         case "ghost" => currentMatch.addCharactersAndPlayersIp(BaseGhost(singleCharacter(1)), x)
       }
     })
+  }
+
+  /**
+    * Receives from server the characters playing in the current match
+    *
+    * @return list of current match's characters.
+    *         The Map has the IP address of character as key and, as value, a Map with direction and Image.
+    */
+  override def getTeamCharacter(name: String):  Map[Direction, Image] = {
+    val message = JSONObject(Map[String, String](
+      "object" -> "teamCharacterRequest",
+      "senderIP" -> player.ip,
+      "requestIP" -> name
+    ))
+
+    val response = getJSONMessage(message)
+  /*  val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
+    println("messaggio arrivato!"+typeCharacters)
+    typeCharacters.keySet.foreach(x =>{
+      val singleCharacter = typeCharacters(x)
+      println("sono estrata nella lista!" + singleCharacter(0))
+      singleCharacter(0) match {
+        case "pacman" => currentMatch.addCharactersAndPlayersIp(BasePacman(singleCharacter(1), BaseEatObjectStrategy()), x)
+        case "ghost" => currentMatch.addCharactersAndPlayersIp(BaseGhost(singleCharacter(1)), x)
+      }
+    })*/
 
     val ImageDirectionMap = response.obj("map").asInstanceOf[Map[String, Map[String, Array[Byte]]]]
     var mapToReturn : scala.collection.mutable.Map[String, Map[Direction, Image]] = scala.collection.mutable.Map.empty
-var current: String= ""
+    var current: String= ""
     ImageDirectionMap.keySet.foreach(character=>{
       current = character
       mapToReturn += (character->Map.empty)
@@ -331,7 +350,7 @@ var current: String= ""
         }
       })
     })
-println(mapToReturn)
+println("MAPTORETURN: "+mapToReturn)
     mapToReturn(current)
   }
 
