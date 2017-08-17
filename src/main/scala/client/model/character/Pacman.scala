@@ -56,7 +56,6 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     }
     */
     if(eatenObjId != "''") {
-      println("oggetto mangiato: " + eatenObjId)
       val eatenObj: Eatable = playground.eatables.filter(e => e.id == eatenObjId).head
       playground.removeEatable(eatenObj)
       score = valueOf(solveInfo.getTerm("NS").toString)
