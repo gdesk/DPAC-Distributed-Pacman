@@ -157,13 +157,16 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     * @return an Option containing character's new position if the movement is allowed, containing None otherwise.
     */
   private def move(direction: Direction): Option[Point[Int, Int]] = {
-    val solveInfo = PrologConfig.getPrologEngine.solve(s"move(${_position.x},${_position.y},${direction.getDirection},X,Y).")
+    println("X move :  "+_position.x)
+    println("Y move :   "+_position.y )
+    val solveInfo = PrologConfig.getPrologEngine.solve(s"move(${_position.x.toString},${_position.y.toString},${direction.getDirection},X,Y).")
     solveInfo isSuccess match {
       case true =>
         val x = Integer.valueOf(solveInfo.getTerm("X").toString)
         val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
         Option(PointImpl[Int, Int](x, y))
       case _ =>
+        println("entra in none")
         None
     }
   }
