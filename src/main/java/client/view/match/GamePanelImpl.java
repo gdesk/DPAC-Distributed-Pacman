@@ -64,7 +64,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
         JLabel winLabel = new JLabel("YOU WIN");
         winLabel.setFont(new Font(winLabel.getFont().getName(), Font.BOLD, FONT_SIZE*10));
-        winLabel.setForeground(Color.BLACK);
+        winLabel.setForeground(Color.white);
 
         JButton quit = new JButton("QUIT");
         quit.setFont(new Font(quit.getFont().getName(), Font.BOLD, FONT_SIZE*3));

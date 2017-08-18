@@ -25,11 +25,14 @@ class PacmanTest extends FunSuite {
     var risXnewPos, risYnewPos: String = "30"
     goal = Some("eat_pacman(pacman(" + risXnewPos + "," + risYnewPos + ",1,_), [ghost(30,30,100,Inky),ghost(31,31,200,Blinky),ghost(32,32,300,Pinky)],NL1,_,_)")
     var risEat = solveOneAndGetTerm(engine, goal.get, "NL1")
-    var i: Int = 0
 
-    goal = Some("pacman_death(pacman(_,_," + risEat + ",_))")
-    var risDeath = solveWithSuccess(engine, goal.get)
-    assert(risDeath.equals(true))
+    println("risEat " + risEat)
+    assert(risEat.equals("0"))
+    //var i: Int = 0
+
+    //goal = Some("pacman_death(pacman(_,_," + risEat + ",_))")
+    //var risDeath = solveWithSuccess(engine, goal.get)
+    //assert(risDeath.equals(true))
 
   }
 
