@@ -1,5 +1,6 @@
 package client.view.match;
 
+import client.model.MatchImpl;
 import client.model.PlaygroundImpl;
 import client.model.utils.Point;
 import client.view.MainFrame;
@@ -41,6 +42,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
         add(microMap, 0);
         addScorePanel();
         addLivesPanel(3);
+
     }
 
     @Override
@@ -109,18 +111,21 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
         add(score, 0);
     }
 
-    private void addLivesPanel(final int livesNumber){
-        livesPanel = JComponentsUtils.createTrasparentPanel();
-        livesPanel.setLayout(new BoxLayout(livesPanel, BoxLayout.Y_AXIS));
+    private void addLivesPanel(final int livesNumber) {
+        if (MatchImpl.myCharacter().name().equals("pacman")) {
+            livesPanel = JComponentsUtils.createTrasparentPanel();
+            livesPanel.setLayout(new BoxLayout(livesPanel, BoxLayout.Y_AXIS));
 
-        for (int i=0; i<livesNumber;i++){
-            JLabel pacLive = new JLabel();
-            ImageIcon icon = new ImageIcon(Utils.getScaledImage(new PacmanView().getCharacterRight(),LIVES_IMAGE_DIM,LIVES_IMAGE_DIM));
-            pacLive.setIcon(icon);
-            livesPanel.add(pacLive);
+
+            for (int i = 0; i < livesNumber; i++) {
+                JLabel pacLive = new JLabel();
+                ImageIcon icon = new ImageIcon(Utils.getScaledImage(new PacmanView().getCharacterRight(), LIVES_IMAGE_DIM, LIVES_IMAGE_DIM));
+                pacLive.setIcon(icon);
+                livesPanel.add(pacLive);
+            }
+
+            livesPanel.setBounds(0, BOUNDS / 2, BOUNDS, (int) MainFrame.DIMENSION.getWidth());
+            add(livesPanel, 0);
         }
-
-        livesPanel.setBounds(0,BOUNDS/2,BOUNDS, (int)MainFrame.DIMENSION.getWidth());
-        add(livesPanel, 0);
     }
 }
