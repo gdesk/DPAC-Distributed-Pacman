@@ -58,7 +58,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
                 friendsDialog.setVisible(true);
             });
             buttonPanel.add(starGame);
-            buttonPanel.add(addFiends);
+           // buttonPanel.add(addFiends);
 
             JPanel numberPlayerPanel = createBackgroundColorPanel();
             numberPlayerPanel.setBorder(BorderFactory.createEmptyBorder(BOUNDS,BOUNDS,BOUNDS,BOUNDS));
