@@ -206,10 +206,7 @@ object BaseControllerMatch extends ControllerMatch {
     var characterMap: scala.collection.mutable.Map[String, Map[Direction, Image]] = scala.collection.mutable.Map.empty
     MatchImpl.allCharacters.foreach(c => characterMap += ((c.name, model.getTeamCharacter(c.name))))
     BaseControllerCharacter.characterImages = characterMap.toMap
-    println("MAPPA DI IMMAGINI size: " + characterMap.size)
-    println("SETTAGGIO DELLA MIA MAPPA DI IMMAGINI size: " + characterImages.size)
-    println("SETTAGGIO DELLA MIA MAPPA DI IMMAGINI: ")
-    characterImages.keySet.foreach(println)
+    print("ControllerMatch characterImages: ")
     model.startMatch
   }
 

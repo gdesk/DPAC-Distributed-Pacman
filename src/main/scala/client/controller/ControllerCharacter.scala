@@ -115,8 +115,6 @@ object BaseControllerCharacter extends ControllerCharacter {
     val postScore: Int = character.score
 
     if(!(prePosition equals postPosition)) {
-      println("IL MIO NOME è: " + character.name)
-      println("I NOMI NELLA MAPPA SONO: ")
       characterImages.keySet.foreach(println)
       view.move(characterImages.get(character.name).get(direction), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],

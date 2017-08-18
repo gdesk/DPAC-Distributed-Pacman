@@ -39,7 +39,6 @@ class P2PCommunication() extends UntypedAbstractActor {
         context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! JSONObject(Map[String, String]("object" -> "serverIsRunning", "senderIP" -> ip))
       }
       case "clientCanConnect" => {
-        //todo change name
 
         val info = new OtherCharacterInfo
         val matchHandler = new ClientOutcomingMessageHandlerImpl

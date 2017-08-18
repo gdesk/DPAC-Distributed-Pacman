@@ -40,7 +40,6 @@ public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundVi
      */
     @Override
     public void renderEatableList(List<Eatable> eatableList){
-        System.out.println("renderEatable");
         for (Eatable e : eatableList){
             if (e instanceof Dot){
                 super.renderDot((int) e.position().x(), (int) e.position().y());
