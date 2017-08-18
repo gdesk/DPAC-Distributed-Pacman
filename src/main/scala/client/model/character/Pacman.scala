@@ -72,7 +72,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     val prePosition: Point[Int, Int] = position
     super.go(direction)
     val postPosition: Point[Int, Int] = position
-    if(prePosition equals postPosition) eatObject
+    if(!(prePosition equals  postPosition)) eatObject
   }
 
   /**

@@ -143,52 +143,52 @@ object IOUtils {
       Source.fromFile(file).foreach( _ match {
         case '.' => {
           //println("I'm a dot at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Dot("d",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Dot(getNextID,PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'p' => {
           //println("I'm a pill at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Pill("p",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Pill(getNextID,PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'a' => {
           //println("I'm an apple at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Apple("a",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Apple(getNextID,PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'b' => {
           //println("I'm a bell at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Bell("b",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Bell(getNextID,PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'c' => {
           //println("I'm a cherry at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Cherry("c",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Cherry(getNextID,PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'h' => {
           //println("I'm a galaxian Ship at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(GalaxianShip("h",PointImpl (xPosition,yPosition)))
+          eatableList.+=(GalaxianShip(getNextID,PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'g' => {
           //println("I'm a grapes at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Grape("g",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Grape(getNextID,PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'k' => {
           //println("I'm a key at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Key("k",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Key(getNextID,PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'o' => {
           //println("I'm an orange at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Orange("o",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Orange(getNextID,PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 's' => {
          //println("I'm an apple at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Strawberry("s",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Strawberry(getNextID,PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case '\n' => {
@@ -204,6 +204,12 @@ object IOUtils {
 
       eatableList.toList
     }
+
+  var indexID = 0
+  private def getNextID(): String = {
+    indexID += 1
+    ""+indexID
+  }
 
   private def parseDimension(file: File) :  Dimension = {
 
