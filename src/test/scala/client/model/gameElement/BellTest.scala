@@ -4,7 +4,7 @@ import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 
 /**
-  * Created by margherita on 13/07/17.
+  * @author Margherita Pecorelli
   */
 class BellTest extends FunSuite {
 
@@ -21,4 +21,5 @@ class BellTest extends FunSuite {
   test("position"){
     assert(bell.position equals PointImpl(0,1))
   }
+
 }

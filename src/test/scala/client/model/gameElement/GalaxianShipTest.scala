@@ -4,7 +4,7 @@ import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 
 /**
-  * Created by margherita on 13/07/17.
+  * @author Margherita Pecorelli
   */
 class GalaxianShipTest extends FunSuite {
 
@@ -21,4 +21,5 @@ class GalaxianShipTest extends FunSuite {
   test("position"){
     assert(galaxianShip.position equals PointImpl(0,4))
   }
+
 }

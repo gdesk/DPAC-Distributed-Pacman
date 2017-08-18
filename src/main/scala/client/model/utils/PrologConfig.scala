@@ -41,7 +41,11 @@ def addStreets(streets: Theory): Unit ={
     */
   def prologToScalaList( prologList: String): List[String] = {
     val list = prologList.replace("[","").replace("]","").replace(" ","")
-    list.split(",").toList
+    if(list.size == 0) {
+      List.empty
+    } else {
+      list.split(",").toList
+    }
   }
 
 }

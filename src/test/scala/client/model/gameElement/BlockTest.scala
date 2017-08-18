@@ -4,7 +4,7 @@ import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 
 /**
-  * Created by margherita on 13/07/17.
+  * @author Margherita Pecorelli
   */
 class BlockTest extends FunSuite {
 
@@ -13,4 +13,5 @@ class BlockTest extends FunSuite {
   test("position"){
     assert(block.position equals PointImpl(0,3))
   }
+
 }

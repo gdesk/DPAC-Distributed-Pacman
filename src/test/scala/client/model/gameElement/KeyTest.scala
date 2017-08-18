@@ -4,7 +4,7 @@ import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 
 /**
-  * Created by margherita on 13/07/17.
+  * @author Margherita Pecorelli
   */
 class KeyTest extends FunSuite {
 
@@ -21,4 +21,5 @@ class KeyTest extends FunSuite {
   test("position"){
     assert(key.position equals PointImpl(1,1))
   }
+
 }

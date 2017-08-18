@@ -1,14 +1,9 @@
 package client.model
 
 import client.model.character.{BaseGhost, BasePacman}
-import client.model.character.Character
 import client.model.gameElement._
 import client.model.utils.{BaseEatObjectStrategy, Dimension, PointImpl}
 import org.scalatest.FunSuite
-
-import scala.collection.mutable.HashMap
-import scala.collection.mutable.Map
-
 
 /**
   * @author Margherita Pecorelli
@@ -31,7 +26,7 @@ class MatchTest extends FunSuite {
   val yellowGhost = BaseGhost("Yellow")
 
   test("playground") {
-    playground ground = List((Apple("Apple", PointImpl(0,0))),
+    playground.ground = List((Apple("Apple", PointImpl(0,0))),
                              (Bell("Bell", PointImpl(0,1))),
                              (Cherry("Cherry", PointImpl(0,2))),
                              (Dot("Dot", PointImpl(0,3))),
@@ -49,7 +44,7 @@ class MatchTest extends FunSuite {
                              (Block(PointImpl(3,0))))
 
     assert(gameMatch.playground == null)
-    gameMatch playground = playground
+    gameMatch.playground = playground
     assert(gameMatch.playground equals playground)
   }
 

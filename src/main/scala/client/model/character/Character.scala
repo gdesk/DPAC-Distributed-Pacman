@@ -88,6 +88,13 @@ trait Character extends GameItem{
   def lives: Lives
 
   /**
+    * Sets character's lives.
+    *
+    * @param lives - character's lives.
+    */
+  def lives_=(lives: Lives): Unit
+
+  /**
     * Returns character's score.
     *
     * @return character's score.
@@ -123,7 +130,7 @@ trait Character extends GameItem{
   * @author Giulia Lucchi
   * @author Margherita Pecorelli
   */
-abstract class CharacterImpl(override var isKillable: Boolean) extends Character {
+abstract class CharacterImpl(override var isKillable: Boolean, override var lives: Lives) extends Character {
 
   private var _position: Point[Int, Int] = PointImpl(0,0)
   private val playground: Playground = PlaygroundImpl
@@ -193,7 +200,10 @@ abstract class CharacterImpl(override var isKillable: Boolean) extends Character
     *
     * @return true if character is alive, false otherwise.
     */
-  override def isAlive = _isAlive
+  override def isAlive = {
+    if(lives.remainingLives <= 0) _isAlive = false
+    _isAlive
+  }
 
   /**
     * Sets if charater is alive.
