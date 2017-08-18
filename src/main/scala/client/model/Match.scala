@@ -122,24 +122,16 @@ object MatchImpl extends Match {
     * @param character - the new character to be added at the map.
     * @param playerIp - the ip of the character's player to be added at the map.
     */
-  override def addCharactersAndPlayersIp(character: Character, playerIp: String) = {
-    _charactersAndPlayersIp += (character -> playerIp)
-    println()
-    println("aggiunto"+ _charactersAndPlayersIp.size)
-    _charactersAndPlayersIp.foreach(x=>{
-      println(x)
-    })
-  }
+  override def addCharactersAndPlayersIp(character: Character, playerIp: String) = _charactersAndPlayersIp += (character -> playerIp)
+
 
   /**
     * Returns the list of all match's characters.
     *
     * @return the list of all match's characters.
     */
-  override def allCharacters ={
-    println("allCharacter: " + _charactersAndPlayersIp.keySet.toList.isEmpty)
-    _charactersAndPlayersIp.keySet.toList
-  }
+  override def allCharacters =_charactersAndPlayersIp.keySet.toList
+
 
   /**
     * Returns the list of all ip belonging to all match's players.

@@ -17,7 +17,7 @@ import scala.io.Source
 object IOUtils {
 
   private val BASE_PATH = "src/main/resources/playground/"
-  private val PLAYGROUND_FILE_EXTENSION = ".dpac"
+  private val PLAYGROUND_FILE_EXTENSION = ".txt"
 
   private val writer : PrintWriter = new PrintWriter(new File("log.txt" ))
 
@@ -105,7 +105,7 @@ object IOUtils {
     * @return the playground parsed from file
     */
   def getPlaygroundFromPath(fileName: String) : Playground = {
-    val playgroundFile: File = new File(BASE_PATH + fileName)
+    val playgroundFile: File = new File(BASE_PATH + fileName + PLAYGROUND_FILE_EXTENSION)
     getPlaygroundFromFile(playgroundFile)
   }
 
@@ -143,52 +143,52 @@ object IOUtils {
       Source.fromFile(file).foreach( _ match {
         case '.' => {
           //println("I'm a dot at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Dot("",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Dot("d",PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'p' => {
           //println("I'm a pill at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Pill("",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Pill("p",PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'a' => {
           //println("I'm an apple at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Apple("",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Apple("a",PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'b' => {
           //println("I'm a bell at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Bell("",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Bell("b",PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'c' => {
           //println("I'm a cherry at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Cherry("",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Cherry("c",PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'h' => {
           //println("I'm a galaxian Ship at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(GalaxianShip("",PointImpl (xPosition,yPosition)))
+          eatableList.+=(GalaxianShip("h",PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'g' => {
           //println("I'm a grapes at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Grape("",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Grape("g",PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'k' => {
           //println("I'm a key at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Key("",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Key("k",PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'o' => {
           //println("I'm an orange at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Orange("",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Orange("o",PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 's' => {
          //println("I'm an apple at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Strawberry("",PointImpl (xPosition,yPosition)))
+          eatableList.+=(Strawberry("s",PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case '\n' => {

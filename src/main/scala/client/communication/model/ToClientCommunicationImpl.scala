@@ -247,10 +247,10 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val playgroundFile = response.obj("playground").asInstanceOf[Array[Byte]]
 
     //val inputStream: InputStream = new ByteArrayInputStream(playgroundFile)
-    val fos = new FileOutputStream("srcresources/playground/playground.txt")
+    val fos = new FileOutputStream("src/main/resources/playground/playgroundMatch.txt")
     fos.write(playgroundFile)
     fos.close()
-    val playground = IOUtils.getPlaygroundFromPath("src/resources/playground/playground.txt")
+    val playground = IOUtils.getPlaygroundFromPath("playgroundMatch")
     currentMatch.playground_=(playground)
   }
 
@@ -298,10 +298,8 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
     val response = getJSONMessage(message)
     val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
-    println("messaggio arrivato!"+typeCharacters)
     typeCharacters.keySet.foreach(x =>{
       val singleCharacter = typeCharacters(x)
-      println("sono estrata nella lista!" + singleCharacter(0))
       singleCharacter(0) match {
         case "pacman" => currentMatch.addCharactersAndPlayersIp(BasePacman(singleCharacter(1), BaseEatObjectStrategy()), x)
         case "ghost" => currentMatch.addCharactersAndPlayersIp(BaseGhost(singleCharacter(1)), x)
@@ -323,16 +321,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     ))
 
     val response = getJSONMessage(message)
-  /*  val typeCharacters = response.obj("typeCharacter").asInstanceOf[Map[String, Array[String]]]
-    println("messaggio arrivato!"+typeCharacters)
-    typeCharacters.keySet.foreach(x =>{
-      val singleCharacter = typeCharacters(x)
-      println("sono estrata nella lista!" + singleCharacter(0))
-      singleCharacter(0) match {
-        case "pacman" => currentMatch.addCharactersAndPlayersIp(BasePacman(singleCharacter(1), BaseEatObjectStrategy()), x)
-        case "ghost" => currentMatch.addCharactersAndPlayersIp(BaseGhost(singleCharacter(1)), x)
-      }
-    })*/
 
     val ImageDirectionMap = response.obj("map").asInstanceOf[Map[String, Map[String, Array[Byte]]]]
     var mapToReturn : scala.collection.mutable.Map[String, Map[Direction, Image]] = scala.collection.mutable.Map.empty
@@ -342,11 +330,9 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       mapToReturn += (character->Map.empty)
       val map = ImageDirectionMap(character)
       map.keySet.foreach(path=>{
-        println("PATH: "+path)
         val s: Array[String]  = path.split(StringEscapeUtils.escapeJava("\\"))
         var direction = s(s.size-1)
         direction = direction.substring(0,direction.size-4)
-       println(direction)
         direction match{
           case "left" => mapToReturn(character) += (Direction.LEFT -> new ImageIcon(map(path)).getImage)
           case "right" => mapToReturn(character) += (Direction.RIGHT -> new ImageIcon(map(path)).getImage)
@@ -355,7 +341,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
         }
       })
     })
-println("MAPTORETURN: "+mapToReturn)
     mapToReturn(current)
   }
 

@@ -118,7 +118,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
   protected def prologEatablesList: String = {
     var eatables: String = "["
     playground.eatables.foreach{ e =>
-      eatables = eatables + "eatable_object(" + e.position.x + "," + e.position.y + "," + e.score + "," + "," + e.id + "),"
+      eatables = eatables + "eatable_object(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.id + "),"
     }
     eatables.size match {
       case 1 =>
