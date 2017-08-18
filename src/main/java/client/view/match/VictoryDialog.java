@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import static client.view.utils.JComponentsUtils.FONT_SIZE;
+import static java.awt.GraphicsDevice.WindowTranslucency.TRANSLUCENT;
 
 /**
  * Created by chiaravarini on 18/08/17.
@@ -45,7 +46,10 @@ public class VictoryDialog extends JDialog {
         JButton quit = new JButton("QUIT");
         quit.setFont(new Font(quit.getFont().getName(), Font.BOLD, FONT_SIZE*3));
         quit.setForeground(Color.BLACK);
-        quit.addActionListener(e->MainFrame.getInstance().setContentPane(new HomePanel(PlayerImpl.username())));
+        quit.addActionListener(e->{
+            MainFrame.getInstance().setContentPane(new HomePanel(PlayerImpl.username()));
+            dispose();
+        });
 
         victoryPanel.add(winLabel,gbc);
         gbc.gridy = 1;
@@ -54,12 +58,12 @@ public class VictoryDialog extends JDialog {
         victoryPanel.add(quit,gbc);
         add(victoryPanel, 0);
 
-       /* GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
-        if(!gd.isWindowTranslucencySupported(TRANSLUCENT)) {
+        if(gd.isWindowTranslucencySupported(TRANSLUCENT)) {
             setUndecorated(true);
             setOpacity(BACKGROUND_OPACITY.floatValue());
-        }*/
+        }
         getContentPane().setBackground(BACKGOURND_COLOR);
     }
 }

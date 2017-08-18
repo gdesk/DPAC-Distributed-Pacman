@@ -118,6 +118,7 @@ public class ClientPlayingWorkerThread implements Runnable {
                 list.add("direction");
                 list.add(direction);
                 observableCharacter.subscribeObserver(list);
+                System.out.println(ip + " -> " + direction);
                 list.clear();
 
                 boolean isAlive = stubisAlive.isAlive();
@@ -134,8 +135,6 @@ public class ClientPlayingWorkerThread implements Runnable {
                 System.err.println("Client " + ip + " exception: " + e.toString());
                 //e.printStackTrace();
             }
-
-            System.out.println("Client ready");
         }
 
     }

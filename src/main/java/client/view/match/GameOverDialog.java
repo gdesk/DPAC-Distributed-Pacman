@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import static client.view.utils.JComponentsUtils.FONT_SIZE;
+import static java.awt.GraphicsDevice.WindowTranslucency.TRANSLUCENT;
 
 /**
  * This class represents the panel displayed when you lose
@@ -53,12 +54,12 @@ public class GameOverDialog extends JDialog {
         gbc.gridy = 1;
         add(quit, gbc);
 
-        /*GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
-        if(!gd.isWindowTranslucencySupported(TRANSLUCENT)) {
+        if(gd.isWindowTranslucencySupported(TRANSLUCENT)) {
             setUndecorated(true);
             setOpacity(BACKGROUND_OPACITY.floatValue());
-        }*/
+        }
 
         getContentPane().setBackground(BACKGOURND_COLOR);
     }
