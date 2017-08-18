@@ -8,6 +8,8 @@ import network.client.rxJava.ObservableCharacter;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,7 +26,7 @@ public class ClientPlayingWorkerThread implements Runnable {
     private Registry registry;
     private Map<String, Object> responses;
     private ObservableCharacter observableCharacter;
-
+    private List<Object> list;
 
     public ClientPlayingWorkerThread
             (ExecutorServiceUtility executor, String ip, Registry registry) {
@@ -40,7 +42,7 @@ public class ClientPlayingWorkerThread implements Runnable {
 
         }};
         this.observableCharacter = new ObservableCharacter();
-
+        this.list = new LinkedList<>();
     }
 
 
@@ -99,31 +101,42 @@ public class ClientPlayingWorkerThread implements Runnable {
 
             }*/
                       
-        System.setProperty("Djava.rmi.server.hostname", ip);
 
+        System.setProperty("Djava.rmi.server.hostname", ip);
         String host = ip;
 
-
+        while (!Thread.currentThread().isInterrupted()) {
             try {
 
                 Registry registry = LocateRegistry.getRegistry(host);
-
                 PeerRegister stubDirection = (PeerRegister) registry.lookup("direction");
                 PeerRegister stubisAlive = (PeerRegister) registry.lookup("isAlive");
 
                 Direction direction = stubDirection.getDirection();
+
+                list.add(ip);
+                list.add("direction");
+                list.add(direction);
+                observableCharacter.subscribeObserver(list);
+                list.clear();
+
                 boolean isAlive = stubisAlive.isAlive();
 
-                System.out.println("direction: " + direction + " isAlive: " + isAlive);
+                list.add(ip);
+                list.add("isAlive");
+                list.add(isAlive);
+                observableCharacter.subscribeObserver(list);
+                list.clear();
+
+                //System.out.println("direction: " + direction + " isAlive: " + isAlive);
 
             } catch (Exception e) {
-                System.err.println("Client "+ip+" exception: " + e.toString());
+                System.err.println("Client " + ip + " exception: " + e.toString());
                 //e.printStackTrace();
             }
 
             System.out.println("Client ready");
-
-
+        }
 
     }
 }
