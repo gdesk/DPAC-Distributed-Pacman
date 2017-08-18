@@ -318,7 +318,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "object" -> "teamCharacterRequest",
       "senderIP" -> player.ip,
       "requestIP" -> name,
-      "resolution" -> "32x32"
+      "resolution" -> "24x24"
     ))
 
     val response = getJSONMessage(message)
