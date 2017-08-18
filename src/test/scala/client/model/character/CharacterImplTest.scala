@@ -1,90 +1,61 @@
 package client.model.character
 
 import client.model.utils.{Dimension, PointImpl}
-import client.model.{Direction, MatchImpl, OutOfPlaygroundBoundAccessException, PlaygroundImpl}
+import client.model.{OutOfPlaygroundBoundAccessException, PlaygroundImpl}
 import org.scalatest.FunSuite
 
 /**
-  * Testing for le working of client.model.character.gameElement.character class
-  *
   * @author Giulia Lucchi
   * @author Margherita Pecorelli
   */
 class CharacterImplTest(character: Character) extends FunSuite {
 
-    test("lives") {
-      assert(character.lives.remainingLives equals (InitializedInfoImpl.getCharacterLives(character.isInstanceOf[Pacman] match {
-        case true => "pacman"
-        case false => "ghost"
-      })))
+  PlaygroundImpl.dimension = Dimension(35,35)
+
+  test("lives") {
+    assert(character.lives.remainingLives equals InitializedInfoImpl.getCharacterLives(character.isInstanceOf[Pacman] match {
+      case true => "pacman"
+      case false => "ghost"
+    }))
+  }
+
+  test("position and setPosition") {
+    if(character.isInstanceOf[Pacman]) assert(character.position equals InitializedInfoImpl.getPacmanStartPosition)
+
+    character.setPosition(PointImpl(10, 10))
+    assert(character.position equals PointImpl(10, 10))
+
+    assertThrows[OutOfPlaygroundBoundAccessException] {
+      character.setPosition(PointImpl(35, 35))
     }
+  }
 
-    test("position and setPosition") {
-      assert(character.position equals (character.isInstanceOf[Pacman] match {
-        case true => InitializedInfoImpl.getPacmanStartPosition()
-        case false => InitializedInfoImpl.getGhostStartPosition()
-      }))
+  test("isKillable") {
+    assert(character.isKillable equals (character.isInstanceOf[Pacman]))
+    character.isKillable = false
+    assert(character.isKillable equals false)
+    character.isKillable = true
+    assert(character.isKillable equals true)
+  }
 
-      character setPosition PointImpl(10, 10)
-      assert(character.position equals PointImpl(10, 10))
+  test("score") {
+    assert(character.score equals 0)
+    character.score = 5
+    assert(character.score equals 5)
+  }
 
-      assertThrows[OutOfPlaygroundBoundAccessException] {
-        character setPosition PointImpl(35, 35)
-      }
-    }
+  test("isAlive and hasLost") {
+    assert(character.isAlive equals true)
+    assert(character.hasLost equals false)
+    character.isAlive = false
+    assert(character.isAlive equals false)
+    assert(character.hasLost equals true)
 
-    test("direction") {
-      assert(character.direction equals Direction.START)
-      character direction = Direction.DOWN
-      assert(character.direction equals Direction.DOWN)
-    }
+    character.isAlive = true
+    assert(character.hasLost equals false)
+    character.lives.decrementOf(character.lives.remainingLives)
+    assert(character.isAlive equals false)
+    assert(character.hasLost equals true)
+  }
 
-    test("isAlive") {
-      assert(character.isAlive equals true)
-      character isAlive = false
-      assert(character.isAlive equals false)
-    }
-
-    test("isKillable") {
-      assert(character.isKillable equals (character.isInstanceOf[Pacman] match {
-        case true => true
-        case false => false
-      }))
-      character isKillable = false
-      assert(character.isKillable equals false)
-      character isKillable = true
-      assert(character.isKillable equals true)
-    }
-
-    test("score") {
-      assert(character.score equals 0)
-      character score = 5
-      assert(character.score equals 5)
-    }
-
-    /*
-    CONTROLLA ANCHE UP E DOWN!!!!
-    test("go") {
-      playground ground = List empty //tutte strade
-
-      var posX = pacman.position x;
-      var posY = pacman.position y;
-
-      pacman go Direction.RIGHT
-      assert(pacman.position.x equals posX + 1)
-      posX = pacman.position x;
-
-      pacman go Direction.LEFT
-      assert(pacman.position.x equals posX - 1)
-      posX = pacman.position x;
-
-      pacman go Direction.UP
-      assert(pacman.position.x equals posY - 1)
-      posY = pacman.position y;
-
-      pacman go Direction.DOWN
-      assert(pacman.position.x equals posY + 1)
-      posY = pacman.position y;
-    }
-    */
 }

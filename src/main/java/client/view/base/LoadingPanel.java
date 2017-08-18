@@ -4,7 +4,6 @@ import client.controller.BaseControllerCharacter;
 import client.model.Direction;
 import client.model.MatchImpl;
 import client.model.PlaygroundImpl;
-import client.model.character.Character;
 import client.view.MainFrame;
 import client.view.Res;
 import client.view.UserInputController;
@@ -62,10 +61,18 @@ public class LoadingPanel extends JPanel implements LoadingView {
         view.renderBlockList(Utils.getJavaList(PlaygroundImpl.blocks()));
         view.renderEatableList(Utils.getJavaList(PlaygroundImpl.eatables()));
 
-        Character myChar = MatchImpl.myCharacter();
-        Image myView = Utils.getJavaMap(BaseControllerCharacter.getCharacterImages(myChar.name())).get(Direction.RIGHT);
-        view.renderCharacter((int)myChar.position().x(), (int)myChar.position().y(), myView);
-        
+
+
+        //Character myChar = MatchImpl.myCharacter();
+        //Image myView = Utils.getJavaMap(BaseControllerCharacter.getCharacterImages(myChar.name())).get(Direction.RIGHT);
+        //view.renderCharacter((int)myChar.position().x(), (int)myChar.position().y(), myView);
+
+        Utils.getJavaList(MatchImpl.allCharacters()).forEach(c -> {
+            Image myView = Utils.getJavaMap(BaseControllerCharacter.getCharacterImages(c.name())).get(Direction.RIGHT);
+            view.renderCharacter((int)c.position().x(), (int)c.position().y(), myView);
+
+        });
+
         GamePanelImpl gp = new GamePanelImpl(view);
 
         UserInputController keyboardController = new UserInputController();

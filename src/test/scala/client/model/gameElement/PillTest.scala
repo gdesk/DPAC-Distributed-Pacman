@@ -4,7 +4,7 @@ import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 
 /**
-  * Created by ManuBottax on 26/06/2017.
+  * @author Margherita Pecorelli
   */
 class PillTest extends FunSuite {
 

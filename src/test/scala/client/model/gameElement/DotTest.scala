@@ -4,10 +4,9 @@ import client.model.utils.PointImpl
 import org.scalatest.FunSuite
 
 /**
-  * Created by ManuBottax on 26/06/2017.
+  * @author Manuel Bottazzi
+  * @author Margherita Pecorelli
   */
-
-
 class DotTest extends FunSuite {
 
   val dot = Dot("Dot", PointImpl(0,3))
@@ -23,4 +22,5 @@ class DotTest extends FunSuite {
   test("position"){
     assert(dot.position equals PointImpl(0,3))
   }
+
 }

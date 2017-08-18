@@ -27,15 +27,13 @@ trait Pacman extends Character {
   * @author Giulia Lucchi
   * @author Margherita Pecorelli
   */
-case class BasePacman(override val name: String, val strategy: EatObjectStrategy) extends CharacterImpl(true) with Pacman {
+case class BasePacman(override val name: String, val strategy: EatObjectStrategy) extends CharacterImpl(true, LivesImpl(InitializedInfoImpl.getCharacterLives("pacman"))) with Pacman {
 
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
   private var _won = false
 
   setPosition(InitializedInfoImpl.getPacmanStartPosition)
-
-  override val lives = LivesImpl(InitializedInfoImpl.getCharacterLives("pacman"))
 
   /**
     * Checks if Pacman can eat some eatable object.
@@ -72,7 +70,10 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     val prePosition: Point[Int, Int] = position
     super.go(direction)
     val postPosition: Point[Int, Int] = position
-    if(!(prePosition equals  postPosition)) eatObject
+    if(!(prePosition equals  postPosition)){
+      eatObject
+      won
+    }
   }
 
   /**
@@ -105,8 +106,8 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     * @return true if the character won, false otherwise.
     */
   override def won = {
-    val eatens = prologEatablesList
-    _won = PrologConfig.getPrologEngine.solve(s"pacman_victory(pacman(${position.x},${position.y},${lives.remainingLives},${score}),${eatens}).").isSuccess
+    val dots = prologDotsList
+    _won = PrologConfig.getPrologEngine.solve(s"pacman_victory(pacman(${position.x},${position.y},${lives.remainingLives},${score}),${dots}).").isSuccess && !hasLost
     _won
   }
 
@@ -115,7 +116,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     *
     * @return a string representing the prolog eatable objects list containing all match's eatable objects.
     */
-  protected def prologEatablesList: String = {
+  private def prologEatablesList: String = {
     var eatables: String = "["
     playground.eatables.foreach{ e =>
       eatables = eatables + "eatable_object(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.id + "),"
@@ -128,6 +129,26 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
         eatables = eatables + "]"
     }
     eatables
+  }
+
+  /**
+    * Returns a string representing the prolog dots list containing all match's dots. It can be pass as Term in prolog.
+    *
+    * @return a string representing the prolog dots list containing all match's dots.
+    */
+  private def prologDotsList: String = {
+    var dots: String = "["
+    playground.eatables.filter(x => x.id.contains("dot")).foreach{ e =>
+      dots = dots + "eatable_object(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.id + "),"
+    }
+    dots.size match {
+      case 1 =>
+        dots = dots + "]"
+      case _ =>
+        dots = dots.substring(0,dots.size-1)
+        dots = dots + "]"
+    }
+    dots
   }
 
 }

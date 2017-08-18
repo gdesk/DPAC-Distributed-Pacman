@@ -1,11 +1,13 @@
 package client.view.match;
 
 import client.model.MatchImpl;
+import client.model.PlayerImpl;
 import client.model.PlaygroundImpl;
 import client.model.utils.Point;
 import client.view.MainFrame;
 import client.view.PacmanView;
 import client.view.Utils;
+import client.view.base.HomePanel;
 import client.view.playground.MicroMapPanel;
 import client.view.playground.PlaygroundPanel;
 import client.view.playground.PlaygroundView;
@@ -48,6 +50,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
     @Override
     public void showResult(final String result) {
         JPanel victoryPanel = JComponentsUtils.createTrasparentPanel();
+        victoryPanel.setSize(MainFrame.DIMENSION);
         victoryPanel.setLayout(new GridBagLayout());
         victoryPanel.setBounds(0, 0, (int) MainFrame.DIMENSION.getWidth(), (int) MainFrame.DIMENSION.getHeight());
 
@@ -55,11 +58,24 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        JLabel l = new JLabel(result);
+        JLabel l = new JLabel("SCORE: " + result);
         l.setForeground(BACKGROUND_COLOR);
         l.setFont(new Font(l.getFont().getName(), Font.BOLD, FONT_SIZE*3));
 
+        JLabel winLabel = new JLabel("YOU WIN");
+        winLabel.setFont(new Font(winLabel.getFont().getName(), Font.BOLD, FONT_SIZE*10));
+        winLabel.setForeground(Color.BLACK);
+
+        JButton quit = new JButton("QUIT");
+        quit.setFont(new Font(quit.getFont().getName(), Font.BOLD, FONT_SIZE*3));
+        quit.setForeground(Color.BLACK);
+        quit.addActionListener(e->MainFrame.getInstance().setContentPane(new HomePanel(PlayerImpl.username())));
+
+        victoryPanel.add(winLabel,gbc);
+        gbc.gridy = 1;
         victoryPanel.add(l, gbc);
+        gbc.gridy = 2;
+        victoryPanel.add(quit,gbc);
         add(victoryPanel, 0);
     }
 

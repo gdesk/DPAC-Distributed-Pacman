@@ -19,15 +19,13 @@ trait Ghost extends Character {}
   * @author Giulia Lucchi
   * @author Margherita Pecorelli
   */
-case class BaseGhost(override val name: String) extends CharacterImpl(false) with Ghost {
+case class BaseGhost(override val name: String) extends CharacterImpl(false, LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))) with Ghost {
 
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
   private var _won = false
 
   setPosition(InitializedInfoImpl.getGhostStartPosition)
-
-  override val lives = LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))
 
   /**
     * Checks if the character can eat another character or if it can be eaten by another character.
@@ -47,7 +45,7 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false) wit
             if(p.lives.remainingLives == 0) p.isAlive = false
             score = valueOf(solveInfo.getTerm("GS").toString)
           }
-          _won = PrologConfig.getPrologEngine.solve(s"ghosts_victory(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score})).").isSuccess
+          _won = PrologConfig.getPrologEngine.solve(s"ghosts_victory(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score})).").isSuccess && !hasLost
       }
     }
   }

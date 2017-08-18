@@ -6,7 +6,7 @@ import client.model.gameElement.{Apple, Pill}
 import org.scalatest.FunSuite
 
 /**
-  * Created by margherita on 18/07/17.
+  * @author Margherita Pecorelli
   */
 class BaseEatObjectStrategyTest extends FunSuite {
 
@@ -37,8 +37,8 @@ class BaseEatObjectStrategyTest extends FunSuite {
     assert(pacman.isKillable && !(redGhost.isKillable) && !(blueGhost.isKillable))
     strategy.eat(Pill("pill", PointImpl(0,1)))
     assert(!(pacman.isKillable) && redGhost.isKillable && blueGhost.isKillable)
-    val time = System.currentTimeMillis()
-    while(System.currentTimeMillis() <= time + millisecondsToWait)
+    val time = System.currentTimeMillis
+    while(System.currentTimeMillis <= time + millisecondsToWait) {}
     assert(pacman.isKillable && !(redGhost.isKillable) && !(blueGhost.isKillable))
   }
 

@@ -143,7 +143,7 @@ object IOUtils {
       Source.fromFile(file).foreach( _ match {
         case '.' => {
           //println("I'm a dot at pos [" + xPosition + " | " + yPosition + " ]")
-          eatableList.+=(Dot(getNextID,PointImpl (xPosition,yPosition)))
+          eatableList.+=(Dot("dot"+getNextID,PointImpl (xPosition,yPosition)))
           xPosition = xPosition + 1
         }
         case 'p' => {
