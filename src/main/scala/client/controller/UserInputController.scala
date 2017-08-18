@@ -24,11 +24,11 @@ class UserInputController () extends KeyListener{
       }
 
       case KeyEvent.VK_UP => {
-        controller.move(Direction.UP)
+        controller.move(Direction.DOWN)
       }
 
       case KeyEvent.VK_DOWN => {
-        controller.move(Direction.DOWN)
+        controller.move(Direction.UP)
       }
 
       case KeyEvent.VK_A => {
@@ -40,11 +40,11 @@ class UserInputController () extends KeyListener{
       }
 
       case KeyEvent.VK_W => {
-        controller.move(Direction.UP)
+        controller.move(Direction.DOWN)
       }
 
       case KeyEvent.VK_S => {
-        controller.move(Direction.DOWN)
+        controller.move(Direction.UP)
       }
 
       case _ => {}

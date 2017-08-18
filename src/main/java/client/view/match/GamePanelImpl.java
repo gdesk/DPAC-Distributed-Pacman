@@ -23,7 +23,7 @@ import static client.view.utils.JComponentsUtils.FONT_SIZE;
  */
 public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
-    private static final int BOUNDS = 100;
+    private static final int BOUNDS = 200;
     private static final int LIVES_IMAGE_DIM = 40;
 
     private PlaygroundView playground;
