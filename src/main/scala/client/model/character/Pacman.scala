@@ -72,7 +72,10 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     val prePosition: Point[Int, Int] = position
     super.go(direction)
     val postPosition: Point[Int, Int] = position
-    if(!(prePosition equals  postPosition)) eatObject
+    if(!(prePosition equals  postPosition)){
+      eatObject
+      won
+    }
   }
 
   /**
@@ -117,7 +120,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     */
   protected def prologEatablesList: String = {
     var eatables: String = "["
-    playground.eatables.foreach{ e =>
+    playground.eatables.filter(x=>x.id.contains("dot")).foreach{ e =>
       eatables = eatables + "eatable_object(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.id + "),"
     }
     eatables.size match {
