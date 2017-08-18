@@ -115,8 +115,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     val postScore: Int = character.score
 
     if(!(prePosition equals postPosition)) {
-      characterImages.keySet.foreach(println)
-      view.move(characterImages.get(character.name).get(direction), Color.red,
+      view.move(characterImages.get(character.name).get(changeDir(direction)), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
       model.updateRegisterObj
@@ -211,6 +210,12 @@ object BaseControllerCharacter extends ControllerCharacter {
     * @param model - model to be called.
     */
   override def setModel(model: PeerRegisterHandler) = this.model = model
+
+  private def changeDir(direction: Direction): Direction =  direction match {
+    case Direction.UP => Direction.DOWN
+    case Direction.DOWN =>Direction.UP
+    case _ => direction
+  }
 }
 
 /**
