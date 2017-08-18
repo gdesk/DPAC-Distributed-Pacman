@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 
 import static client.view.utils.JComponentsUtils.FONT_SIZE;
-import static java.awt.GraphicsDevice.WindowTranslucency.TRANSLUCENT;
 
 /**
  * Created by chiaravarini on 18/08/17.
@@ -55,12 +54,12 @@ public class VictoryDialog extends JDialog {
         victoryPanel.add(quit,gbc);
         add(victoryPanel, 0);
 
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+       /* GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         if(!gd.isWindowTranslucencySupported(TRANSLUCENT)) {
             setUndecorated(true);
             setOpacity(BACKGROUND_OPACITY.floatValue());
-        }
+        }*/
         getContentPane().setBackground(BACKGOURND_COLOR);
     }
 }
