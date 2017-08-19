@@ -43,8 +43,8 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             width = (int) frameDim.getWidth() / 2;
             setLocationRelativeTo(null);
 
-           /*JPanel buttonPanel = createBackgroundColorPanel();
-            buttonPanel.setBorder(BorderFactory.createEmptyBorder(BOUNDS,BOUNDS,BOUNDS,BOUNDS));
+           JPanel buttonPanel = createBackgroundColorPanel();
+           /* buttonPanel.setBorder(BorderFactory.createEmptyBorder(BOUNDS,BOUNDS,BOUNDS,BOUNDS));
             starGame.setEnabled(false);
             starGame.addActionListener(e->{
                 dispose();
@@ -59,6 +59,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             buttonPanel.add(starGame);
             buttonPanel.add(addFiends);*/
            JLabel waitForAnotherPlayers = new JLabel("Looking for other players... ");
+           buttonPanel.add(waitForAnotherPlayers);
 
             JPanel numberPlayerPanel = createBackgroundColorPanel();
             numberPlayerPanel.setBorder(BorderFactory.createEmptyBorder(BOUNDS,BOUNDS,BOUNDS,BOUNDS));
@@ -78,7 +79,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             p.add(numberPlayerPanel);
             playerPanel.init(new Range(-1,-1));
             p.add(playerPanel);
-            p.add(waitForAnotherPlayers);
+            p.add(buttonPanel);
             add(p);
         }
     }
