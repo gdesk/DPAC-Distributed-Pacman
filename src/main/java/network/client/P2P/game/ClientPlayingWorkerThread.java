@@ -129,8 +129,6 @@ public class ClientPlayingWorkerThread implements Runnable {
                 observableCharacter.subscribeObserver(list);
                 list.clear();
 
-                //System.out.println("direction: " + direction + " isAlive: " + isAlive);
-
             } catch (Exception e) {
                 System.err.println("Client " + ip + " exception: " + e.toString());
                 //e.printStackTrace();

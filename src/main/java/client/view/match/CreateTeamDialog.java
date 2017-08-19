@@ -1,6 +1,7 @@
 package client.view.match;
 
 import client.controller.BaseControllerMatch;
+import client.view.MainFrame;
 import client.view.Res;
 import client.view.Utils;
 import client.view.base.SelectCharacterPanel;
@@ -22,12 +23,10 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
 
     private static final int BOUNDS = 10;
 
-    private final SelectCharacterPanel nextView = new SelectCharacterPanel();
     private final PlayersPanel playerPanel = new PlayersPanel();
     private final JButton starGame = new JButton("START");
 
     private int width = 1;
-    private  int numPlayer  = 1;
 
     public CreateTeamDialog(final JFrame frame){
 
@@ -44,7 +43,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             width = (int) frameDim.getWidth() / 2;
             setLocationRelativeTo(null);
 
-            JPanel buttonPanel = createBackgroundColorPanel();
+           /*JPanel buttonPanel = createBackgroundColorPanel();
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(BOUNDS,BOUNDS,BOUNDS,BOUNDS));
             starGame.setEnabled(false);
             starGame.addActionListener(e->{
@@ -58,7 +57,8 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
                 friendsDialog.setVisible(true);
             });
             buttonPanel.add(starGame);
-           // buttonPanel.add(addFiends);
+            buttonPanel.add(addFiends);*/
+           JLabel waitForAnotherPlayers = new JLabel("Looking for other players... ");
 
             JPanel numberPlayerPanel = createBackgroundColorPanel();
             numberPlayerPanel.setBorder(BorderFactory.createEmptyBorder(BOUNDS,BOUNDS,BOUNDS,BOUNDS));
@@ -78,7 +78,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             p.add(numberPlayerPanel);
             playerPanel.init(new Range(-1,-1));
             p.add(playerPanel);
-            p.add(buttonPanel);
+            p.add(waitForAnotherPlayers);
             add(p);
         }
     }
@@ -100,12 +100,16 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
         }
     }
 
+    @Override
+    public void nextView(){
+        MainFrame.getInstance().setContentPane(new SelectCharacterPanel());
+    }
+
     private class PlayersPanel extends JPanel{
 
         private int index = 0;
         private int imgDim = 20;
         private Range rangePlayers;
-        private int numPlayerOK = 1;
         private List<JLabel> icons = new ArrayList<>();
 
         PlayersPanel(){
