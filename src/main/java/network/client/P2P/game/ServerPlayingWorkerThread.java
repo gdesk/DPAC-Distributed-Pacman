@@ -40,15 +40,12 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
     private static ServerPlayingWorkerThread objDir = new ServerPlayingWorkerThread();
     private static ServerPlayingWorkerThread objIsAlive = new ServerPlayingWorkerThread();
 
-
     private ServerPlayingWorkerThread(){
         this.character = MatchImpl.myCharacter();
         this.characterName = MatchImpl.myCharacter().name();
-
         this.direction = character.direction();
         this.isAlive = character.isAlive();
         this.objects = new HashMap<>();
-
 
     }
 
@@ -61,6 +58,7 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
     }
 
     public Direction getDirection() {
+        System.out.println("MARGHE -> getDirection " + this.direction);
         return this.direction;
     }
 
@@ -75,14 +73,15 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
         try {
             registry = LocateRegistry.createRegistry(1099);
+            System.out.println("MY SERVER REGISTRY " + registry.toString());
             System.setProperty("Djava.rmi.server.codebase", "out/");
             System.setProperty("Djava.rmi.server.hostname", PlayerImpl.ip());
 
-            System.out.println("esporto primo obj");
+
             PeerRegister stubDirection = (PeerRegister) UnicastRemoteObject.exportObject(objDir, 1099);
             registry.bind("direction", stubDirection);
 
-            System.out.println("esporto secondo obj");
+
             PeerRegister stubIsAlive = (PeerRegister) UnicastRemoteObject.exportObject(objIsAlive, 1099);
             registry.bind("isAlive", stubIsAlive);
 
@@ -101,24 +100,11 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
 
     public void updateObjects() throws RemoteException {
-        System.out.println("updateObjects - 3");
 
         this.direction = character.direction();
+
         this.isAlive = character.isAlive();
 
-        /*if(!character.direction().equals(direction)){
-            this.direction = character.direction();
-            //registry.rebind("direction", objDir);
-
-            System.out.println("rebind -> direction, " + objDir.getDirection().getDirection());
-
-        }else if(!character.isAlive() == isAlive){
-            this.isAlive = character.isAlive();
-            //registry.rebind("isAlive", objIsAlive);
-            executor.stopServerPlayingWorkerThread();
-
-            System.out.println("rebind -> isAlive, " + objDir.isAlive().toString());
-        }*/
 
     }
 

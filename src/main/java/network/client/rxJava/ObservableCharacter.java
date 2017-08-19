@@ -30,6 +30,7 @@ public class ObservableCharacter {
     public void subscribeObserver(List<Object> tris){
 
         if(tris.size() == 3){
+            System.out.print("sono entrato nell'if di ObservableCharacter");
             this.info.createObservable(tris).subscribe((item) -> {
                 this.characterHandler.updateGameView(item);
             });
