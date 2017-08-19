@@ -3,7 +3,6 @@ package network.client.P2P.utils;
 import network.client.P2P.game.ClientPlayingWorkerThread;
 import network.client.P2P.game.ServerPlayingWorkerThread;
 
-import java.rmi.registry.Registry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -43,9 +42,9 @@ public class ExecutorServiceUtility {
         executor.execute(workerServer);
     }
 
-    public void initClientPlayingWorkerThread(String ip, Registry registry){
-        workerClient = new ClientPlayingWorkerThread(this, ip, registry);
-        this.future = executor.submit(new ClientPlayingWorkerThread(this, ip, registry));
+    public void initClientPlayingWorkerThread(String ip){
+        workerClient = new ClientPlayingWorkerThread(this, ip);
+        //this.future = executor.submit(new ClientPlayingWorkerThread(this, ip));
         executor.execute(workerClient);
     }
 

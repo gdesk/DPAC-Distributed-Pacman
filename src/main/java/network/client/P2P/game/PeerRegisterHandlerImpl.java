@@ -20,7 +20,7 @@ public class PeerRegisterHandlerImpl implements  PeerRegisterHandler{
                     .getIstance(ExecutorServiceUtility.getIstance());
         }
         try {
-            System.out.println(" serverPlayingWorkerThread.updateObjects() - 2");
+
             serverPlayingWorkerThread.updateObjects();
         } catch (RemoteException e) {
             e.printStackTrace();

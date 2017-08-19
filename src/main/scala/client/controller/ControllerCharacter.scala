@@ -161,6 +161,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     * @throws ThisIpDoesNotExistException when the given ip doesn't belong to the current match's ips.
     */
   override def update(observable: Observable, arg: scala.Any) = {
+    println("entro in update di ControllerCharacter")
     val flowable = arg.asInstanceOf[Flowable[Object]]
     val ip = flowable.elementAt(0).blockingGet.asInstanceOf[String]
     val message = flowable.elementAt(1).blockingGet.asInstanceOf[String]
@@ -177,6 +178,7 @@ object BaseControllerCharacter extends ControllerCharacter {
         characterToUpdate.isAlive = !flowable.elementAt(2).blockingGet.asInstanceOf[Boolean]
         if(!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer,Integer]])
       case "direction" =>
+        println("sono nel case direction di update di ControllerCharacter")
         val direction = flowable.elementAt(2).blockingGet.asInstanceOf[Direction]
 
         val prePosition: Point[Int, Int] = characterToUpdate.position
@@ -197,6 +199,7 @@ object BaseControllerCharacter extends ControllerCharacter {
           view.updateLives(postLives)
           if(gameMatch.myCharacter.hasLost) {
             view.gameOver()
+
             model.updateRegisterObj()
           }
         }

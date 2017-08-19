@@ -52,9 +52,9 @@ class P2PCommunication() extends UntypedAbstractActor {
         filteredIpLis.foreach(println)
 
         filteredIpLis.foreach(clientIp => {
-          new ClientBootstrap(clientIp)
-          val registry = LocateRegistry.getRegistry(clientIp)
-          executor.initClientPlayingWorkerThread(clientIp, registry)
+          //new ClientBootstrap(clientIp)
+          //val registry = LocateRegistry.getRegistry(clientIp)
+          executor.initClientPlayingWorkerThread(clientIp)
 
         })
 

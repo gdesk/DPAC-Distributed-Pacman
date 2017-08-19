@@ -40,15 +40,12 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
     private static ServerPlayingWorkerThread objDir = new ServerPlayingWorkerThread();
     private static ServerPlayingWorkerThread objIsAlive = new ServerPlayingWorkerThread();
 
-
     private ServerPlayingWorkerThread(){
         this.character = MatchImpl.myCharacter();
         this.characterName = MatchImpl.myCharacter().name();
-
         this.direction = character.direction();
         this.isAlive = character.isAlive();
         this.objects = new HashMap<>();
-
 
     }
 
@@ -61,6 +58,7 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
     }
 
     public Direction getDirection() {
+        System.out.println("MARGHE -> getDirection " + this.direction);
         return this.direction;
     }
 
@@ -74,25 +72,16 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
 
         try {
-            System.out.println("QUI 1");
             registry = LocateRegistry.createRegistry(1099);
-            System.out.println("QUI 2");
+            System.out.println("MY SERVER REGISTRY " + registry.toString());
             System.setProperty("Djava.rmi.server.codebase", "out/");
-            System.out.println("QUI 3");
             System.setProperty("Djava.rmi.server.hostname", PlayerImpl.ip());
-            System.out.println("QUI 4");
 
-            System.out.println("esporto primo obj");
             PeerRegister stubDirection = (PeerRegister) UnicastRemoteObject.exportObject(objDir, 1099);
-            System.out.println("QUI 5");
             registry.bind("direction", stubDirection);
-            System.out.println("QUI 6");
 
-            System.out.println("esporto secondo obj");
             PeerRegister stubIsAlive = (PeerRegister) UnicastRemoteObject.exportObject(objIsAlive, 1099);
-            System.out.println("QUI 7");
             registry.bind("isAlive", stubIsAlive);
-            System.out.println("QUI 8");
 
             // Bind the remote object's stub in the registry
             //registry = LocateRegistry.getRegistry();
@@ -110,21 +99,9 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
         System.out.println("SONO IN SERVERPLAYINGWORKERTHREAD: dovrebbe essermi arrivato il messaggio di un altro client che si è moso. updateObjects - 3");
 
         this.direction = character.direction();
+
         this.isAlive = character.isAlive();
 
-        /*if(!character.direction().equals(direction)){
-            this.direction = character.direction();
-            //registry.rebind("direction", objDir);
-
-            System.out.println("rebind -> direction, " + objDir.getDirection().getDirection());
-
-        }else if(!character.isAlive() == isAlive){
-            this.isAlive = character.isAlive();
-            //registry.rebind("isAlive", objIsAlive);
-            executor.stopServerPlayingWorkerThread();
-
-            System.out.println("rebind -> isAlive, " + objDir.isAlive().toString());
-        }*/
 
     }
 
