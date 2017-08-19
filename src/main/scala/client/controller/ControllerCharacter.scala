@@ -115,27 +115,28 @@ object BaseControllerCharacter extends ControllerCharacter {
     val postScore: Int = character.score
 
     if(!(prePosition equals postPosition)) {
+      println("ENTRA")
       view.move(characterImages.get(character.name).get(changeDir(direction)), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
-      println("model.updateRegisterObj - 1")
-      model.updateRegisterObj
+      println("ENTRA? model.updateRegisterObj - 1")
+      model.updateRegisterObj()
     }
 
     if(!(preLives equals postLives)) {
       view.updateLives(postLives)
       if(character.hasLost) {
-        view.gameOver
-        model.updateRegisterObj
+        view.gameOver()
+        model.updateRegisterObj()
       }
     }
 
     if(character.won) view.showResult(postScore.toString)
 
-    if(postLives <= 0) {
-      view.gameOver
-      model.updateRegisterObj
-    }
+   /* if(postLives <= 0) {
+      view.gameOver()
+      model.updateRegisterObj()
+    }*/
 
     if(!(preScore equals postScore)) view.renderScore(postScore)
   }
