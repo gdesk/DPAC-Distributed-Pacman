@@ -17,4 +17,6 @@ object ActorUtils {
   val TOSERVER_ACTOR: String = "/user/toServerCommunication"
   val FROMSERVER_ACTOR: String =  "/user/fromServerCommunication"
   val P2P_ACTOR: String = "/user/P2PCommunication"
+
+  var serverIP: String = _
 }
