@@ -56,7 +56,7 @@ public class VictoryDialog extends JDialog {
             match.date_$eq(Calendar.getInstance());
             match.result_$eq(true);
             match.score_$eq(MatchImpl.myCharacter().score());
-            BaseControllerUser.sevaMatch(match);
+            BaseControllerUser.saveMatch(match);
             MainFrame.getInstance().setContentPane(new HomePanel(PlayerImpl.username()));
             dispose();
         });

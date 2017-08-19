@@ -46,7 +46,7 @@ public class GameOverDialog extends JDialog {
             match.date_$eq(Calendar.getInstance());
             match.result_$eq(false);
             match.score_$eq(MatchImpl.myCharacter().score());
-            BaseControllerUser.sevaMatch(match);
+            BaseControllerUser.saveMatch(match);
             frame.setContentPane(new HomePanel(PlayerImpl.username()));
             dispose();
         });

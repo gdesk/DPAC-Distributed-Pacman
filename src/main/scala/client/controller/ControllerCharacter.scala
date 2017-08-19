@@ -93,7 +93,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     * @param characterName - the name of the character of which you want the pictures.
     * @return map of images for each direction of the character.
     */
-  override def getCharacterImages(characterName: String) = characterImages.get(characterName).getOrElse(Map.empty)
+  override def getCharacterImages(characterName: String) = characterImages.getOrElse(characterName, Map.empty)
 
 
   /**
@@ -115,11 +115,13 @@ object BaseControllerCharacter extends ControllerCharacter {
     val postScore: Int = character.score
 
     if(!(prePosition equals postPosition)) {
+
       println("ENTRA")
       view.move(characterImages.get(character.name).get(changeDir(direction)), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
       println("ENTRA? model.updateRegisterObj - 1")
+
       model.updateRegisterObj()
     }
 
@@ -133,10 +135,12 @@ object BaseControllerCharacter extends ControllerCharacter {
 
     if(character.won) view.showResult(postScore.toString)
 
+
    /* if(postLives <= 0) {
       view.gameOver()
       model.updateRegisterObj()
     }*/
+
 
     if(!(preScore equals postScore)) view.renderScore(postScore)
   }
@@ -186,19 +190,17 @@ object BaseControllerCharacter extends ControllerCharacter {
         val postLives: Int = gameMatch.myCharacter.lives.remainingLives
         val postScore: Int = gameMatch.myCharacter.score
 
-        if(!(prePosition equals postPosition)) view.move(characterImages.get(characterToUpdate.name).get(direction), Color.red,
+        if(!(prePosition equals postPosition)) view.move(characterImages(characterToUpdate.name)(direction), Color.red,
           prePosition.asInstanceOf[Point[Integer,Integer]],
           postPosition.asInstanceOf[Point[Integer,Integer]])
 
         if(!(preLives equals postLives)) {
           view.updateLives(postLives)
-          if(postLives <= 0) {
-            view.gameOver
-            model.updateRegisterObj
+          if(gameMatch.myCharacter.hasLost) {
+            view.gameOver()
+            model.updateRegisterObj()
           }
         }
-
-        if(!(preScore equals postScore)) view.updateLives(postScore)
 
         if(gameMatch.myCharacter.won) view.showResult(postScore.toString)
 
@@ -225,4 +227,4 @@ object BaseControllerCharacter extends ControllerCharacter {
   *
   * @param message - message throws by the exception.
   */
-case class ThisIpDoesNotExistException(val message: String = "") extends Exception(message)
+case class ThisIpDoesNotExistException(message: String = "") extends Exception(message)

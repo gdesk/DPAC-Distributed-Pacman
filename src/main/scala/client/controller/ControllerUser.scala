@@ -1,5 +1,7 @@
 package client.controller
 
+import java.util.Date
+
 import client.communication.model.ToClientCommunication
 import client.model._
 
@@ -41,6 +43,13 @@ trait ControllerUser {
   def logout: Boolean
 
   /**
+    * Tells the model the last match's result to save.
+    *
+    * @param lastMatchResult - the last match's result to save.
+    */
+  def saveMatch(lastMatchResult: MatchResult)
+
+  /**
     * Returns the player of the user.
     *
     * @return the player of the user.
@@ -76,7 +85,7 @@ object BaseControllerUser extends ControllerUser {
     *
     * @return true if the registration is successful, false otherwise.
     */
-  override def registration(name: String, username: String, email: String, password: String, confirmPassword: String) = _model registration (name, username, email, password, confirmPassword)
+  override def registration(name: String, username: String, email: String, password: String, confirmPassword: String) = _model.registration(name, username, email, password, confirmPassword)
 
   /**
     * Tells the model all parameters for a login.
@@ -86,7 +95,7 @@ object BaseControllerUser extends ControllerUser {
     *
     * @return true if the login is successful, false otherwise.
     */
-  override def login(username: String, password: String) = _model login (username, password)
+  override def login(username: String, password: String) = _model.login(username, password)
 
   /**
     * Tells the model to logout the user.
@@ -94,6 +103,13 @@ object BaseControllerUser extends ControllerUser {
     * @return true if the logout is successful, false otherwise.
     */
   override def logout = _model.logout
+
+  /**
+    * Tells the model the last match's result to save.
+    *
+    * @param lastMatchResult - the last match's result to save.
+    */
+  override def saveMatch(lastMatchResult: MatchResult): Unit = _model.saveMatch(lastMatchResult)
 
   /**
     * Returns the player of the user.
