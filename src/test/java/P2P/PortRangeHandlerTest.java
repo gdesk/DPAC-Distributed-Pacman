@@ -16,6 +16,7 @@ public class PortRangeHandlerTest {
         PortRangeHandler portRangeHandler = new PortRangeHandler();
 
         assertEquals(portRangeHandler.getFirstAvailablePortNumber(), 1099);
+        assertEquals(portRangeHandler.getFirstAvailablePortNumber(), 1100);
         assertEquals(portRangeHandler.getFirstAvailablePortNumber(), 1101);
         assertEquals(portRangeHandler.getFirstAvailablePortNumber(), 1102);
         assertEquals(portRangeHandler.getFirstAvailablePortNumber(), 1103);

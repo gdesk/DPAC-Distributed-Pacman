@@ -2,6 +2,8 @@ package network.client.P2P.game;
 
 
 import client.model.Direction;
+import client.model.MatchImpl;
+import client.model.character.Character;
 import network.client.P2P.utils.ExecutorServiceUtility;
 import network.client.rxJava.ObservableCharacter;
 
@@ -27,6 +29,7 @@ public class ClientPlayingWorkerThread implements Runnable {
     private Map<String, Object> responses;
     private ObservableCharacter observableCharacter;
     private List<Object> list;
+    private Character character;
 
     public ClientPlayingWorkerThread
             (ExecutorServiceUtility executor, String ip, Registry registry) {
@@ -43,6 +46,7 @@ public class ClientPlayingWorkerThread implements Runnable {
         }};
         this.observableCharacter = new ObservableCharacter();
         this.list = new LinkedList<>();
+        this.character = MatchImpl.myCharacter();
     }
 
 
@@ -106,6 +110,7 @@ public class ClientPlayingWorkerThread implements Runnable {
         String host = ip;
 
         while (!Thread.currentThread().isInterrupted()) {
+
             try {
 
                 Registry registry = LocateRegistry.getRegistry(host);
@@ -118,6 +123,7 @@ public class ClientPlayingWorkerThread implements Runnable {
                 list.add("direction");
                 list.add(direction);
                 observableCharacter.subscribeObserver(list);
+                System.out.println(list);
                 list.clear();
 
                 boolean isAlive = stubisAlive.isAlive();
@@ -135,7 +141,7 @@ public class ClientPlayingWorkerThread implements Runnable {
                 //e.printStackTrace();
             }
 
-            System.out.println("Client ready");
+
         }
 
     }

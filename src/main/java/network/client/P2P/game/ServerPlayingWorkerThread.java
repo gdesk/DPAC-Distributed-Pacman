@@ -93,23 +93,21 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
             // e.printStackTrace();
         }
 
-
-
-
-
-
     }
 
 
     public void updateObjects() throws RemoteException {
-        if(character.direction().equals(direction)){
+        System.out.println("updateObjects - 3");
+        if(!character.direction().equals(direction)){
             registry.rebind("direction", objDir);
             this.direction = character.direction();
+            System.out.println("rebind -> direction, " + objDir.getDirection().getDirection());
 
         }else if(!character.isAlive() == isAlive){
             registry.rebind("isAlive", objIsAlive);
             this.isAlive = character.isAlive();
             executor.stopServerPlayingWorkerThread();
+            System.out.println("rebind -> isAlive, " + objDir.isAlive().toString());
 
         }
 

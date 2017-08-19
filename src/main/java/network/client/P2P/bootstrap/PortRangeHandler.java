@@ -13,7 +13,7 @@ package network.client.P2P.bootstrap;
 
 public class PortRangeHandler {
 
-    private static final int MIN_PORT_VALUE =  1099;
+    private static final int MIN_PORT_VALUE =  1098;
     private static final int MAX_PORT_VALUE =  2100;
     private  int minimum;
     private  int maximum;

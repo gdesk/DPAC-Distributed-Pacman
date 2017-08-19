@@ -17,10 +17,12 @@ public class PeerRegisterHandlerImpl implements  PeerRegisterHandler{
     @Override
     public void updateRegisterObj() {
         if(serverPlayingWorkerThread == null) {
+
             serverPlayingWorkerThread = ServerPlayingWorkerThread
                     .getIstance(ExecutorServiceUtility.getIstance(), serverBootstrap.getRegistry(), serverBootstrap.getRmiPort());
         }
         try {
+            System.out.println(" serverPlayingWorkerThread.updateObjects() - 2");
             serverPlayingWorkerThread.updateObjects();
         } catch (RemoteException e) {
             e.printStackTrace();
