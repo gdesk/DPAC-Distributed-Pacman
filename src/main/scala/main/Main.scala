@@ -8,7 +8,7 @@ import client.controller._
 import client.model.peerCommunication.{ClientIncomingMessageHandler, ClientIncomingMessageHandlerImpl, ClientOutcomingMessageHandler, ClientOutcomingMessageHandlerImpl}
 import client.utils.ActorUtils
 import client.view.MainFrame
-import network.client.P2P.game.PeerRegisterHandlerImpl
+
 
 /**
   * Application main.
@@ -33,11 +33,11 @@ object Main extends App {
 
     val ci: ClientIncomingMessageHandler = new ClientIncomingMessageHandlerImpl
 
-    controllerCharacter.setModel(new PeerRegisterHandlerImpl)
+    //controllerCharacter.setModel(new PeerRegisterHandlerImpl)
     controllerMatch.setModel(model)
     controllerUser.setModel(model)
 
-    ci.addObserver(controllerCharacter)
+    //ci.addObserver(controllerCharacter)
 
     SwingUtilities.invokeLater(new Runnable() {
       override def run(): Unit = {

@@ -1,12 +1,15 @@
+/*
 package network.client.P2P.game;
 
 import network.client.P2P.utils.ExecutorServiceUtility;
 
 import java.rmi.RemoteException;
 
+*/
 /**
  * Created by Federica on 16/08/17.
- */
+ *//*
+
 public class PeerRegisterHandlerImpl implements  PeerRegisterHandler{
 
    // private final ServerBootstrap serverBootstrap = ServerBootstrap.getIstance(PlayerImpl.ip());
@@ -27,3 +30,4 @@ public class PeerRegisterHandlerImpl implements  PeerRegisterHandler{
         }
     }
 }
+*/

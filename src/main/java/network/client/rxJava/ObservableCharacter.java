@@ -1,6 +1,7 @@
 package network.client.rxJava;
 
 import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
+import io.reactivex.Flowable;
 
 import java.util.List;
 
@@ -22,21 +23,17 @@ public class ObservableCharacter {
     private ClientIncomingMessageHandlerImpl characterHandler;
     private OtherCharacterInfo info;
 
-    public ObservableCharacter(){
+    public ObservableCharacter() {
         this.characterHandler = new ClientIncomingMessageHandlerImpl();
+
         this.info = new OtherCharacterInfo();
     }
 
-    public void subscribeObserver(List<Object> tris){
+    public void subscribeObserver(List<Object> list) {
 
-        if(tris.size() == 3){
-            System.out.print("sono entrato nell'if di ObservableCharacter");
-            this.info.createObservable(tris).subscribe((item) -> {
-                this.characterHandler.updateGameView(item);
-            });
-
-        }
-
+        Flowable.just(list.get(0), list.get(1), list.get(2))
+                .subscribe((item) -> {
+                    this.characterHandler.updateGameView(item);
+                });
     }
-
 }
