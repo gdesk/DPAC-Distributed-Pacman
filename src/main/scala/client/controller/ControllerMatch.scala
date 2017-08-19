@@ -253,7 +253,7 @@ object BaseControllerMatch extends ControllerMatch {
         case "StartMatch" => loadingView.renderGamePanel
         case "notifyStart" => teamView.nextView
       }
-     loadingView.renderGamePanel
+
     } else {
       val game: (String, scala.Any) = if(arg.isInstanceOf[(String, scala.Any)]) {arg.asInstanceOf[(String, scala.Any)]} else {null}
       if(game != null) {

@@ -13,7 +13,7 @@ import client.communication.model.actor.{FromServerCommunication, P2PCommunicati
 import client.model._
 import client.model.character.{BaseGhost, BasePacman}
 import client.model.utils.BaseEatObjectStrategy
-import client.utils.{ActorUtils, IOUtils}
+import client.utils.IOUtils
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.commons.lang3.StringEscapeUtils
 
@@ -111,8 +111,9 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val list = response.obj("list").asInstanceOf[Option[List[Map[String, Any]]]]
     if (list.isEmpty) return false
     val allMatches = wrapperAllMatches(list.get)
+    allMatches.foreach(x => player.addAMatchResult(x))
     player.username = username
-    player.allMatchesResults = allMatches
+
     true
   }
 
@@ -465,6 +466,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val score = matchResult.score
     val date = matchResult.date
     val result = matchResult.result
+    player.addAMatchResult(matchResult)
 
     val message = JSONObject(Map[String,Any](
       "object" -> "saveMatch",

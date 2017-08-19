@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static client.view.utils.JComponentsUtils.*;
 
@@ -31,6 +32,10 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
 
     private final List<JButton> charactersButton = new ArrayList<>();
     private final List<JButton> playgroundsButton = new ArrayList<>();
+    private int indexChar = 0;
+    private int numPlayer = 0;
+    private  Map<String,Image> charactersImage;
+    private JPanel center = createBlackPanel();
 
     public SelectCharacterPanel(){
         setLayout(new BorderLayout());
@@ -44,19 +49,26 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         north.setLayout(new BorderLayout());
         north.add(buttonPanel, BorderLayout.EAST);
 
-        JPanel center = createBlackPanel();
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 
-        JPanel characterPanel = JComponentsUtils.createBackgroundColorPanel();
+        charactersImage = Utils.getJavaMap(BaseControllerMatch.getCharacters());
+        /*JPanel characterPanel = JComponentsUtils.createBackgroundColorPanel();
         characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.X_AXIS));
 
-        Utils.getJavaMap(BaseControllerMatch.getCharacters()).forEach((name, image) -> {
-            characterPanel.add(createImagePanel(image, name, CHARACTER_IMAGE_DIMENSION));
+        Map<String,Image> charactersImage = Utils.getJavaMap(BaseControllerMatch.getCharacters());
+        characterPanel.add(createImagePanel(charactersImage.get("pacman"), "pacman", CHARACTER_IMAGE_DIMENSION));
+
+        charactersImage.forEach((name, image) -> {
+            System.out.println(!(name.equals("pacman")) + "  "+numPlayer);
+            if(!(name.equals("pacman")) && indexChar < numPlayer) {
+                characterPanel.add(createImagePanel(image, name, CHARACTER_IMAGE_DIMENSION));
+                indexChar++;
+            }
         });
         JScrollPane characterScroll = new JScrollPane(characterPanel);
 
         center.add(createSectionTitle("Select one Character"));
-        center.add(characterScroll);
+        center.add(characterScroll);*/
 
         JPanel south = createBlackPanel();
         south.setLayout(new BoxLayout(south, BoxLayout.Y_AXIS));
@@ -91,6 +103,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
                 BaseControllerMatch.startMatch();
             }).start();
         });
+        System.out.println("creato SelectCharPanel");
     }
 
     @Override
@@ -101,6 +114,38 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     @Override
     public void enableCharacter(final String nameImage){
         modifyStatusButton(true, nameImage);
+    }
+
+    public void setNumPlayer(final int numPlayer){
+        System.out.println("setNumPlayer "+ numPlayer);
+        this.numPlayer = numPlayer;
+        addCharacterImages();
+    }
+
+    private void addCharacterImages(){
+        System.out.println("addCharacterImages" );
+        JPanel characterPanel = JComponentsUtils.createBackgroundColorPanel();
+        characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.X_AXIS));
+        System.out.println("prima di charactersImage" );
+       // Map<String,Image> charactersImage = Utils.getJavaMap(BaseControllerMatch.getCharacters());
+        System.out.println("charactersImage" + charactersImage.size());
+        characterPanel.add(createImagePanel(charactersImage.get("pacman"), "pacman", CHARACTER_IMAGE_DIMENSION));
+
+        System.out.println("addCharacterImages" + charactersImage.size() );
+        charactersImage.forEach((name, image) -> {
+            System.out.println(!(name.equals("pacman")) + "  "+numPlayer);
+            if(!(name.equals("pacman")) && indexChar < numPlayer) {
+                characterPanel.add(createImagePanel(image, name, CHARACTER_IMAGE_DIMENSION));
+                indexChar++;
+            }
+        });
+        JScrollPane characterScroll = new JScrollPane(characterPanel);
+
+        center.add(createSectionTitle("Select one Character"));
+        center.add(characterScroll);
+
+        revalidate();
+        repaint();
     }
 
     private JPanel createImagePanel(final Image image, final String str, final Dimension dim){
