@@ -33,11 +33,14 @@ class FromServerCommunication extends UntypedAbstractActor{
         val response = msg.obj("players").asInstanceOf[Int]
         controllerObservable.gameResponse("playerInMatch", Integer.valueOf(response))
       }
-      case "notifySelection" =>{
-        val response =  msg.obj("character").asInstanceOf[String]
+      case "notifySelection" => {
+        val response = msg.obj("character").asInstanceOf[String]
         controllerObservable.gameResponse("notifySelection", response)
-
       }
+      case "notifyStart" => {
+        controllerObservable.notifyOne("notifyStart")
+      }
+
       case _ => { val receiver = context actorSelection ActorUtils.INBOX_ACTOR
         receiver ! msg.asInstanceOf[JSONObject]
 
