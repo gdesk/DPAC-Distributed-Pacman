@@ -109,7 +109,7 @@ object BaseControllerUser extends ControllerUser {
     *
     * @param lastMatchResult - the last match's result to save.
     */
-  override def saveMatch(lastMatchResult: MatchResult): Unit = model.saveMatch
+  override def saveMatch(lastMatchResult: MatchResult): Unit = _model.saveMatch(lastMatchResult)
 
   /**
     * Returns the player of the user.

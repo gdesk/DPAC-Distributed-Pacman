@@ -468,7 +468,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
     val message = JSONObject(Map[String,Any](
       "object" -> "saveMatch",
-      "username" -> PlayerImpl.username
+      "username" -> PlayerImpl.username,
       "score" -> score,
       "date" -> date,
       "result" -> result
