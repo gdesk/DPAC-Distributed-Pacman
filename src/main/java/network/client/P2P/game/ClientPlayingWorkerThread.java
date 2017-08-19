@@ -137,7 +137,7 @@ public class ClientPlayingWorkerThread implements Runnable {
                 list.clear();
 
             } catch (Exception e) {
-                System.err.println("Client " + ip + " exception: " + e.toString());
+               // System.err.println("Client " + ip + " exception: " + e.toString());
                 //e.printStackTrace();
             }
 

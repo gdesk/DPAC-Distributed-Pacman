@@ -102,6 +102,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     * @param direction - the direction of the movement.
     */
   override def move(direction: Direction) = {
+    println("ENTRA NELLA MOVE DEL CONTROLLER")
     val character = gameMatch.myCharacter
 
     val prePosition: Point[Int, Int] = character.position
@@ -115,13 +116,11 @@ object BaseControllerCharacter extends ControllerCharacter {
     val postScore: Int = character.score
 
     if(!(prePosition equals postPosition)) {
-
-      println("ENTRA")
+      println("ENTRA NELL'IF")
       view.move(characterImages.get(character.name).get(changeDir(direction)), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
       println("ENTRA? model.updateRegisterObj - 1")
-
       model.updateRegisterObj()
     }
 

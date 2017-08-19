@@ -74,21 +74,27 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
 
         try {
+            System.out.println("QUI 1");
             registry = LocateRegistry.createRegistry(1099);
+            System.out.println("QUI 2");
             System.setProperty("Djava.rmi.server.codebase", "out/");
+            System.out.println("QUI 3");
             System.setProperty("Djava.rmi.server.hostname", PlayerImpl.ip());
+            System.out.println("QUI 4");
 
             PeerRegister stubDirection = (PeerRegister) UnicastRemoteObject.exportObject(objDir, 1099);
+            System.out.println("QUI 5");
             registry.bind("direction", stubDirection);
+            System.out.println("QUI 6");
 
             PeerRegister stubIsAlive = (PeerRegister) UnicastRemoteObject.exportObject(objIsAlive, 1099);
+            System.out.println("QUI 7");
             registry.bind("isAlive", stubIsAlive);
+            System.out.println("QUI 8");
 
             // Bind the remote object's stub in the registry
             //registry = LocateRegistry.getRegistry();
-
-
-
+            
             System.out.println("Server ready");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
@@ -99,7 +105,7 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
 
     public void updateObjects() throws RemoteException {
-        System.out.println("updateObjects - 3");
+        System.out.println("SONO IN SERVERPLAYINGWORKERTHREAD: dovrebbe essermi arrivato il messaggio di un altro client che si è moso. updateObjects - 3");
 
         this.direction = character.direction();
         this.isAlive = character.isAlive();
