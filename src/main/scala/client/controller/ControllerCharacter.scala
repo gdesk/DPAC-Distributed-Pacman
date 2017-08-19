@@ -118,6 +118,7 @@ object BaseControllerCharacter extends ControllerCharacter {
       view.move(characterImages.get(character.name).get(changeDir(direction)), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
+      println("model.updateRegisterObj - 1")
       model.updateRegisterObj
     }
 
