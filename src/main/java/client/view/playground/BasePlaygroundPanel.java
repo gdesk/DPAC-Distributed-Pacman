@@ -118,7 +118,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
 
         } else if(bottomLeftCorner){
             int deltaRows = halfRowsToRender-(settings.getRows()-characterY);
-            System.out.println(halfRowsToRender+"  "+settings.getRows()+"  "+characterY);
+            //System.out.println(halfRowsToRender+"  "+settings.getRows()+"  "+characterY);
             renderAllCells(0, characterY - halfRowsToRender - deltaRows);
 
         } else if (upperRightCorner){
