@@ -1,5 +1,9 @@
 package client.view.match;
 
+import client.controller.BaseControllerUser;
+import client.model.MatchImpl;
+import client.model.MatchResult;
+import client.model.MatchResultImpl;
 import client.model.PlayerImpl;
 import client.view.MainFrame;
 import client.view.base.HomePanel;
@@ -7,6 +11,7 @@ import client.view.utils.JComponentsUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Calendar;
 
 import static client.view.utils.JComponentsUtils.FONT_SIZE;
 import static java.awt.GraphicsDevice.WindowTranslucency.TRANSLUCENT;
@@ -47,6 +52,11 @@ public class VictoryDialog extends JDialog {
         quit.setFont(new Font(quit.getFont().getName(), Font.BOLD, FONT_SIZE*3));
         quit.setForeground(Color.BLACK);
         quit.addActionListener(e->{
+            MatchResult match = new MatchResultImpl();
+            match.date_$eq(Calendar.getInstance());
+            match.result_$eq(true);
+            match.score_$eq(MatchImpl.myCharacter().score());
+            BaseControllerUser.sevaMatch(match);
             MainFrame.getInstance().setContentPane(new HomePanel(PlayerImpl.username()));
             dispose();
         });

@@ -1,10 +1,15 @@
 package client.view.match;
 
+import client.controller.BaseControllerUser;
+import client.model.MatchImpl;
+import client.model.MatchResult;
+import client.model.MatchResultImpl;
 import client.model.PlayerImpl;
 import client.view.base.HomePanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Calendar;
 
 import static client.view.utils.JComponentsUtils.FONT_SIZE;
 import static java.awt.GraphicsDevice.WindowTranslucency.TRANSLUCENT;
@@ -37,6 +42,11 @@ public class GameOverDialog extends JDialog {
         quit.setFont(new Font(quit.getFont().getName(), Font.BOLD, FONT_SIZE*3));
         quit.setForeground(Color.BLACK);
         quit.addActionListener(e->{
+            MatchResult match = new MatchResultImpl();
+            match.date_$eq(Calendar.getInstance());
+            match.result_$eq(false);
+            match.score_$eq(MatchImpl.myCharacter().score());
+            BaseControllerUser.sevaMatch(match);
             frame.setContentPane(new HomePanel(PlayerImpl.username()));
             dispose();
         });
