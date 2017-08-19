@@ -15,4 +15,6 @@ public interface CreateTeamView {
     void renderPlayerResponse(final Boolean response);
 
     void renderPlayerInMatch(final Integer response);
+
+    void nextView();
 }
