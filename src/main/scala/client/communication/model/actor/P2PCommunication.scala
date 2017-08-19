@@ -40,7 +40,7 @@ class P2PCommunication() extends UntypedAbstractActor {
       }
       case "clientCanConnect" => {
 
-        val info = new OtherCharacterInfo
+        //val info = new OtherCharacterInfo
         val matchHandler = new ClientOutcomingMessageHandlerImpl
         matchHandler.addObserver(BaseControllerMatch)
         val IPList = MatchImpl.allPlayersIp

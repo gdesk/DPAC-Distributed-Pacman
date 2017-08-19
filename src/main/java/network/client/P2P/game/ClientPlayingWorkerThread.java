@@ -73,7 +73,7 @@ public class ClientPlayingWorkerThread implements Runnable {
 
                 Direction direction = stubDirection.getDirection();
 
-                System.out.println("stubDirection.getDirection();" + stubDirection.getDirection());
+
 
                 if(!prevDir.equals(direction)) {
 

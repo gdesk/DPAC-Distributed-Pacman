@@ -7,7 +7,6 @@ import client.model.PlayerImpl;
 import client.model.character.Character;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -31,7 +30,7 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
     private Match match;
     private Character character;
     private String characterName;
-    private Direction direction;
+    //private Direction direction;
     private Boolean isAlive;
 
     private static ServerPlayingWorkerThread SINGLETON = null;
@@ -43,7 +42,7 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
     private ServerPlayingWorkerThread(){
         this.character = MatchImpl.myCharacter();
         this.characterName = MatchImpl.myCharacter().name();
-        this.direction = character.direction();
+        //this.direction = character.direction();
         this.isAlive = character.isAlive();
         this.objects = new HashMap<>();
 
@@ -58,13 +57,12 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
     }
 
     public Direction getDirection() {
-        System.out.println("MARGHE -> getDirection " + this.direction);
-        return this.direction;
+        return character.direction();
     }
 
 
     public Boolean isAlive() {
-        return this.isAlive;
+        return character.isAlive();
     }
 
     @Override
@@ -73,7 +71,7 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
         try {
             registry = LocateRegistry.createRegistry(1099);
-            System.out.println("MY SERVER REGISTRY " + registry.toString());
+
             System.setProperty("Djava.rmi.server.codebase", "out/");
             System.setProperty("Djava.rmi.server.hostname", PlayerImpl.ip());
 
@@ -94,16 +92,14 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
     }
 
+    /*public void updateObjects() throws RemoteException {
 
-    public void updateObjects() throws RemoteException {
-        System.out.println("SONO IN SERVERPLAYINGWORKERTHREAD: dovrebbe essermi arrivato il messaggio di un altro client che si è moso. updateObjects - 3");
-
-        this.direction = character.direction();
+        //this.direction = character.direction();
 
         this.isAlive = character.isAlive();
 
 
-    }
+    }*/
 
     private void init(ExecutorServiceUtility executor){
 

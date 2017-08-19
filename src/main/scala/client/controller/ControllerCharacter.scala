@@ -120,25 +120,17 @@ object BaseControllerCharacter extends ControllerCharacter {
       view.move(characterImages.get(character.name).get(changeDir(direction)), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
-      println("ENTRA? model.updateRegisterObj - 1")
-      model.updateRegisterObj()
+
     }
 
     if(!(preLives equals postLives)) {
       view.updateLives(postLives)
       if(character.hasLost) {
         view.gameOver()
-        model.updateRegisterObj()
       }
     }
 
     if(character.won) view.showResult(postScore.toString)
-
-
-   /* if(postLives <= 0) {
-      view.gameOver()
-      model.updateRegisterObj()
-    }*/
 
 
     if(!(preScore equals postScore)) view.renderScore(postScore)
@@ -200,7 +192,7 @@ object BaseControllerCharacter extends ControllerCharacter {
           if(gameMatch.myCharacter.hasLost) {
             view.gameOver()
 
-            model.updateRegisterObj()
+           // model.updateRegisterObj()
           }
         }
 

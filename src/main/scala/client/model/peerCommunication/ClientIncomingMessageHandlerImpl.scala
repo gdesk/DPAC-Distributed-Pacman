@@ -2,7 +2,7 @@ package client.model.peerCommunication
 
 import java.util.{Observable, Observer}
 
-import client.controller.ControllerCharacter
+import client.controller.{BaseControllerCharacter, ControllerCharacter}
 
 import scala.collection.mutable.ListBuffer
 
@@ -16,17 +16,20 @@ import scala.collection.mutable.ListBuffer
   */
 class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMessageHandler {
 
-private val observers: ListBuffer[Observer] = ListBuffer empty
+/*private val observers: ListBuffer[Observer] = ListBuffer empty
   /**
     * method to register controller character
     * as observer of this class model (observable)
     * @param observer
     */
   override def addObserver(observer: Observer) {
+    println("sono in addObserver di ClientIncomingMessageHandlerImpl")
     if (observer.isInstanceOf[ControllerCharacter]) {
+      println("sono nell IF in addObserver di ClientIncomingMessageHandlerImpl")
       observers += observer
+      println("observers " + observers.head.toString)
     }
-  }
+  }*/
 
   /**
     * method that notify controller character
@@ -34,9 +37,9 @@ private val observers: ListBuffer[Observer] = ListBuffer empty
     * so that character game view and model can be updated
     * @param arg
     */
-  def updateGameView(arg: Any): Unit = {
-    println("sono entrato nell if di ClientIncomingMessageHandlerImpl")
-    observers.foreach(o => o.update(this, arg: Any))
+  def updateGameView(arg: scala.Any): Unit = {
+
+    BaseControllerCharacter.update(this, arg)
   }
 
 
