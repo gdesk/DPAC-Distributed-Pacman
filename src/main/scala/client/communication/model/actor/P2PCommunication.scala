@@ -8,7 +8,7 @@ import client.controller.BaseControllerMatch
 import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl
 import client.model.{MatchImpl, PlayerImpl}
 import client.utils.ActorUtils
-import network.client.P2P.bootstrap.{ClientBootstrap, ServerBootstrap}
+import network.client.P2P.bootstrap.{ClientBootstrap}
 import network.client.P2P.utils.ExecutorServiceUtility
 import network.client.rxJava.OtherCharacterInfo
 
@@ -32,9 +32,9 @@ class P2PCommunication() extends UntypedAbstractActor {
       case "startGame" => {
         //ricevo messaggio contente l'IP con cui configurare server
         val ip = PlayerImpl.ip
-        val server = ServerBootstrap.getIstance(ip)
+        //val server = ServerBootstrap.getIstance(ip)
 
-        executor.initServerPlayingWorkerThread(ip, server.getRegistry, server.getRmiPort)
+        executor.initServerPlayingWorkerThread(ip)
 
         context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! JSONObject(Map[String, String]("object" -> "serverIsRunning", "senderIP" -> ip))
       }

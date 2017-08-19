@@ -128,7 +128,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         } else if(bottomRightCorner)  {
             int deltaColumms = halfColumnsToRender - (settings.getColumns() - characterX);
             int deltaRows = halfRowsToRender-(settings.getRows()-characterY);
-            System.out.println();
+
             renderAllCells(characterX - halfColumnsToRender - deltaColumms, characterY - halfRowsToRender - deltaRows);
 
         } else if(leftPosition) {
@@ -143,7 +143,6 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
 
         }else  if(bottomPosition){
             int toAdd = halfRowsToRender-(settings.getRows()-characterY);
-            System.out.println(halfRowsToRender + "  "+settings.getRows()+"  "+characterY);
             renderAllCells(characterX - halfColumnsToRender, characterY - halfRowsToRender - toAdd);
 
         } else {
@@ -186,7 +185,6 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         if(x>=0 && y>=0 && x<=settings.getColumns() && y<=settings.getRows()){
             return true;
         }else {
-            System.err.println("Error! Invalid position");
             return false;
         }
     }

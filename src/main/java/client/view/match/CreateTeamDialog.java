@@ -111,7 +111,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
     @Override
     public void nextView(){
         dispose();
-        System.out.println(numPLayer);
+
         nextView.setNumPlayer(numPLayer);
         MainFrame.getInstance().setContentPane(nextView);
     }
