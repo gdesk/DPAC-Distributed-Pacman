@@ -13,7 +13,7 @@ import client.communication.model.actor.{FromServerCommunication, P2PCommunicati
 import client.model._
 import client.model.character.{BaseGhost, BasePacman}
 import client.model.utils.BaseEatObjectStrategy
-import client.utils.IOUtils
+import client.utils.{ActorUtils, IOUtils}
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.commons.lang3.StringEscapeUtils
 
@@ -459,5 +459,21 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val md = java.security.MessageDigest.getInstance("SHA-1")
     val ha = new sun.misc.BASE64Encoder().encode(md.digest(data.getBytes))
     ha
+  }
+
+  override def saveMatch(matchResult: MatchResult): Unit = {
+    val score = matchResult.score
+    val date = matchResult.date
+    val result = matchResult.result
+
+    val message = JSONObject(Map[String,Any](
+      "object" -> "saveMatch",
+      "username" -> PlayerImpl.username
+      "score" -> score,
+      "date" -> date,
+      "result" -> result
+    ))
+
+    toServerCommunication ! message
   }
 }
