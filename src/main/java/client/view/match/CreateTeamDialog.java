@@ -27,6 +27,8 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
     private final JButton starGame = new JButton("START");
     private final SelectCharacterPanel nextView = new SelectCharacterPanel();
 
+    private int numPLayer = 0;
+
     private int width = 1;
     private final JFrame frame;
 
@@ -93,12 +95,14 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             playerPanel.markOK();
         }
         playerPanel.resetIndex();
+        numPLayer = response;
     }
 
     @Override
     public void renderPlayerResponse(Boolean response) {
         if(response) {
             playerPanel.markOK();
+            numPLayer ++;
         } else {
             playerPanel.markNO();
         }
@@ -107,6 +111,8 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
     @Override
     public void nextView(){
         dispose();
+        System.out.println(numPLayer);
+        nextView.setNumPlayer(numPLayer);
         MainFrame.getInstance().setContentPane(nextView);
     }
 
@@ -141,9 +147,6 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
         private synchronized void markOK(){
             icons.get(index).setIcon(new ImageIcon(Utils.getScaledImage(Utils.getImage(Res.PLAYER_OK()), imgDim, imgDim)));
             index = index+1;
-            if(index>=rangePlayers.getMin()){
-                starGame.setEnabled(true);
-            }
             revalidate();
             repaint();
         }
