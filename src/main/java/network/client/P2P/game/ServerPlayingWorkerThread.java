@@ -52,10 +52,10 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
     }
 
-    public static ServerPlayingWorkerThread getIstance(ExecutorServiceUtility executor, Registry registry, int rmiPort){
+    public static ServerPlayingWorkerThread getIstance(ExecutorServiceUtility executor){
         if(SINGLETON == null){
             SINGLETON = new ServerPlayingWorkerThread();
-            SINGLETON.init(executor, registry, rmiPort);
+            SINGLETON.init(executor);
         }
         return SINGLETON;
     }
@@ -82,11 +82,13 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
             System.setProperty("Djava.rmi.server.hostname", PlayerImpl.ip());
             System.out.println("QUI 4");
 
+            System.out.println("esporto primo obj");
             PeerRegister stubDirection = (PeerRegister) UnicastRemoteObject.exportObject(objDir, 1099);
             System.out.println("QUI 5");
             registry.bind("direction", stubDirection);
             System.out.println("QUI 6");
 
+            System.out.println("esporto secondo obj");
             PeerRegister stubIsAlive = (PeerRegister) UnicastRemoteObject.exportObject(objIsAlive, 1099);
             System.out.println("QUI 7");
             registry.bind("isAlive", stubIsAlive);
@@ -126,7 +128,7 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
     }
 
-    private void init(ExecutorServiceUtility executor, Registry registry, int rmiPort){
+    private void init(ExecutorServiceUtility executor){
 
         this.executor = executor;
         this.rmiPort = rmiPort;

@@ -1,3 +1,4 @@
+/*
 package network.client.P2P.game;
 
 import client.model.Direction;
@@ -8,9 +9,11 @@ import network.client.P2P.utils.ExecutorServiceUtility;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+*/
 /**
  * Created by Federica on 15/08/17.
- */
+ *//*
+
 public class PeerRegisterImlp implements PeerRegister{
 
     private Remote obj;
@@ -37,3 +40,4 @@ public class PeerRegisterImlp implements PeerRegister{
         return server.isAlive();
     }
 }
+*/

@@ -103,7 +103,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
                 BaseControllerMatch.startMatch();
             }).start();
         });
-        System.out.println("creato SelectCharPanel");
+
     }
 
     @Override
@@ -117,23 +117,23 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     }
 
     public void setNumPlayer(final int numPlayer){
-        System.out.println("setNumPlayer "+ numPlayer);
+
         this.numPlayer = numPlayer;
         addCharacterImages();
     }
 
     private void addCharacterImages(){
-        System.out.println("addCharacterImages" );
+
         JPanel characterPanel = JComponentsUtils.createBackgroundColorPanel();
         characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.X_AXIS));
-        System.out.println("prima di charactersImage" );
+
        // Map<String,Image> charactersImage = Utils.getJavaMap(BaseControllerMatch.getCharacters());
-        System.out.println("charactersImage" + charactersImage.size());
+
         characterPanel.add(createImagePanel(charactersImage.get("pacman"), "pacman", CHARACTER_IMAGE_DIMENSION));
 
-        System.out.println("addCharacterImages" + charactersImage.size() );
+
         charactersImage.forEach((name, image) -> {
-            System.out.println(!(name.equals("pacman")) + "  "+numPlayer);
+
             if(!(name.equals("pacman")) && indexChar < numPlayer) {
                 characterPanel.add(createImagePanel(image, name, CHARACTER_IMAGE_DIMENSION));
                 indexChar++;

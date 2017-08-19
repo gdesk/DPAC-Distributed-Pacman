@@ -1,7 +1,5 @@
 package network.client.P2P.game;
 
-import client.model.PlayerImpl;
-import network.client.P2P.bootstrap.ServerBootstrap;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
 import java.rmi.RemoteException;
@@ -11,7 +9,7 @@ import java.rmi.RemoteException;
  */
 public class PeerRegisterHandlerImpl implements  PeerRegisterHandler{
 
-    private final ServerBootstrap serverBootstrap = ServerBootstrap.getIstance(PlayerImpl.ip());
+   // private final ServerBootstrap serverBootstrap = ServerBootstrap.getIstance(PlayerImpl.ip());
     private ServerPlayingWorkerThread serverPlayingWorkerThread = null;
 
     @Override
@@ -19,7 +17,7 @@ public class PeerRegisterHandlerImpl implements  PeerRegisterHandler{
         if(serverPlayingWorkerThread == null) {
 
             serverPlayingWorkerThread = ServerPlayingWorkerThread
-                    .getIstance(ExecutorServiceUtility.getIstance(), serverBootstrap.getRegistry(), serverBootstrap.getRmiPort());
+                    .getIstance(ExecutorServiceUtility.getIstance());
         }
         try {
             System.out.println(" serverPlayingWorkerThread.updateObjects() - 2");
