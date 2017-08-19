@@ -247,7 +247,12 @@ object BaseControllerMatch extends ControllerMatch {
     * @param arg - just a message if the match is ready to be played or a tuple with the message about what had changed and the corresponding value.
     */
   override def update(observable:Observable, arg: scala.Any) = {
-    if(arg equals "StartMatch") {
+    if(arg.isInstanceOf[String]) {
+      val message: String = arg.asInstanceOf[String]
+      message match {
+        case "StartMatch" => loadingView.renderGamePanel
+        case "notifyStart" => teamView.nextView
+      }
      loadingView.renderGamePanel
     } else {
       val game: (String, scala.Any) = if(arg.isInstanceOf[(String, scala.Any)]) {arg.asInstanceOf[(String, scala.Any)]} else {null}
