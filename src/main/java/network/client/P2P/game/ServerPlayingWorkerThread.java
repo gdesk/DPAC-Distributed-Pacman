@@ -79,13 +79,15 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
             System.setProperty("Djava.rmi.server.hostname", PlayerImpl.ip());
 
             PeerRegister stubDirection = (PeerRegister) UnicastRemoteObject.exportObject(objDir, 1099);
-            PeerRegister stubIsAlive = (PeerRegister) UnicastRemoteObject.exportObject(objIsAlive, 1099);
+            registry.bind("direction", stubDirection);
 
+            PeerRegister stubIsAlive = (PeerRegister) UnicastRemoteObject.exportObject(objIsAlive, 1099);
+            registry.bind("isAlive", stubIsAlive);
 
             // Bind the remote object's stub in the registry
             //registry = LocateRegistry.getRegistry();
-            registry.bind("direction", stubDirection);
-            registry.bind("isAlive", stubIsAlive);
+
+
 
             System.out.println("Server ready");
         } catch (Exception e) {
@@ -98,18 +100,23 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
     public void updateObjects() throws RemoteException {
         System.out.println("updateObjects - 3");
-        if(!character.direction().equals(direction)){
-            registry.rebind("direction", objDir);
+
+        this.direction = character.direction();
+        this.isAlive = character.isAlive();
+
+        /*if(!character.direction().equals(direction)){
             this.direction = character.direction();
+            //registry.rebind("direction", objDir);
+
             System.out.println("rebind -> direction, " + objDir.getDirection().getDirection());
 
         }else if(!character.isAlive() == isAlive){
-            registry.rebind("isAlive", objIsAlive);
             this.isAlive = character.isAlive();
+            //registry.rebind("isAlive", objIsAlive);
             executor.stopServerPlayingWorkerThread();
-            System.out.println("rebind -> isAlive, " + objDir.isAlive().toString());
 
-        }
+            System.out.println("rebind -> isAlive, " + objDir.isAlive().toString());
+        }*/
 
     }
 
