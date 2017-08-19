@@ -141,4 +141,6 @@ trait ToClientCommunication {
   def getPlayersIp(): List[String]
 
   def initializedCharatcter(): Unit
+
+  def saveMatch(matchResult: MatchResult): Unit
 }
