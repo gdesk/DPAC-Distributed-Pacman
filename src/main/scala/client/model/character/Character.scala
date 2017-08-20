@@ -122,6 +122,13 @@ trait Character extends GameItem{
     */
   def hasLost: Boolean
 
+  /**
+    * Sets if the character has lost.
+    *
+    * @param lost - true if character has lost, false otherwise.
+    */
+  def hasLost_=(lost: Boolean): Unit
+
 }
 
 /**
@@ -136,6 +143,7 @@ abstract class CharacterImpl(override var isKillable: Boolean, override var live
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
   private var _isAlive = true
+  private var _hasLost = false
 
   override var direction: Direction = Direction.START
   override var score: Int = 0
@@ -217,7 +225,17 @@ abstract class CharacterImpl(override var isKillable: Boolean, override var live
     *
     * @return true if the character had lost, false otherwise.
     */
-  override def hasLost = !isAlive
+  override def hasLost = {
+    if(!isAlive) _hasLost = !isAlive
+    _hasLost
+  }
+
+  /**
+    * Sets if the character has lost.
+    *
+    * @param lost - true if character has lost, false otherwise.
+    */
+  def hasLost_=(lost: Boolean) = _hasLost = lost
 
   /**
     * Returns a string representing the prolog ghosts list containing all match's ghosts. It can be pass as Term in prolog.

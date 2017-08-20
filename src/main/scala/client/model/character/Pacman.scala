@@ -108,6 +108,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
   override def won = {
     val dots = prologDotsList
     _won = PrologConfig.getPrologEngine.solve(s"pacman_victory(pacman(${position.x},${position.y},${lives.remainingLives},${score}),${dots}).").isSuccess && !hasLost
+    MatchImpl.allCharacters.filter(c => !c.isInstanceOf[Pacman]).foreach(g => g.hasLost = true)
     _won
   }
 
