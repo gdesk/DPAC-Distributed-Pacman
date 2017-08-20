@@ -6,6 +6,7 @@ import client.model.Direction;
 import javafx.util.Pair;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -50,20 +51,19 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
         System.setProperty("Djava.rmi.server.hostname", ip);
         String host = ip;
         Direction prevDir = Direction.START;
-        Registry registry = null;
+        Registry registry;
+        PeerRegister stubDirection = null;
+        PeerRegister stubisAlive = null;
         try {
             registry = LocateRegistry.getRegistry(host);
-        } catch (RemoteException e) {
+            stubDirection = (PeerRegister) registry.lookup("direction");
+            stubisAlive = (PeerRegister) registry.lookup("isAlive");
+        } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
         }
 
         while (!Thread.currentThread().isInterrupted()) {
-
             try {
-
-                PeerRegister stubDirection = (PeerRegister) registry.lookup("direction");
-                PeerRegister stubisAlive = (PeerRegister) registry.lookup("isAlive");
-
                 Direction direction = stubDirection.getDirection();
 
                 if(!prevDir.equals(direction)) {
@@ -76,7 +76,6 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
                 if(!isAlive) {
                     BaseControllerCharacter.update(this, new Pair<>(ip, isAlive));
                 }
-
             } catch (Exception e) {
                 //System.err.println("Client " + ip + " exception: " + e.toString());
                 //e.printStackTrace();

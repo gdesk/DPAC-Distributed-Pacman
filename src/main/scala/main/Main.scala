@@ -3,9 +3,7 @@ package main
 import javax.swing.SwingUtilities
 
 import client.communication.model.ToClientCommunicationImpl
-import client.communication.model.actor.ToServerCommunication
 import client.controller._
-import client.model.peerCommunication.{ClientIncomingMessageHandler, ClientIncomingMessageHandlerImpl, ClientOutcomingMessageHandler, ClientOutcomingMessageHandlerImpl}
 import client.utils.ActorUtils
 import client.view.MainFrame
 
@@ -31,13 +29,8 @@ object Main extends App {
 
     val model = ToClientCommunicationImpl()
 
-    val ci: ClientIncomingMessageHandler = new ClientIncomingMessageHandlerImpl
-
-    //controllerCharacter.setModel(new PeerRegisterHandlerImpl)
     controllerMatch.setModel(model)
     controllerUser.setModel(model)
-
-    //ci.addObserver(controllerCharacter)
 
     SwingUtilities.invokeLater(new Runnable() {
       override def run(): Unit = {

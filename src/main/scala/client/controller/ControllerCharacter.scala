@@ -8,12 +8,6 @@ import client.model._
 import client.model.character.Character
 import client.model.utils.Point
 import client.view.`match`.GamePanel
-<<<<<<< Updated upstream
-import io.reactivex.Flowable
-
-=======
-import network.client.P2P.game.PeerRegisterHandler
->>>>>>> Stashed changes
 
 /**
   * Represents the controller for characters management.
