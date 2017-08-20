@@ -60,7 +60,6 @@ public class ClientPlayingWorkerThread implements Runnable {
             e.printStackTrace();
         }
 
-        System.out.println("MARGHE CLIENT REGISTER" + registry.toString());
         while (!Thread.currentThread().isInterrupted()) {
 
             try {
@@ -74,7 +73,6 @@ public class ClientPlayingWorkerThread implements Runnable {
 
                 if(!prevDir.equals(direction)) {
 
-                    System.out.println("sono entrato nell'if di ClientPlayingWorkerThread - direction è " + direction);
                     list.add(ip);
                     list.add("direction");
                     list.add(direction);

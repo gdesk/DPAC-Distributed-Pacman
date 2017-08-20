@@ -103,7 +103,6 @@ object BaseControllerCharacter extends ControllerCharacter {
     * @param direction - the direction of the movement.
     */
   override def move(direction: Direction) = {
-    println("ENTRA NELLA MOVE DEL CONTROLLER")
     val character = gameMatch.myCharacter
 
     val prePosition: Point[Int, Int] = character.position
@@ -117,7 +116,6 @@ object BaseControllerCharacter extends ControllerCharacter {
     val postScore: Int = character.score
 
     if(!(prePosition equals postPosition)) {
-      println("ENTRA NELL'IF")
       view.move(characterImages.get(character.name).get(changeDir(direction)), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
@@ -154,12 +152,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     * @throws ThisIpDoesNotExistException when the given ip doesn't belong to the current match's ips.
     */
   override def update(observable: Observable, arg: scala.Any) = {
-    println("entro in update di ControllerCharacter")
-    /*val flowable = arg.asInstanceOf[Flowable[Object]]
-    val ip = flowable.elementAt(0).blockingGet.asInstanceOf[String]
-    val message = flowable.elementAt(1).blockingGet.asInstanceOf[String]
-*/
-    val argList = arg.asInstanceOf[util.LinkedList]
+    val argList = arg.asInstanceOf[util.LinkedList[Object]]
 
     val ip = argList.get(0).asInstanceOf[String]
     val message = argList.get(1).asInstanceOf[String]
@@ -178,7 +171,6 @@ object BaseControllerCharacter extends ControllerCharacter {
         characterToUpdate.isAlive = !argList.get(2).asInstanceOf[Boolean]
         if(!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer,Integer]])
       case "direction" =>
-        println("sono nel case direction di update di ControllerCharacter")
         val direction = argList.get(2).asInstanceOf[Direction]
 
         val prePosition: Point[Int, Int] = characterToUpdate.position
@@ -199,8 +191,6 @@ object BaseControllerCharacter extends ControllerCharacter {
           view.updateLives(postLives)
           if(gameMatch.myCharacter.hasLost) {
             view.gameOver()
-
-           // model.updateRegisterObj()
           }
         }
 

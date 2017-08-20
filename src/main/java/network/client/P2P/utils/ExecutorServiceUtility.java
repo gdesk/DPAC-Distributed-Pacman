@@ -51,7 +51,6 @@ public class ExecutorServiceUtility {
     public void stopServerPlayingWorkerThread(){
         executor.shutdown();
         while (!executor.isTerminated()) {}
-        System.out.println("All threads (server + clients have been shutdown");
     }
 
     public void stopClientPlayingWorkerThread(){
