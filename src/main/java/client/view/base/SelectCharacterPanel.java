@@ -134,7 +134,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
 
         charactersImage.forEach((name, image) -> {
 
-            if(!(name.equals("pacman")) && indexChar < numPlayer) {
+            if(!(name.equals("pacman")) && indexChar < numPlayer-1) {
                 characterPanel.add(createImagePanel(image, name, CHARACTER_IMAGE_DIMENSION));
                 indexChar++;
             }

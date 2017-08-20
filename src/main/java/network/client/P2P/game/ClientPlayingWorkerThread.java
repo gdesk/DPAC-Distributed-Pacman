@@ -1,8 +1,9 @@
 package network.client.P2P.game;
 
 
+import client.controller.BaseControllerCharacter;
 import client.model.Direction;
-import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
+import javafx.util.Pair;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
 import java.rmi.RemoteException;
@@ -10,6 +11,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by Federica on 27/07/17.
@@ -18,7 +20,7 @@ import java.util.List;
  * character info I need to update view on this peer
  *
  */
-public class ClientPlayingWorkerThread implements Runnable {
+public class ClientPlayingWorkerThread extends Observable implements Runnable {
 
     //private ExecutorServiceUtility executor;
     private String ip;
@@ -27,7 +29,7 @@ public class ClientPlayingWorkerThread implements Runnable {
     //private ObservableCharacter observableCharacter;
     private List<Object> list;
     //private Character character;
-    private ClientIncomingMessageHandlerImpl characterHandler;
+    //private ClientIncomingMessageHandlerImpl characterHandler;
 
     public ClientPlayingWorkerThread
             (ExecutorServiceUtility executor, String ip) {
@@ -38,7 +40,7 @@ public class ClientPlayingWorkerThread implements Runnable {
         //this.observableCharacter = new ObservableCharacter();
         this.list = new LinkedList<>();
         //this.character = MatchImpl.myCharacter();
-        this.characterHandler = new ClientIncomingMessageHandlerImpl();
+        //this.characterHandler = new ClientIncomingMessageHandlerImpl();
     }
 
 
@@ -64,37 +66,21 @@ public class ClientPlayingWorkerThread implements Runnable {
 
                 Direction direction = stubDirection.getDirection();
 
-
-
                 if(!prevDir.equals(direction)) {
-
-                    list.add(ip);
-                    list.add("direction");
-                    list.add(direction);
-                    //observableCharacter.subscribeObserver(list);
-                    this.characterHandler.updateGameView(list);
-                    list.clear();
+                    BaseControllerCharacter.update(this, new Pair<>(ip, direction));
                     prevDir = direction;
                 }
 
                 boolean isAlive = stubisAlive.isAlive();
 
                 if(!isAlive) {
-                    list.add(ip);
-                    list.add("isAlive");
-                    list.add(isAlive);
-                    //observableCharacter.subscribeObserver(list);
-                    this.characterHandler.updateGameView(list);
-                    list.clear();
-
+                    BaseControllerCharacter.update(this, new Pair<>(ip, isAlive));
                 }
 
             } catch (Exception e) {
                 //System.err.println("Client " + ip + " exception: " + e.toString());
                 //e.printStackTrace();
             }
-
-
 
 
         }
