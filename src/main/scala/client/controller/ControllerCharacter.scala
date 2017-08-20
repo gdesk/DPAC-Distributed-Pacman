@@ -165,11 +165,9 @@ object BaseControllerCharacter extends ControllerCharacter {
 
     if(args.getValue.isInstanceOf[Boolean]) {
       characterToUpdate.isAlive = args.getValue.asInstanceOf[Boolean]
-      println("SONO ENTRATO IN ISALIVE " + characterToUpdate.isAlive)
       if (!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer, Integer]])
     } else {
       val direction = args.getValue.asInstanceOf[Direction]
-      println("SONO ENTRATO IN DIRECTION " + direction)
 
       val prePosition: Point[Int, Int] = characterToUpdate.position
       val preLives: Int = gameMatch.myCharacter.lives.remainingLives
@@ -182,17 +180,14 @@ object BaseControllerCharacter extends ControllerCharacter {
       val postScore: Int = gameMatch.myCharacter.score
 
       if(!(prePosition equals postPosition)) {
-        println("SONO ENTRATO NELL'IF DI PRE/POST POSITION")
         view.move(characterImages.get(characterToUpdate.name).get(changeDir(direction)), Color.red,
           prePosition.asInstanceOf[Point[Integer,Integer]],
           postPosition.asInstanceOf[Point[Integer,Integer]])
       }
 
       if(!(preLives equals postLives)) {
-        println("SONO ENTRATO NELL'IF DI PRE/POST LIVES")
         view.updateLives(postLives)
         if(gameMatch.myCharacter.hasLost) {
-          println("HO RICHIAMATO LAGAME OVER")
           view.gameOver()
         }
       }
