@@ -24,19 +24,6 @@ public class PortRangeHandler {
     }
 
 
-    //public static int getPortNumber(){
-    //    return minimum;
-    //}
-
-    /*public static int getNextPortNumber(){
-        int nextValue = minimum + 1;
-        if(nextValue <= maximum) {
-            minimum = nextValue;
-        }
-        return minimum;
-
-    }*/
-
     public int getFirstAvailablePortNumber(){
         int nextValue = this.minimum + 1;
         if(nextValue <= this.maximum) {

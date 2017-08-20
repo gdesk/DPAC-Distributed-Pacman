@@ -9,7 +9,7 @@ import client.model.character.Character
 import client.model.utils.Point
 import client.view.`match`.GamePanel
 import io.reactivex.Flowable
-import network.client.P2P.game.PeerRegisterHandler
+
 
 /**
   * Represents the controller for characters management.
@@ -59,7 +59,7 @@ trait ControllerCharacter extends Observer {
     *
     * @param model - model to be called.
     */
-  def setModel(model: PeerRegisterHandler): Unit
+  //def setModel(model: PeerRegisterHandler): Unit
 
   /**
     * Called when other character moves or dies.
@@ -84,7 +84,7 @@ object BaseControllerCharacter extends ControllerCharacter {
   private val gameMatch: Match = MatchImpl
   private val playground: Playground = PlaygroundImpl
   private var view: GamePanel = null
-  private var model: PeerRegisterHandler = null
+  //private var model: PeerRegisterHandler = null
 
   override var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
@@ -203,9 +203,9 @@ object BaseControllerCharacter extends ControllerCharacter {
   /**
     * Sets the model to be called when somethings changes about characters.
     *
-    * @param model - model to be called.
+    * //@param model - model to be called.
     */
-  override def setModel(model: PeerRegisterHandler) = this.model = model
+  //override def setModel(model: PeerRegisterHandler) = this.model = model
 
   private def changeDir(direction: Direction): Direction =  direction match {
     case Direction.UP => Direction.DOWN

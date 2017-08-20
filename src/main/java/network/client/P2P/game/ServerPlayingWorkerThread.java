@@ -1,7 +1,6 @@
 package network.client.P2P.game;
 
 import client.model.Direction;
-import client.model.Match;
 import client.model.MatchImpl;
 import client.model.PlayerImpl;
 import client.model.character.Character;
@@ -10,8 +9,6 @@ import network.client.P2P.utils.ExecutorServiceUtility;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Federica on 27/07/17.
@@ -22,16 +19,15 @@ import java.util.Map;
  */
 public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
-    private ExecutorServiceUtility executor;
-    private int rmiPort;
+    //private ExecutorServiceUtility executor;
+    //private int rmiPort;
     private static Registry registry;
-    private Map<String, ServerObjects> objects;
-
-    private Match match;
+    //private Map<String, ServerObjects> objects;
+    //private Match match;
     private Character character;
-    private String characterName;
+    //private String characterName;
     //private Direction direction;
-    private Boolean isAlive;
+    //private Boolean isAlive;
 
     private static ServerPlayingWorkerThread SINGLETON = null;
 
@@ -41,17 +37,17 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
     private ServerPlayingWorkerThread(){
         this.character = MatchImpl.myCharacter();
-        this.characterName = MatchImpl.myCharacter().name();
+        //this.characterName = MatchImpl.myCharacter().name();
         //this.direction = character.direction();
-        this.isAlive = character.isAlive();
-        this.objects = new HashMap<>();
+        //this.isAlive = character.isAlive();
+        //this.objects = new HashMap<>();
 
     }
 
     public static ServerPlayingWorkerThread getIstance(ExecutorServiceUtility executor){
         if(SINGLETON == null){
             SINGLETON = new ServerPlayingWorkerThread();
-            SINGLETON.init(executor);
+            //SINGLETON.init(executor);
         }
         return SINGLETON;
     }
@@ -101,12 +97,12 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
 
     }*/
 
-    private void init(ExecutorServiceUtility executor){
+    //private void init(ExecutorServiceUtility executor){
 
-        this.executor = executor;
-        this.rmiPort = rmiPort;
-        this.registry = registry;
-    }
+        //this.executor = executor;
+        //this.rmiPort = rmiPort;
+        //this.registry = registry;
+    //}
 
 
 

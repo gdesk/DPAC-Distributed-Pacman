@@ -2,18 +2,14 @@ package network.client.P2P.game;
 
 
 import client.model.Direction;
-import client.model.MatchImpl;
-import client.model.character.Character;
 import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
 import network.client.P2P.utils.ExecutorServiceUtility;
-import network.client.rxJava.ObservableCharacter;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Federica on 27/07/17.
@@ -24,25 +20,24 @@ import java.util.Map;
  */
 public class ClientPlayingWorkerThread implements Runnable {
 
-    private ExecutorServiceUtility executor;
+    //private ExecutorServiceUtility executor;
     private String ip;
     private Registry registry;
-    private Map<String, Object> responses;
-    private ObservableCharacter observableCharacter;
+    //private Map<String, Object> responses;
+    //private ObservableCharacter observableCharacter;
     private List<Object> list;
-    private Character character;
+    //private Character character;
     private ClientIncomingMessageHandlerImpl characterHandler;
 
     public ClientPlayingWorkerThread
             (ExecutorServiceUtility executor, String ip) {
 
-        this.executor = executor;
+        //this.executor = executor;
         this.ip = ip;
         this.registry = registry;
-
-        this.observableCharacter = new ObservableCharacter();
+        //this.observableCharacter = new ObservableCharacter();
         this.list = new LinkedList<>();
-        this.character = MatchImpl.myCharacter();
+        //this.character = MatchImpl.myCharacter();
         this.characterHandler = new ClientIncomingMessageHandlerImpl();
     }
 

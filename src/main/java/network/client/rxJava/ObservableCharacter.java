@@ -1,3 +1,4 @@
+/*
 package network.client.rxJava;
 
 import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
@@ -5,6 +6,7 @@ import io.reactivex.Flowable;
 
 import java.util.List;
 
+*/
 /**
  * Created by Federica on 03/08/17.
  *
@@ -14,7 +16,8 @@ import java.util.List;
  *
  *  NB. This data has been collected through RMI
  *
- */
+ *//*
+
 
 
 
@@ -37,4 +40,4 @@ public class ObservableCharacter {
 
         Flowable.just(list.get(0), list.get(1), list.get(2));
     }
-}
+}*/
