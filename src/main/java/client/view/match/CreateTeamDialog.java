@@ -8,6 +8,7 @@ import client.view.base.SelectCharacterPanel;
 import client.view.utils.Range;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +73,12 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             List<Range> ranges = Utils.scalaRangeToString(BaseControllerMatch.getRanges());
             JComboBox comboRange = new JComboBox();
             comboRange.addItem("");
-            ranges.forEach(r -> comboRange.addItem(r.getMin() + "-"+ (r.getMax()+1)));
+            ranges.forEach(r -> comboRange.addItem(r.getMin() + "-" + (r.getMax() + 1)));
+            DefaultListSelectionModel model = new DefaultListSelectionModel();
+            model.addSelectionInterval(1,1);
+            EnabledJComboBoxRenderer enableRenderer = new EnabledJComboBoxRenderer(model);
+            comboRange.setRenderer(enableRenderer);
+
             comboRange.addActionListener(e->{
                 Range rangeSelected = ranges.get(comboRange.getSelectedIndex()-1);
                 playerPanel.init(rangeSelected);
@@ -162,5 +168,49 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             this.index = 0;
         }
     }
+
+    private class EnabledJComboBoxRenderer extends BasicComboBoxRenderer {
+
+        static final long serialVersionUID = -984932432414L;
+
+        private final ListSelectionModel enabledItems;
+        private Color disabledColor = Color.lightGray;
+
+        /**
+         * Constructs a new renderer for a JComboBox which enables/disables items
+         * based upon the parameter model.
+         * @param enabled
+         */
+        public EnabledJComboBoxRenderer(ListSelectionModel enabled){
+            super();
+            this.enabledItems = enabled;
+        }
+/*
+
+        public void setDisabledColor(Color disabledColor){
+            this.disabledColor = disabledColor;
+        }
+*/
+        /**
+         * Custom implementation to color items as enabled or disabled.
+         */
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            if(!enabledItems.isSelectedIndex(index)) {
+                if(isSelected) {
+                    c.setBackground(UIManager.getColor("ComboBox.background"));
+                } else {
+                    c.setBackground(super.getBackground());
+                }
+                c.setForeground(disabledColor);
+            } else {
+                c.setBackground(super.getBackground());
+                c.setForeground(super.getForeground());
+            }
+            return c;
+        }
+    }
+
 }
 
