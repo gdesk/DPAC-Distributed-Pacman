@@ -1,15 +1,19 @@
 package client.controller
 
 import java.awt.{Color, Image}
-import java.util
 import java.util.{Observable, Observer}
+import javafx.util.Pair
 
 import client.model._
 import client.model.character.Character
 import client.model.utils.Point
 import client.view.`match`.GamePanel
+<<<<<<< Updated upstream
 import io.reactivex.Flowable
 
+=======
+import network.client.P2P.game.PeerRegisterHandler
+>>>>>>> Stashed changes
 
 /**
   * Represents the controller for characters management.
@@ -152,10 +156,9 @@ object BaseControllerCharacter extends ControllerCharacter {
     * @throws ThisIpDoesNotExistException when the given ip doesn't belong to the current match's ips.
     */
   override def update(observable: Observable, arg: scala.Any) = {
-    val argList = arg.asInstanceOf[util.LinkedList[Object]]
+    val args: Pair[String, Object] = arg.asInstanceOf[Pair[String, Object]]
 
-    val ip = argList.get(0).asInstanceOf[String]
-    val message = argList.get(1).asInstanceOf[String]
+    val ip = args.getKey
 
     var characterToUpdate: Character = null
     val playerIp = gameMatch.allPlayersIp.find(i => i equals ip)
@@ -166,37 +169,43 @@ object BaseControllerCharacter extends ControllerCharacter {
       characterToUpdate = gameMatch.character(playerIp.get).get
     }
 
-    message match {
-      case "isDead" =>
-        characterToUpdate.isAlive = !argList.get(2).asInstanceOf[Boolean]
-        if(!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer,Integer]])
-      case "direction" =>
-        val direction = argList.get(2).asInstanceOf[Direction]
+    if(args.getValue.isInstanceOf[Boolean]) {
+      characterToUpdate.isAlive = args.getValue.asInstanceOf[Boolean]
+      println("SONO ENTRATO IN ISALIVE " + characterToUpdate.isAlive)
+      if (!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer, Integer]])
+    } else {
+      val direction = args.getValue.asInstanceOf[Direction]
+      println("SONO ENTRATO IN DIRECTION" + direction)
 
-        val prePosition: Point[Int, Int] = characterToUpdate.position
-        val preLives: Int = gameMatch.myCharacter.lives.remainingLives
-        val preScore: Int = gameMatch.myCharacter.score
+      val prePosition: Point[Int, Int] = characterToUpdate.position
+      val preLives: Int = gameMatch.myCharacter.lives.remainingLives
+      val preScore: Int = gameMatch.myCharacter.score
 
-        characterToUpdate.go(direction)
+      characterToUpdate.go(direction)
 
-        val postPosition: Point[Int, Int] = characterToUpdate.position
-        val postLives: Int = gameMatch.myCharacter.lives.remainingLives
-        val postScore: Int = gameMatch.myCharacter.score
+      val postPosition: Point[Int, Int] = characterToUpdate.position
+      val postLives: Int = gameMatch.myCharacter.lives.remainingLives
+      val postScore: Int = gameMatch.myCharacter.score
 
-        if(!(prePosition equals postPosition)) view.move(characterImages(characterToUpdate.name)(direction), Color.red,
+      if(!(prePosition equals postPosition)) {
+        println("SONO ENTRATO NELL'IF DI PRE/POST POSITION")
+        view.move(characterImages(characterToUpdate.name)(direction), Color.red,
           prePosition.asInstanceOf[Point[Integer,Integer]],
           postPosition.asInstanceOf[Point[Integer,Integer]])
+      }
 
-        if(!(preLives equals postLives)) {
-          view.updateLives(postLives)
-          if(gameMatch.myCharacter.hasLost) {
-            view.gameOver()
-          }
+      if(!(preLives equals postLives)) {
+        println("SONO ENTRATO NELL'IF DI PRE/POST LIVES")
+        view.updateLives(postLives)
+        if(gameMatch.myCharacter.hasLost) {
+          println("HO RICHIAMATO LAGAME OVER")
+          view.gameOver()
         }
+      }
 
-        if(gameMatch.myCharacter.won) view.showResult(postScore.toString)
+      if(gameMatch.myCharacter.won) view.showResult(postScore.toString)
 
-        if(!(preScore equals postScore)) view.renderScore(postScore)
+      if(!(preScore equals postScore)) view.renderScore(postScore)
     }
   }
 
