@@ -229,8 +229,13 @@ abstract class CharacterImpl(override var isKillable: Boolean, override var live
     game.allCharacters.filter(c => !(c.isInstanceOf[Pacman])).foreach{ e =>
       ghosts = ghosts + "ghost(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.name + "),"
     }
-    ghosts = ghosts.substring(0,ghosts.size-1)
-    ghosts = ghosts + "]"
+    ghosts.size match {
+      case 1 =>
+        ghosts = ghosts + "]"
+      case _ =>
+        ghosts = ghosts.substring(0,ghosts.size-1)
+        ghosts = ghosts + "]"
+    }
     ghosts
   }
 

@@ -10,7 +10,6 @@ import client.model.{MatchImpl, PlayerImpl}
 import client.utils.ActorUtils
 import network.client.P2P.bootstrap.{ClientBootstrap}
 import network.client.P2P.utils.ExecutorServiceUtility
-import network.client.rxJava.OtherCharacterInfo
 
 import scala.util.parsing.json.JSONObject
 

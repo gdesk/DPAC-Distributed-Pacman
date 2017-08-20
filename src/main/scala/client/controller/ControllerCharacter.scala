@@ -183,7 +183,7 @@ object BaseControllerCharacter extends ControllerCharacter {
 
       if(!(prePosition equals postPosition)) {
         println("SONO ENTRATO NELL'IF DI PRE/POST POSITION")
-        view.move(characterImages(characterToUpdate.name)(direction), Color.red,
+        view.move(characterImages.get(characterToUpdate.name).get(changeDir(direction)), Color.red,
           prePosition.asInstanceOf[Point[Integer,Integer]],
           postPosition.asInstanceOf[Point[Integer,Integer]])
       }
