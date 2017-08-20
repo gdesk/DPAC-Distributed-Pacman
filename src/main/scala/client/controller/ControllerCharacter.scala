@@ -118,6 +118,8 @@ object BaseControllerCharacter extends ControllerCharacter {
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
 
+      println("postPosition " + postPosition)
+
     }
 
     if(!(preLives equals postLives)) {
@@ -165,9 +167,11 @@ object BaseControllerCharacter extends ControllerCharacter {
 
     if(args.getValue.isInstanceOf[Boolean]) {
       characterToUpdate.isAlive = args.getValue.asInstanceOf[Boolean]
+
       if (!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer, Integer]])
     } else {
       val direction = args.getValue.asInstanceOf[Direction]
+
 
       val prePosition: Point[Int, Int] = characterToUpdate.position
       val preLives: Int = gameMatch.myCharacter.lives.remainingLives
@@ -180,14 +184,18 @@ object BaseControllerCharacter extends ControllerCharacter {
       val postScore: Int = gameMatch.myCharacter.score
 
       if(!(prePosition equals postPosition)) {
+
         view.move(characterImages.get(characterToUpdate.name).get(changeDir(direction)), Color.red,
+
           prePosition.asInstanceOf[Point[Integer,Integer]],
           postPosition.asInstanceOf[Point[Integer,Integer]])
       }
 
       if(!(preLives equals postLives)) {
+
         view.updateLives(postLives)
         if(gameMatch.myCharacter.hasLost) {
+
           view.gameOver()
         }
       }
