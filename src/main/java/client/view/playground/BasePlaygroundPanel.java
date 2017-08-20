@@ -1,5 +1,6 @@
 package client.view.playground;
 
+import client.model.MatchImpl;
 import client.view.GameObjectView;
 import client.view.GameObjectViewImpl;
 import client.view.Res;
@@ -56,7 +57,12 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     public void renderCharacter(int x, int y, Image characterView){
         if (characterView != null) {
             insertImage(x,y, new ImageIcon(characterView));
-            drawMap(x,y);
+
+            System.out.println(((int)MatchImpl.myCharacter().position().x())+"  " + x +" "+((int)MatchImpl.myCharacter().position().y()) +" "+ y);
+            if(((int)MatchImpl.myCharacter().position().x()) == x && ((int)MatchImpl.myCharacter().position().y()) == y) {
+
+                drawMap(x, y);
+            }
         }
     }
 
