@@ -169,7 +169,7 @@ object BaseControllerCharacter extends ControllerCharacter {
       if (!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer, Integer]])
     } else {
       val direction = args.getValue.asInstanceOf[Direction]
-      println("SONO ENTRATO IN DIRECTION" + direction)
+      println("SONO ENTRATO IN DIRECTION " + direction)
 
       val prePosition: Point[Int, Int] = characterToUpdate.position
       val preLives: Int = gameMatch.myCharacter.lives.remainingLives

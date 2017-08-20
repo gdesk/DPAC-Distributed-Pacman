@@ -3,6 +3,7 @@ package network.client.P2P.game;
 
 import client.controller.BaseControllerCharacter;
 import client.model.Direction;
+import client.model.MatchImpl;
 import client.model.utils.Point;
 import client.model.utils.PointImpl;
 import javafx.util.Pair;
@@ -31,7 +32,7 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
     //private Map<String, Object> responses;
     //private ObservableCharacter observableCharacter;
     private List<Object> list;
-    //private Character character;
+    private String characterName;
     //private ClientIncomingMessageHandlerImpl characterHandler;
 
     public ClientPlayingWorkerThread
@@ -42,7 +43,7 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
         this.registry = registry;
         //this.observableCharacter = new ObservableCharacter();
         this.list = new LinkedList<>();
-        //this.character = MatchImpl.myCharacter();
+        this.characterName = MatchImpl.myCharacter().name();
         //this.characterHandler = new ClientIncomingMessageHandlerImpl();
     }
 
@@ -52,7 +53,7 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
 
         System.setProperty("Djava.rmi.server.hostname", ip);
         String host = ip;
-        Point<Integer, Integer> prepos = new PointImpl<>(-1,-1);
+        Point<Integer, Integer> prepos = (PointImpl)MatchImpl.myCharacter().position();
         Direction direction = null;
         Registry registry;
         PeerRegister stubDirection = null;
@@ -65,12 +66,12 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
             e.printStackTrace();
         }
 
-        while (!Thread.currentThread().isInterrupted()) {
+        while(!Thread.currentThread().isInterrupted()) {
             try {
-                Point<Integer, Integer> pos = stubDirection.getDirection();
+                Point<Integer, Integer> pos = stubDirection.getPosition();
 
                 if(!prepos.equals(pos)) {
-                    if (prepos.x() != pos.x()) {
+                    if (!prepos.x().equals(pos.x())) {
                         if(prepos.x() < pos.x()){
                             direction = Direction.RIGHT;
                         }else{

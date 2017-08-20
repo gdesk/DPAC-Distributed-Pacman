@@ -53,8 +53,7 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
         return SINGLETON;
     }
 
-    public Point<Integer, Integer> getDirection() {
-
+    public Point<Integer, Integer> getPosition() {
         return (PointImpl)(character.position());
     }
 

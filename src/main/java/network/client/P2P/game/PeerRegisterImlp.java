@@ -29,8 +29,8 @@ public class PeerRegisterImlp implements PeerRegister{
 
 
     @Override
-    public Direction getDirection() throws RemoteException {
-        return server.getDirection();
+    public Direction getPosition() throws RemoteException {
+        return server.getPosition();
 
     }
 

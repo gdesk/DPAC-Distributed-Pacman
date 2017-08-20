@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 
 public interface PeerRegister extends Remote {
 
-    Point<Integer,Integer> getDirection() throws RemoteException;
+    Point<Integer,Integer> getPosition() throws RemoteException;
 
     Boolean isAlive() throws RemoteException;
 
