@@ -53,7 +53,8 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
 
         System.setProperty("Djava.rmi.server.hostname", ip);
         String host = ip;
-        Point<Integer, Integer> prepos = (PointImpl)MatchImpl.myCharacter().position();
+        Point<Integer, Integer> prepos = (PointImpl)MatchImpl.character(ip).get().position();
+        System.out.println("PRE posizione " + prepos);
         Direction direction = null;
         Registry registry;
         PeerRegister stubDirection = null;
@@ -71,6 +72,7 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
                 Point<Integer, Integer> pos = stubDirection.getPosition();
 
                 if(!prepos.equals(pos)) {
+                    System.out.println("posizione " + pos);
                     if (!prepos.x().equals(pos.x())) {
                         if(prepos.x() < pos.x()){
                             direction = Direction.RIGHT;
