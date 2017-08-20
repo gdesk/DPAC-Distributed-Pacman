@@ -79,10 +79,13 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             EnabledJComboBoxRenderer enableRenderer = new EnabledJComboBoxRenderer(model);
             comboRange.setRenderer(enableRenderer);
 
-            comboRange.addActionListener(e->{
-                Range rangeSelected = ranges.get(comboRange.getSelectedIndex()-1);
-                playerPanel.init(rangeSelected);
-                BaseControllerMatch.chosenRange(ranges.get(comboRange.getSelectedIndex()-1));
+            comboRange.addActionListener(e-> {
+                String rangeSelect = e.toString().substring(e.toString().length()-4, e.toString().length()-1);
+                if(rangeSelect.equals("3-5")) {
+                    Range rangeSelected = ranges.get(comboRange.getSelectedIndex()-1);
+                    playerPanel.init(rangeSelected);
+                    BaseControllerMatch.chosenRange(ranges.get(comboRange.getSelectedIndex()-1));
+                }
             });
 
             numberPlayerPanel.add(comboRange);
