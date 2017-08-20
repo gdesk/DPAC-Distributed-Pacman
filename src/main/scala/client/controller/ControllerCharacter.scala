@@ -1,6 +1,7 @@
 package client.controller
 
 import java.awt.{Color, Image}
+import java.util
 import java.util.{Observable, Observer}
 
 import client.model._
@@ -154,24 +155,31 @@ object BaseControllerCharacter extends ControllerCharacter {
     */
   override def update(observable: Observable, arg: scala.Any) = {
     println("entro in update di ControllerCharacter")
-    val flowable = arg.asInstanceOf[Flowable[Object]]
+    /*val flowable = arg.asInstanceOf[Flowable[Object]]
     val ip = flowable.elementAt(0).blockingGet.asInstanceOf[String]
     val message = flowable.elementAt(1).blockingGet.asInstanceOf[String]
+*/
+    val argList = arg.asInstanceOf[util.LinkedList]
+
+    val ip = argList.get(0).asInstanceOf[String]
+    val message = argList.get(1).asInstanceOf[String]
 
     var characterToUpdate: Character = null
-    val player = gameMatch.allPlayersIp.find(i => i equals ip)
-    if(player isEmpty) {
+    val playerIp = gameMatch.allPlayersIp.find(i => i equals ip)
+
+    if(playerIp isEmpty) {
       throw ThisIpDoesNotExistException("Ip:" + ip + " doesn't exist!")
     } else {
-      characterToUpdate = gameMatch.character(player.get).get
+      characterToUpdate = gameMatch.character(playerIp.get).get
     }
+
     message match {
       case "isDead" =>
-        characterToUpdate.isAlive = !flowable.elementAt(2).blockingGet.asInstanceOf[Boolean]
+        characterToUpdate.isAlive = !argList.get(2).asInstanceOf[Boolean]
         if(!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer,Integer]])
       case "direction" =>
         println("sono nel case direction di update di ControllerCharacter")
-        val direction = flowable.elementAt(2).blockingGet.asInstanceOf[Direction]
+        val direction = argList.get(2).asInstanceOf[Direction]
 
         val prePosition: Point[Int, Int] = characterToUpdate.position
         val preLives: Int = gameMatch.myCharacter.lives.remainingLives
