@@ -1,9 +1,10 @@
 package network.client.P2P.game;
 
-import client.model.Direction;
 import client.model.MatchImpl;
 import client.model.PlayerImpl;
 import client.model.character.Character;
+import client.model.utils.Point;
+import client.model.utils.PointImpl;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
 import java.rmi.registry.LocateRegistry;
@@ -52,8 +53,9 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
         return SINGLETON;
     }
 
-    public Direction getDirection() {
-        return character.direction();
+    public Point<Integer, Integer> getDirection() {
+
+        return (PointImpl)(character.position());
     }
 
 

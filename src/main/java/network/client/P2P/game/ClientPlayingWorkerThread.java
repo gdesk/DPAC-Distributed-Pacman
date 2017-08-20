@@ -3,6 +3,8 @@ package network.client.P2P.game;
 
 import client.controller.BaseControllerCharacter;
 import client.model.Direction;
+import client.model.utils.Point;
+import client.model.utils.PointImpl;
 import javafx.util.Pair;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
@@ -50,7 +52,8 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
 
         System.setProperty("Djava.rmi.server.hostname", ip);
         String host = ip;
-        Direction prevDir = Direction.START;
+        Point<Integer, Integer> prepos = new PointImpl<>(-1,-1);
+        Direction direction = null;
         Registry registry;
         PeerRegister stubDirection = null;
         PeerRegister stubisAlive = null;
@@ -64,11 +67,24 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
 
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                Direction direction = stubDirection.getDirection();
+                Point<Integer, Integer> pos = stubDirection.getDirection();
 
-                if(!prevDir.equals(direction)) {
+                if(!prepos.equals(pos)) {
+                    if (prepos.x() != pos.x()) {
+                        if(prepos.x() < pos.x()){
+                            direction = Direction.RIGHT;
+                        }else{
+                            direction = Direction.LEFT;
+                        }
+                    }else{
+                        if(prepos.y() < pos.y()){
+                            direction = Direction.UP;
+                        }else{
+                            direction = Direction.DOWN;
+                        }
+                    }
                     BaseControllerCharacter.update(this, new Pair<>(ip, direction));
-                    prevDir = direction;
+                    prepos = pos;
                 }
 
                 boolean isAlive = stubisAlive.isAlive();
