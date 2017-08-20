@@ -16,21 +16,6 @@ import scala.collection.mutable.ListBuffer
   */
 class ClientIncomingMessageHandlerImpl extends Observable with ClientIncomingMessageHandler {
 
-/*private val observers: ListBuffer[Observer] = ListBuffer empty
-  /**
-    * method to register controller character
-    * as observer of this class model (observable)
-    * @param observer
-    */
-  override def addObserver(observer: Observer) {
-    println("sono in addObserver di ClientIncomingMessageHandlerImpl")
-    if (observer.isInstanceOf[ControllerCharacter]) {
-      println("sono nell IF in addObserver di ClientIncomingMessageHandlerImpl")
-      observers += observer
-      println("observers " + observers.head.toString)
-    }
-  }*/
-
   /**
     * method that notify controller character
     * with updated info (score, lives,...) of other character,

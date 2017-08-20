@@ -25,15 +25,16 @@ public class ObservableCharacter {
 
     public ObservableCharacter() {
         this.characterHandler = new ClientIncomingMessageHandlerImpl();
-
         this.info = new OtherCharacterInfo();
     }
 
     public void subscribeObserver(List<Object> list) {
 
-        Flowable.just(list.get(0), list.get(1), list.get(2))
-                .subscribe((item) -> {
-                    this.characterHandler.updateGameView(item);
-                });
+
+        info.createObservable(list).subscribe((item) -> {
+            this.characterHandler.updateGameView(item);
+        });
+
+        Flowable.just(list.get(0), list.get(1), list.get(2));
     }
 }

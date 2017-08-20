@@ -4,6 +4,7 @@ package network.client.P2P.game;
 import client.model.Direction;
 import client.model.MatchImpl;
 import client.model.character.Character;
+import client.model.peerCommunication.ClientIncomingMessageHandlerImpl;
 import network.client.P2P.utils.ExecutorServiceUtility;
 import network.client.rxJava.ObservableCharacter;
 
@@ -30,6 +31,7 @@ public class ClientPlayingWorkerThread implements Runnable {
     private ObservableCharacter observableCharacter;
     private List<Object> list;
     private Character character;
+    private ClientIncomingMessageHandlerImpl characterHandler;
 
     public ClientPlayingWorkerThread
             (ExecutorServiceUtility executor, String ip) {
@@ -38,15 +40,10 @@ public class ClientPlayingWorkerThread implements Runnable {
         this.ip = ip;
         this.registry = registry;
 
-        //initialize client character
-        /*this.responses = new HashMap<String, Object>() {{
-            put("direction", Direction.START);
-            put("isAlive", false);
-
-        }};*/
         this.observableCharacter = new ObservableCharacter();
         this.list = new LinkedList<>();
         this.character = MatchImpl.myCharacter();
+        this.characterHandler = new ClientIncomingMessageHandlerImpl();
     }
 
 
@@ -81,7 +78,8 @@ public class ClientPlayingWorkerThread implements Runnable {
                     list.add(ip);
                     list.add("direction");
                     list.add(direction);
-                    observableCharacter.subscribeObserver(list);
+                    //observableCharacter.subscribeObserver(list);
+                    this.characterHandler.updateGameView(list);
                     list.clear();
                     prevDir = direction;
                 }
@@ -92,7 +90,8 @@ public class ClientPlayingWorkerThread implements Runnable {
                     list.add(ip);
                     list.add("isAlive");
                     list.add(isAlive);
-                    observableCharacter.subscribeObserver(list);
+                    //observableCharacter.subscribeObserver(list);
+                    this.characterHandler.updateGameView(list);
                     list.clear();
 
                 }
