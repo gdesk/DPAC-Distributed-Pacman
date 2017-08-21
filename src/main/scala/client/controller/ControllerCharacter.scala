@@ -4,9 +4,8 @@ import java.awt.{Color, Image}
 import java.util.{Observable, Observer}
 import javafx.util.Pair
 
-import client.controller.BaseControllerCharacter.view
 import client.model._
-import client.model.character.{Character, Pacman}
+import client.model.character.Character
 import client.model.utils.Point
 import client.view.`match`.GamePanel
 
@@ -159,6 +158,7 @@ object BaseControllerCharacter extends ControllerCharacter {
 
     if(args.getValue.isInstanceOf[Direction]) {
       val direction = args.getValue.asInstanceOf[Direction]
+
       val prePosition: Point[Int, Int] = characterToUpdate.position
       val preLives: Int = gameMatch.myCharacter.lives.remainingLives
       val preScore: Int = gameMatch.myCharacter.score

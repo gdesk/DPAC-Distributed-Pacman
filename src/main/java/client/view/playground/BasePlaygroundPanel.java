@@ -57,10 +57,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     public void renderCharacter(int x, int y, Image characterView){
         if (characterView != null) {
             insertImage(x,y, new ImageIcon(characterView));
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
             if(((int)MatchImpl.myCharacter().position().x()) == x && ((int)MatchImpl.myCharacter().position().y()) == y) {
                 drawMap(x, y);
             }
