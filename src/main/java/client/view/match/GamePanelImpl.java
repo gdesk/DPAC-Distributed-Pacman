@@ -32,12 +32,11 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
     private final MicroMapPanel microMap = new MicroMapPanel();
     private final JLabel score = new JLabel("Score: 0");
     private JPanel livesPanel = new JPanel();
+    private Boolean runGame = true;
 
     public GamePanelImpl(final PlaygroundPanel playground) {
         this.playground = playground;
-
         playground.setBounds(0,0, (int)MainFrame.DIMENSION.getWidth(), (int)MainFrame.DIMENSION.getHeight());
-
         add(playground, 1);
         add(microMap, 0);
         addScorePanel();
@@ -47,8 +46,11 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
     @Override
     public void showResult(final String result) {
-        VictoryDialog victoryDialog = new VictoryDialog(MainFrame.getInstance(), result);
-        victoryDialog.setVisible(true);
+        if(runGame) {
+            runGame = false;
+            VictoryDialog victoryDialog = new VictoryDialog(MainFrame.getInstance(), result);
+            victoryDialog.setVisible(true);
+        }
     }
 
     @Override
