@@ -56,7 +56,6 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
         Point<Integer, Integer> prepos = (PointImpl)MatchImpl.character(ip).get().position();
 
 
-
         Registry registry;
         PeerRegister stubDirection = null;
         PeerRegister stubisAlive = null;
@@ -73,7 +72,6 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
                 Point<Integer, Integer> pos = stubDirection.getPosition();
 
                 if(!prepos.equals(pos)) {
-
 
                         if (!prepos.x().equals(pos.x())) {
                             if(prepos.x() < pos.x()){
