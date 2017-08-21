@@ -8,6 +8,7 @@ import client.model._
 import client.model.character.Character
 import client.model.utils.Point
 import client.view.`match`.GamePanel
+import network.client.P2P.utils.ExecutorServiceUtility
 
 /**
   * Represents the controller for characters management.
@@ -115,7 +116,9 @@ object BaseControllerCharacter extends ControllerCharacter {
 
     if(character.won) view.showResult(postScore.toString)
 
-    if(character.hasLost) view.gameOver()
+    if(character.hasLost)
+      ExecutorServiceUtility.getIstance.stopPlayingWorkerThread()
+      view.gameOver()
 
     if(!(preScore equals postScore)) view.renderScore(postScore)
   }

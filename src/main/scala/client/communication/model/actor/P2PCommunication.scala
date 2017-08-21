@@ -35,6 +35,7 @@ class P2PCommunication() extends UntypedAbstractActor {
         //val server = ServerBootstrap.getIstance(ip)
 
         if (firstMatch.equals(false)) {
+          println("sto per entrare in executor.initServerPlayingWorkerThread(ip)")
           executor.initServerPlayingWorkerThread(ip)
           firstMatch = true
         }

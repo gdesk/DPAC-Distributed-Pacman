@@ -106,7 +106,7 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
 
                 if(!isAlive) {
                     BaseControllerCharacter.update(this, new Pair<>(ip, isAlive));
-                    executor.stopPlayingWorkerThread();
+                    //executor.stopPlayingWorkerThread();
                 }
             } catch (Exception e) {
                 //System.err.println("Client " + ip + " exception: " + e.toString());

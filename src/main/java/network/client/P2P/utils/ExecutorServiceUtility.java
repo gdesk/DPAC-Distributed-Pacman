@@ -55,10 +55,10 @@ public class ExecutorServiceUtility {
         while (!executor.isTerminated()) {}
     }
 
-    public void stopClientPlayingWorkerThread(){
-        this.future.cancel(true);
+    //public void stopClientPlayingWorkerThread(){
+    //    this.future.cancel(true);
 
-    }
+    //}
 
     /*
     * TODO
