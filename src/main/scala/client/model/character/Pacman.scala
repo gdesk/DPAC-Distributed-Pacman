@@ -32,6 +32,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
   private var _won = false
+  private var _isAlive = true
 
   setPosition(InitializedInfoImpl.getPacmanStartPosition)
 
@@ -108,8 +109,32 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
   override def won = {
     val dots = prologDotsList
     _won = PrologConfig.getPrologEngine.solve(s"pacman_victory(pacman(${position.x},${position.y},${lives.remainingLives},${score}),${dots}).").isSuccess && !hasLost
-    MatchImpl.allCharacters.filter(c => !c.isInstanceOf[Pacman]).foreach(g => g.hasLost = true)
+    if(_won) MatchImpl.allCharacters.filter(c => !c.isInstanceOf[Pacman]).foreach(g => g.hasLost = true)
     _won
+  }
+
+  /**
+    * Returns if character is alive.
+    *
+    * @return true if character is alive, false otherwise.
+    */
+  override def isAlive = {
+    _isAlive = super.isAlive
+    if(hasLost) MatchImpl.allCharacters.filter(c => !c.isInstanceOf[Pacman]).foreach(g => g.won = true)
+    _isAlive
+  }
+
+  /**
+    * Sets if charater is alive.
+    *
+    * @param alive - true if character is alive, false otherwise.
+    */
+  override def isAlive_=(alive: Boolean) = {
+    _isAlive = alive
+    if(hasLost) {
+      MatchImpl.allCharacters.filter(c => !c.isInstanceOf[Pacman]).foreach(g => g.won = true)
+      println("GAME OVER!")
+    }
   }
 
   /**

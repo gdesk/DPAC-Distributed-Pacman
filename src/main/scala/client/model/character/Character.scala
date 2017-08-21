@@ -116,6 +116,13 @@ trait Character extends GameItem{
   def won: Boolean
 
   /**
+    * Sets if the character won.
+    *
+    * @param won - true if character won, false otherwise.
+    */
+  def won_=(won: Boolean): Unit
+
+  /**
     * Returns if the character had lost.
     *
     * @return true if the character had lost, false otherwise.
@@ -144,9 +151,10 @@ abstract class CharacterImpl(override var isKillable: Boolean, override var live
   private val game: Match = MatchImpl
   private var _isAlive = true
   private var _hasLost = false
+  private var _won = false
 
-  override var direction: Direction = Direction.START
-  override var score: Int = 0
+  override var direction = Direction.START
+  override var score = 0
 
   /**
     * Manages character's movement and consequently the contact with other item of the game.
@@ -219,6 +227,20 @@ abstract class CharacterImpl(override var isKillable: Boolean, override var live
     _isAlive = alive
     if(hasLost) println("GAME OVER!")
   }
+
+  /**
+    * Returns if the character won.
+    *
+    * @return true if the character won, false otherwise.
+    */
+  def won = _won
+
+  /**
+    * Sets if the character won.
+    *
+    * @param won - true if character won, false otherwise.
+    */
+  def won_=(won: Boolean) = _won = won
 
   /**
     * Returns if the character had lost.

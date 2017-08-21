@@ -4,8 +4,9 @@ import java.awt.{Color, Image}
 import java.util.{Observable, Observer}
 import javafx.util.Pair
 
+import client.controller.BaseControllerCharacter.view
 import client.model._
-import client.model.character.Character
+import client.model.character.{Character, Pacman}
 import client.model.utils.Point
 import client.view.`match`.GamePanel
 
@@ -117,20 +118,13 @@ object BaseControllerCharacter extends ControllerCharacter {
       view.move(characterImages.get(character.name).get(changeDir(direction)), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
-
-      println("postPosition " + postPosition)
-
     }
 
-    if(!(preLives equals postLives)) {
-      view.updateLives(postLives)
-      if(character.hasLost) {
-        view.gameOver()
-      }
-    }
+    if(!(preLives equals postLives)) view.updateLives(postLives)
 
     if(character.won) view.showResult(postScore.toString)
 
+    if(character.hasLost) view.gameOver()
 
     if(!(preScore equals postScore)) view.renderScore(postScore)
   }
@@ -167,7 +161,11 @@ object BaseControllerCharacter extends ControllerCharacter {
 
     if(args.getValue.isInstanceOf[Boolean]) {
       characterToUpdate.isAlive = args.getValue.asInstanceOf[Boolean]
+      if(!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer, Integer]])
+      if(gameMatch.myCharacter.won) view.showResult(gameMatch.myCharacter.score.toString)
+    }
 
+<<<<<<< Updated upstream
 
       if (!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer, Integer]])
     } else {
@@ -175,6 +173,11 @@ object BaseControllerCharacter extends ControllerCharacter {
 
 
 
+=======
+    if(args.getValue.isInstanceOf[Direction]) {
+      val direction = args.getValue.asInstanceOf[Direction]
+
+>>>>>>> Stashed changes
       val prePosition: Point[Int, Int] = characterToUpdate.position
       val preLives: Int = gameMatch.myCharacter.lives.remainingLives
       val preScore: Int = gameMatch.myCharacter.score
@@ -186,14 +189,17 @@ object BaseControllerCharacter extends ControllerCharacter {
       val postScore: Int = gameMatch.myCharacter.score
 
       if(!(prePosition equals postPosition)) {
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
         view.move(characterImages.get(characterToUpdate.name).get(changeDir(direction)), Color.red,
-
           prePosition.asInstanceOf[Point[Integer,Integer]],
           postPosition.asInstanceOf[Point[Integer,Integer]])
       }
 
+<<<<<<< Updated upstream
       if(!(preLives equals postLives)) {
 
 
@@ -204,8 +210,13 @@ object BaseControllerCharacter extends ControllerCharacter {
           view.gameOver()
         }
       }
+=======
+      if(!(preLives equals postLives)) view.updateLives(postLives)
+>>>>>>> Stashed changes
 
       if(gameMatch.myCharacter.won) view.showResult(postScore.toString)
+
+      if(gameMatch.myCharacter.hasLost) view.gameOver()
 
       if(!(preScore equals postScore)) view.renderScore(postScore)
     }

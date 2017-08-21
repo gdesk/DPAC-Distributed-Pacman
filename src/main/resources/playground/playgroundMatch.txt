@@ -1,4 +1,7 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
  x                                                          x
  x              ..........                                  x
@@ -21,6 +24,7 @@
  x              .        .      .       .       .           x
  x                                                          x
  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+<<<<<<< Updated upstream
 =======
  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
  x..................     x                     x                   x
@@ -43,4 +47,6 @@
  x                             x              x      .       x     x
  x                             x      a       x       .      x     x
  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
