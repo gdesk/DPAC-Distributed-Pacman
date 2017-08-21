@@ -99,7 +99,8 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     }
 
     private void drawMap(final int characterX, final int characterY){
-        renderedCells.forEach(cell->remove(cell));
+       // renderedCells.forEach(cell->remove(cell));
+        this.removeAll();
         renderedCells.clear();
         drawCells(characterX,characterY);
     }

@@ -38,9 +38,10 @@ public class ExecutorServiceUtility {
 
     public void initServerPlayingWorkerThread(String ip){
 
-        workerServer = ServerPlayingWorkerThread.getIstance(this);
+       // workerServer = ServerPlayingWorkerThread.getIstance(this);
         //executor.execute(workerServer);
-        new Thread(workerServer).start();
+        //new Thread(workerServer).start();
+        ServerPlayingWorkerThread.getIstance(this).run();
     }
 
     public void initClientPlayingWorkerThread(String ip){

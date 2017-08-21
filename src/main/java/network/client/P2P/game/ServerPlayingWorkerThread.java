@@ -18,7 +18,7 @@ import java.rmi.server.UnicastRemoteObject;
  * (so that other peers can take updated values
  * when they need to refresh character info in their gui)
  */
-public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
+public class ServerPlayingWorkerThread implements PeerRegister {
 
     //private ExecutorServiceUtility executor;
     //private int rmiPort;
@@ -62,7 +62,6 @@ public class ServerPlayingWorkerThread implements PeerRegister, Runnable  {
         return character.isAlive();
     }
 
-    @Override
     public void run() {
 
 
