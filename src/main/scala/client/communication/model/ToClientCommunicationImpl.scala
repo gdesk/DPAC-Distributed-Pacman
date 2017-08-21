@@ -46,7 +46,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
       "}\n" +
       "}\n" +
       "}\n")
-  //ConfigFactory.parseFile(new File("src/main/resources/communication/configuration.conf"))
   private val system: ActorSystem = ActorSystem.create("DpacClient", config)
   private val inbox = Inbox.create(system)
 
@@ -60,7 +59,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   private val currentMatch: Match = MatchImpl
 
   /**
-    * Send the message to actor AccessManager with the registration's data and
+    * Sends the message to actor AccessManager with the registration's data and
     * receive from server the response.
     *
     * @param name
@@ -91,7 +90,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Send the message to actor ToServerCommunication with the login's data and
+    * Sends the message to actor ToServerCommunication with the login's data and
     * receive from sever the response with also the MatchResult
     *
     * @param username
@@ -118,7 +117,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Send to server the username to remove the user from online users' list.
+    * Sends the username to remove the user from online users' list.
     *
     *@return true  if logout ended good
     *        false otherwise
@@ -135,7 +134,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Receives to server the list of range to play the match.
+    * Receives the list of range to play the match.
     *
     * @return list of range to players' game
     */
@@ -150,7 +149,8 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Send to server the selected range
+    * Send the selected range,
+    * that is the max and min number of players.
     *
     * @param range the range selected by player
     */
@@ -165,7 +165,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Receives from server the available character.
+    * Receives the available character.
     *
     * @return list of all character to choose in team's creation.
     */
@@ -188,7 +188,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Send to server the character chosen. It's recall when the player choose him character.
+    * Send the character chosen. It's recall when the player choose him character.
     * The images .png are saved in the resources directory.
     *
     * @param character character chosen from single player
@@ -213,7 +213,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Receives from server the List of available playgrounds, saving to resources directory
+    * Receives the List of available playgrounds, saving to resources directory
     * the image.
     *
     * @return number of available playground
@@ -232,10 +232,9 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Send to server the playground chosen. It's recall when the player choose the playground of current match.
+    * Sends the playground chosen. It's recall when the player choose the playground of current match.
     *
-    * @param idPlayground position of playground's in the file list.
-    *
+    * @param idPlayground the unique id of playground
     */
   override def choosePlayground(idPlayground: Int): Unit = {
     val message = JSONObject(Map[String, Any](
@@ -247,7 +246,6 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val response = getJSONMessage(message)
     val playgroundFile = response.obj("playground").asInstanceOf[Array[Byte]]
 
-    //val inputStream: InputStream = new ByteArrayInputStream(playgroundFile)
     val fos = new FileOutputStream("src/main/resources/playground/playgroundMatch.txt")
     fos.write(playgroundFile)
     fos.close()
@@ -256,7 +254,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Send to server the match just ended.
+    * Sends the match just ended.
     *
     * @param result The MatchResult with date and score of the ended match
     * @param user   id of characters.
@@ -274,7 +272,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Receives from server all the played matches of selected username
+    * Receives all the played matches of selected username
     *
     * @param username username of player
     * @return list of all match with its result
@@ -291,6 +289,9 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     allMatches
   }
 
+  /**
+    * Initialize the character of current match.
+    */
   def initializedCharatcter(): Unit ={
     val message = JSONObject(Map[String, String](
       "object" -> "initCharacter",
@@ -310,9 +311,10 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
 
   /**
     * Receives from server the characters playing in the current match
+    * @param name the username of the player
     *
     * @return list of current match's characters.
-    *         The Map has the IP address of character as key and, as value, a Map with direction and Image.
+    *         The Map has the direction and, as value, a image related to a key.
     */
   override def getTeamCharacter(name: String):  Map[Direction, Image] = {
     val message = JSONObject(Map[String, String](
@@ -347,9 +349,8 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Send to server the request to information to configure and synchronize the P2P Communication.
-    * Then start the game
-    *
+    * Sends the request to information to configure and synchronize the P2P Communication.
+    * After that start the game.
     **/
   override def startMatch(): Unit = {
     val message = JSONObject(Map[String,String](
@@ -360,10 +361,9 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Send to server the request to invite the friend in current match
+    * Sends the request to invite the friend in current match
     *
     * @param username username of player to invite
-    * @return boolean the invite's response
     */
   override def sendRequest(username: String): Unit = {
     val message = JSONObject(Map[String,String](
@@ -376,7 +376,7 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
-    * Send to server the invite's response
+    * Sends the invite's response
     *
     * @param response the invite's response to current match
     */
@@ -391,8 +391,9 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
   }
 
   /**
+    * Sends the request to take the list og player's ip.
     *
-    * @return
+    * @return list of all the players's ip
     */
   override def getPlayersIp(): List[String] ={
     val message = JSONObject(Map[String,Any](
@@ -403,6 +404,28 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     val response = getJSONMessage(message)
     val listIP = response.obj("list").asInstanceOf[List[String]]
     listIP
+  }
+
+  /**
+    * Sends the match to save to server.
+    *
+    * @param matchResult the match just ended, with score, date and result
+    */
+  override def saveMatch(matchResult: MatchResult): Unit = {
+    val score = matchResult.score
+    val date = matchResult.date
+    val result = matchResult.result
+    player.addAMatchResult(matchResult)
+
+    val message = JSONObject(Map[String,Any](
+      "object" -> "saveMatch",
+      "username" -> PlayerImpl.username,
+      "score" -> score,
+      "date" -> date,
+      "result" -> result
+    ))
+
+    toServerCommunication ! message
   }
 
   /**
@@ -462,20 +485,5 @@ case class ToClientCommunicationImpl() extends ToClientCommunication{
     ha
   }
 
-  override def saveMatch(matchResult: MatchResult): Unit = {
-    val score = matchResult.score
-    val date = matchResult.date
-    val result = matchResult.result
-    player.addAMatchResult(matchResult)
 
-    val message = JSONObject(Map[String,Any](
-      "object" -> "saveMatch",
-      "username" -> PlayerImpl.username,
-      "score" -> score,
-      "date" -> date,
-      "result" -> result
-    ))
-
-    toServerCommunication ! message
-  }
 }

@@ -5,25 +5,42 @@ import java.io.FileInputStream
 import alice.tuprolog.{Prolog, Theory}
 
 /**
-  * Add the the unique theory of prolog from file.
+  * Manages the interfacing with the logic of the game, written in prolog.
   *
   * @author Giulia Lucchi
   */
 object PrologConfig {
   private val FILE_NAME = "src/main/prolog/dpac-prolog.pl"
+
   private val _theory: Theory =  new Theory(new FileInputStream(FILE_NAME))
+
   val engine = new Prolog
   engine.setTheory(_theory)
 
+  /**
+    * Used to execute the goal on the prolog theory.
+    *
+    * @return the prolog object already set with the theory
+    */
+  def getPrologEngine: Prolog = engine
 
-
-def addStreets(streets: Theory): Unit ={
+  /**
+    * Adds the theory in prolog to create a block of playground's street.
+    *
+    * @param streets theory to add in game's logic
+    */
+  def addStreets(streets: Theory): Unit ={
   engine.clearTheory()
   streets.append(_theory)
   engine.setTheory(streets)
 }
-  def getPrologEngine: Prolog = engine
 
+  /**
+    * Convert the scala list to prolog list.
+    * @param scalaList list written in scala
+    *
+    * @return list in prolog, as a string to pass as param in the goal.
+    */
   def scalaToPrologList(scalaList : List[String]): String = {
     var string : String  = "["
     scalaList.toStream.foreach(x =>
@@ -35,9 +52,10 @@ def addStreets(streets: Theory): Unit ={
   }
 
   /**
+    * Convert the prolog list to scala list.
     *
-    * @param prologList
-    * @return
+    * @param prologList list written in prolog
+    * @return list written in scala.
     */
   def prologToScalaList( prologList: String): List[String] = {
     val list = prologList.replace("[","").replace("]","").replace(" ","")

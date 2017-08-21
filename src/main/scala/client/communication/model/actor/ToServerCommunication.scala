@@ -2,12 +2,11 @@ package client.communication.model.actor
 
 import akka.actor.{ActorSelection, UntypedAbstractActor}
 import client.utils.ActorUtils
-import client.view.Utils
-
 import scala.util.parsing.json.JSONObject
 
 /**
-  * This actor manages the massage to send to server
+  * This actor manages the connection with the server and
+  * sends the message to its.
   *
   * @author Giulia Lucchi
   */

@@ -8,6 +8,8 @@ import scala.util.parsing.json.JSONObject
 
 /**
   * This actor manage the message, that it's received from server.
+  * Received the message from server, there are two way: the actor sends
+  * the message to Inbox of main class, or notifies the controller.
   *
   * @author Giulia Lucchi
   */
@@ -26,7 +28,7 @@ class FromServerCommunication extends UntypedAbstractActor{
         controllerObservable.gameResponse("GameResponse", response)
         if(!response){
           val motivation = msg.obj("motivation").asInstanceOf[String]
-          controllerObservable.exceptionMotivation("Motivation", motivation)
+          controllerObservable.gameRequest("Motivation", motivation)
         }
       }
       case "playerInMatch" =>{

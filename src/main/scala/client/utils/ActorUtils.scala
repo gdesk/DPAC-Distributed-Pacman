@@ -1,17 +1,12 @@
 package client.utils
 
 
-import java.net.InetAddress
-
-
 /**
-  * This object includes client actors' paths to improve code
+  * This object includes client actors' paths and server ip, received as input parameter.
   *
   * @author Giulia Lucchi
   */
 object ActorUtils {
-
-  val IP_ADDRESS: String = InetAddress.getLocalHost.toString
 
   val INBOX_ACTOR : String = "/system/dsl/inbox-1"
   val TOSERVER_ACTOR: String = "/user/toServerCommunication"

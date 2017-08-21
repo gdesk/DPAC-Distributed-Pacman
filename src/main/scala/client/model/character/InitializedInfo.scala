@@ -75,6 +75,12 @@ object InitializedInfoImpl extends InitializedInfo{
   var xPosition =  valueOf(previousPosition.getTerm("X").toString)
   var yPosition = valueOf(previousPosition.getTerm("Y").toString)
 
+  /**
+    * Extracts from the logic of the game implemented in prolog
+    * the ghost's starting position
+    *
+    * @return the coordinate of ghost's starting position
+    */
   override def getGhostStartPosition(): Point[Int,Int] ={
 
     val term = PrologConfig.engine.solve(Term.createTerm("next_position("+xPosition+","+yPosition+",X,Y)")).getTerm("X")
