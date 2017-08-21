@@ -1,21 +1,22 @@
- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
- x..................     x                     x                   x
- x    xxxxxxxxx    .     x       x     x       x          xxxxxxx  x
- x   xxx      x    .     x       x     x                  x        x
- x            x    .     x       x  xxxxxxx    x          x   p    x
- x     x      x    .     x       x     x       xxxxxxx    x        x
- x     x      x    .     x       x     x             x    x        x
- x     x           .     x       x                   x        x    x
- x     x      xxxxxxxxxxxx  p   xxxxxxxxxxxxxxx  .   x        x    x
- x     x                                         .   x        x    x
- x     x      gk        .......................      x        x    x
- x     x       xxxxxxxxxxxxxxxxxxxxxx            .   xxxxxxxxxx    x
- x     x       x                    x             .                x
- x                xxxxxxxxx         x      c s o  .       xxxx     x
- x                                                                 x
- x                x       x         x         xxxxxxxxx .    x     x
- x p              x       x         x         x    .   x     x     x
- xxxxxxxxxxxxxxxxxx       x    xxxxxx         x     .  x     x     x
- x                             x              x      .       x     x
- x                             x      a       x       .      x     x
- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ x                                                          x
+ x              ..........                                  x
+ x                            .......                       x
+ x xxxxxxxxxxx     xxxxxxxxxxxxxxxx      xxxxxxxxxxxxxxxxxx x
+ x xxxxxxxxxxx     xxxxxxxxxxxxxxxx      xxxxxxxxxxxxxxxxxx x
+ x    xxxxx        xxx          xxx      xxx            xxx x
+ x    xxxxx        xxx          xxx      xxx            xxx x
+ x    xxxxx        xxx          xxx      xxxxxxxxxxxxxxxxxx x
+ x    xxxxx        xxx          xxx      xxx                x
+ x    xxxxx        xxx          xxx      xxx                x
+ x    xxxxx        xxx          xxx      xxx                x
+ x    xxxxx        xxxxxxxxxxxxxxxx      xxx                x
+ x    xxxxx        xxxxxxxxxxxxxxxx      xxx                x
+ x                                                          x
+ x   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx     x
+ x                                                          x
+ x                     a               s                    x
+ x                                                          x
+ x              .        .      .       .       .           x
+ x                                                          x
+ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

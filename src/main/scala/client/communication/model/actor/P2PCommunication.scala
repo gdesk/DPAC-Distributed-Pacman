@@ -2,15 +2,15 @@ package client.communication.model.actor
 
 
 import java.rmi.registry.LocateRegistry
+import java.sql.Timestamp
 
 import akka.actor.UntypedAbstractActor
 import client.controller.BaseControllerMatch
 import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl
 import client.model.{MatchImpl, PlayerImpl}
 import client.utils.ActorUtils
-import network.client.P2P.bootstrap.{ClientBootstrap}
+import network.client.P2P.bootstrap.ClientBootstrap
 import network.client.P2P.utils.ExecutorServiceUtility
-
 
 import scala.util.parsing.json.JSONObject
 
@@ -24,7 +24,6 @@ class P2PCommunication() extends UntypedAbstractActor {
 
 
   val executor = ExecutorServiceUtility.getIstance
-  var firstMatch = false
 
   override def onReceive(message: Any): Unit = message match{
 
@@ -34,11 +33,7 @@ class P2PCommunication() extends UntypedAbstractActor {
         val ip = PlayerImpl.ip
         //val server = ServerBootstrap.getIstance(ip)
 
-        if (firstMatch.equals(false)) {
-          println("sto per entrare in executor.initServerPlayingWorkerThread(ip)")
-          executor.initServerPlayingWorkerThread(ip)
-          firstMatch = true
-        }
+        executor.initServerPlayingWorkerThread(ip)
 
         context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! JSONObject(Map[String, String]("object" -> "serverIsRunning", "senderIP" -> ip))
       }

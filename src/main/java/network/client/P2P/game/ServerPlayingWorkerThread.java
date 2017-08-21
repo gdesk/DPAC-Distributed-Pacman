@@ -63,7 +63,6 @@ public class ServerPlayingWorkerThread implements PeerRegister {
     }
 
     public void run() {
-        System.out.print("entro in run di ServerPlayingWorkerThread una SOLA volta!");
 
         try {
             registry = LocateRegistry.createRegistry(1099);
