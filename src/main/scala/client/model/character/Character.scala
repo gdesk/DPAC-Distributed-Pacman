@@ -132,9 +132,9 @@ trait Character extends GameItem{
   /**
     * Sets if the character has lost.
     *
-    * @param lost - true if character has lost, false otherwise.
+    * @param hasLost - true if character has lost, false otherwise.
     */
-  def hasLost_=(lost: Boolean): Unit
+  def hasLost_=(hasLost: Boolean): Unit
 
 }
 
@@ -150,11 +150,11 @@ abstract class CharacterImpl(override var isKillable: Boolean, override var live
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
   private var _isAlive = true
-  private var _hasLost = false
   private var _won = false
 
   override var direction = Direction.START
   override var score = 0
+  override var hasLost = false
 
   /**
     * Manages character's movement and consequently the contact with other item of the game.
@@ -214,7 +214,10 @@ abstract class CharacterImpl(override var isKillable: Boolean, override var live
     * @return true if character is alive, false otherwise.
     */
   override def isAlive = {
-    if(lives.remainingLives <= 0) _isAlive = false
+    if(lives.remainingLives <= 0) {
+      _isAlive = false
+      hasLost = true
+    }
     _isAlive
   }
 
@@ -241,23 +244,6 @@ abstract class CharacterImpl(override var isKillable: Boolean, override var live
     * @param won - true if character won, false otherwise.
     */
   def won_=(won: Boolean) = _won = won
-
-  /**
-    * Returns if the character had lost.
-    *
-    * @return true if the character had lost, false otherwise.
-    */
-  override def hasLost = {
-    if(!isAlive) _hasLost = !isAlive
-    _hasLost
-  }
-
-  /**
-    * Sets if the character has lost.
-    *
-    * @param lost - true if character has lost, false otherwise.
-    */
-  def hasLost_=(lost: Boolean) = _hasLost = lost
 
   /**
     * Returns a string representing the prolog ghosts list containing all match's ghosts. It can be pass as Term in prolog.

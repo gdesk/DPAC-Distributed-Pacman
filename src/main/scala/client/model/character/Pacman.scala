@@ -131,7 +131,8 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     */
   override def isAlive_=(alive: Boolean) = {
     _isAlive = alive
-    if(hasLost) {
+    if(!_isAlive) {
+      hasLost = true
       MatchImpl.allCharacters.filter(c => !c.isInstanceOf[Pacman]).foreach(g => g.won = true)
       println("GAME OVER!")
     }
