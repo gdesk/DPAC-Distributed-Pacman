@@ -26,7 +26,7 @@ import java.util.Observable;
  */
 public class ClientPlayingWorkerThread extends Observable implements Runnable {
 
-    //private ExecutorServiceUtility executor;
+    private ExecutorServiceUtility executor;
     private String ip;
     private Registry registry;
     //private Map<String, Object> responses;
@@ -38,7 +38,7 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
     public ClientPlayingWorkerThread
             (ExecutorServiceUtility executor, String ip) {
 
-        //this.executor = executor;
+        this.executor = executor;
         this.ip = ip;
         this.registry = registry;
         //this.observableCharacter = new ObservableCharacter();
@@ -106,6 +106,7 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
 
                 if(!isAlive) {
                     BaseControllerCharacter.update(this, new Pair<>(ip, isAlive));
+                    executor.stopPlayingWorkerThread();
                 }
             } catch (Exception e) {
                 //System.err.println("Client " + ip + " exception: " + e.toString());

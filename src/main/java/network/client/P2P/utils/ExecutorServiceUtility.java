@@ -50,7 +50,7 @@ public class ExecutorServiceUtility {
         executor.execute(workerClient);
     }
 
-    public void stopServerPlayingWorkerThread(){
+    public void stopPlayingWorkerThread(){
         executor.shutdown();
         while (!executor.isTerminated()) {}
     }

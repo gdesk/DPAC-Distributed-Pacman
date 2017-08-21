@@ -7,8 +7,10 @@ import client.model.utils.Point;
 import client.model.utils.PointImpl;
 import network.client.P2P.utils.ExecutorServiceUtility;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
@@ -67,7 +69,6 @@ public class ServerPlayingWorkerThread implements PeerRegister {
 
         try {
             registry = LocateRegistry.createRegistry(1099);
-
             System.setProperty("Djava.rmi.server.codebase", "out/");
             System.setProperty("Djava.rmi.server.hostname", PlayerImpl.ip());
 
@@ -79,31 +80,34 @@ public class ServerPlayingWorkerThread implements PeerRegister {
 
             // Bind the remote object's stub in the registry
             //registry = LocateRegistry.getRegistry();
-            
+
             System.out.println("Server ready");
+
+        } catch (ExportException e1) {
+            try {
+                registry = LocateRegistry.getRegistry(1099);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         } catch (Exception e) {
-            System.err.println("Server exception: " + e.toString());
-            // e.printStackTrace();
+            e.printStackTrace();
         }
 
     }
 
+}
+
     /*public void updateObjects() throws RemoteException {
-
         //this.direction = character.direction();
-
         this.isAlive = character.isAlive();
-
-
     }*/
 
-    //private void init(ExecutorServiceUtility executor){
+//private void init(ExecutorServiceUtility executor){
 
-        //this.executor = executor;
-        //this.rmiPort = rmiPort;
-        //this.registry = registry;
-    //}
+//this.executor = executor;
+//this.rmiPort = rmiPort;
+//this.registry = registry;
+//}
 
 
 
-}
