@@ -24,7 +24,7 @@ class P2PCommunication() extends UntypedAbstractActor {
 
 
   val executor = ExecutorServiceUtility.getIstance
-
+  var firstMatch = false
 
   override def onReceive(message: Any): Unit = message match{
 
@@ -34,7 +34,10 @@ class P2PCommunication() extends UntypedAbstractActor {
         val ip = PlayerImpl.ip
         //val server = ServerBootstrap.getIstance(ip)
 
-        executor.initServerPlayingWorkerThread(ip)
+        if (firstMatch.equals(false)) {
+          executor.initServerPlayingWorkerThread(ip)
+          firstMatch = true
+        }
 
         context.actorSelection(ActorUtils.TOSERVER_ACTOR) ! JSONObject(Map[String, String]("object" -> "serverIsRunning", "senderIP" -> ip))
       }

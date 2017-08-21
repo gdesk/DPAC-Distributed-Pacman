@@ -108,6 +108,3 @@ public class ServerPlayingWorkerThread implements PeerRegister {
 //this.rmiPort = rmiPort;
 //this.registry = registry;
 //}
-
-
-
