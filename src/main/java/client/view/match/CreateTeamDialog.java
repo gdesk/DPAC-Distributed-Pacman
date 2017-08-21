@@ -49,20 +49,6 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             setLocationRelativeTo(null);
 
             JPanel buttonPanel = createBackgroundColorPanel();
-           /* buttonPanel.setBorder(BorderFactory.createEmptyBorder(BOUNDS,BOUNDS,BOUNDS,BOUNDS));
-            starGame.setEnabled(false);
-            starGame.addActionListener(e->{
-                dispose();
-                frame.setContentPane(nextView);
-            });
-
-            JButton addFiends = new JButton("+ ADD FRIENDS");
-            addFiends.addActionListener(e->{
-                AddFriendsDialog friendsDialog =  new AddFriendsDialog(this);
-                friendsDialog.setVisible(true);
-            });
-            buttonPanel.add(starGame);
-            buttonPanel.add(addFiends);*/
 
             JLabel waitForAnotherPlayers = new JLabel("Looking for other players... ");
             buttonPanel.add(waitForAnotherPlayers);
@@ -74,6 +60,8 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             JComboBox comboRange = new JComboBox();
             comboRange.addItem("");
             ranges.forEach(r -> comboRange.addItem(r.getMin() + "-" + (r.getMax() + 1)));
+            comboRange.getComponent(1).setEnabled(false);
+
             DefaultListSelectionModel model = new DefaultListSelectionModel();
             model.addSelectionInterval(1,1);
             EnabledJComboBoxRenderer enableRenderer = new EnabledJComboBoxRenderer(model);

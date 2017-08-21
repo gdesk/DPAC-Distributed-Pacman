@@ -54,13 +54,6 @@ trait ControllerCharacter extends Observer {
   def setView(view: GamePanel): Unit
 
   /**
-    * Sets the model to be called when somethings changes about characters.
-    *
-    * @param model - model to be called.
-    */
-  //def setModel(model: PeerRegisterHandler): Unit
-
-  /**
     * Called when other character moves or dies.
     * Invokes the model to perform actions that result from the changes of the character and notifies the view of changes.
     *
@@ -83,7 +76,6 @@ object BaseControllerCharacter extends ControllerCharacter {
   private val gameMatch: Match = MatchImpl
   private val playground: Playground = PlaygroundImpl
   private var view: GamePanel = null
-  //private var model: PeerRegisterHandler = null
 
   override var characterImages: Map[String, Map[Direction, Image]] = Map.empty
 
@@ -165,19 +157,8 @@ object BaseControllerCharacter extends ControllerCharacter {
       if(gameMatch.myCharacter.won) view.showResult(gameMatch.myCharacter.score.toString)
     }
 
-<<<<<<< Updated upstream
-
-      if (!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer, Integer]])
-    } else {
-      val direction = args.getValue.asInstanceOf[Direction]
-
-
-
-=======
     if(args.getValue.isInstanceOf[Direction]) {
       val direction = args.getValue.asInstanceOf[Direction]
-
->>>>>>> Stashed changes
       val prePosition: Point[Int, Int] = characterToUpdate.position
       val preLives: Int = gameMatch.myCharacter.lives.remainingLives
       val preScore: Int = gameMatch.myCharacter.score
@@ -189,30 +170,12 @@ object BaseControllerCharacter extends ControllerCharacter {
       val postScore: Int = gameMatch.myCharacter.score
 
       if(!(prePosition equals postPosition)) {
-<<<<<<< Updated upstream
-
-
-=======
->>>>>>> Stashed changes
         view.move(characterImages.get(characterToUpdate.name).get(changeDir(direction)), Color.red,
           prePosition.asInstanceOf[Point[Integer,Integer]],
           postPosition.asInstanceOf[Point[Integer,Integer]])
       }
 
-<<<<<<< Updated upstream
-      if(!(preLives equals postLives)) {
-
-
-        view.updateLives(postLives)
-        if(gameMatch.myCharacter.hasLost) {
-
-
-          view.gameOver()
-        }
-      }
-=======
       if(!(preLives equals postLives)) view.updateLives(postLives)
->>>>>>> Stashed changes
 
       if(gameMatch.myCharacter.won) view.showResult(postScore.toString)
 
@@ -221,13 +184,6 @@ object BaseControllerCharacter extends ControllerCharacter {
       if(!(preScore equals postScore)) view.renderScore(postScore)
     }
   }
-
-  /**
-    * Sets the model to be called when somethings changes about characters.
-    *
-    * //@param model - model to be called.
-    */
-  //override def setModel(model: PeerRegisterHandler) = this.model = model
 
   private def changeDir(direction: Direction): Direction =  direction match {
     case Direction.UP => Direction.DOWN
