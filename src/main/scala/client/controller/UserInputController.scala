@@ -1,10 +1,6 @@
 package client.view
 
 import java.awt.event.{KeyEvent, KeyListener}
-<<<<<<< Updated upstream
-=======
-import javax.swing
->>>>>>> Stashed changes
 import javax.swing.Timer
 
 import client.controller.BaseControllerCharacter
@@ -26,7 +22,6 @@ class UserInputController () extends KeyListener{
 
     e.getKeyCode match {
       case KeyEvent.VK_LEFT => {
-<<<<<<< Updated upstream
    //     if(canMove) {
           controller.move(Direction.LEFT)
      //     canMove = false
@@ -88,71 +83,6 @@ class UserInputController () extends KeyListener{
           //canMove = false
           //timer.start()
         //}
-=======
-        if(canMove) {
-          controller.move(Direction.LEFT)
-          canMove = false
-          timer.start()
-        }
-      }
-
-      case KeyEvent.VK_RIGHT => {
-        if(canMove) {
-          controller.move(Direction.RIGHT)
-
-          canMove = false
-          timer.start()
-        }
-      }
-
-      case KeyEvent.VK_UP => {
-        if(canMove) {
-          controller.move(Direction.DOWN)
-          canMove = false
-          timer.start()
-        }
-      }
-
-      case KeyEvent.VK_DOWN => {
-        if(canMove) {
-          controller.move(Direction.UP)
-          canMove = false
-          timer.start()
-        }
-      }
-
-      case KeyEvent.VK_A => {
-        if(canMove) {
-          controller.move(Direction.LEFT)
-          canMove = false
-          timer.start()
-        }
-      }
-
-      case KeyEvent.VK_D => {
-        if(canMove) {
-          controller.move(Direction.RIGHT)
-          canMove = false
-          timer.start()
-        }
-      }
-
-      case KeyEvent.VK_W => {
-        if(canMove) {
-          controller.move(Direction.DOWN)
-          canMove = false
-          timer.start()
-        }
-      }
-
-      case KeyEvent.VK_S => {
-        if(canMove) {
-          controller.move(Direction.UP)
-          canMove = false
-          timer.start()
-        }
-
->>>>>>> Stashed changes
       }
 
       case _ => {}

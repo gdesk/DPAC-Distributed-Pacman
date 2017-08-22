@@ -226,10 +226,7 @@ abstract class CharacterImpl(override var isKillable: Boolean, override var live
     *
     * @param alive - true if character is alive, false otherwise.
     */
-  override def isAlive_=(alive: Boolean) = {
-    _isAlive = alive
-    if(hasLost) println("GAME OVER!")
-  }
+  override def isAlive_=(alive: Boolean) = _isAlive = alive
 
   /**
     * Returns if the character won.

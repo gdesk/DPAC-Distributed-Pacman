@@ -106,8 +106,6 @@ object BaseControllerCharacter extends ControllerCharacter {
     val postLives: Int = character.lives.remainingLives
     val postScore: Int = character.score
 
-    println("LA MIA POSIZIONE CONTROLLER " + postPosition)
-
     if(!(prePosition equals postPosition)) {
       view.move(characterImages.get(character.name).get(changeDir(direction)), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
@@ -160,8 +158,6 @@ object BaseControllerCharacter extends ControllerCharacter {
     }
 
     if(args.getValue.isInstanceOf[Pair[Point[Int, Int], Direction]]) {
-      println("SONO ENTRATO NELL'IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-
       val direction: Direction = args.getValue.asInstanceOf[Pair[Point[Int, Int], Direction]].getValue
       val pos: Point[Int, Int] = args.getValue.asInstanceOf[Pair[Point[Int, Int], Direction]].getKey
 
