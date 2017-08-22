@@ -85,8 +85,12 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
     @Override
     public void gameOver(){
-        GameOverDialog gameoverDialog = new GameOverDialog(MainFrame.getInstance());
-        gameoverDialog.setVisible(true);
+        if(runGame) {
+            System.out.println("GAMEOVER");
+            GameOverDialog gameoverDialog = new GameOverDialog(MainFrame.getInstance());
+            gameoverDialog.setVisible(true);
+            runGame = false;
+        }
     }
 
     @Override
