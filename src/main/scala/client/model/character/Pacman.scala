@@ -134,7 +134,7 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     if(!_isAlive) {
       hasLost = true
       MatchImpl.allCharacters.filter(c => !c.isInstanceOf[Pacman]).foreach(g => g.won = true)
-      println("GAME OVER!")
+      //println("GAME OVER!")
     }
   }
 

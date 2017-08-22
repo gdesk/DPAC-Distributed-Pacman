@@ -116,9 +116,7 @@ object BaseControllerCharacter extends ControllerCharacter {
 
     if(character.won) view.showResult(postScore.toString)
 
-    if(character.hasLost)
-      ExecutorServiceUtility.getIstance.stopPlayingWorkerThread()
-      view.gameOver()
+    if(character.hasLost) view.gameOver()
 
     if(!(preScore equals postScore)) view.renderScore(postScore)
   }

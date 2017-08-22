@@ -33,6 +33,7 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
     //private ObservableCharacter observableCharacter;
     private List<Object> list;
     private String characterName;
+    private Point<Integer, Integer> prepos;
     //private ClientIncomingMessageHandlerImpl characterHandler;
 
     public ClientPlayingWorkerThread
@@ -53,7 +54,7 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
 
         System.setProperty("Djava.rmi.server.hostname", ip);
         String host = ip;
-        Point<Integer, Integer> prepos = (PointImpl)MatchImpl.character(ip).get().position();
+        setPrepos((PointImpl)MatchImpl.character(ip).get().position());
 
 
         Registry registry;
@@ -71,10 +72,10 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
             try {
                 Point<Integer, Integer> pos = stubDirection.getPosition();
 
-                if(!prepos.equals(pos)) {
+                if(!getPrepos().equals(pos)) {
 
-                        if (!prepos.x().equals(pos.x())) {
-                            if(prepos.x() < pos.x()){
+                        if (!getPrepos().x().equals(pos.x())) {
+                            if(getPrepos().x() < pos.x()){
                                 new Thread(() -> {
                                     BaseControllerCharacter.update(this, new Pair<>(ip, Direction.RIGHT));
                                 }).start();
@@ -86,7 +87,7 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
                             }
 
                         }else{
-                            if(prepos.y() < pos.y()){
+                            if(getPrepos().y() < pos.y()){
                                 new Thread(() -> {
                                     BaseControllerCharacter.update(this, new Pair<>(ip, Direction.UP));
                                 }).start();
@@ -99,7 +100,8 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
                             }
                         }
 
-                    prepos = pos;
+                        setPrepos(pos);
+
                 }
 
                 boolean isAlive = stubisAlive.isAlive();
@@ -116,5 +118,13 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
 
         }
 
+    }
+
+    private synchronized void setPrepos(final Point<Integer,Integer> pos){
+        prepos = pos;
+    }
+
+    private synchronized Point<Integer,Integer> getPrepos(){
+        return prepos;
     }
 }
