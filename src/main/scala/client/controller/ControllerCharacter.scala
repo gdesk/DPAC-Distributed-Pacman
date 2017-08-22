@@ -161,6 +161,7 @@ object BaseControllerCharacter extends ControllerCharacter {
       val direction: Direction = args.getValue.asInstanceOf[Pair[Point[Int, Int], Direction]].getValue
       val pos: Point[Int, Int] = args.getValue.asInstanceOf[Pair[Point[Int, Int], Direction]].getKey
 
+      val viewPrePosition: Point[Int, Int] = characterToUpdate.position
       val prePosition: Point[Int, Int] = calculatePrePosition(direction, pos)
       val preLives: Int = gameMatch.myCharacter.lives.remainingLives
       val preScore: Int = gameMatch.myCharacter.score
@@ -174,7 +175,7 @@ object BaseControllerCharacter extends ControllerCharacter {
 
       if(!(prePosition equals postPosition)) {
         view.move(characterImages.get(characterToUpdate.name).get(changeDir(direction)), Color.red,
-          prePosition.asInstanceOf[Point[Integer,Integer]],
+          viewPrePosition.asInstanceOf[Point[Integer,Integer]],
           postPosition.asInstanceOf[Point[Integer,Integer]])
       }
 
