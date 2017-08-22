@@ -31,7 +31,7 @@ class CharacterImplTest(character: Character) extends FunSuite {
   }
 
   test("isKillable") {
-    assert(character.isKillable equals (character.isInstanceOf[Pacman]))
+    assert(character.isKillable equals character.isInstanceOf[Pacman])
     character.isKillable = false
     assert(character.isKillable equals false)
     character.isKillable = true
@@ -46,13 +46,10 @@ class CharacterImplTest(character: Character) extends FunSuite {
 
   test("isAlive and hasLost") {
     assert(character.isAlive equals true)
-    assert(character.hasLost equals false)
     character.isAlive = false
     assert(character.isAlive equals false)
-    assert(character.hasLost equals true)
 
     character.isAlive = true
-    assert(character.hasLost equals false)
     character.lives.decrementOf(character.lives.remainingLives)
     assert(character.isAlive equals false)
     assert(character.hasLost equals true)

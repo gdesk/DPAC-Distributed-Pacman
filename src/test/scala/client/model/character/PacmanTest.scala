@@ -8,7 +8,7 @@ import client.model.utils.{BaseEatObjectStrategy, Dimension, LivesImpl, PointImp
 /**
   * @author Margherita Pecorelli
   */
-class BasePacmanTest extends FunSuite {
+class PacmanTest extends FunSuite {
 
   private val myPlayer: Player = PlayerImpl
   private var ip1: String = "10.200.300.400"
@@ -29,6 +29,18 @@ class BasePacmanTest extends FunSuite {
 
   test("name") {
     assert(pacman.name equals "Pacman")
+  }
+
+  test("won") {
+    pacman.lives = LivesImpl(InitializedInfoImpl.getCharacterLives("pacman"))
+    pacman.isAlive = true
+    playground.ground = List(Dot("dot", PointImpl(1,1)))
+    assert(pacman.won equals false)
+    playground.ground = List.empty
+    pacman.hasLost = false
+    assert(pacman.won equals true)
+    pacman.lives = LivesImpl(0)
+    assert(pacman.won equals false)
   }
 
   test("go and direction") {
@@ -59,25 +71,14 @@ class BasePacmanTest extends FunSuite {
     posY = pacman.position.y
   }
 
-  test("won") {
-    pacman.lives = LivesImpl(InitializedInfoImpl.getCharacterLives("pacman"))
-    pacman.isAlive = true
-    playground.ground = List(Dot("dot", PointImpl(1,1)))
-    assert(pacman.won equals false)
-    playground.ground = List.empty
-    assert(pacman.won equals true)
-    pacman.lives = LivesImpl(0)
-    assert(pacman.won equals false)
-  }
-
   test("eatObject") {
     val score = pacman.score
     val cherry = Cherry("Cherry", PointImpl(0, 0))
-    playground.ground = List((cherry),
-                             (Dot("Dot", PointImpl(0, 3))),
-                             (Grape("Grapes", PointImpl(1, 0))),
-                             (Key("Key", PointImpl(1, 1))),
-                             (Pill("Pill", PointImpl(1, 3))))
+    playground.ground = List(cherry,
+                             Dot("Dot", PointImpl(0, 3)),
+                             Grape("Grapes", PointImpl(1, 0)),
+                             Key("Key", PointImpl(1, 1)),
+                             Pill("Pill", PointImpl(1, 3)))
     pacman.setPosition(PointImpl(1, 0))
 
     assert(playground.eatables contains cherry)

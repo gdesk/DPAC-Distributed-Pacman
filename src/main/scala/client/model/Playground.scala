@@ -104,7 +104,6 @@ trait Playground {
   */
 object  PlaygroundImpl extends Playground{
 
- // private var engine = ScalaProlog.mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/dpac-prolog.pl")))
   private var _blocks: ListBuffer[Block] = ListBuffer empty
   private var _eatables: ListBuffer[Eatable] = ListBuffer empty
   private var _eatenObjects: ListBuffer[Eatable] = ListBuffer empty
@@ -139,9 +138,8 @@ object  PlaygroundImpl extends Playground{
     blocks
     streetPositions
     var theory = ""
-    _streetPositions.foreach(s => theory = theory + "street("+s.x+","+s.y+")." + "\n")
+    _streetPositions.foreach(s => theory = theory + "street(" + s.x + "," + s.y + ")." + "\n")
     PrologConfig.addStreets(new Theory(theory))
-    //println("AGGIUNTA:"+PrologConfig.getPrologEngine.getTheory.toString)
   }
 
   /**
@@ -155,7 +153,7 @@ object  PlaygroundImpl extends Playground{
     checkPosition(item.position)
     hawManyItemInPosition(item.position) match {
       case x if x>1 =>
-        throw new AlredyUsedPositionException("Position ("+ item.position.x + "," + item.position.y + ") already occupied by another item!")
+        throw AlredyUsedPositionException("Position (" + item.position.x + "," + item.position.y + ") already occupied by another item!")
       case _ =>
     }
   }
@@ -166,7 +164,7 @@ object  PlaygroundImpl extends Playground{
     * @param position - the position to check.
     * @return the number of items in the same position.
     */
-  private def hawManyItemInPosition(position: Point[Int, Int]): Int = _ground.filter(e => e.position equals position).size
+  private def hawManyItemInPosition(position: Point[Int, Int]): Int = _ground.count(e => e.position equals position)
 
   /**
     * Returns the list of all the blocks in the current match.
@@ -174,7 +172,10 @@ object  PlaygroundImpl extends Playground{
     * @return the list of all blocks.
     */
   override def blocks = {
-    if(_blocks isEmpty) ground.foreach(p => if(p.isInstanceOf[Block]) _blocks += p.asInstanceOf[Block])
+    if(_blocks isEmpty) ground.foreach{
+      case block: Block => _blocks += block
+      case _ =>
+    }
     _blocks.toList
   }
 
@@ -184,7 +185,10 @@ object  PlaygroundImpl extends Playground{
     * @return the list of all eatable objects.
     */
   override def eatables = {
-    if(_eatables isEmpty) ground.foreach(p => if(p.isInstanceOf[Eatable]) _eatables += (p.asInstanceOf[Eatable]))
+    if(_eatables isEmpty) ground.foreach{
+      case eatable: Eatable => _eatables += eatable
+      case _ =>
+    }
     _eatables.toList
   }
 
@@ -196,14 +200,13 @@ object  PlaygroundImpl extends Playground{
     */
   override def removeEatable(eatable: Eatable) = {
     val option = _ground.find(p => p equals eatable)
-    option nonEmpty match {
-      case true =>
-        val eatableObj: Eatable = option.get.asInstanceOf[Eatable]
-        _ground -= eatableObj
-        _eatables -= eatableObj
-        _eatenObjects += eatableObj
-      case _ =>
-        throw EatablesNotPresentInThisPlaygroundException("The eatable object" + eatable + "is not present in this playground, so it can not be removed!")
+    if(option nonEmpty) {
+      val eatableObj: Eatable = option.get.asInstanceOf[Eatable]
+      _ground -= eatableObj
+      _eatables -= eatableObj
+      _eatenObjects += eatableObj
+    } else {
+      throw EatablesNotPresentInThisPlaygroundException("The eatable object" + eatable + "is not present in this playground, so it can not be removed!")
     }
   }
 
@@ -223,7 +226,7 @@ object  PlaygroundImpl extends Playground{
     if(_streetPositions isEmpty) {
       for(i <- 0 until dimension.x) {
         for(j <- 0 until dimension.y) {
-          if((_blocks.filter(e => e.position equals PointImpl(i,j)).size) equals 0) _streetPositions += PointImpl(i,j)
+          if(!_blocks.exists(e => e.position equals PointImpl(i, j))) _streetPositions += PointImpl(i,j)
         }
       }
     }
@@ -250,7 +253,7 @@ object  PlaygroundImpl extends Playground{
     */
   override def checkPosition(position: Point[Int, Int]) = {
     if(!(position.x < dimension.x && position.y < dimension.y && position.x >= 0 && position.y >= 0)) {
-      throw new OutOfPlaygroundBoundAccessException("Position ("+ position.x + "," + position.y + ") is out of playground!")
+      throw OutOfPlaygroundBoundAccessException("Position ("+ position.x + "," + position.y + ") is out of playground!")
     }
   }
 

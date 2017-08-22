@@ -7,7 +7,7 @@ import org.scalatest.FunSuite
 /**
   * @author Margherita Pecorelli
   */
-class BaseGhostTest extends FunSuite {
+class GhostTest extends FunSuite {
 
   private val myPlayer: Player = PlayerImpl
   private var ip1: String = "10.200.300.400"
@@ -21,7 +21,7 @@ class BaseGhostTest extends FunSuite {
   val gameMatch = MatchImpl
 
   val redGhost = BaseGhost("Red")
-  val pacman = BasePacman("Pacman1", BaseEatObjectStrategy())
+  val pacman = BasePacman("Pacman", BaseEatObjectStrategy())
 
   gameMatch.addCharactersAndPlayersIp(redGhost, myPlayer.ip)
 
@@ -74,19 +74,19 @@ class BaseGhostTest extends FunSuite {
     gameMatch.addCharactersAndPlayersIp(yellowGhost, ip3)
     gameMatch.addCharactersAndPlayersIp(pacman, ip4)
 
-    redGhost.setPosition(PointImpl(0,0))
-    redGhost.isKillable = true
+    blueGhost.setPosition(PointImpl(0,0))
+    blueGhost.isKillable = true
     pacman.isKillable = false
     pacman.lives = LivesImpl(1)
-    redGhost.lives = LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))
-    val lives = redGhost.lives.remainingLives
-    val score = redGhost.score
+    blueGhost.lives = LivesImpl(InitializedInfoImpl.getCharacterLives("ghost"))
+    val lives = blueGhost.lives.remainingLives
+    val score = blueGhost.score
 
-    redGhost.checkAllPositions
-    assert(redGhost.lives.remainingLives equals 0)
-    assert(redGhost.won equals false)
-    assert(redGhost.isAlive equals false)
-    assert(redGhost.hasLost equals true)
+    blueGhost.checkAllPositions
+    assert(blueGhost.lives.remainingLives equals 0)
+    assert(blueGhost.won equals false)
+    assert(blueGhost.isAlive equals false)
+    assert(blueGhost.hasLost equals true)
 
     yellowGhost.isKillable = false
     pacman.isKillable = true

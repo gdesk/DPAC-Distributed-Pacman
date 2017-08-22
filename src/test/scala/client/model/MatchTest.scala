@@ -26,22 +26,22 @@ class MatchTest extends FunSuite {
   val yellowGhost = BaseGhost("Yellow")
 
   test("playground") {
-    playground.ground = List((Apple("Apple", PointImpl(0,0))),
-                             (Bell("Bell", PointImpl(0,1))),
-                             (Cherry("Cherry", PointImpl(0,2))),
-                             (Dot("Dot", PointImpl(0,3))),
-                             (GalaxianShip("Galaxian Ship", PointImpl(0,4))),
-                             (Grape("Grapes", PointImpl(1,0))),
-                             (Key("Key", PointImpl(1,1))),
-                             (Orange("Orange", PointImpl(1,2))),
-                             (Pill("Pill", PointImpl(1,3))),
-                             (Strawberry("Strawberry", PointImpl(1,4))),
-                             (Block(PointImpl(2,0))),
-                             (Block(PointImpl(2,1))),
-                             (Block(PointImpl(2,2))),
-                             (Block(PointImpl(2,3))),
-                             (Block(PointImpl(2,4))),
-                             (Block(PointImpl(3,0))))
+    playground.ground = List(Apple("Apple", PointImpl(0, 0)),
+                             Bell("Bell", PointImpl(0, 1)),
+                             Cherry("Cherry", PointImpl(0, 2)),
+                             Dot("Dot", PointImpl(0, 3)),
+                             GalaxianShip("Galaxian Ship", PointImpl(0, 4)),
+                             Grape("Grapes", PointImpl(1, 0)),
+                             Key("Key", PointImpl(1, 1)),
+                             Orange("Orange", PointImpl(1, 2)),
+                             Pill("Pill", PointImpl(1, 3)),
+                             Strawberry("Strawberry", PointImpl(1, 4)),
+                             Block(PointImpl(2, 0)),
+                             Block(PointImpl(2, 1)),
+                             Block(PointImpl(2, 2)),
+                             Block(PointImpl(2, 3)),
+                             Block(PointImpl(2, 4)),
+                             Block(PointImpl(3, 0)))
 
     assert(gameMatch.playground == null)
     gameMatch.playground = playground
@@ -55,10 +55,10 @@ class MatchTest extends FunSuite {
     gameMatch.addCharactersAndPlayersIp(yellowGhost, ip3)
 
     assert(gameMatch.charactersAndPlayersIp.size == 4)
-    assert(gameMatch.charactersAndPlayersIp exists (m => ((m._1 equals pacman) && (m._2 equals myPlayer.ip))))
-    assert(gameMatch.charactersAndPlayersIp exists (m => ((m._1 equals blueGhost) && (m._2 equals ip1))))
-    assert(gameMatch.charactersAndPlayersIp exists (m => ((m._1 equals greeenGhost) && (m._2 equals ip2))))
-    assert(gameMatch.charactersAndPlayersIp exists (m => ((m._1 equals yellowGhost) && (m._2 equals ip3))))
+    assert(gameMatch.charactersAndPlayersIp exists (m => (m._1 equals pacman) && (m._2 equals myPlayer.ip)))
+    assert(gameMatch.charactersAndPlayersIp exists (m => (m._1 equals blueGhost) && (m._2 equals ip1)))
+    assert(gameMatch.charactersAndPlayersIp exists (m => (m._1 equals greeenGhost) && (m._2 equals ip2)))
+    assert(gameMatch.charactersAndPlayersIp exists (m => (m._1 equals yellowGhost) && (m._2 equals ip3)))
   }
 
   test("allCharacters and allPlayersIp") {
@@ -76,7 +76,7 @@ class MatchTest extends FunSuite {
   }
 
   test("myCharacter") {
-    assert(gameMatch.myCharacter == pacman)
+    assert(gameMatch.myCharacter equals pacman)
   }
 
   test("character and playerIp") {
@@ -118,7 +118,7 @@ class MatchTest extends FunSuite {
   }
 
   test ("singleton"){
-    assert(gameMatch == MatchImpl)
+    assert(gameMatch equals MatchImpl)
   }
 
 }

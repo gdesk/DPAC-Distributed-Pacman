@@ -146,9 +146,9 @@ trait Character extends GameItem{
   */
 abstract class CharacterImpl(override var isKillable: Boolean, override var lives: Lives) extends Character {
 
-  private var _position: Point[Int, Int] = PointImpl(0,0)
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
+  private var _position: Point[Int, Int] = PointImpl(0,0)
   private var _isAlive = true
   private var _won = false
 
@@ -164,12 +164,11 @@ abstract class CharacterImpl(override var isKillable: Boolean, override var live
   override def go(direction: Direction) = {
     this.direction = direction
     val point: Option[Point[Int, Int]] = move(direction)
-    point nonEmpty match {
-      case true =>
-        setPosition(point.get)
-        checkAllPositions
-      case false =>
-        println("Can't go in that direction")
+    if(point nonEmpty) {
+      setPosition(point.get)
+      checkAllPositions
+    } else {
+      println("Can't go in that direction")
     }
   }
 
@@ -181,13 +180,12 @@ abstract class CharacterImpl(override var isKillable: Boolean, override var live
     */
   private def move(direction: Direction): Option[Point[Int, Int]] = {
     val solveInfo = PrologConfig.getPrologEngine.solve(s"move(${_position.x.toString},${_position.y.toString},${direction.getDirection},X,Y).")
-    solveInfo isSuccess match {
-      case true =>
-        val x = Integer.valueOf(solveInfo.getTerm("X").toString)
-        val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
-        Option(PointImpl[Int, Int](x, y))
-      case _ =>
-        None
+    if(solveInfo isSuccess) {
+      val x = Integer.valueOf(solveInfo.getTerm("X").toString)
+      val y = Integer.valueOf(solveInfo.getTerm("Y").toString)
+      Option(PointImpl[Int, Int](x, y))
+    } else {
+      None
     }
   }
 
@@ -249,14 +247,14 @@ abstract class CharacterImpl(override var isKillable: Boolean, override var live
     */
   protected def prologGhostsList: String = {
     var ghosts: String = "["
-    game.allCharacters.filter(c => !(c.isInstanceOf[Pacman])).foreach{ e =>
+    game.allCharacters.filter(c => !c.isInstanceOf[Pacman]).foreach{ e =>
       ghosts = ghosts + "ghost(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.name + "),"
     }
-    ghosts.size match {
+    ghosts.length match {
       case 1 =>
         ghosts = ghosts + "]"
       case _ =>
-        ghosts = ghosts.substring(0,ghosts.size-1)
+        ghosts = ghosts.substring(0,ghosts.length-1)
         ghosts = ghosts + "]"
     }
     ghosts

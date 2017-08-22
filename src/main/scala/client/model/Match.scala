@@ -3,6 +3,7 @@ package client.model
 import client.model.character.Character
 
 import scala.collection.immutable.Map
+import scala.collection.mutable
 import scala.collection.mutable.HashMap
 import scala.collection.mutable.ListBuffer
 
@@ -104,7 +105,7 @@ trait Match {
 object MatchImpl extends Match {
 
   private var _deadCharacters: ListBuffer[Character] = ListBuffer.empty
-  private var _charactersAndPlayersIp: HashMap[Character, String] = HashMap.empty
+  private var _charactersAndPlayersIp: mutable.HashMap[Character, String] = mutable.HashMap.empty
   private var _myCharacter: Character = _
 
   override var playground: Playground = _
@@ -130,7 +131,7 @@ object MatchImpl extends Match {
     *
     * @return the list of all match's characters.
     */
-  override def allCharacters =_charactersAndPlayersIp.keySet.toList
+  override def allCharacters = _charactersAndPlayersIp.keySet.toList
 
 
   /**
@@ -147,10 +148,11 @@ object MatchImpl extends Match {
     * @return an Option containing the character belonging to the player if it exists, None otherwise.
     */
   override def character(playerIp: String) = {
-    val pair = _charactersAndPlayersIp.filter(p => p._2 equals playerIp).headOption
-    pair isEmpty match {
-      case true => Option.empty
-      case _ => Option(pair.get._1)
+    val pair = _charactersAndPlayersIp.find(p => p._2 equals playerIp)
+    if(pair isEmpty) {
+      Option.empty
+    } else {
+      Option(pair.get._1)
     }
   }
 
@@ -186,7 +188,7 @@ object MatchImpl extends Match {
     * @throws CharacterDoesNotExistException when the character to add doesn't exist.
     */
   override def addDeadCharacters(deadCharacter: Character) = {
-    if(!(_charactersAndPlayersIp contains deadCharacter)) throw new CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
+    if(!(_charactersAndPlayersIp contains deadCharacter)) throw CharacterDoesNotExistException(deadCharacter.name + " doesn't exist")
     _deadCharacters += deadCharacter
     _charactersAndPlayersIp -= deadCharacter
   }

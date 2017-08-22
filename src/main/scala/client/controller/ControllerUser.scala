@@ -1,7 +1,5 @@
 package client.controller
 
-import java.util.Date
-
 import client.communication.model.ToClientCommunication
 import client.model._
 
@@ -18,9 +16,8 @@ trait ControllerUser {
     * @param name - the user'a name.
     * @param username - the user's username.
     * @param email - the user'a mail.
-    * @param password - the user's accont password.
+    * @param password - the user's account password.
     * @param confirmPassword - the confirm of the password.
-    *
     * @return true if the registration is successful, false otherwise.
     */
   def registration(name: String, username: String, email: String, password: String, confirmPassword: String): Boolean
@@ -30,7 +27,6 @@ trait ControllerUser {
     *
     * @param username - the account's username.
     * @param password - the account's password.
-    *
     * @return true if the login is successful, false otherwise.
     */
   def login(username: String, password: String): Boolean
@@ -72,7 +68,7 @@ trait ControllerUser {
   */
 object BaseControllerUser extends ControllerUser {
 
-  private var _model: ToClientCommunication = null
+  private var _model: ToClientCommunication = _
 
   /**
     * Tells the model all parameters for a new registration.

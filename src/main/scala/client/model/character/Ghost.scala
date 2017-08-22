@@ -31,25 +31,23 @@ case class BaseGhost(override val name: String) extends CharacterImpl(false, Liv
     */
   override def checkAllPositions = {
     val ghosts = super.prologGhostsList
-    val pacmans: List[Character] = game.allCharacters.filter(c => (c.isInstanceOf[Pacman]))
+    val pacmans: List[Character] = game.allCharacters.filter(c => c.isInstanceOf[Pacman])
     if(pacmans isEmpty) {
       won = true
     } else {
-      isKillable match {
-        case true =>
-          pacmans.foreach(p => p.checkAllPositions)
-        case _ =>
-          pacmans.foreach { p =>
-            val solveInfo = PrologConfig.getPrologEngine.solve(s"eat_pacman(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score}),${ghosts},NL,GS,CG).")
-            val killerGhost = game.allCharacters.find(c => c.name equals solveInfo.getTerm("CG").toString)
-            if ((killerGhost nonEmpty) && (killerGhost.get equals this)) {
-              p.lives.remainingLives = valueOf(solveInfo.getTerm("NL").toString)
-              if (p.lives.remainingLives == 0) p.isAlive = false
-              score = valueOf(solveInfo.getTerm("GS").toString)
-            }
-            won = PrologConfig.getPrologEngine.solve(s"ghosts_victory(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score})).").isSuccess && !hasLost
+      if (isKillable) {
+        pacmans.foreach(p => p.checkAllPositions)
+      } else {
+        pacmans.foreach{ p =>
+          val solveInfo = PrologConfig.getPrologEngine.solve(s"eat_pacman(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score}),${ghosts},NL,GS,CG).")
+          val killerGhost = game.allCharacters.find(c => c.name equals solveInfo.getTerm("CG").toString)
+          if ((killerGhost nonEmpty) && (killerGhost.get equals this)) {
+            p.lives.remainingLives = valueOf(solveInfo.getTerm("NL").toString)
+            if (p.lives.remainingLives == 0) p.isAlive = false
+            score = valueOf(solveInfo.getTerm("GS").toString)
           }
-
+          won = PrologConfig.getPrologEngine.solve(s"ghosts_victory(pacman(${p.position.x},${p.position.y},${p.lives.remainingLives},${p.score})).").isSuccess && !hasLost
+        }
       }
     }
     if(won) MatchImpl.allCharacters.filter(c => !c.isInstanceOf[Pacman]).foreach(g => g.won = true)

@@ -71,7 +71,7 @@ object PlayerImpl extends Player {
 
   private var _matchesResults: ListBuffer[MatchResult] = ListBuffer.empty
 
-  override val ip =InetAddress.getLocalHost.toString.split('/')(1)
+  override val ip = InetAddress.getLocalHost.toString.split('/')(1)
   override val port = 2554
   override var username = ""
 

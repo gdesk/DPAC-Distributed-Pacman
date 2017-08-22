@@ -68,7 +68,7 @@ public class LoadingPanel extends JPanel implements LoadingView {
         //view.renderCharacter((int)myChar.position().x(), (int)myChar.position().y(), myView);
 
         Utils.getJavaList(MatchImpl.allCharacters()).forEach(c -> {
-            Image myView = Utils.getJavaMap(BaseControllerCharacter.getCharacterImages(c.name())).get(Direction.RIGHT);
+            Image myView = Utils.getJavaMap(BaseControllerCharacter.imagesOf(c.name())).get(Direction.RIGHT);
             view.renderCharacter((int)c.position().x(), (int)c.position().y(), myView);
 
         });

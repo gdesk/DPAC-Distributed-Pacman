@@ -27,7 +27,7 @@ trait Pacman extends Character {
   * @author Giulia Lucchi
   * @author Margherita Pecorelli
   */
-case class BasePacman(override val name: String, val strategy: EatObjectStrategy) extends CharacterImpl(true, LivesImpl(InitializedInfoImpl.getCharacterLives("pacman"))) with Pacman {
+case class BasePacman(override val name: String, strategy: EatObjectStrategy) extends CharacterImpl(true, LivesImpl(InitializedInfoImpl.getCharacterLives("pacman"))) with Pacman {
 
   private val playground: Playground = PlaygroundImpl
   private val game: Match = MatchImpl
@@ -43,17 +43,6 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     val eatables = prologEatablesList
     val solveInfo = PrologConfig.getPrologEngine.solve(s"eat_object(pacman(${position.x},${position.y},${lives.remainingLives},${score}),${eatables},NS,N).")
     val eatenObjId: String = solveInfo.getTerm("N").toString
-    /*
-    val remainingEatableObjectsId: List[String] = ScalaProlog.prologToScalaList(solveInfo.getTerm("L").toString)
-    val remainingEatableObjects: List[Eatable] = List.empty
-    remainingEatableObjectsId.foreach(r => playground.eatables.find(e => e.id equals r).get :: remainingEatableObjects)
-    val eatenObjects: List[Eatable] = playground.eatables.diff(remainingEatableObjects)
-    if(eatenObjects nonEmpty) {
-      playground.removeEatable(eatenObjects.head)
-      score = valueOf(solveInfo.getTerm("NS").toString)
-      strategy.eat(eatenObjects.head)
-    }
-    */
     if(eatenObjId != "''") {
       val eatenObj: Eatable = playground.eatables.filter(e => e.id == eatenObjId).head
       playground.removeEatable(eatenObj)
@@ -82,22 +71,21 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     */
   override def checkAllPositions = {
     val ghosts = super.prologGhostsList
-    isKillable match {
-      case true =>
-        game.allCharacters.filter(c => !(c.isInstanceOf[Pacman])).foreach(g => g.checkAllPositions)
-      case _ =>
-        val numberOfGhostAlreadyEaten = game.deadCharacters.size
-        val solveInfo = PrologConfig.getPrologEngine.solve(s"ghost_defeat(pacman(${position.x},${position.y},${lives.remainingLives},${score}),${ghosts},${numberOfGhostAlreadyEaten},PS,EG).")
-        score = valueOf(solveInfo.getTerm("PS").toString)
-        val eatenGhost: List[String] = PrologConfig.prologToScalaList(solveInfo.getTerm("EG").toString)
-        if(eatenGhost nonEmpty) {
-          eatenGhost.foreach{ g =>
-            val ghost = game.allCharacters.find(c => c.name equals g).get
-            game.addDeadCharacters(ghost)
-            ghost.lives.decrement
-            if(ghost.lives.remainingLives equals 0) ghost.isAlive = false
-          }
+    if(isKillable) {
+      game.allCharacters.filter(c => !c.isInstanceOf[Pacman]).foreach(g => g.checkAllPositions)
+    } else {
+      val numberOfGhostAlreadyEaten = game.deadCharacters.size
+      val solveInfo = PrologConfig.getPrologEngine.solve(s"ghost_defeat(pacman(${position.x},${position.y},${lives.remainingLives},${score}),${ghosts},${numberOfGhostAlreadyEaten},PS,EG).")
+      score = valueOf(solveInfo.getTerm("PS").toString)
+      val eatenGhost: List[String] = PrologConfig.prologToScalaList(solveInfo.getTerm("EG").toString)
+      if(eatenGhost nonEmpty) {
+        eatenGhost.foreach{ g =>
+          val ghost = game.allCharacters.find(c => c.name equals g).get
+          game.addDeadCharacters(ghost)
+          ghost.lives.decrement
+          if(ghost.lives.remainingLives equals 0) ghost.isAlive = false
         }
+      }
     }
   }
 
@@ -147,11 +135,11 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     playground.eatables.foreach{ e =>
       eatables = eatables + "eatable_object(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.id + "),"
     }
-    eatables.size match {
+    eatables.length match {
       case 1 =>
         eatables = eatables + "]"
       case _ =>
-        eatables = eatables.substring(0,eatables.size-1)
+        eatables = eatables.substring(0,eatables.length-1)
         eatables = eatables + "]"
     }
     eatables
@@ -167,11 +155,11 @@ case class BasePacman(override val name: String, val strategy: EatObjectStrategy
     playground.eatables.filter(x => x.id.contains("dot")).foreach{ e =>
       dots = dots + "eatable_object(" + e.position.x + "," + e.position.y + "," + e.score + "," + e.id + "),"
     }
-    dots.size match {
+    dots.length match {
       case 1 =>
         dots = dots + "]"
       case _ =>
-        dots = dots.substring(0,dots.size-1)
+        dots = dots.substring(0,dots.length-1)
         dots = dots + "]"
     }
     dots

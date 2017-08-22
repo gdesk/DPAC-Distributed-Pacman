@@ -8,7 +8,6 @@ import client.model._
 import client.model.character.Character
 import client.model.utils.{Point, PointImpl}
 import client.view.`match`.GamePanel
-import network.client.P2P.utils.ExecutorServiceUtility
 
 /**
   * Represents the controller for characters management.
@@ -31,20 +30,21 @@ trait ControllerCharacter extends Observer {
     * @param characterName - the name of the character of which you want the pictures.
     * @return map of images for each direction of the character.
     */
-  def getCharacterImages(characterName: String): Map[Direction, Image]
+  def imagesOf(characterName: String): Map[Direction, Image]
 
   /**
     *Returns the map containing images for each direction of all characters.
     *
     * @return map of images for each direction of all characters.
     */
-  def characterImages: Map[String, Map[Direction, Image]]
+  def allCharactersImages: Map[String, Map[Direction, Image]]
+
   /**
     *Sets the map containing images for each direction of all characters.
     *
-    * @param mapCharacterImages - map of images for each direction of all characters.
+    * @param mapCharactersImages - map of images for each direction of all characters.
     */
-  def characterImages_=(mapCharacterImages: Map[String, Map[Direction, Image]]): Unit
+  def allCharactersImages_=(mapCharactersImages: Map[String, Map[Direction, Image]]): Unit
 
   /**
     * Sets the view to be called when somethings changes about characters.
@@ -75,9 +75,9 @@ object BaseControllerCharacter extends ControllerCharacter {
 
   private val gameMatch: Match = MatchImpl
   private val playground: Playground = PlaygroundImpl
-  private var view: GamePanel = null
+  private var _view: GamePanel = _
 
-  override var characterImages: Map[String, Map[Direction, Image]] = Map.empty
+  override var allCharactersImages: Map[String, Map[Direction, Image]] = Map.empty
 
   /**
     *Returns, given the name of the character, the map containing images for each direction of the character.
@@ -85,8 +85,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     * @param characterName - the name of the character of which you want the pictures.
     * @return map of images for each direction of the character.
     */
-  override def getCharacterImages(characterName: String) = characterImages.getOrElse(characterName, Map.empty)
-
+  override def imagesOf(characterName: String) = allCharactersImages.getOrElse(characterName, Map.empty)
 
   /**
     * Moves the computer user's character in the specified direction.
@@ -107,18 +106,18 @@ object BaseControllerCharacter extends ControllerCharacter {
     val postScore: Int = character.score
 
     if(!(prePosition equals postPosition)) {
-      view.move(characterImages.get(character.name).get(changeDir(direction)), Color.red,
+      _view.move(allCharactersImages(character.name)(changeDir(direction)), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
         postPosition.asInstanceOf[Point[Integer,Integer]])
     }
 
-    if(!(preLives equals postLives)) view.updateLives(postLives)
+    if(!(preLives equals postLives)) _view.updateLives(postLives)
 
-    if(character.won) view.showResult(postScore.toString)
+    if(character.won) _view.showResult(postScore.toString)
 
-    if(character.hasLost) view.gameOver()
+    if(character.hasLost) _view.gameOver()
 
-    if(!(preScore equals postScore)) view.renderScore(postScore)
+    if(!(preScore equals postScore)) _view.renderScore(postScore)
   }
 
   /**
@@ -126,7 +125,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     *
     * @param view - view to be recalled.
     */
-  override def setView(view: GamePanel) = this.view = view
+  override def setView(view: GamePanel) = _view = view
 
   /**
     * Called when other character moves or dies.
@@ -141,10 +140,8 @@ object BaseControllerCharacter extends ControllerCharacter {
     val args: Pair[String, Object] = arg.asInstanceOf[Pair[String, Object]]
 
     val ip = args.getKey
-
     var characterToUpdate: Character = null
     val playerIp = gameMatch.allPlayersIp.find(i => i equals ip)
-
     if(playerIp isEmpty) {
       throw ThisIpDoesNotExistException("Ip:" + ip + " doesn't exist!")
     } else {
@@ -153,8 +150,8 @@ object BaseControllerCharacter extends ControllerCharacter {
 
     if(args.getValue.isInstanceOf[Boolean]) {
       characterToUpdate.isAlive = args.getValue.asInstanceOf[Boolean]
-      if(!characterToUpdate.isAlive) view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer, Integer]])
-      if(gameMatch.myCharacter.won) view.showResult(gameMatch.myCharacter.score.toString)
+      if(!characterToUpdate.isAlive) _view.deleteCharacter(characterToUpdate.position.asInstanceOf[Point[Integer, Integer]])
+      if(gameMatch.myCharacter.won) _view.showResult(gameMatch.myCharacter.score.toString)
     }
 
     if(args.getValue.isInstanceOf[Pair[Point[Int, Int], Direction]]) {
@@ -174,27 +171,42 @@ object BaseControllerCharacter extends ControllerCharacter {
       val postScore: Int = gameMatch.myCharacter.score
 
       if(!(prePosition equals postPosition)) {
-        view.move(characterImages.get(characterToUpdate.name).get(changeDir(direction)), Color.red,
+        _view.move(allCharactersImages(characterToUpdate.name)(changeDir(direction)), Color.red,
           viewPrePosition.asInstanceOf[Point[Integer,Integer]],
           postPosition.asInstanceOf[Point[Integer,Integer]])
       }
 
-      if(!(preLives equals postLives)) view.updateLives(postLives)
+      if(!(preLives equals postLives)) _view.updateLives(postLives)
 
-      if(gameMatch.myCharacter.won) view.showResult(postScore.toString)
+      if(gameMatch.myCharacter.won) _view.showResult(postScore.toString)
 
-      if(gameMatch.myCharacter.hasLost) view.gameOver()
+      if(gameMatch.myCharacter.hasLost) _view.gameOver()
 
-      if(!(preScore equals postScore)) view.renderScore(postScore)
+      if(!(preScore equals postScore)) _view.renderScore(postScore)
     }
   }
 
+  /**
+    * Converts up's directiorn with down's direction.
+    * It is necessary because we use a matrix, so the (0,0) is top left.
+    *
+    * @param direction - the direction to convert, if necessary.
+    * @return the right direction.
+    */
   private def changeDir(direction: Direction): Direction =  direction match {
     case Direction.UP => Direction.DOWN
     case Direction.DOWN =>Direction.UP
     case _ => direction
   }
 
+  /**
+    * Computes the player's previous player's position.
+    * It is necessary because some positions are skipped, so before going in the selected direction, we have to calculate the rigth previos position.
+    *
+    * @param direction - the selected direction.
+    * @param pos - the new position.
+    * @return the previous character's position
+    */
   private def calculatePrePosition(direction: Direction, pos: Point[Int, Int]): Point[Int, Int] = direction match {
     case Direction.RIGHT => PointImpl(pos.x-1, pos.y)
     case Direction.LEFT => PointImpl(pos.x+1, pos.y)

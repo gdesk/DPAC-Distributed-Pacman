@@ -8,7 +8,7 @@ import org.scalatest.FunSuite
 /**
   * @author Margherita Pecorelli
   */
-class BaseEatObjectStrategyTest extends FunSuite {
+class EatObjectStrategyTest extends FunSuite {
 
   private var ip1: String = "10.200.300.400"
   private var ip2: String = "10.200.300.401"
@@ -32,14 +32,14 @@ class BaseEatObjectStrategyTest extends FunSuite {
   gameMatch.addCharactersAndPlayersIp(pacman, ip3)
 
   test("eat") {
-    assert(pacman.isKillable && !(redGhost.isKillable) && !(blueGhost.isKillable))
+    assert(pacman.isKillable && !redGhost.isKillable && !blueGhost.isKillable)
     strategy.eat(Apple("apple", PointImpl(0,0)))
-    assert(pacman.isKillable && !(redGhost.isKillable) && !(blueGhost.isKillable))
+    assert(pacman.isKillable && !redGhost.isKillable && !blueGhost.isKillable)
     strategy.eat(Pill("pill", PointImpl(0,1)))
-    assert(!(pacman.isKillable) && redGhost.isKillable && blueGhost.isKillable)
+    assert(!pacman.isKillable && redGhost.isKillable && blueGhost.isKillable)
     val time = System.currentTimeMillis
     while(System.currentTimeMillis <= time + millisecondsToWait) {}
-    assert(pacman.isKillable && !(redGhost.isKillable) && !(blueGhost.isKillable))
+    assert(pacman.isKillable && !redGhost.isKillable && !blueGhost.isKillable)
   }
 
 }
