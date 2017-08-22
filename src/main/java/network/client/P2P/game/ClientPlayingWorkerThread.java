@@ -72,6 +72,8 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
             try {
                 Point<Integer, Integer> pos = stubDirection.getPosition();
 
+
+
                 if(!getPrepos().equals(pos)) {
 /*
                     new Thread(() -> {
@@ -79,32 +81,41 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
                     }).start();
 */
                         if (!getPrepos().x().equals(pos.x())) {
+
                             if(getPrepos().x() < pos.x()){
+
                                 new Thread(() -> {
-                                    BaseControllerCharacter.update(this, new Pair<>(ip, Direction.RIGHT));
+
+                                    BaseControllerCharacter.update(this, new Pair<>(ip, new Pair<>(pos,Direction.RIGHT)));
                                 }).start();
 
                             }else{
+
                                 new Thread(() -> {
-                                    BaseControllerCharacter.update(this, new Pair<>(ip, Direction.LEFT));
+
+                                    BaseControllerCharacter.update(this, new Pair<>(ip, new Pair<>(pos,Direction.LEFT)));
                                 }).start();
                             }
 
                         }else{
+
                             if(getPrepos().y() < pos.y()){
                                 new Thread(() -> {
-                                    BaseControllerCharacter.update(this, new Pair<>(ip, Direction.UP));
+
+                                    BaseControllerCharacter.update(this, new Pair<>(ip, new Pair<>(pos,Direction.UP)));
                                 }).start();
 
                             }else{
                                 new Thread(() -> {
-                                    BaseControllerCharacter.update(this, new Pair<>(ip, Direction.DOWN));
+
+                                    BaseControllerCharacter.update(this, new Pair<>(ip, new Pair<>(pos,Direction.DOWN)));
                                 }).start();
 
                             }
                         }
 
                         setPrepos(pos);
+
 
                 }
 
