@@ -73,7 +73,11 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
                 Point<Integer, Integer> pos = stubDirection.getPosition();
 
                 if(!getPrepos().equals(pos)) {
-
+/*
+                    new Thread(() -> {
+                        BaseControllerCharacter.update(this, new Pair<>(ip, pos));
+                    }).start();
+*/
                         if (!getPrepos().x().equals(pos.x())) {
                             if(getPrepos().x() < pos.x()){
                                 new Thread(() -> {

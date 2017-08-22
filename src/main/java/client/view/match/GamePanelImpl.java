@@ -55,7 +55,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
     @Override
     public void move(final Image characterImage, final Color characterColor, final Point<Integer,Integer> oldPosition, final Point<Integer,Integer> newPosition) {
-        System.out.println("MOVE "+MatchImpl.character("192.168.43.234").get().position());
+        System.out.println("LA MIA POSIZIONE VIEW " + MatchImpl.myCharacter().position());
         if (playground != null) {
             playground.removeCharacter(oldPosition.x(), oldPosition.y());
             playground.renderCharacter(newPosition.x(), newPosition.y(), characterImage);

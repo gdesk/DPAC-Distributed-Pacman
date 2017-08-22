@@ -6,7 +6,7 @@ import javafx.util.Pair
 
 import client.model._
 import client.model.character.Character
-import client.model.utils.Point
+import client.model.utils.{Point, PointImpl}
 import client.view.`match`.GamePanel
 import network.client.P2P.utils.ExecutorServiceUtility
 
@@ -106,6 +106,8 @@ object BaseControllerCharacter extends ControllerCharacter {
     val postLives: Int = character.lives.remainingLives
     val postScore: Int = character.score
 
+    println("LA MIA POSIZIONE CONTROLLER " + postPosition)
+
     if(!(prePosition equals postPosition)) {
       view.move(characterImages.get(character.name).get(changeDir(direction)), Color.red,
         prePosition.asInstanceOf[Point[Integer,Integer]],
@@ -157,13 +159,17 @@ object BaseControllerCharacter extends ControllerCharacter {
       if(gameMatch.myCharacter.won) view.showResult(gameMatch.myCharacter.score.toString)
     }
 
-    if(args.getValue.isInstanceOf[Direction]) {
-      val direction = args.getValue.asInstanceOf[Direction]
+    if(args.getValue.isInstanceOf[Pair[Point[Int, Int], Direction]]) {
+      println("SONO ENTRATO NELL'IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
-      val prePosition: Point[Int, Int] = characterToUpdate.position
+      val direction: Direction = args.getValue.asInstanceOf[Pair[Point[Int, Int], Direction]].getValue
+      val pos: Point[Int, Int] = args.getValue.asInstanceOf[Pair[Point[Int, Int], Direction]].getKey
+
+      val prePosition: Point[Int, Int] = calculatePrePosition(direction, pos)
       val preLives: Int = gameMatch.myCharacter.lives.remainingLives
       val preScore: Int = gameMatch.myCharacter.score
 
+      characterToUpdate.setPosition(prePosition)
       characterToUpdate.go(direction)
 
       val postPosition: Point[Int, Int] = characterToUpdate.position
@@ -190,6 +196,13 @@ object BaseControllerCharacter extends ControllerCharacter {
     case Direction.UP => Direction.DOWN
     case Direction.DOWN =>Direction.UP
     case _ => direction
+  }
+
+  private def calculatePrePosition(direction: Direction, pos: Point[Int, Int]): Point[Int, Int] = direction match {
+    case Direction.RIGHT => PointImpl(pos.x-1, pos.y)
+    case Direction.LEFT => PointImpl(pos.x+1, pos.y)
+    case Direction.UP => PointImpl(pos.x, pos.y-1)
+    case Direction.DOWN => PointImpl(pos.x, pos.y+1)
   }
 }
 

@@ -1,6 +1,7 @@
 package client.view
 
 import java.awt.event.{KeyEvent, KeyListener}
+import javax.swing.Timer
 
 import client.controller.BaseControllerCharacter
 import client.model.Direction
@@ -11,40 +12,74 @@ import client.model.Direction
 class UserInputController () extends KeyListener{
 
   val controller = BaseControllerCharacter
+ // val timer: Timer = new Timer(300, e => canMove = true)
+ // var canMove: Boolean = true
 
   override def keyPressed(e: KeyEvent): Unit = {
 
     e.getKeyCode match {
       case KeyEvent.VK_LEFT => {
-        controller.move(Direction.LEFT)
+   //     if(canMove) {
+          controller.move(Direction.LEFT)
+     //     canMove = false
+       //   timer.start()
+       // }
       }
 
       case KeyEvent.VK_RIGHT => {
-        controller.move(Direction.RIGHT)
+       // if(canMove) {
+          controller.move(Direction.RIGHT)
+         // canMove = false
+          //timer.start()
+        //}
       }
 
       case KeyEvent.VK_UP => {
-        controller.move(Direction.DOWN)
+        //if(canMove) {
+          controller.move(Direction.DOWN)
+          //canMove = false
+          //timer.start()
+        //}
       }
 
       case KeyEvent.VK_DOWN => {
-        controller.move(Direction.UP)
+        //if(canMove) {
+          controller.move(Direction.UP)
+          //canMove = false
+          //timer.start()
+        //}
       }
 
       case KeyEvent.VK_A => {
-        controller.move(Direction.LEFT)
+       // if(canMove) {
+          controller.move(Direction.LEFT)
+         // canMove = false
+         // timer.start()
+        //}
       }
 
       case KeyEvent.VK_D => {
-        controller.move(Direction.RIGHT)
+        //if(canMove) {
+          controller.move(Direction.RIGHT)
+          //canMove = false
+          //timer.start()
+        //}
       }
 
       case KeyEvent.VK_W => {
-        controller.move(Direction.DOWN)
+        //if(canMove) {
+          controller.move(Direction.DOWN)
+          //canMove = false
+          //timer.start()
+        //}
       }
 
       case KeyEvent.VK_S => {
-        controller.move(Direction.UP)
+        //if(canMove) {
+          controller.move(Direction.UP)
+          //canMove = false
+          //timer.start()
+        //}
       }
 
       case _ => {}
