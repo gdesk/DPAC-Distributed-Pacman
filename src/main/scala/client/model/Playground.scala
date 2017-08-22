@@ -95,6 +95,7 @@ trait Playground {
     * @throws OutOfPlaygroundBoundAccessException when the position is out of the ground.
     */
   def checkPosition(position: Point[Int, Int]): Unit
+
 }
 
 /**
