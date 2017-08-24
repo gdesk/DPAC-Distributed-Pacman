@@ -1,6 +1,6 @@
 package client.model.utils
 
-import java.io.FileInputStream
+import java.io.{FileInputStream, InputStream}
 
 import alice.tuprolog.{Prolog, Theory}
 import client.view.Utils
@@ -11,9 +11,10 @@ import client.view.Utils
   * @author Giulia Lucchi
   */
 object PrologConfig {
-  private val FILE_NAME = "/prolog/dpac-prolog.pl"
+  private val FILE_NAME = "/prolog/logic.pl"
+  val is: InputStream = this.getClass.getResourceAsStream(FILE_NAME)
 
-  private val _theory: Theory =  new Theory(PrologConfig.getClass.getResourceAsStream(FILE_NAME))
+  private val _theory: Theory =  new Theory(is)
 
   val engine = new Prolog
   engine.setTheory(_theory)
