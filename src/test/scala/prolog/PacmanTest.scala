@@ -10,7 +10,7 @@ import alice.tuprolog.Theory
   */
 class PacmanTest extends FunSuite {
 
-  private var engine = mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/dpac-prolog.pl")))
+  private var engine = mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/logic.pl")))
   private var goal = None: Option[String]
   private var map = scala.collection.mutable.Map.empty[String,String]
 
