@@ -13,6 +13,7 @@ import client.view.utils.JComponentsUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static client.view.utils.JComponentsUtils.BACKGROUND_COLOR;
@@ -86,10 +87,10 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
     @Override
     public void gameOver(){
         if(runGame) {
-            System.out.println("GAMEOVER");
+            runGame = false;
+            Arrays.asList(((PlaygroundPanel) playground).getKeyListeners()).forEach(k -> ((PlaygroundPanel) playground).removeKeyListener(k) );
             GameOverDialog gameoverDialog = new GameOverDialog(MainFrame.getInstance());
             gameoverDialog.setVisible(true);
-            runGame = false;
         }
     }
 

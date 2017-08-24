@@ -9,7 +9,7 @@ import javax.imageio.ImageIO
 import javax.sound.sampled.AudioSystem
 import javax.swing.ImageIcon
 
-import Res._
+import Res.{IMAGES_BASE_PATH, _}
 import client.model.gameElement.Eatable
 import client.view.utils.enumerations.{FruitsImages, ImagesResolutions}
 
@@ -20,11 +20,11 @@ import scala.collection.JavaConverters._
   */
 object Utils {
 
-   private var mediaPlayer: MediaPlayer = null
+  private var mediaPlayer: MediaPlayer = null
 
   def getResource(path: String): URL = Utils.getClass.getResource(path)   //TODO lanciare eccezione nel caso in cui non trovi la risorsa!
 
-  def getImage(path: String): Image = ImageIO.read(getClass().getResource(IMAGES_BASE_PATH + path + IMAGES_EXTENSION))
+  def getImage(path: String): Image = ImageIO.read(Utils.getClass.getResource(IMAGES_BASE_PATH + path + IMAGES_EXTENSION))
 
 
   def getScaledImage (srcImg: Image, w: Int, h: Int): Image = {
@@ -79,7 +79,7 @@ object Utils {
 
   def getJavaMap[A,B](map: Map[A,B]) = map.asJava
 
-   def playSound(sound: String):Unit = {
+  def playSound(sound: String):Unit = {
     val clip = AudioSystem.getClip
     clip.open(AudioSystem.getAudioInputStream(getResource(sound)))
     clip.start()

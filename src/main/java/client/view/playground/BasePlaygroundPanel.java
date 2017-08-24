@@ -38,7 +38,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     }
 
     @Override
-    public void renderBlock(int x, int y, BlocksImages blocksImage){ insertImage(x,y,getImageIcon(blocksImage.getImage())); }
+    public void renderBlock(int x, int y, BlocksImages blocksImage){insertImage(x,y,getImageIcon(blocksImage.getImage())); }
 
     @Override
     public void renderDot(int x, int y){
