@@ -3,6 +3,7 @@ package client.model.utils
 import java.io.FileInputStream
 
 import alice.tuprolog.{Prolog, Theory}
+import client.view.Utils
 
 /**
   * Manages the interfacing with the logic of the game, written in prolog.
@@ -10,9 +11,9 @@ import alice.tuprolog.{Prolog, Theory}
   * @author Giulia Lucchi
   */
 object PrologConfig {
-  private val FILE_NAME = "src/main/prolog/dpac-prolog.pl"
+  private val FILE_NAME = "/prolog/dpac-prolog.pl"
 
-  private val _theory: Theory =  new Theory(new FileInputStream(FILE_NAME))
+  private val _theory: Theory =  new Theory(PrologConfig.getClass.getResourceAsStream(FILE_NAME))
 
   val engine = new Prolog
   engine.setTheory(_theory)

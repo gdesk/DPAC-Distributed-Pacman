@@ -1,7 +1,6 @@
 package client.view.base;
 
 import client.controller.BaseControllerUser;
-import client.controller.ControllerUser;
 import client.view.MainFrame;
 import client.view.Res;
 import client.view.Utils;
@@ -31,6 +30,9 @@ public class LoginPanel extends JPanel {
         final JButton registration = new JButton("<html><u>registration<u><html>");
 
         //TODO resize gif
+
+
+
 
         JLabel title = new JLabel(new ImageIcon(Utils.getImage(Res.TITLE_IMAGE())));
         title.setBorder(new EmptyBorder(TOP_BORDER_PADDING,0,0,0));

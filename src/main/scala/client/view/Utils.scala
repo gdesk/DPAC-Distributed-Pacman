@@ -2,8 +2,10 @@ package client.view
 
 import java.awt.image.BufferedImage
 import java.awt.{Image, RenderingHints, Toolkit}
+import java.io.InputStream
 import java.net.URL
 import javafx.scene.media.{Media, MediaPlayer}
+import javax.imageio.ImageIO
 import javax.sound.sampled.AudioSystem
 import javax.swing.ImageIcon
 
@@ -12,6 +14,7 @@ import client.model.gameElement.Eatable
 import client.view.utils.enumerations.{FruitsImages, ImagesResolutions}
 
 import scala.collection.JavaConverters._
+
 /**
   * Created by chiaravarini on 01/07/17.
   */
@@ -21,9 +24,8 @@ object Utils {
 
   def getResource(path: String): URL = Utils.getClass.getResource(path)   //TODO lanciare eccezione nel caso in cui non trovi la risorsa!
 
-  def getImage(path: String): Image = {
-    new ImageIcon(getResource(IMAGES_BASE_PATH + path + IMAGES_EXTENSION)).getImage
-  }
+  def getImage(path: String): Image = ImageIO.read(getClass().getResource(IMAGES_BASE_PATH + path + IMAGES_EXTENSION))
+
 
   def getScaledImage (srcImg: Image, w: Int, h: Int): Image = {
     val resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB)
@@ -35,8 +37,11 @@ object Utils {
   }
 
   def getGif(name: String): Image = {
-    new ImageIcon(getResource(GIF_BASE_PATH + name + GIF_EXTENSION)).getImage
+    val in: InputStream = Utils.getClass.getClassLoader.getResourceAsStream(GIF_BASE_PATH + name + GIF_EXTENSION)
+    val image: Image = Toolkit.getDefaultToolkit.createImage((getResource(GIF_BASE_PATH + name + GIF_EXTENSION)))
+    image
   }
+
 
   def getResolution(): ImagesResolutions =  Toolkit.getDefaultToolkit().getScreenResolution() match{
     case x if x < 50 =>  ImagesResolutions.RES_24
