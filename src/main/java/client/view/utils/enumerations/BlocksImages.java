@@ -5,6 +5,7 @@ import client.view.Utils;
 import java.awt.*;
 
 /**
+ * Enumeration for different blocks game images.
  * Created by Chiara Varini on 05/07/17.
  */
 public enum BlocksImages {
@@ -35,10 +36,16 @@ public enum BlocksImages {
         this.imageFileName = imageFileName;
     }
 
+    /**
+     * @return The block image
+     */
     public Image getImage(){
         return Utils.getImage("block/"+Utils.getResolution().asString()+"/"+this.imageFileName);
     }
 
+    /**
+     * @return The block image file name
+     */
     public String getImageFileName(){
         return imageFileName;
     }

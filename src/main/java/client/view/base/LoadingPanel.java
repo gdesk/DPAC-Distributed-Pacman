@@ -31,13 +31,13 @@ public class LoadingPanel extends JPanel implements LoadingView {
         gbc.gridy = 0;
         gbc.gridx = 0;
 
-        JPanel center = createBlackPanel();
+        JPanel center = createLoginColorPanel();
         center.setLayout(new BorderLayout());
 
         JLabel gifLabel = new JLabel();
         gifLabel.setIcon(new ImageIcon(Utils.getGif(Res.LOADING_GIF())));
 
-        JPanel labelPanel = createBlackPanel();
+        JPanel labelPanel = createLoginColorPanel();
         labelPanel.setLayout(new GridBagLayout());
         JLabel loading = new JLabel("LOADING...");
         loading.setForeground(BACKGROUND_COLOR);

@@ -1,6 +1,7 @@
 package client.view.utils.enumerations;
 
 /**
+ * Enumeration for different fruits game images
  * Created by Chiara Varini on 03/07/17.
  */
 public enum FruitsImages {
@@ -20,6 +21,10 @@ public enum FruitsImages {
         this.imageFileName = imageFileName;
     }
 
+    /**
+     *
+     * @return The FruitImages in the form of a String
+     */
     public String getImageFileName(){
         return this.imageFileName;
     }

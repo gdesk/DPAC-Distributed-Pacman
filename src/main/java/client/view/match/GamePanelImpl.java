@@ -108,7 +108,7 @@ public class GamePanelImpl extends JLayeredPane implements GamePanel{
 
     private void addLivesPanel(final int livesNumber) {
         if (MatchImpl.myCharacter().name().equals("pacman")) {
-            livesPanel = JComponentsUtils.createTrasparentPanel();
+            livesPanel = JComponentsUtils.createTransparentPanel();
             livesPanel.setLayout(new BoxLayout(livesPanel, BoxLayout.Y_AXIS));
 
 

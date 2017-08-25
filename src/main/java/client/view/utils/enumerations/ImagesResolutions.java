@@ -1,7 +1,7 @@
 package client.view.utils.enumerations;
 
 /**
- * Enumeration for different resolution game images.
+ * Enumeration for different resolution game images
  * Created by Chiara Varini on 01/07/17.
  */
 
@@ -14,10 +14,13 @@ public enum ImagesResolutions {
 
     private final String asString;
 
-    private ImagesResolutions(final String asString){
+    ImagesResolutions(final String asString){
         this.asString = asString;
     }
 
+    /**
+     * @return The resolution in the form of a String
+     */
     public String asString(){
         return asString;
     }

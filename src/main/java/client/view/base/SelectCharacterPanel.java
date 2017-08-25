@@ -35,17 +35,17 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     private int indexChar = 0;
     private int numPlayer = 0;
     private  Map<String,Image> charactersImage;
-    private JPanel center = createBlackPanel();
+    private JPanel center = createLoginColorPanel();
 
     public SelectCharacterPanel(){
         setLayout(new BorderLayout());
 
-        JPanel buttonPanel = createBlackPanel();
+        JPanel buttonPanel = createLoginColorPanel();
         doneButton.setEnabled(false);
         JButton exitButton = createButton("EXIT");
         buttonPanel.add(exitButton);
         buttonPanel.add(doneButton);
-        JPanel north = createBlackPanel();
+        JPanel north = createLoginColorPanel();
         north.setLayout(new BorderLayout());
         north.add(buttonPanel, BorderLayout.EAST);
 
@@ -70,7 +70,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         center.add(createSectionTitle("Select one Character"));
         center.add(characterScroll);*/
 
-        JPanel south = createBlackPanel();
+        JPanel south = createLoginColorPanel();
         south.setLayout(new BoxLayout(south, BoxLayout.Y_AXIS));
 
         JPanel playgroundPanel = JComponentsUtils.createBackgroundColorPanel();

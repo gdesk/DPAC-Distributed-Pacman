@@ -33,7 +33,7 @@ public class VictoryDialog extends JDialog {
             setLocationRelativeTo(null);
         }
 
-        JPanel victoryPanel = JComponentsUtils.createTrasparentPanel();
+        JPanel victoryPanel = JComponentsUtils.createTransparentPanel();
         victoryPanel.setSize(MainFrame.DIMENSION);
         victoryPanel.setLayout(new GridBagLayout());
         victoryPanel.setBounds(0, 0, (int) MainFrame.DIMENSION.getWidth(), (int) MainFrame.DIMENSION.getHeight());
