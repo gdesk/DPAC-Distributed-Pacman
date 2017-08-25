@@ -84,7 +84,7 @@ public class LoginPanel extends JPanel {
         east.add(userErr, gbc);
 
         login.addActionListener(e->{
-            boolean loginCorrect = BaseControllerUser.login(userInput.getText(), Utils.transformInString(passwordInput.getPassword()));
+            boolean loginCorrect = BaseControllerUser.login(userInput.getText(), Utils.arrayToString(passwordInput.getPassword()));
             if(!loginCorrect){
                 userErr.setVisible(true);
             }else {

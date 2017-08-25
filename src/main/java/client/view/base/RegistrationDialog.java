@@ -1,7 +1,6 @@
 package client.view.base;
 
 import client.controller.BaseControllerUser;
-import client.controller.ControllerUser;
 import client.view.MainFrame;
 import client.view.Utils;
 
@@ -59,7 +58,7 @@ public class RegistrationDialog extends JDialog {
 
             registration.addActionListener(e -> {
                 boolean registrationResult = BaseControllerUser.registration(name.getText(), username.getText(), email.getText(),
-                        Utils.transformInString(password.getPassword()), Utils.transformInString(confPassword.getPassword()));
+                        Utils.arrayToString(password.getPassword()), Utils.arrayToString(confPassword.getPassword()));
                 if(!registrationResult){
                     errLabel.setVisible(true);
                     revalidate();
@@ -67,7 +66,7 @@ public class RegistrationDialog extends JDialog {
 
                 } else { //TODO mandare mail di notifica di registrazione?
                     MainFrame.getInstance().setContentPane(new HomePanel(username.getText()));
-                    BaseControllerUser.login(username.getText(),Utils.transformInString(password.getPassword()));
+                    BaseControllerUser.login(username.getText(),Utils.arrayToString(password.getPassword()));
                     dispose();
                 }
             });
