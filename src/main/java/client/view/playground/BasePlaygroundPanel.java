@@ -99,7 +99,6 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     }
 
     private void drawMap(final int characterX, final int characterY){
-       // renderedCells.forEach(cell->remove(cell));
         this.removeAll();
         renderedCells.clear();
         drawCells(characterX,characterY);
@@ -123,7 +122,6 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
 
         } else if(bottomLeftCorner){
             int deltaRows = halfRowsToRender-(settings.getRows()-characterY);
-            //System.out.println(halfRowsToRender+"  "+settings.getRows()+"  "+characterY);
             renderAllCells(0, characterY - halfRowsToRender - deltaRows);
 
         } else if (upperRightCorner){
@@ -133,7 +131,6 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         } else if(bottomRightCorner)  {
             int deltaColumms = halfColumnsToRender - (settings.getColumns() - characterX);
             int deltaRows = halfRowsToRender-(settings.getRows()-characterY);
-
             renderAllCells(characterX - halfColumnsToRender - deltaColumms, characterY - halfRowsToRender - deltaRows);
 
         } else if(leftPosition) {
@@ -171,7 +168,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
         if (checkBorder(x,j)) {
             gbc.gridx = i;
             gbc.gridy = j;
-            add(cells[x][y], gbc); //add to JPanel
+            add(cells[x][y], gbc);
             renderedCells.add(cells[x][y]);
         }
     }
@@ -187,11 +184,7 @@ public class BasePlaygroundPanel extends JPanel implements BasePlaygroundView {
     }
 
     private boolean checkBorder(final int x, final int y){
-        if(x>=0 && y>=0 && x<=settings.getColumns() && y<=settings.getRows()){
-            return true;
-        }else {
-            return false;
-        }
+        return x>=0 && y>=0 && x<=settings.getColumns() && y<=settings.getRows();
     }
 
     private ImageIcon getImageIcon(final Image image){

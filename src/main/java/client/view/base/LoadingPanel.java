@@ -8,7 +8,8 @@ import client.view.MainFrame;
 import client.view.Res;
 import client.view.UserInputController;
 import client.view.Utils;
-import client.view.match.GamePanelImpl;
+import client.view.match.GamePanel;
+import client.view.match.GamePanelView;
 import client.view.playground.PlaygroundBuilderImpl;
 import client.view.playground.PlaygroundPanel;
 
@@ -73,12 +74,12 @@ public class LoadingPanel extends JPanel implements LoadingView {
 
         });
 
-        GamePanelImpl gp = new GamePanelImpl(view);
+        GamePanelView gp = new GamePanel(view);
 
         UserInputController keyboardController = new UserInputController();
         view.addKeyListener(keyboardController);
 
-        MainFrame.getInstance().setContentPane(gp);
+        MainFrame.getInstance().setContentPane((GamePanel)gp);
         BaseControllerCharacter.setView(gp);
     }
 }

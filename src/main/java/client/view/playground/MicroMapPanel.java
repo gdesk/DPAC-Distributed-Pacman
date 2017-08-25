@@ -1,6 +1,5 @@
 package client.view.playground;
 
-import client.model.Playground;
 import client.model.PlaygroundImpl;
 import client.model.gameElement.Block;
 import client.model.utils.Point;
@@ -21,14 +20,14 @@ public class MicroMapPanel extends JPanel {
     private final static int DIMENTION_DIVIDER = 3;
     private final static int BOUND = 30;
     private final GridBagConstraints gbc = new GridBagConstraints();
-    private final MazePecePanel[][] panles;
+    private final MazePiece[][] panles;
 
     public MicroMapPanel(){
         int columns = PlaygroundImpl.dimension().x();
         int rows = PlaygroundImpl.dimension().y();
-        this.panles = new MazePecePanel[columns+1][rows];
+        this.panles = new MazePiece[columns+1][rows];
 
-        setSize(new Dimension(new MazePecePanel().getPreferredSize().width*columns+BOUND/2, new MazePecePanel().getPreferredSize().width*rows+BOUND/2));
+        setSize(new Dimension(new MazePiece().getPreferredSize().width*columns+BOUND/2, new MazePiece().getPreferredSize().width*rows+BOUND/2));
         setBorder(BorderFactory.createLineBorder(Color.white));
         setBounds((int) MainFrame.DIMENSION.getWidth()-getWidth()-BOUND, (int) MainFrame.DIMENSION.getHeight()-getHeight()-BOUND,getWidth(),getHeight());
         setLayout(new GridBagLayout());
@@ -39,9 +38,15 @@ public class MicroMapPanel extends JPanel {
         repaint();
     }
 
-    public void moveCharacter(Color color, Point<Integer,Integer> position, Point<Integer,Integer> oldPosition) {
+    /**
+     * Creates a colored quadrant in the newPosition and deletes that in the oldPosition
+     * @param color
+     * @param newPosition
+     * @param oldPosition
+     */
+    public void moveCharacter(Color color, Point<Integer,Integer> newPosition, Point<Integer,Integer> oldPosition) {
         panles[oldPosition.x()][oldPosition.y()].setBackground(Color.WHITE);
-        panles[position.x()][position.y()].setBackground(color);
+        panles[newPosition.x()][newPosition.y()].setBackground(color);
         revalidate();
         repaint();
     }
@@ -51,16 +56,19 @@ public class MicroMapPanel extends JPanel {
             for(int y = 0; y<rows; y++){
                 gbc.gridx = x;
                 gbc.gridy = y;
-                MazePecePanel panel = new MazePecePanel();
+                MazePiece panel = new MazePiece();
                 add(panel,gbc);
                 panles[x][y] = panel;
             }
         }
     }
 
-    private class MazePecePanel extends JPanel{
+    /**
+     * Private class representing each single quadrant of the micro map
+     */
+    private class MazePiece extends JPanel{
 
-        private MazePecePanel(){
+        private MazePiece(){
             Block fakeBlock = new Block(new PointImpl<Object, Object>(gbc.gridx,gbc.gridy));
             if( Utils.getJavaList(PlaygroundImpl.blocks()).contains(fakeBlock)) {
                 this.setBackground(Color.BLACK);
