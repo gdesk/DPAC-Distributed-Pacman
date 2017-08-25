@@ -1,4 +1,4 @@
-package network.client.P2P.game;
+package p2pNetwork.game;
 
 import client.model.utils.Point;
 import java.rmi.Remote;

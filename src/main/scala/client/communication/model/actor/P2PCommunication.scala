@@ -5,7 +5,8 @@ import client.controller.BaseControllerMatch
 import client.model.peerCommunication.ClientOutcomingMessageHandlerImpl
 import client.model.{MatchImpl, PlayerImpl}
 import client.utils.ActorUtils
-import network.client.P2P.utils.ExecutorServiceUtility
+import p2pNetwork.utils.ExecutorServiceUtility
+
 import scala.util.parsing.json.JSONObject
 
 /**

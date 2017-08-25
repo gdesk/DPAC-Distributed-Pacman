@@ -1,4 +1,4 @@
-package network.client.P2P.game;
+package p2pNetwork.game;
 
 
 import client.controller.BaseControllerCharacter;
@@ -7,7 +7,7 @@ import client.model.MatchImpl;
 import client.model.utils.Point;
 import client.model.utils.PointImpl;
 import javafx.util.Pair;
-import network.client.P2P.utils.ExecutorServiceUtility;
+import p2pNetwork.utils.ExecutorServiceUtility;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

@@ -1,7 +1,7 @@
-package network.client.P2P.utils;
+package p2pNetwork.utils;
 
-import network.client.P2P.game.ClientPlayingWorkerThread;
-import network.client.P2P.game.ServerPlayingWorkerThread;
+import p2pNetwork.game.ClientPlayingWorkerThread;
+import p2pNetwork.game.ServerPlayingWorkerThread;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

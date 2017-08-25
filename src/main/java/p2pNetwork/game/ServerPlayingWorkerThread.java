@@ -1,11 +1,11 @@
-package network.client.P2P.game;
+package p2pNetwork.game;
 
 import client.model.MatchImpl;
 import client.model.PlayerImpl;
 import client.model.character.Character;
 import client.model.utils.Point;
 import client.model.utils.PointImpl;
-import network.client.P2P.utils.ExecutorServiceUtility;
+import p2pNetwork.utils.ExecutorServiceUtility;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
