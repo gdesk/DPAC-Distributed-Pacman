@@ -37,8 +37,6 @@ trait CharacterView {
 class CharacterViewImpl(val characterPath: String) extends CharacterView {
 
  var pathAndResolution: String = characterPath.toLowerCase()+"/" + Utils.getResolution().asString() + "/"
-  
-  //resources/images/pacman/24x24/Up.png
 
   def getCharacterUp: Image = getImage("Up")
 

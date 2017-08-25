@@ -61,7 +61,7 @@ object Utils {
     * Method used to manage image resolution
     * @return
     */
-  def getResolution: ImagesResolutions =  Toolkit.getDefaultToolkit.getScreenResolution match{
+  def getResolution(): ImagesResolutions =  Toolkit.getDefaultToolkit.getScreenResolution match{
     case x if x < 50 =>  ImagesResolutions.RES_24
     case x if x >= 50 && x < 100 =>  ImagesResolutions.RES_32
     case x if x >= 100 && x < 150 =>  ImagesResolutions.RES_48
