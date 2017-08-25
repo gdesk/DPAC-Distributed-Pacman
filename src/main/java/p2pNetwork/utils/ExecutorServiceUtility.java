@@ -1,33 +1,32 @@
-package network.client.P2P.utils;
+package p2pNetwork.utils;
 
-import network.client.P2P.game.ClientPlayingWorkerThread;
-import network.client.P2P.game.ServerPlayingWorkerThread;
+import p2pNetwork.game.ClientPlayingWorkerThread;
+import p2pNetwork.game.ServerPlayingWorkerThread;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
- * Created by Federica on 28/07/17.
+ * a class to handle efficiently tasks related to peer
+ * configuration
  */
-
 public class ExecutorServiceUtility {
 
     private int poolSize;
     private ExecutorService executor;
-    private static Runnable workerServer;
     private static Runnable workerClient;
-    private Future<?> future;
     private static ExecutorServiceUtility SINGLETON = null;
 
     private ExecutorServiceUtility(){
-
         this.poolSize = Runtime.getRuntime().availableProcessors()+1;
         this.executor = Executors.newFixedThreadPool(poolSize);
-        this.future = null;
+
     }
 
-
+    /**
+     * singleton
+     * @return
+     */
     public static ExecutorServiceUtility getIstance(){
         if(SINGLETON == null){
             SINGLETON = new ExecutorServiceUtility();
@@ -35,42 +34,32 @@ public class ExecutorServiceUtility {
         return SINGLETON;
     }
 
-
-    public void initServerPlayingWorkerThread(String ip){
-
-       // workerServer = ServerPlayingWorkerThread.getIstance(this);
-        //executor.execute(workerServer);
-        //new Thread(workerServer).start();
+    /**
+     * this method starts server configuration
+     */
+    public void initServerPlayingWorkerThread(){
         ServerPlayingWorkerThread.getIstance(this).run();
+
     }
 
+    /**
+     * this method starts clients configuration.
+     * Nb. it will be called as many times as peers are (minus one)
+     * @param ip
+     */
     public void initClientPlayingWorkerThread(String ip){
         workerClient = new ClientPlayingWorkerThread(this, ip);
-        //this.future = executor.submit(new ClientPlayingWorkerThread(this, ip));
         executor.execute(workerClient);
+
     }
 
+    /**
+     * this method stops all clients threads
+     */
     public void stopPlayingWorkerThread(){
         executor.shutdown();
         while (!executor.isTerminated()) {}
     }
-
-    //public void stopClientPlayingWorkerThread(){
-    //    this.future.cancel(true);
-
-    //}
-
-    /*
-    * TODO
-    * compatto le varie future dei thread dei client
-    * una volta compattate chiamo l'observable
-    * e creo un flusso di flowable che metterò come
-    * paramentro in ingresso a un metodo del mio
-    * model / controller (devo ancora decidere)
-    */
-
-
-
 
 
 

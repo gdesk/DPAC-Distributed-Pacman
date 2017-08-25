@@ -8,10 +8,12 @@ import TestUtility._
 
 /**
   * Created by Federica on 03/07/17.
+  *
+  * a class to test prolog theory concerning ghost behaviour
   */
 class GhostTest extends FunSuite{
 
-  private var engine = mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/logic.pl")))
+  private var engine = mkPrologEngine(new Theory(new FileInputStream("src/main/resources/prolog/logic.pl")))
   private var goal = None: Option[String]
   private var map = scala.collection.mutable.Map.empty[String,String]
 
