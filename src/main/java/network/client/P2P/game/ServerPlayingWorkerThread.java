@@ -6,62 +6,67 @@ import client.model.character.Character;
 import client.model.utils.Point;
 import client.model.utils.PointImpl;
 import network.client.P2P.utils.ExecutorServiceUtility;
-
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
- * Created by Federica on 27/07/17.
- * This class is useful to update local values
- * relating to character on my peer
- * (so that other peers can take updated values
- * when they need to refresh character info in their gui)
+ * the goal of this class is to create objects on which
+ * it will be possible to invoke remote methods in order to
+ * get object current values when it is necessary
  */
 public class ServerPlayingWorkerThread implements PeerRegister {
 
-    //private ExecutorServiceUtility executor;
-    //private int rmiPort;
     private static Registry registry;
-    //private Map<String, ServerObjects> objects;
-    //private Match match;
     private Character character;
-    //private String characterName;
-    //private Direction direction;
-    //private Boolean isAlive;
-
     private static ServerPlayingWorkerThread SINGLETON = null;
-
-
     private static ServerPlayingWorkerThread objDir = new ServerPlayingWorkerThread();
     private static ServerPlayingWorkerThread objIsAlive = new ServerPlayingWorkerThread();
 
     private ServerPlayingWorkerThread(){
         this.character = MatchImpl.myCharacter();
-        //this.characterName = MatchImpl.myCharacter().name();
-        //this.direction = character.direction();
-        //this.isAlive = character.isAlive();
-        //this.objects = new HashMap<>();
 
     }
 
+    /**
+     * here pattern singleton because every peer can have
+     * only a single instance of server side
+     * @param executor
+     * @return
+     */
     public static ServerPlayingWorkerThread getIstance(ExecutorServiceUtility executor){
         if(SINGLETON == null){
             SINGLETON = new ServerPlayingWorkerThread();
-            //SINGLETON.init(executor);
         }
         return SINGLETON;
+
     }
 
+    /**
+     * this method will always return an updated position for this peer
+     * @return
+     */
     public Point<Integer, Integer> getPosition() {
         return (PointImpl)(character.position());
     }
 
-
+    /**
+     * this method will always return the current state for this peer (aka character):
+     * - true if character is alive
+     * - false if character is dead
+     * @return
+     */
     public Boolean isAlive() {
         return character.isAlive();
     }
 
+    /**
+     * this method creates an rmiregistry (default port 1099)
+     * where to export objects for remote method invocation.
+     * Exported objects are two:
+     *  - the former is for the character's direction
+     *  - the latter is for the character's state (dead or alive)
+     */
     public void run() {
 
         try {
@@ -75,9 +80,6 @@ public class ServerPlayingWorkerThread implements PeerRegister {
             PeerRegister stubIsAlive = (PeerRegister) UnicastRemoteObject.exportObject(objIsAlive, 1099);
             registry.bind("isAlive", stubIsAlive);
 
-            // Bind the remote object's stub in the registry
-            //registry = LocateRegistry.getRegistry();
-
             System.out.println("Server ready");
 
 
@@ -88,15 +90,3 @@ public class ServerPlayingWorkerThread implements PeerRegister {
     }
 
 }
-
-    /*public void updateObjects() throws RemoteException {
-        //this.direction = character.direction();
-        this.isAlive = character.isAlive();
-    }*/
-
-//private void init(ExecutorServiceUtility executor){
-
-//this.executor = executor;
-//this.rmiPort = rmiPort;
-//this.registry = registry;
-//}

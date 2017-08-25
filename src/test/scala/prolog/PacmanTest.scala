@@ -7,10 +7,12 @@ import alice.tuprolog.Theory
 
 /**
   * Created by Federica on 01/07/17.
+  *
+  * a class to test prolog theory concerning pacman behaviour
   */
 class PacmanTest extends FunSuite {
 
-  private var engine = mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/logic.pl")))
+  private var engine = mkPrologEngine(new Theory(new FileInputStream("src/main/resources/prolog/logic.pl")))
   private var goal = None: Option[String]
   private var map = scala.collection.mutable.Map.empty[String,String]
 
@@ -24,7 +26,7 @@ class PacmanTest extends FunSuite {
   test("Pacman loosing match") {
     var risXnewPos, risYnewPos: String = "30"
     goal = Some("eat_pacman(pacman(" + risXnewPos + "," + risYnewPos + ",1,_), [ghost(30,30,100,Inky),ghost(31,31,200,Blinky),ghost(32,32,300,Pinky)],NL1,_,_)")
-    var risEat = solveOneAndGetTerm(engine, goal.get, "NL1")
+    var risEat = solveOneAndGetTerm(engine, goal.get, "NL1").toString
 
     println("risEat " + risEat)
     assert(risEat.equals("0"))

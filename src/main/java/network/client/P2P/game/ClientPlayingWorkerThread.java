@@ -13,49 +13,39 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Observable;
 
 /**
- * Created by Federica on 27/07/17.
- *
- * this class is useful to retrieve from other peers,
- * character info I need to update view on this peer
- *
+ * the goal of this class is to update values, on this peer, concerning
+ * other peers.
+ * NB. the number of instances created for this class type depends on the
+ * totale number of peers enjoing the match minus one
  */
 public class ClientPlayingWorkerThread extends Observable implements Runnable {
 
     private ExecutorServiceUtility executor;
     private String ip;
-    private Registry registry;
-    //private Map<String, Object> responses;
-    //private ObservableCharacter observableCharacter;
-    private List<Object> list;
-    private String characterName;
+
     private Point<Integer, Integer> prepos;
-    //private ClientIncomingMessageHandlerImpl characterHandler;
 
     public ClientPlayingWorkerThread
             (ExecutorServiceUtility executor, String ip) {
-
         this.executor = executor;
         this.ip = ip;
-        this.registry = registry;
-        //this.observableCharacter = new ObservableCharacter();
-        this.list = new LinkedList<>();
-        this.characterName = MatchImpl.myCharacter().name();
-        //this.characterHandler = new ClientIncomingMessageHandlerImpl();
+
     }
 
-
+    /**
+     * this method, once recovered reference to its server, looks
+     * for objects previously binded in registry and then invokes
+     * remote methods on them in order to get their current values
+     */
     @Override
     public void run() {
 
         System.setProperty("Djava.rmi.server.hostname", ip);
         String host = ip;
         setPrepos((PointImpl)MatchImpl.character(ip).get().position());
-
 
         Registry registry;
         PeerRegister stubDirection = null;
@@ -72,16 +62,9 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
             try {
                 Point<Integer, Integer> pos = stubDirection.getPosition();
 
-
-
                 if(!getPrepos().equals(pos)) {
-/*
-                    new Thread(() -> {
-                        BaseControllerCharacter.update(this, new Pair<>(ip, pos));
-                    }).start();
-*/
-                        if (!getPrepos().x().equals(pos.x())) {
 
+                        if (!getPrepos().x().equals(pos.x())) {
                             if(getPrepos().x() < pos.x()){
 
                                 new Thread(() -> {
@@ -96,18 +79,17 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
                                     BaseControllerCharacter.update(this, new Pair<>(ip, new Pair<>(pos,Direction.LEFT)));
                                 }).start();
                             }
-
                         }else{
 
                             if(getPrepos().y() < pos.y()){
-                                new Thread(() -> {
 
+                                new Thread(() -> {
                                     BaseControllerCharacter.update(this, new Pair<>(ip, new Pair<>(pos,Direction.UP)));
                                 }).start();
 
                             }else{
-                                new Thread(() -> {
 
+                                new Thread(() -> {
                                     BaseControllerCharacter.update(this, new Pair<>(ip, new Pair<>(pos,Direction.DOWN)));
                                 }).start();
 
@@ -115,7 +97,6 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
                         }
 
                         setPrepos(pos);
-
 
                 }
 
@@ -130,15 +111,22 @@ public class ClientPlayingWorkerThread extends Observable implements Runnable {
                 //e.printStackTrace();
             }
 
-
         }
 
     }
 
+    /**
+     * this method is necessary to correctly update position in peer view
+     * @param pos
+     */
     private synchronized void setPrepos(final Point<Integer,Integer> pos){
         prepos = pos;
     }
 
+    /**
+     * this method gets the previous peer position
+     * @return
+     */
     private synchronized Point<Integer,Integer> getPrepos(){
         return prepos;
     }
