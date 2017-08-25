@@ -17,22 +17,17 @@ import static client.view.utils.JComponentsUtils.LOGIN_COLOR;
  */
 public class LoginPanel extends JPanel {
 
-    private final static int JTEXTEFIELD_COLUMNS = 20;
+    private final static int JTEXTFIELD_COLUMNS = 20;
     private final static int TOP_BORDER_PADDING = 30;
 
     public LoginPanel() {
         setLayout(new BorderLayout());
         setBackground(LOGIN_COLOR);
 
-        final JTextField userInput = new JTextField(JTEXTEFIELD_COLUMNS);
-        final JPasswordField passwordInput = new JPasswordField(JTEXTEFIELD_COLUMNS);
+        final JTextField userInput = new JTextField(JTEXTFIELD_COLUMNS);
+        final JPasswordField passwordInput = new JPasswordField(JTEXTFIELD_COLUMNS);
         final JButton login = new JButton("Login");
-        final JButton registration = new JButton("<html><u>registration<u><html>");
-
-        //TODO resize gif
-
-
-
+        final JButton registration = new JButton("<html><u>Registration<u><html>");
 
         JLabel title = new JLabel(new ImageIcon(Utils.getImage(Res.TITLE_IMAGE())));
         title.setBorder(new EmptyBorder(TOP_BORDER_PADDING,0,0,0));
@@ -46,7 +41,7 @@ public class LoginPanel extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipadx = JTEXTEFIELD_COLUMNS;
+        gbc.ipadx = JTEXTFIELD_COLUMNS;
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.fill = GridBagConstraints.NONE;
         JLabel username = new JLabel("Username");
@@ -65,7 +60,7 @@ public class LoginPanel extends JPanel {
         gbc.gridx = 1;
         east.add(passwordInput, gbc);
 
-        gbc.ipady = JTEXTEFIELD_COLUMNS/2;
+        gbc.ipady = JTEXTFIELD_COLUMNS /2;
         gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -84,7 +79,7 @@ public class LoginPanel extends JPanel {
         east.add(userErr, gbc);
 
         login.addActionListener(e->{
-            boolean loginCorrect = BaseControllerUser.login(userInput.getText(), Utils.transformInString(passwordInput.getPassword()));
+            boolean loginCorrect = BaseControllerUser.login(userInput.getText(), Utils.arrayToString(passwordInput.getPassword()));
             if(!loginCorrect){
                 userErr.setVisible(true);
             }else {

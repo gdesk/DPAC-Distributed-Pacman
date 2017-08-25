@@ -46,8 +46,6 @@ public class MainFrame extends JFrame {
         });
     }
 
-
-
     @Override
     public void setContentPane(Container contentPane) {
         super.setContentPane(contentPane);

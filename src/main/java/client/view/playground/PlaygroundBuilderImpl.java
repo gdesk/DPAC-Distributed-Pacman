@@ -3,18 +3,19 @@ package client.view.playground;
 import java.awt.*;
 
 /**
- * Created by chiaravarini on 05/07/17.
+ * Playground Builder
+ * Created by Chiara Varini on 05/07/17.
  */
 public class PlaygroundBuilderImpl implements PlaygroundBuilder {
 
-    private int colums = 25;
-    private int rows = 25;
+    private int columns = 0;
+    private int rows = 0;
     private Color color = Color.black;
     private Image image = null;
 
     @Override
     public PlaygroundBuilder setColumns(int colums) {
-        this.colums = colums;
+        this.columns = colums;
         return this;
     }
 
@@ -38,13 +39,11 @@ public class PlaygroundBuilderImpl implements PlaygroundBuilder {
 
     @Override
     public PlaygroundPanel createPlayground(){
-        PlaygroundSettings settings = new PlaygroundSettings(colums,rows);
+        PlaygroundSettings settings = new PlaygroundSettings(columns,rows);
         settings.setBackgroundColor(color);
-
         if(image!=null){
             settings.setBackgroundImage(image);
         }
-
         return new PlaygroundPanel(settings);
     }
 }

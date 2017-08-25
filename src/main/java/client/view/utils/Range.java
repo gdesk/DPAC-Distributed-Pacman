@@ -14,10 +14,18 @@ public class Range {
         this.max = max;
     }
 
+    /**
+     *
+     * @return The smallest value in the range
+     */
     public int getMin() {
         return min;
     }
 
+    /**
+     *
+     * @return The largest value in the range
+     */
     public int getMax() {
         return max;
     }

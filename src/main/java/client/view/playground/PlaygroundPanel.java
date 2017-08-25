@@ -13,13 +13,12 @@ import static client.view.utils.enumerations.BlocksImages.*;
 
 /**
  * This class strengthens the BasePlayground
- * Created by Manuel Bottax and chiaravarini on 04/07/2017.
+ * Created by Manuel Bottax and Chiara Varini on 04/07/2017.
  */
 
 public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundView {
 
     public PlaygroundPanel(PlaygroundSettings playgroundsettings){
-
         super(playgroundsettings);
     }
 
@@ -69,7 +68,7 @@ public class PlaygroundPanel extends BasePlaygroundPanel implements PlaygroundVi
         return lookAt(blockList,  p->((int)p.x() == (int) block.position().x() && (int)p.y() == (int) block.position().y()+1));
     }
 
-    private boolean lookAt(List<Block> blockList, Predicate<Point> predicate){  //Strategy
+    private boolean lookAt(List<Block> blockList, Predicate<Point> predicate){
         return blockList
                 .stream()
                 .map(b->b.position())

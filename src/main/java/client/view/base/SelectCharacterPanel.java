@@ -35,42 +35,25 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
     private int indexChar = 0;
     private int numPlayer = 0;
     private  Map<String,Image> charactersImage;
-    private JPanel center = createBlackPanel();
+    private JPanel center = createLoginColorPanel();
 
     public SelectCharacterPanel(){
         setLayout(new BorderLayout());
 
-        JPanel buttonPanel = createBlackPanel();
+        JPanel buttonPanel = createLoginColorPanel();
         doneButton.setEnabled(false);
         JButton exitButton = createButton("EXIT");
         buttonPanel.add(exitButton);
         buttonPanel.add(doneButton);
-        JPanel north = createBlackPanel();
+        JPanel north = createLoginColorPanel();
         north.setLayout(new BorderLayout());
         north.add(buttonPanel, BorderLayout.EAST);
 
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 
         charactersImage = Utils.getJavaMap(BaseControllerMatch.getCharacters());
-        /*JPanel characterPanel = JComponentsUtils.createBackgroundColorPanel();
-        characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.X_AXIS));
 
-        Map<String,Image> charactersImage = Utils.getJavaMap(BaseControllerMatch.getCharacters());
-        characterPanel.add(createImagePanel(charactersImage.get("pacman"), "pacman", CHARACTER_IMAGE_DIMENSION));
-
-        charactersImage.forEach((name, image) -> {
-            System.out.println(!(name.equals("pacman")) + "  "+numPlayer);
-            if(!(name.equals("pacman")) && indexChar < numPlayer) {
-                characterPanel.add(createImagePanel(image, name, CHARACTER_IMAGE_DIMENSION));
-                indexChar++;
-            }
-        });
-        JScrollPane characterScroll = new JScrollPane(characterPanel);
-
-        center.add(createSectionTitle("Select one Character"));
-        center.add(characterScroll);*/
-
-        JPanel south = createBlackPanel();
+        JPanel south = createLoginColorPanel();
         south.setLayout(new BoxLayout(south, BoxLayout.Y_AXIS));
 
         JPanel playgroundPanel = JComponentsUtils.createBackgroundColorPanel();
@@ -81,7 +64,6 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         });
 
         JScrollPane playgroundScroll = new JScrollPane(playgroundPanel);
-
         south.add(createSectionTitle("Select one Playground"));
         south.add(playgroundScroll);
 
@@ -116,8 +98,8 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         modifyStatusButton(true, nameImage);
     }
 
+    @Override
     public void setNumPlayer(final int numPlayer){
-
         this.numPlayer = numPlayer;
         addCharacterImages();
     }
@@ -126,12 +108,7 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
 
         JPanel characterPanel = JComponentsUtils.createBackgroundColorPanel();
         characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.X_AXIS));
-
-       // Map<String,Image> charactersImage = Utils.getJavaMap(BaseControllerMatch.getCharacters());
-
         characterPanel.add(createImagePanel(charactersImage.get("pacman"), "pacman", CHARACTER_IMAGE_DIMENSION));
-
-
         charactersImage.forEach((name, image) -> {
 
             if(!(name.equals("pacman")) && indexChar < numPlayer-1) {
@@ -174,7 +151,6 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         if(button.getIcon().getIconWidth() == CHARACTER_IMAGE_DIMENSION.getWidth()){
             button.addActionListener(e-> {
                 if (!isCharacterChoosed){
-                    //this.characterChoosed.setEnabled(true);
                     this.characterChoosed = button;
                     this.isCharacterChoosed = true;
                     if (BaseControllerMatch.chosenCharacter(((ImageIcon) button.getIcon()).getDescription())) {
@@ -188,7 +164,6 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
         } else {
             button.addActionListener(e-> {
                 if (!isPlaygroundChoosed) {
-                    //this.playgroundChoosed.setEnabled(true);
                     this.playgroundChoosed = button;
                     this.isPlaygroundChoosed = true;
                     playgroundsButton.forEach(c -> c.setEnabled(false));
@@ -201,11 +176,11 @@ public class SelectCharacterPanel extends JPanel implements SelectCharacterView{
 
     private Dimension calculatedImageCharDimension(final double divider){
         Dimension frameDimension = MainFrame.getInstance().getSize();
-        int dimention = frameDimension.getWidth()<frameDimension.getHeight() ?
+        int dimension = frameDimension.getWidth()<frameDimension.getHeight() ?
                 (int)(frameDimension.getWidth()/divider) :
                 (int)(frameDimension.getHeight()/divider);
 
-        return new Dimension(dimention,dimention);
+        return new Dimension(dimension,dimension);
     }
 
     private void checkDone(){

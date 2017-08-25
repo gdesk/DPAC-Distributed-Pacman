@@ -4,11 +4,7 @@ import java.awt.image.BufferedImage
 import java.awt.{Image, RenderingHints, Toolkit}
 import java.io.InputStream
 import java.net.URL
-import javafx.scene.media.{Media, MediaPlayer}
 import javax.imageio.ImageIO
-import javax.sound.sampled.AudioSystem
-import javax.swing.ImageIcon
-
 import Res.{IMAGES_BASE_PATH, _}
 import client.model.gameElement.Eatable
 import client.view.utils.enumerations.{FruitsImages, ImagesResolutions}
@@ -16,34 +12,56 @@ import client.view.utils.enumerations.{FruitsImages, ImagesResolutions}
 import scala.collection.JavaConverters._
 
 /**
-  * Created by chiaravarini on 01/07/17.
+  * In this class, the methods for the game's view part are implemented
+  * Created by Chiara Varini on 01/07/17.
   */
 object Utils {
 
-  private var mediaPlayer: MediaPlayer = null
+  /**
+    * Method used to load any resource
+    * @param path
+    * @return resource's URL
+    */
+  def getResource(path: String): URL = Utils.getClass.getResource(path)
 
-  def getResource(path: String): URL = Utils.getClass.getResource(path)   //TODO lanciare eccezione nel caso in cui non trovi la risorsa!
-
+  /**
+    * Method used to load game's images
+    * @param path
+    * @return
+    */
   def getImage(path: String): Image = ImageIO.read(Utils.getClass.getResource(IMAGES_BASE_PATH + path + IMAGES_EXTENSION))
 
-
-  def getScaledImage (srcImg: Image, w: Int, h: Int): Image = {
-    val resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB)
-    val g2 = resizedImg.createGraphics
+  /**
+    * Method used to resize images
+    * @param image
+    * @param width
+    * @param height
+    * @return
+    */
+  def getScaledImage (image: Image, width: Int, height: Int): Image = {
+    val resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+    val g2 = resizedImage.createGraphics
     g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
-    g2.drawImage(srcImg, 0, 0, w, h, null)
+    g2.drawImage(image, 0, 0, width, height, null)
     g2.dispose()
-    resizedImg
+    resizedImage
   }
 
+  /**
+    * Method used to load game's gif
+    * @param name
+    * @return
+    */
   def getGif(name: String): Image = {
     val in: InputStream = Utils.getClass.getClassLoader.getResourceAsStream(GIF_BASE_PATH + name + GIF_EXTENSION)
-    val image: Image = Toolkit.getDefaultToolkit.createImage((getResource(GIF_BASE_PATH + name + GIF_EXTENSION)))
-    image
+    Toolkit.getDefaultToolkit.createImage(getResource(GIF_BASE_PATH + name + GIF_EXTENSION))
   }
 
-
-  def getResolution(): ImagesResolutions =  Toolkit.getDefaultToolkit().getScreenResolution() match{
+  /**
+    * Method used to manage image resolution
+    * @return
+    */
+  def getResolution(): ImagesResolutions =  Toolkit.getDefaultToolkit.getScreenResolution match{
     case x if x < 50 =>  ImagesResolutions.RES_24
     case x if x >= 50 && x < 100 =>  ImagesResolutions.RES_32
     case x if x >= 100 && x < 150 =>  ImagesResolutions.RES_48
@@ -51,7 +69,12 @@ object Utils {
 
   }
 
-  def getFruitsImage(etableType: Eatable): FruitsImages = etableType.getClass.getSimpleName match {
+  /**
+    * Method used for load eatable images
+    * @param eatableType
+    * @return
+    */
+  def getFruitsImage(eatableType: Eatable): FruitsImages = eatableType.getClass.getSimpleName match {
     case "Cherry" => FruitsImages.CHERRY
     case "Strawberry" => FruitsImages.STRAWBERRY
     case "Orange" => FruitsImages.ORANGE
@@ -63,35 +86,50 @@ object Utils {
     case _ => FruitsImages.APPLE
   }
 
-  def getJavaList[E](list: List[E]): java.util.List[E] = list.asJava
+  //These conversion methods could have been implicits
 
-  def transformInString (array: Array[Char]): String = {
+  /**
+    * Method used to convert an Array[Char] to a String
+    * @param array
+    * @return
+    */
+  def arrayToString(array: Array[Char]): String = {
     var res = ""
     array.toSeq.foreach(c=> res += c)
     res
   }
 
-  def getScalaMap[A,B](map: java.util.Map[A,B]): scala.collection.mutable.Map[A,B] = map.asScala
+  /**
+    * Method used to convert an scala.List[E] to a java.util.List[E]
+    * @param list
+    * @tparam E
+    * @return
+    */
+  def getJavaList[E](list: List[E]): java.util.List[E] = list asJava
 
-  def scalaRangeToString(ranges: List[Range]): java.util.List[client.view.utils.Range] ={
-    ranges map(r => new client.view.utils.Range(r min, r max)) asJava
-  }
+  /**
+    * Method used to convert an scala.Map[A,B] to a  java.util.Map[A,B]
+    * @param map
+    * @tparam A
+    * @tparam B
+    * @return
+    */
+  def getJavaMap[A,B](map: Map[A,B]): java.util.Map[A,B] = map asJava
 
-  def getJavaMap[A,B](map: Map[A,B]) = map.asJava
+  /**
+    * Method used to convert an java.util.Map[A,B] to a scala.Map[A,B]
+    * @param map
+    * @tparam A
+    * @tparam B
+    * @return
+    */
+  def getScalaMap[A,B](map: java.util.Map[A,B]): scala.collection.mutable.Map[A,B] = map asScala
 
-  def playSound(sound: String):Unit = {
-    val clip = AudioSystem.getClip
-    clip.open(AudioSystem.getAudioInputStream(getResource(sound)))
-    clip.start()
-  }
+  /**
+    * Method used to convert an scala.List[Range] to a java.util.List[client.view.utils.Range]
+    * @param ranges
+    * @return
+    */
+  def scalaRangeToString(ranges: List[Range]): java.util.List[client.view.utils.Range] = ranges map(r => new client.view.utils.Range(r min, r max)) asJava
 
-  def backgroundSoundPlay(song: String):Unit = {
-
-    var hit = new Media(getResource(song).toURI.toString)
-    mediaPlayer = new MediaPlayer(hit)
-    mediaPlayer.play()
-
-  }
-
-  def stopSong():Unit = if (mediaPlayer!=null) mediaPlayer.stop()
 }

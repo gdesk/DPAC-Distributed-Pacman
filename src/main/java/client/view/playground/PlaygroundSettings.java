@@ -39,36 +39,67 @@ public class PlaygroundSettings {
         this.cellDim = new Dimension(cellSize,cellSize);
     }
 
+    /**
+     * @return The screen cells size
+     */
     public int getCellSize() {return this.cellSize;}
 
-    public int getRows() {return this.rows;}
-
-    public int getColumns() {return this.columns;}
-
+    /**
+     * @return The screen cells dimension
+     */
     public Dimension getCellDim() {return this.cellDim;}
 
-    public Color getBackgroundColor() {
-        return backgroundColor;
-    }
+    /**
+     * @return The number of lines in the playground
+     */
+    public int getRows() {return this.rows;}
 
-    public void setBackgroundColor(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
-    }
+    /**
+     * @return The number of columns in the playground
+     */
+    public int getColumns() {return this.columns;}
 
-    public Image getBackgroundImage() {
-        return backgroundImage;
-    }
-
-    public void setBackgroundImage(Image backgroundImage) {
-        this.backgroundImage = backgroundImage;
-    }
-
+    /**
+     * @return The number of playground columns to render at one time
+     */
     public int getColumnsToRender() {
         return columnsToRender;
     }
 
+    /**
+     * @return The number of playground rows to render at one time
+     */
     public int getRowsToRender() {
         return rowsToRender;
     }
 
+    /**
+     * @return The color of the playground's background
+     */
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    /**
+     * Set the color of the playground's background
+     * @param backgroundColor
+     */
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    /**
+     * @return The background images of the playground
+     */
+    public Image getBackgroundImage() {
+        return backgroundImage;
+    }
+
+    /**
+     * Set the background image of the playground
+     * @param backgroundImage
+     */
+    public void setBackgroundImage(Image backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
 }

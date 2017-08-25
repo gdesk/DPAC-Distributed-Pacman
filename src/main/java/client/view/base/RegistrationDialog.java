@@ -1,7 +1,6 @@
 package client.view.base;
 
 import client.controller.BaseControllerUser;
-import client.controller.ControllerUser;
 import client.view.MainFrame;
 import client.view.Utils;
 
@@ -18,7 +17,7 @@ public class RegistrationDialog extends JDialog {
 
     private static final Color BACKGROUND_COLOR = new Color(67, 90, 108);
 
-    private final int lenghtTextField = 30;
+    private final int lengthTextField = 30;
     private final JPanel infoPanel = new JPanel(new GridBagLayout());
     private final GridBagConstraints gbc = new GridBagConstraints();
 
@@ -30,11 +29,11 @@ public class RegistrationDialog extends JDialog {
             setMinimumSize(new Dimension((int) frameDim.getWidth() / 2, (int) frameDim.getHeight() / 3));
             setLocationRelativeTo(null);
 
-            final JTextField name = new JTextField(lenghtTextField);
-            final JTextField email = new JTextField(lenghtTextField);
-            final JTextField username = new JTextField(lenghtTextField);
-            final JPasswordField password = new JPasswordField(lenghtTextField);
-            final JPasswordField confPassword = new JPasswordField(lenghtTextField);
+            final JTextField name = new JTextField(lengthTextField);
+            final JTextField email = new JTextField(lengthTextField);
+            final JTextField username = new JTextField(lengthTextField);
+            final JPasswordField password = new JPasswordField(lengthTextField);
+            final JPasswordField confPassword = new JPasswordField(lengthTextField);
             final JButton registration = new JButton("Registration");
             final JLabel errLabel = new JLabel("Data error");
             errLabel.setForeground(Color.RED);
@@ -59,15 +58,15 @@ public class RegistrationDialog extends JDialog {
 
             registration.addActionListener(e -> {
                 boolean registrationResult = BaseControllerUser.registration(name.getText(), username.getText(), email.getText(),
-                        Utils.transformInString(password.getPassword()), Utils.transformInString(confPassword.getPassword()));
+                        Utils.arrayToString(password.getPassword()), Utils.arrayToString(confPassword.getPassword()));
                 if(!registrationResult){
                     errLabel.setVisible(true);
                     revalidate();
                     repaint();
 
-                } else { //TODO mandare mail di notifica di registrazione?
+                } else {
                     MainFrame.getInstance().setContentPane(new HomePanel(username.getText()));
-                    BaseControllerUser.login(username.getText(),Utils.transformInString(password.getPassword()));
+                    BaseControllerUser.login(username.getText(),Utils.arrayToString(password.getPassword()));
                     dispose();
                 }
             });

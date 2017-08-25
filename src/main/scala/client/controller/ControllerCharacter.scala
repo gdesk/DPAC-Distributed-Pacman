@@ -7,7 +7,7 @@ import javafx.util.Pair
 import client.model._
 import client.model.character.Character
 import client.model.utils.{Point, PointImpl}
-import client.view.`match`.GamePanel
+import client.view.`match`.{GamePanel, GamePanelView}
 
 /**
   * Represents the controller for characters management.
@@ -51,7 +51,7 @@ trait ControllerCharacter extends Observer {
     *
     * @param view - view to be called.
     */
-  def setView(view: GamePanel): Unit
+  def setView(view: GamePanelView): Unit
 
   /**
     * Called when other character moves or dies.
@@ -75,7 +75,7 @@ object BaseControllerCharacter extends ControllerCharacter {
 
   private val gameMatch: Match = MatchImpl
   private val playground: Playground = PlaygroundImpl
-  private var _view: GamePanel = _
+  private var _view: GamePanelView = _
 
   override var allCharactersImages: Map[String, Map[Direction, Image]] = Map.empty
 
@@ -125,7 +125,7 @@ object BaseControllerCharacter extends ControllerCharacter {
     *
     * @param view - view to be recalled.
     */
-  override def setView(view: GamePanel) = _view = view
+  override def setView(view: GamePanelView) = _view = view
 
   /**
     * Called when other character moves or dies.

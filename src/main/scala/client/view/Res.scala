@@ -1,7 +1,8 @@
 package client.view
 
 /**
-  * Created by chiaravarini on 13/07/17.
+  * The names of the resources are managed in this class
+  * Created by Chiara Varini on 13/07/17.
   */
 object Res {
 

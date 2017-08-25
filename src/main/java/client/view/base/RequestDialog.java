@@ -1,7 +1,6 @@
 package client.view.base;
 
 import client.controller.BaseControllerMatch;
-import client.controller.ControllerMatch;
 import client.view.utils.JComponentsUtils;
 
 import javax.swing.*;

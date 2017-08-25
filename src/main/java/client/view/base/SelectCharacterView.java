@@ -21,4 +21,10 @@ public interface SelectCharacterView {
      * @param nameImage
      */
     void enableCharacter(final String nameImage);
+
+    /**
+     * This method allows you to set the number of player
+     * so that only the number of characters needed is displayed
+     */
+    void setNumPlayer(final int numPlayer);
 }

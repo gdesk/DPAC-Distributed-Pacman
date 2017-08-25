@@ -8,7 +8,8 @@ import client.view.MainFrame;
 import client.view.Res;
 import client.view.UserInputController;
 import client.view.Utils;
-import client.view.match.GamePanelImpl;
+import client.view.match.GamePanel;
+import client.view.match.GamePanelView;
 import client.view.playground.PlaygroundBuilderImpl;
 import client.view.playground.PlaygroundPanel;
 
@@ -31,13 +32,13 @@ public class LoadingPanel extends JPanel implements LoadingView {
         gbc.gridy = 0;
         gbc.gridx = 0;
 
-        JPanel center = createBlackPanel();
+        JPanel center = createLoginColorPanel();
         center.setLayout(new BorderLayout());
 
         JLabel gifLabel = new JLabel();
         gifLabel.setIcon(new ImageIcon(Utils.getGif(Res.LOADING_GIF())));
 
-        JPanel labelPanel = createBlackPanel();
+        JPanel labelPanel = createLoginColorPanel();
         labelPanel.setLayout(new GridBagLayout());
         JLabel loading = new JLabel("LOADING...");
         loading.setForeground(BACKGROUND_COLOR);
@@ -61,24 +62,18 @@ public class LoadingPanel extends JPanel implements LoadingView {
         view.renderBlockList(Utils.getJavaList(PlaygroundImpl.blocks()));
         view.renderEatableList(Utils.getJavaList(PlaygroundImpl.eatables()));
 
-
-
-        //Character myChar = MatchImpl.myCharacter();
-        //Image myView = Utils.getJavaMap(BaseControllerCharacter.getCharacterImages(myChar.name())).get(Direction.RIGHT);
-        //view.renderCharacter((int)myChar.position().x(), (int)myChar.position().y(), myView);
-
         Utils.getJavaList(MatchImpl.allCharacters()).forEach(c -> {
             Image myView = Utils.getJavaMap(BaseControllerCharacter.imagesOf(c.name())).get(Direction.RIGHT);
             view.renderCharacter((int)c.position().x(), (int)c.position().y(), myView);
 
         });
 
-        GamePanelImpl gp = new GamePanelImpl(view);
+        GamePanelView gp = new GamePanel(view);
 
         UserInputController keyboardController = new UserInputController();
         view.addKeyListener(keyboardController);
 
-        MainFrame.getInstance().setContentPane(gp);
+        MainFrame.getInstance().setContentPane((GamePanel)gp);
         BaseControllerCharacter.setView(gp);
     }
 }

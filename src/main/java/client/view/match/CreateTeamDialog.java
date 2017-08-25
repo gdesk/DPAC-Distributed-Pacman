@@ -25,22 +25,14 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
     private static final int BOUNDS = 10;
 
     private final PlayersPanel playerPanel = new PlayersPanel();
-    private final JButton starGame = new JButton("START");
     private final SelectCharacterPanel nextView = new SelectCharacterPanel();
 
     private int numPLayer = 0;
-
     private int width = 1;
-    private final JFrame frame;
 
     public CreateTeamDialog(final JFrame frame){
 
         super(frame, "Create Team", true);
-        this.frame = frame;
-        BaseControllerMatch.setTeamView(this);
-
-        JPanel p = createBackgroundColorPanel();
-        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         if (frame != null) {
 
             Dimension frameDim = frame.getSize();
@@ -48,10 +40,12 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             width = (int) frameDim.getWidth() / 2;
             setLocationRelativeTo(null);
 
-            JPanel buttonPanel = createBackgroundColorPanel();
+            BaseControllerMatch.setTeamView(this);
+            JPanel p = createBackgroundColorPanel();
+            p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 
-            JLabel waitForAnotherPlayers = new JLabel("Looking for other players... ");
-            buttonPanel.add(waitForAnotherPlayers);
+            JPanel bottomPanel = createBackgroundColorPanel();
+            bottomPanel.add(new JLabel("Looking for other players... "));
 
             JPanel numberPlayerPanel = createBackgroundColorPanel();
             numberPlayerPanel.setBorder(BorderFactory.createEmptyBorder(BOUNDS,BOUNDS,BOUNDS,BOUNDS));
@@ -81,18 +75,18 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             p.add(numberPlayerPanel);
             playerPanel.init(new Range(-1,-1));
             p.add(playerPanel);
-            p.add(buttonPanel);
+            p.add(bottomPanel);
             add(p);
         }
     }
 
     @Override
-    public void renderPlayerInMatch(final Integer response){
-        for(int x=0; x<response; x++) {
+    public void renderPlayerInMatch(final Integer playersNumber){
+        for(int x = 0; x< playersNumber; x++) {
             playerPanel.markOK();
         }
         playerPanel.resetIndex();
-        numPLayer = response;
+        numPLayer = playersNumber;
     }
 
     @Override
@@ -108,17 +102,17 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
     @Override
     public void nextView(){
         dispose();
-
         nextView.setNumPlayer(numPLayer);
         MainFrame.getInstance().setContentPane(nextView);
     }
 
+    /**
+     * Circular panel to display the number of players in the team
+     */
     private class PlayersPanel extends JPanel{
 
         private int index = 0;
         private int imgDim = 20;
-        private Range rangePlayers;
-        private int numPlayerOK = 1;
         private List<JLabel> icons = new ArrayList<>();
 
         PlayersPanel(){
@@ -127,7 +121,6 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
 
         private synchronized void init(final Range rangePlayers){
             this.index = 0;
-            this.rangePlayers = rangePlayers;
             icons.clear();
             removeAll();
             for(int i = 0; i<rangePlayers.getMax()+1; i++) {
@@ -141,15 +134,12 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             repaint();
         }
 
-        private synchronized void markOK(){
-            icons.get(index).setIcon(new ImageIcon(Utils.getScaledImage(Utils.getImage(Res.PLAYER_OK()), imgDim, imgDim)));
-            index = index+1;
-            revalidate();
-            repaint();
-        }
+        private synchronized void markOK(){mark(Res.PLAYER_OK());}
 
-        private synchronized void markNO(){
-            icons.get(index).setIcon(new ImageIcon(Utils.getScaledImage(Utils.getImage(Res.PLAYER_NO()), imgDim, imgDim)));
+        private synchronized void markNO(){mark(Res.PLAYER_NO());}
+
+        private synchronized void mark(final String imageName){
+            icons.get(index).setIcon(new ImageIcon(Utils.getScaledImage(Utils.getImage(imageName), imgDim, imgDim)));
             index = index+1;
             revalidate();
             repaint();
@@ -160,6 +150,9 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
         }
     }
 
+    /**
+     * JComboBox custom items
+     */
     private class EnabledJComboBoxRenderer extends BasicComboBoxRenderer {
 
         static final long serialVersionUID = -984932432414L;
@@ -176,12 +169,7 @@ public class CreateTeamDialog extends JDialog implements CreateTeamView{
             super();
             this.enabledItems = enabled;
         }
-/*
 
-        public void setDisabledColor(Color disabledColor){
-            this.disabledColor = disabledColor;
-        }
-*/
         /**
          * Custom implementation to color items as enabled or disabled.
          */
