@@ -2,15 +2,17 @@ package prolog
 import java.io.FileInputStream
 
 import org.scalatest.FunSuite
-import TestUtility._
+import client.utils.PrologUtility._
 import alice.tuprolog.Theory
 
 /**
   * Created by Federica on 01/07/17.
+  *
+  * a class to test prolog theory concerning pacman behaviour
   */
 class PacmanTest extends FunSuite {
 
-  private var engine = mkPrologEngine(new Theory(new FileInputStream("src/main/prolog/dpac-prolog.pl")))
+  private var engine = mkPrologEngine(new Theory(new FileInputStream("src/main/resources/prolog/logic.pl")))
   private var goal = None: Option[String]
   private var map = scala.collection.mutable.Map.empty[String,String]
 
@@ -24,12 +26,15 @@ class PacmanTest extends FunSuite {
   test("Pacman loosing match") {
     var risXnewPos, risYnewPos: String = "30"
     goal = Some("eat_pacman(pacman(" + risXnewPos + "," + risYnewPos + ",1,_), [ghost(30,30,100,Inky),ghost(31,31,200,Blinky),ghost(32,32,300,Pinky)],NL1,_,_)")
-    var risEat = solveOneAndGetTerm(engine, goal.get, "NL1")
-    var i: Int = 0
+    var risEat = solveOneAndGetTerm(engine, goal.get, "NL1").toString
 
-    goal = Some("pacman_death(pacman(_,_," + risEat + ",_))")
-    var risDeath = solveWithSuccess(engine, goal.get)
-    assert(risDeath.equals(true))
+    println("risEat " + risEat)
+    assert(risEat.equals("0"))
+    //var i: Int = 0
+
+    //goal = Some("pacman_death(pacman(_,_," + risEat + ",_))")
+    //var risDeath = solveWithSuccess(engine, goal.get)
+    //assert(risDeath.equals(true))
 
   }
 
@@ -76,8 +81,8 @@ class PacmanTest extends FunSuite {
   }
 
   test("Pacman eating the only eatable object left in list") {
-    map = scala.collection.mutable.Map("NS" -> "2100", "T" -> "[]", "N" -> "cherry")
-    goal = Some("eat_object(pacman(1,1,_,2000),[eatable_object(1,1,100,cherry)],NS,T,N)")
+    map = scala.collection.mutable.Map("NS" -> "2100", "N" -> "cherry")
+    goal = Some("eat_object(pacman(1,1,_,2000),[eatable_object(1,1,100,cherry)],NS,N)")
 
     for((k,v) <- map) {
       val ris = solveOneAndGetTerm(engine, goal.get, k).toString
