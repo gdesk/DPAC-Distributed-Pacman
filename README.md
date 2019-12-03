@@ -6,4 +6,14 @@ We want to reproduce the famous Pacman game by Tohru Iwatani in a distributed an
 - the game is very similar from the original one, depending on the choosed character.
 - you can unlock new characters and power up by increasing your score
 
-Project by Manuel Bottazzi, Giulia Lucchi, Federica Pecci, Margherita Pecorelli & Chiara Varini.
+## Report and Documentation
+
+- [SCRUM backlog](DPAC_Backlog/Product_Backlog.xlsx)
+- [A complete project report in Italian language](report.pdf)
+
+## Author
+- Manuel Bottazzi (manuel.bottazzi@studio.unibo.it)
+- Giulia Lucchi (giulia.lucchi7@studio.unibo.it)
+- Margherita Pecorelli (margherita.pecorelli@studio.unibo.it)
+- Federica Pezzi (federica.pecci2@studio.unibo.it)
+- Chiara Varini (chiara.varini@studio.unibo.it)
